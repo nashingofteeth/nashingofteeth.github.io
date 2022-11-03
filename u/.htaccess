@@ -1,0 +1,7 @@
+<FilesMatch "up.php">
+AuthUserFile /home/nash/.htpasswd
+AuthName "Please Enter Password"
+AuthType Basic
+Require valid-user
+</FilesMatch>
+DirectoryIndex up.php
