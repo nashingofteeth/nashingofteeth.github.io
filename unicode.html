@@ -1,0 +1,59 @@
+<script type="text/javascript"> 
+            //<![CDATA[ 
+<!--
+
+function encode(){ 
+  if(document.forms.converter.ascii.value != ''){ 
+     var vText = document.forms.converter.ascii.value; 
+         var vEncoded = convertToUnicode(vText); 
+     document.forms.converter.unicode.value = vEncoded; 
+  } 
+}
+
+function convertToUnicode(source) { 
+  result = ''; 
+  for (i=0; i<source.length; i++) 
+    result += '&#' + source.charCodeAt(i) + ';'; 
+  return result; 
+}
+ 
+function convertToASCII() {
+        if (document.forms.converter.unicode.value != '') {
+                var uniText = document.forms.converter.unicode.value;
+                var testText = uniText.substring(2,uniText.length-1).split(";&#")
+                var resultString = ""
+                for (i=0;i<testText.length;i++)
+                        resultString += "%" + dec2hex(testText[i])
+                document.forms.converter.ascii.value = unescape(resultString);
+        }
+}
+ 
+function dec2hex(n){
+var hex = "0123456789ABCDEF";
+var mask = 0xf;
+var retstr = "";
+        while(n != 0){
+                retstr = hex.charAt(n&mask) + retstr;
+                n>>>=4;
+        }
+ 
+ return retstr.length == 0 ? "0" : retstr;
+}
+
+//--> 
+//]]>
+</script> 
+<script type="text/javascript"> 
+            function SelectAll(id)
+            {
+            document.getElementById(id).focus();
+            document.getElementById(id).select();
+            }
+</script>
+<form name="converter" id="converter">
+  ASCII:<br/>
+  <input type="text" id="ascii" name="ascii" size="20" onkeyup="encode()" onclick="SelectAll('ascii')" />
+  <br />
+  Unicode:<br/>
+  <input type="text" id="unicode" name="unicode" size="20" onkeyup="convertToASCII()" onclick="SelectAll('unicode')" />
+</form>

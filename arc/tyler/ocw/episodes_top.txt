@@ -1,0 +1,143 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>Our Cool Webshow!</title>
+  <link href='http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/favicon.ico' rel="Shortcut Icon">
+  <link href='http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/fonts/stylesheet.css' rel='stylesheet'>
+  <link href='http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/fonts/header/stylesheet.css' rel='stylesheet'>
+  <link href="http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/fonts/ff/stylesheet.css" rel="stylesheet">
+  <link href="http://dl.dropbox.com/u/7984474/fonts/Bebas-fontfacekit/stylesheet.css" rel="stylesheet"/>
+  <link href="http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/style.css" rel="stylesheet">
+  <script src="http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/modernizr.js"></script>
+  <link href="http://vjs.zencdn.net/c/video-js.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/c/video.js"></script>
+  <script>
+  setTimeout("load()",3000);
+  
+  function load() {
+  document.getElementById('loading').style.display = "none";
+  document.getElementById('main').style.display = "block";
+  document.body.style.backgroundImage = 'url("http://dl.dropbox.com/u/7984474/projects/Our%20Cool%20Webshow/background.jpg")';
+  }
+  </script>
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7620288-13']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+</head>
+<body>
+  <div id="loading">
+    Loading...please <b>bear</b> with us :D
+  </div>
+  <div id="main">
+    <div class="people" id="people">
+      <div onclick="window.location = 'http://www.facebook.com/profile.php?id=100002447290370'" onmouseover="document.getElementById('tylerbio').style.display = 'inline';" onmouseout="document.getElementById('tylerbio').style.display = 'none';" id="tyler">
+        <b style="font-family: 'ReplicantRegular';">Tyler Warren</b><br>
+        <div style="display: none;" id="tylerbio">
+		  Director<br>
+          Producer<br>
+          Actor<br><br/>
+          Bio: <br/>
+          Tyler came down from Sector 8XP in search of muenster cheese.
+		</div>
+      </div><br>
+
+      <!--<div onmouseover="document.getElementById('jakebio').style.display = 'inline';" onmouseout="document.getElementById('jakebio').style.display = 'none';" id="jake">
+        <b style="font-family: 'ArcadeClassicRegular';">Jake Voshell</b><br>
+		<div style="display: none;" id="jakebio">
+          Producer<br>
+          Actor<br><br/>
+          Bio: <br/>
+          Jake is the epitome of awesomesauce. He enjoys tacos, his vid-games, and... reading... books.
+		</div>
+      </div><br>-->
+
+      <div onclick="window.location = 'http://www.facebook.com/nashma4'" onmouseover="document.getElementById('matthewbio').style.display = 'inline';" onmouseout="document.getElementById('matthewbio').style.display = 'none';" id="matthew">
+        <b style="font-family: 'taptostartRegular';">Matthew Nash</b><br>
+		<div style="display: none;" id="matthewbio">
+          Producer<br>
+          Actor<br>
+          Tech specialist<br><br>
+          Bio: 
+          Matthew likes robots and making awesome things with his mad computer skillages.
+          </div>
+	  </div><br>
+        
+        <div onclick="window.location = 'http://www.facebook.com/profile.php?id=100000587128635'" onmouseover="document.getElementById('alexbio').style.display = 'inline';" onmouseout="document.getElementById('alexbio').style.display = 'none';" id="alex">
+        <b style="font-family: 'KremlinRegular';">Alex Bauer</b><br>
+    	<div style="display: none;" id="alexbio">
+          Actor<br><br>
+          Bio:<br>
+          Alex is the kinda person that makes you unterstand why some animals eat their young.
+		</div>
+      </div><br>
+
+      <div onclick="window.location = 'http://www.facebook.com/profile.php?id=100000129906978'" onmouseover="document.getElementById('dakotabio').style.display = 'inline';" onmouseout="document.getElementById('dakotabio').style.display = 'none';" id="dakota">
+        <b style="font-family: 'ElectricBootsRegular';">Dakota Maura</b><br>
+		<div style="display: none;" id="dakotabio">
+          Actor<br><br>
+          Bio:<br>
+          Dakota is the personification of "Like a Boss!".
+		</div>
+      </div><br>
+    </div>
+
+    <div class="people" id="links">
+	
+	  <a href="http://www.facebook.com/ourcoolwebshow">
+	  <div id="facebook">
+	    Hit us up on Facebook!
+	  </div>
+	  </a>
+	  <br/>
+	  
+	  Advertisements:
+	  <br>
+	  
+	  <a href="http://ourcoolwebshow.org/ff">
+	  <div id="foolishnessfeed">
+	    <span id="ffheader">Foolishness Feed</span>
+		<div style="margin-top:45px;">The answer is the answer.</div>
+      <!--<div id="ff">
+        <script language="JavaScript" src="http://itde.vccs.edu/rss2js/feed2js.php?src=http%3A%2F%2Fwww.facebook.com%2Ffeeds%2Fpage.php%3Fid%3D166400253444261%26format%3Drss20&chan=n&num=1&desc=0&date=n&targ=y" type="text/javascript"></script>
+      </div>-->
+	  </div>
+	  </a>
+	  <br/>
+	  
+	  <div onclick="window.location = 'http://razzlecraft.com'" id="razzlecraft">
+	    <b>Razzlecraft</b><br>
+		A small and newly created Minecraft server with big plans.<br/><br/>
+		<input type="text" value="mtthw.me:25565">
+	  </div>
+	  <br/>
+	  
+	  <div id="credits">
+	    <b>Credits:</b><br>
+		Website by <a href="http://mtthw.me">Matthew Nash</a>.
+		<br>Hosted by <a href="http://000webhost.com">000webhost</a>.
+		<br>Files hosted by <a href="http://dropbox.com">Dropbox</a>
+	  </div>
+	  <br/>
+	  
+    </div>
+
+    <header onclick="window.location = 'http://ourcoolwebshow.org'">Our Cool Webshow</header>
+    
+    <div id="video">
+      <a href="http://ourcoolwebshow.org">
+      (Back)</a><br>
+      <video id="my_video_1" class="video-js vjs-default-skin" controls
+  preload="auto" width="700px" autoplay height="500" poster="my_video_poster.png"
+  data-setup="{}">
+        <source src="http://dl.dropbox.com/u/7984474/projects/Our Cool Webshow/episodes/webm/

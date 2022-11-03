@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+    <head>
+        <title>TMKW</title>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-7620288-22', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                font-family: 'Open Sans Condensed', sans-serif;
+                text-align: center;
+                margin: auto;
+                font-size: 15px;
+                border-top: 3px solid rgba(0, 164, 173, .7);
+            }
+            #header {
+                font-size: 20px;
+                margin: 3% auto 0px auto;
+                cursor: pointer;
+                color: #444;
+            }
+            img {
+                border-radius: 1000px;
+                height: 100px;
+            }
+            img:hover {
+                transition: .1s;
+                height: 105px;
+                margin-top: -2.5px;
+                margin-bottom: -2.5px;
+            }
+            a {
+                font-size: 15px;
+                line-height: 30px;
+                text-decoration: none;
+                color: black;
+                border-bottom: 1px dashed #00a4ad;
+                margin-top: 10px;
+            }
+            a[href]:hover {
+                border-bottom: 1px solid #00a4ad;
+            }
+            #links {
+                width: 225px;
+                margin: 20px auto auto auto;
+                border-top: 1px solid lightgrey;
+                padding: 0 20px 0 30px;
+                text-align: left;
+            }
+            #secrets {
+                border-bottom: none;
+            }
+            #filmo {
+                display: none;
+                font-size: 17px;
+            }
+            #filmo a {
+                font-size: 12px;
+                margin-right: 5px;
+            }
+        </style>
+        <script>
+            function show() {
+                var f = document.getElementById('filmo');
+                if (f.style.display != "inline") {
+                    f.style.display = "inline";
+                }
+                else {
+                    f.style.display = "none";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <img src="http://nash.video/u/tyler.jpg"/>
+            <br>Tyler M.K. Warren
+        </div>
+        <!-- here be secrets -->
+        <a id="secrets" href="http://humdrum.media/tyler/">&#215;</a>
+        <br>
+        I'm Tyler - filmmaker, critic, musician, and cinephile.
+	<br>
+        <div id="links"> 
+            <br>
+            <p style="display: inline; float: left;">
+                <b>PROJECTS:</b>
+                <br><a href="http://humdrum.media">Humdrum Media</a>
+                <br><a href="http://cellardoorreviews.tumblr.com/">Cellar Door Reviews</a>
+                <br><a href="http://facesofcinema.com">Faces of Cinema</a>
+                <br/><a href="http://mixtapofire.tumblr.com/">Mixtape of Fire</a>
+                <br><a onclick="show()" href="#films">Filmography</a>
+                <span id="filmo">
+                    :
+                    <br>
+                    <a href="http://humdrum.media/fetch">Fetch</a>
+                    <a href="https://www.youtube.com/watch?v=8q9XxXa8Vz0">Chips</a>
+                    <a href="https://www.youtube.com/watch?v=3GXktegRqeQ">Strength</a>
+                </span>
+            </p>
+            <p style="display: inline; float: right;">
+                <b>SOCIAL:</b>
+                <br>
+                <a href="http://twitter.com/tile_lauren">Twitter</a>
+                <br/>
+                <a href="http://soundcloud.com/bismuth209">SoundCloud</a>
+                <br/>
+                <a href="https://www.youtube.com/channel/UCl8JREWGJV3FhKmgrVr_Itw">Youtube</a>
+                <br/>
+                <a href="http://letterboxd.com/tylermkw/">Letterboxd</a>
+                <br>
+                <a href="mailto:tylermkw@yahoo.com">E-Mail</a>
+            </p>
+        </div>
+    </body>
+</html>

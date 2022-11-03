@@ -1,0 +1,111 @@
+<style>
+  body, textarea {
+    font-size: 10vw;
+  }
+  #words {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+    /* margin: auto auto auto auto; */
+  }
+</style>
+<div id="sentence"></div>
+<div id="words"></div>
+
+<textarea id="text"></textarea>
+
+<script>
+    document.getElementById('text').value = localStorage.getItem("text");
+    document.getElementById('text').focus();
+    var words = [];
+    function getWords() {
+      if (words.length == 0) return false;
+      var output = "<a id='back' href='#' onclick='delLastWord()'>&larr;</a><a id='reload' href='#' onclick='getWords()'>&#x21bb;</a><br>";
+
+      for (i=0; i<3; i++) {
+        var wordIndex = Math.floor(Math.random()*words.length);
+        var word = words[wordIndex];
+        var output = output + "<a class='opt" + i + "' id='" + wordIndex + "' href='#' onclick='place(this.id);getWords()'>" + word + "</a> ";
+      }
+      document.getElementById("words").innerHTML = output;
+    }
+
+    function place(e) {
+      if (words.length == 0) return false;
+      var obj = document.getElementById('sentence')
+      obj.innerHTML = obj.innerHTML + ' ' + words[e];
+      words.splice(e,1);
+      console.log(words.length);
+    }
+
+    function delLastWord() {
+      if (!document.getElementById('sentence').innerHTML) return false;
+      var obj = document.getElementById('sentence').innerHTML;
+      var placedWords = obj.split(" ");
+      var spliced = placedWords.splice(placedWords.length-1, 1);
+      var string = placedWords.toString();
+      var changed = string.replace(/,/g, ' ');
+      document.getElementById('sentence').innerHTML = changed;
+      words.push(spliced.toString());
+      console.log(words.length);
+    }
+
+    function eventFire(el, etype){
+      if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+      } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+      }
+    }
+
+    document.addEventListener('keydown', function (event) {
+
+        localStorage.setItem("text", document.getElementById('text').value);
+
+        if (document.activeElement.id == 'text') return false;
+
+        // #1 key - select first word
+        if(event.keyCode == 49) {
+            eventFire(document.querySelector('.opt0'), 'click');
+        }
+        // #2 key - select second word
+        if(event.keyCode == 50) {
+            eventFire(document.querySelector('.opt1'), 'click');
+        }
+        // #3 key - select second word
+        if(event.keyCode == 51) {
+            eventFire(document.querySelector('.opt2'), 'click');
+        }
+        // R key - reload words
+        if(event.keyCode == 82) {
+            eventFire(document.getElementById('reload'), 'click');
+        }
+        // BACKSPACE key - delete last word
+        if(event.keyCode == 8) {
+            eventFire(document.getElementById('back'), 'click');
+        }
+        // E key - show textbox
+        if(event.keyCode == 69) {
+            document.getElementById('text').style.display = 'block';
+            document.getElementById('sentence').style.display = 'none';
+            document.getElementById('words').style.display = 'none';
+            document.getElementById('text').focus();
+            event.preventDefault();
+        }
+    });
+
+    document.getElementById('text').addEventListener("blur", function(){
+
+      var text = document.getElementById('text').value;
+      var noPunct = text.replace(/(~|`|!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g,"");
+      var lowerCase = noPunct.toLowerCase();
+      window.words = lowerCase.split(" ");
+      document.getElementById('text').style.display = 'none';
+      document.getElementById('sentence').style.display = 'block';
+      document.getElementById('words').style.display = 'block';
+      getWords();
+
+    });
+</script>

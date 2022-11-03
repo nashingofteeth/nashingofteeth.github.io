@@ -1,0 +1,20 @@
+<input type="input" id="input" onkeyup="shuffle()">
+<input type="button" value="shuffle" onclick="shuffle()">
+<div id="output"></div>
+
+<script>
+    var chars = [];
+
+    function shuffle() {
+        output = document.getElementById('output');
+        input = document.getElementById('input').value;
+        chars = input.split("");
+
+        output.innerHTML = "<br>" + output.innerHTML;
+        for (i=0;i<input.length;i++) {
+            randChar = Math.floor(Math.random()*chars.length);
+            output.innerHTML =  chars[randChar] + output.innerHTML;
+            chars.splice(randChar, 1);
+        }
+    }
+</script>

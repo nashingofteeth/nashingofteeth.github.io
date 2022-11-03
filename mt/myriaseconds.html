@@ -1,0 +1,47 @@
+<html lang="en" manifest="cache.appcache">
+<head>
+    <title>Metric Clock</title>
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+    <link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+    <style>
+        body {
+            margin-top: 20vh;
+            font-family: 'Crimson Text', sans-serif;
+            text-align: center;
+        }
+        #content {
+            border: 1vmin solid black;
+            width: 65vmin;
+            margin: auto;
+            line-height: 15vh;
+            padding: 10vmin 10vmin 8vmin 10vmin;
+            }
+        span {
+            font-size: 25vmin;
+        }
+        a {
+            font-size: 12vmin;
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+    <script type="text/javascript">
+        function setTime() {
+            var currentDate = new Date();
+            var seconds = currentDate.getSeconds();
+            var minutes = currentDate.getMinutes() * 60;
+            var hours = currentDate.getHours() * 3600;
+            var myriaseconds = seconds + minutes + hours;
+            var mt = myriaseconds/10000;
+            document.querySelector('span').innerHTML = mt.toPrecision(5);
+    }
+    </script>
+</head>
+<body onload="setInterval(function(){setTime()},1000);">
+	<div id="content">
+		<span></span>
+		<br>
+		<a href="http://blog.yef.im/post/55681508772/metric-time">myriaseconds</a>
+	</div>
+</body>
+</html>

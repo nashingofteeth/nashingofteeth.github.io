@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Fetch</title>
+        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+        <meta name=viewport content='width=400'>
+        <link href='https://fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+        <style>
+            #viewer  {
+                background: black;
+                color: white;
+                font-size: 3vw;
+                position: absolute;
+                font-family: 'Crimson Text', serif;
+                overflow: scroll;
+            }
+            #buttons {
+                position: absolute;
+                top: 0vw;
+                left: 0vw;
+                color: white;
+                font-family: 'Slabo 27px', serif;
+                background: rgba(0, 0, 0, .5);
+                z-index: 100;
+            }
+            #ohome {
+                display: none;
+                background: url('bg.png') no-repeat;
+                background-size: cover;
+                background-attachment: fixed;
+                background-position: 0% 20%;
+                overflow: scroll;
+                height: 100vh;
+            }
+            #ofilm {
+               display: none; 
+            }
+            #oscript {
+                display: none;
+            }
+            #ophotos {
+                display: none;
+            }
+            #ostoryboards {
+                display: none;
+            }
+            #occ {
+                display: none;
+            }
+            #buttons a, .inactiveb { 
+                color: white;
+                text-decoration: none;
+            }
+            #buttons a:hover, .activeb {
+                transition: .1s ease-in-out;
+                background: #222;
+            }
+            #buttons a:active {
+                color: #aaa;
+            }
+            @media (min-width: 768px) {
+                #viewer  {
+                    top: 0vh;
+                    left: 50%;
+                    margin-left: -50vw;
+                    width: 85vw;
+                    height: 100vh;
+                    padding-left: 15vw;
+                }
+                #buttons {
+                    position: absolute;
+                    font-size: 1.8vw;
+                    text-align: right;
+                    border-right: .2vw solid white;
+                    width: 15vw;
+                    height: 100vh;
+                    line-height: 0;
+                }
+                #buttons a, .inactiveb {
+                    display: block;
+                    padding: 3vw 2vw 3vw 0;
+                }
+                #buttons a:hover, .activeb {
+                    display: block;
+                    border-right: .5vw solid white;
+                }
+                span {
+                    display: none;
+                }
+                #ohome {
+                    /*padding-top: 5vw;*/
+                    margin-left: -15vw;
+                    padding-left: 15vw;
+                }
+            }
+            @media (max-width: 768px) {
+                #viewer  {
+                    top: 0vw;
+                    left: 0vw;
+                    width: 100vw;
+                    height: 90vh;
+                    padding-top: 10vw;
+                }
+                #buttons {
+                    position: fixed;
+                    font-size: 2.5vw;
+                    text-align: center;
+                    width: 100vw;
+                    height: 5vw;
+                    line-height: 0;
+                    padding-top: 5vw;
+                    border-bottom: .5vw solid white;
+                }
+                #buttons a, .inactiveb {
+                    display: inline;
+                    margin: auto -.5vw;
+                    padding: 3.5vw 1vw 3vw 1vw;
+                    /*border-right: .5vw solid white;*/
+                    /*border-left: .5vw solid white;*/
+                }
+                #buttons a:hover, .activeb {
+                    border-bottom: 1vw solid white;
+                }
+                span {
+                    display: inline;
+                }
+                #ohome {
+                    transform: scale(2);
+                    padding-top: 32vh;
+                    margin-bottom: -64vh;
+                }
+            }
+            h5 {
+                letter-spacing: 0.55vw;
+                margin-left: 0.55vw;
+            }
+            h1 {
+                font-weight: normal;
+                letter-spacing: 5vw;
+                line-height: 1vw;
+                margin-left: 5vw;
+            }
+            h6 {
+                border-top: .5vw solid white;
+                font-weight: normal;
+                width: 40vw;
+                padding-top: 2vw;
+                letter-spacing: .1vw;
+            }
+            p {
+                width: 40vw;
+                font-size: 2.9vw;
+                text-align: justify;
+            }
+            #poster {
+                width: 80vw;
+            }
+            #by {
+                font-size: 1vw;
+                position: absolute;
+                bottom: 1%;
+                right: 1%;
+            }
+            a {
+                color: white;
+            }
+            a:hover {
+                text-decoration: none;
+            }
+            iframe {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="buttons">
+            <a id="homeb" href="#home" onclick="select('home');">HOME</a>
+            <span> - </span>
+            <a id="filmb" href="#film" onclick="select('film');">WATCH IT</a>
+            <span> - </span>
+            <a id="ccb" href="#cc" onclick="select('cc');">CAST & CREW</a>
+            <span> - </span>
+            <a id="scriptb" href="#script" onclick="select('script');">SCRIPT</a>
+            <span> - </span>
+            <a id="storyboardsb" href="#storyboards" onclick="select('storyboards');">STORYBOARDS</a>
+            <span> - </span>
+            <a id="photosb" href="#photos" onclick="select('photos');">PHOTOS</a>
+            </center>
+        </div>
+        <div id="viewer">
+            <div id="ohome">
+                <!--<img id="poster" src="http://humdrum.media/fetch/poster.png">-->
+                <center>
+                <h5>Humdrum Media presents:</h5>
+                <h1>FETCH</h1>
+                <h6>A film by Tyler Warren and Matthew Nash</h6>
+                <p>Martin (Owen Crabtree), a young man haunted by a supernatural presence, reaches out to his girlfriend Klara (Bailey Super).</p>
+                </center>
+                <div id="by">Website by <a href="http://mtthw.me">Matthew Nash</a>.</div>
+            </div>
+            <iframe id="occ" src="cast+crew" frameborder="0" allowfullscreen></iframe>
+            <iframe id="ofilm" src="https://player.vimeo.com/video/168489381?title=0&byline=0&portrait=0" frameborder="0" allowfullscreen></iframe>
+            <iframe id="oscript" src="https://docs.google.com/document/d/19x2wmxnp39dErmhLONA_3ZdjPOQxjzx59BilKhRhaxg/pub?embedded=true" frameborder="0" allowfullscreen="true"></iframe>
+            <iframe id="ostoryboards" src="https://docs.google.com/presentation/d/1oJwqnLpyxmATWjIiK_fYVyTNzODq_lM9iiMJQX7iuac/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true"></iframe>
+            <iframe id="ophotos" src="https://docs.google.com/presentation/d/1rIdGxCm43VW758cERgGMlRUlEFKDvwRlh3YNg6xM0BU/embed?start=false&loop=false&delayms=3000" frameborder="0" allowfullscreen="true"></iframe>
+        </div>
+        <script>
+            var arr = ['home','film', 'script', 'storyboards', 'photos', 'cc'];
+
+            if (location.hash == "") location.hash = "#home";
+            if (location.hash != "") { 
+                select(location.hash.replace("#", ""));
+            }
+            function select(a) {
+                for (let item of window.arr) {
+                    if (item == a) {
+                        document.getElementById("o"+item).style.display = "block";
+                        document.getElementById(item+"b").classList.add("activeb");
+                    }
+                    else {
+                        document.getElementById("o"+item).style.display = "none";
+                        document.getElementById(item+"b").classList.remove("activeb");
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

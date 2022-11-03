@@ -1,0 +1,4 @@
+AuthUserFile /home/nash/.htpasswd
+AuthName "Please Enter Password"
+AuthType Basic
+Require valid-user

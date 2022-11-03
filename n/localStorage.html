@@ -1,0 +1,10 @@
+<title>Notepad</title>
+<script>
+    document.onkeydown = function(evt) { evt = evt || window.event; if (evt.keyCode == 27) { var r=confirm('Are you sure you would like to clear all data. Press OK to continue.'); if (r==true) {document.body.innerHTML='';window.localStorage.setItem('save','')} } };
+    setInterval("localStorage.setItem('save', document.querySelector('body').innerHTML);", 500);
+</script>
+<link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+<body autofocus contenteditable="true"
+      onload="document.querySelector('body').innerHTML = window.localStorage.getItem('save');"
+      style="font-size: 25px; color: #333; font-family: 'Crimson Text', serif; width: 70%; margin: 70px auto auto auto;">
+

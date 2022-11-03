@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+  <head>
+    <!--&#8499;-->
+    <title>M.W. Nash</title>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-7620288-8', 'mtthw.me');
+      ga('send', 'pageview');
+    
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Cutive+Mono' rel='stylesheet' type='text/css'>
+    <style>
+      html {
+        /border-top: 3px solid darkred;
+      }
+      body {
+        font-family: 'Cutive Mono', monospace;
+        width: 65vmin;
+        height: 0px;
+        margin: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -12vmin;
+        margin-left: -20vmin;
+      }
+      #main {
+      }
+      #contact {
+        display: none;
+      }
+      input[type=email], textarea {
+        border: 1px solid black;
+        outline: none;
+        margin-bottom: 7px;
+        font-family: monospace;
+      }
+      input[type=email] {
+        width: 179px;
+      }
+      input[type=submit] {
+        border: 1px solid black;
+        background-color: rgba(255,255,200,1);
+        color: black;
+      }
+      input[type=submit]:hover {
+        font-style: italic;
+        cursor: pointer;
+      }
+      input[type=submit]:focus {
+        outline: none;
+      }
+      #header {
+        font-size: 12.5vmin;
+        text-align: center;
+        font-family: 'Crimson Text', serif;
+        /text-decoration: line-through;
+        width: 17vmin;
+        height: 17vmin;
+        border-radius: 25vmin;
+        float: left;
+        background-color: rgba(255,255,200,1);
+        line-height: 16.25vmin;
+      }
+      #header div {
+        border-bottom: 0.75vmin solid black;
+        border-top: .5vmin solid black;
+        height: 0.75vmin;
+        display: block;
+        width: 12.5vmin;
+        margin: auto;
+        margin-top: -8.5vmin;
+      }
+      #an {
+        font-size: 2.5vmin;
+        width: 50vmin;
+        margin-top: 2vmin;
+        text-align: center;
+        margin-left: -5vmin;
+      }
+      a {
+        color: red;
+        text-decoration: none;
+      }
+      a:hover {
+        color: darkred;
+      }
+      a.m {
+        font-size: 3.7vmin;
+        display: block;
+        padding-left: 2.5vmin;
+        margin-left: 20vmin;
+        border-left: 0.25vmin solid black;
+      }
+      a.m:hover {
+        border-left: 0.5vmin solid black;
+        padding-left: 2.25vmin;
+      }
+    </style>
+    <script>
+        function contact() {
+            document.getElementById('contact').style.display = 'block';
+            document.getElementById('main').style.display = 'none';
+        }
+        function main() {
+            document.getElementById('contact').style.display = 'none';
+            document.getElementById('main').style.display = 'block';
+        }
+    </script>
+  </head>
+  <body>
+    <div id="main">
+        <div id="header">M<div></div></div>
+        <!-- &#9889; -->
+        <a class="m" href="http://twitter.com/_hew">tweets</a>
+        <a class="m" href="http://sciencefiction.gallery">tumbles</a>
+        <a class="m" href="http://goodreads.com/nashma">books</a>
+        <a class="m" href="http://www.imdb.com/user/ur49040782/">movies</a>
+        <br>
+        <div id="an">
+            
+        </div>
+    </div>
+<!--
+<?php  
+if (isset($_REQUEST['email'])) {
+  //send email
+  $email = $_REQUEST['email'] ;
+  $subject = $_REQUEST['subject'] ;
+  $message = $_REQUEST['message'] ;
+  mail("nashma4@gmail.com", "Website Form",
+  $message, "From:" . $email);
+    echo "<div id='thanks'>Thank you!</div>";
+  }
+else {
+    echo "<form method='post' id='contact'>
+        <a href='javascript: main();'>x</a>
+        <input type='email' name='email' placeholder='Your e-mail address...'/>
+        <br>
+        <textarea name='message' placeholder='Message...'></textarea>
+        <br>
+        <input type='submit' value='Send'/>
+    </form>";
+  }
+?>
+-->
+ </body>
+</html>

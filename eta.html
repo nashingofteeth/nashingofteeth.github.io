@@ -1,0 +1,19 @@
+<input type="number" id="length" value="1">length (minutes)<br>
+<input type="number" id="fps" value="24">fps<br>
+<input type="number" id="cps" value="150">comparisons per seconds<br>
+<input type="number" id="result">eta (days)
+
+<script>
+setInterval(function(){
+    var lengthMins = document.getElementById('length').value;
+    var fps = document.getElementById('fps').value;
+    var comparisonsPerSecond = document.getElementById('cps').value;
+
+    var frames = fps*60*lengthMins;
+    var comparisons = frames * frames;
+    var eta = comparisons/comparisonsPerSecond/3600/24;
+    var output = eta.toFixed(2);
+
+    document.getElementById("result").value = output;
+}, 100);
+</script>
