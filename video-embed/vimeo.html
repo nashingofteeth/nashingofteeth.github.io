@@ -1,0 +1,37 @@
+<script src="https://player.vimeo.com/api/player.js"></script>
+<style>
+    .video__iframe {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s;
+    }
+    .video {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -28.125vh;
+        width: 56.25vh;
+        height: 100vh;
+        background-color: red;
+    }
+</style>
+<div class="video">
+    <iframe class="video__iframe" src="https://player.vimeo.com/video/751416072?autoplay=1&amp;muted=1&amp;loop=1&amp;title=0&amp;transparent=1&amp;controls=0" frameborder="0" allow="autoplay"></iframe>
+</div>
+
+<script>
+    var iframe = document.querySelector('.video__iframe');
+    var player = new Vimeo.Player(iframe);
+
+    player.on('playing', function() {
+        setTimeout(function(){
+              iframe.style.opacity = '1';
+            // console.log('test');
+        }, 3000);
+    });
+ </script>
