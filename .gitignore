@@ -8,3 +8,4 @@ x/
 u/**
 !u/up.php
 !u/.htaccess
+counter/
