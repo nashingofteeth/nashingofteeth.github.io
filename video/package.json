@@ -1,0 +1,26 @@
+{
+	"name": "nash.video",
+	"version": "1.0.0",
+	"description": "Eleventy site displaying videos and other media",
+	"scripts": {
+		"build": "npx @11ty/eleventy",
+		"start": "npx @11ty/eleventy --serve --quiet"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/nashingofteeth/nashingofteeth.github.io.git"
+	},
+	"author": {
+		"name": "Matthew Nash",
+		"email": "matthew@nash.video"
+	},
+	"engines": {
+		"node": ">=14"
+	},
+	"devDependencies": {
+		"@11ty/eleventy": "^2.0.1",
+		"@11ty/eleventy-plugin-bundle": "^1.0.4",
+		"@11ty/eleventy-plugin-rss": "^1.2.0",
+		"luxon": "^3.3.0"
+	}
+}

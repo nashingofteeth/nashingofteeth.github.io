@@ -6,6 +6,9 @@ j/
 m/
 x/
 u/**
+docs/
 !u/up.php
 !u/.htaccess
 counter/
+node_modules/
+package-lock.json

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{{ description or metadata.description }}">
+		<meta name="keywords" content="{{ metadata.keywords }}" >
+
+		<title>{{ title or metadata.title }}</title>
+
+		<link rel="icon" type="image/x-icon" href="/a/favicon.ico">
+
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metadata.title }}">
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R3L8HWQRD0"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'G-R3L8HWQRD0');
+		</script>
+
+		{#- Add the contents of a file to the bundle #}
+		{%- css %}{% include "public/css/base.css" %}{% endcss %}
+		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
+		<style>{% getBundle "css" %}</style>
+		{#- Renders the CSS bundle using a separate file, if you can't set CSP directive style-src: 'unsafe-inline' #}
+		{#- <link rel="stylesheet" href="{% getBundleFileUrl "css" %}"> #}
+	</head>
+	<body>
+			{{ content | safe }}
+	</body>
+</html>
