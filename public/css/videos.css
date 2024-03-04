@@ -1,45 +1,38 @@
 body {
     background-color: lightcyan;
     color: navy;
-    font-size: 15px;
+    font-size: 20px;
     padding-right: 50px;
 }
-article {
-    margin-bottom: 100px;
-    width: auto;
+header {
+    margin-left: 20px;
+}
+article, footer {
+    margin-top: 100px;
 }
 .container {
     position: relative;
-}
-.container img,
-.container video {
     background-color: blue;
     border: 1px solid blue;
 }
-.play-button {
+.container a::before {
+    content: '\25B6';
     font-size: 75px;
-    text-decoration: none;
     position: absolute;
     top: 10px;
     left: 35px;
 }
+article nav {
+    margin-top: 5px;
+}
 a {
     letter-spacing: 1px;
-    color: blue;
     text-decoration: none;
+}
+article a {
+    color: blue;
     text-shadow: blue 0.8px 0px;
 }
-a:hover {
-    text-shadow: red;
-}
-a:active {
+article a:active {
     color: red;
-}
-footer a {
-    text-shadow: none;
-}
-svg {
-    width: 18px;
-    height: 18px;
-    margin-bottom: -3px;
 }
