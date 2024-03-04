@@ -8,6 +8,10 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addPassthroughCopy({
 		"./public/": "/",
+		"./tools/": "/",
+		".htaccess": "/",
+		"CNAME": "/",
+		"404.html": "/",
 	});
 
 	// Official plugins

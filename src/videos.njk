@@ -13,8 +13,8 @@ layout: layouts/base.njk
 		<div class="container">
 		    <a href="{{ video.data.mp4 }}" data-webm="{{ video.data.webm }}">
 		        <picture>
-		            <source srcset="../img/{{ video.data.webp }}" type="image/webp" />
-		            <img fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" src="../img/{{ video.data.jpg }}" width="{{ video.data.width }}" height="{{ video.data.height }}" alt="{{ video.data.title }} video cover" />
+		            <source srcset="../img/{{ video.fileSlug }}.webp" type="image/webp" />
+		            <img fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" src="../img/{{ video.fileSlug }}.jpg" width="{{ video.data.width }}" height="{{ video.data.height }}" alt="{{ video.data.title }} video cover" />
 		        </picture>
 		        <div class="play-button">&#9654;</div>
 		    </a>
