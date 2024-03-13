@@ -1,14 +1,15 @@
 body {
+    font-size: 18px;
     background-color: lightcyan;
     color: navy;
-    font-size: 20px;
-    padding-right: 50px;
 }
-header {
-    margin-left: 20px;
-}
-article, footer {
-    margin-top: 100px;
+@media only screen and (max-width: 768px) {
+    body {
+        font-size: 30px;
+    }
+    article {
+        margin-left: 0 !important;
+    }
 }
 .container {
     position: relative;
@@ -26,13 +27,12 @@ article nav {
     margin-top: 5px;
 }
 a {
-    letter-spacing: 1px;
-    text-decoration: none;
-}
-article a {
     color: blue;
     text-shadow: blue 0.8px 0px;
 }
-article a:active {
+a:active {
     color: red;
+}
+footer a {
+    text-shadow: none;
 }

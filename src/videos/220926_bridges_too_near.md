@@ -2,7 +2,7 @@
 title: bridges to near
 date: 2022-09-26
 permalink: false
-margin_left: 40
+margin_left: 35
 width: 405
 height: 720
 master: "https://u.pcloud.link/publink/show?code=XZh7vJ0ZvBiqKQU3kl5eVW37FlCinRXc6JHk"

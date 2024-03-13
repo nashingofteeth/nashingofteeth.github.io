@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    padding-left: 40px;
+}
+header {
+    margin-top: 20px;
+}
+header, footer {
+    margin-bottom: 20px;
+}
+article {
+    padding-right: 40px;
+}
+article, footer {
+    margin-top: 100px;
+}

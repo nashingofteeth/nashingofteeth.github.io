@@ -21,9 +21,7 @@ h1 em {
     letter-spacing: 0px;
 }
 a {
-    letter-spacing: 1px;
     color: skyblue;
-    text-decoration: none;
     text-shadow: blue 0.8px 0px;
 }
 a:hover {

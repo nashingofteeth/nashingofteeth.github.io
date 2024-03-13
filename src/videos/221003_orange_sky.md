@@ -2,7 +2,7 @@
 title: orange sky
 date: 2022-10-02
 permalink: false
-margin_left: 30
+margin_left: 25
 width: 405
 height: 720
 master: "https://u.pcloud.link/publink/show?code=XZiyvJ0ZUWgD5cB4EsRyFKAlFV5PthbM1W1y"
