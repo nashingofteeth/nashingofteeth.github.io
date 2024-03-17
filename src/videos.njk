@@ -6,27 +6,31 @@ heading: "&#128249;&nbsp;VIDEOS"
 {%- css %}{% include "public/css/videos.css" %}{% endcss %}
 
 {% for video in collections.videos | reverse %}
-	<article style="width: {{ video.data.width + 2 }}px; margin-left: {{ video.data.margin_left }}%;">
-		<div class="container" style="height: {{ video.data.height }}px;">
-		    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.webm">
-		        <picture>
-		            <source srcset="../img/{{ video.fileSlug }}.webp" type="image/webp" />
-		            <img fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" src="../img/{{ video.fileSlug }}.jpg" width="{{ video.data.width }}" height="{{ video.data.height }}" alt="{{ video.data.title }} video cover" />
-		        </picture>
-		    </a>
+	<article style="width: {{video.data.width / 1280 * 100}}%; padding-left: {{video.data.margin_left}}%;">
+		<div class="container" style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
+			<div class="media">
+			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.webm">
+			        <picture>
+			            <source srcset="../img/{{ video.fileSlug }}.webp" type="image/webp" />
+			            <img fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" src="../img/{{ video.fileSlug }}.jpg" alt="{{ video.data.title }} video cover" />
+			        </picture>
+			    </a>
+		    </div>
 		</div>
 
-	    <nav><small>
-		    &#128190;&nbsp;download:
-		    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
-		    <a href="{{ video.data.master }}" target="_blank">lossless</a>
-	    </small></nav>
+		<div class="content">
+		    <div class="download">
+			    &#128190;&nbsp;download:
+			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
+			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
+		    </div>
 
-		<h2>{{ video.data.title }}</h2>
+			<h2>{{ video.data.title }}</h2>
 
-		<em><time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time></em>
+			<em><time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time></em>
 
-		{{ video.content | safe }}
+			{{ video.content | safe }}
+		</div>
 
 	</article>
 {% endfor %}
