@@ -1,11 +1,13 @@
 ---
 title: millefiori
 date: 2023-05-25
+width: 4608
+height: 8192
+frame_rate: 60
+camera: iPhone 13 Mini
+master: "https://u.pcloud.link/publink/show?code=XZ9CNJ0ZFxaUutqLoYHPTmwP68MYQVDJqOw7"
 permalink: false
 margin_left: 60
-width: 405
-height: 720
-master: "https://u.pcloud.link/publink/show?code=XZ9CNJ0ZFxaUutqLoYHPTmwP68MYQVDJqOw7"
 ---
 a springful of flowers, an invocation, a feeling of living i will never lose.
 

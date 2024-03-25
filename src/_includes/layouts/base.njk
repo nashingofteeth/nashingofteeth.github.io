@@ -22,8 +22,16 @@
 		  gtag('config', 'G-R3L8HWQRD0');
 		</script>
 
+		{%- css %}
+		body {
+		    font-family: monospace;
+		}
+		a {
+		    letter-spacing: 1px;
+		    text-decoration: none;
+		}
+		{% endcss %}
 		<style>{% getBundle "css" %}</style>
-		{%- css %}{% include "public/css/base.css" %}{% endcss %}
 	</head>
 	<body>
 		{{ content | safe }}

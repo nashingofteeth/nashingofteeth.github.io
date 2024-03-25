@@ -3,10 +3,65 @@ layout: layouts/collection.njk
 title: videos - matthew nash
 heading: "&#128249;&nbsp;VIDEOS"
 ---
-{%- css %}{% include "public/css/videos.css" %}{% endcss %}
+{%- css %}
+body {
+    background-color: Azure;
+    color: Navy;
+}
+@media only screen and (max-width: 768px) {
+    article {
+        padding-left: 0 !important;
+        width: 70% !important;
+    }
+}
+@media only screen and (max-width: 576px) {
+    article {
+        width: 100% !important;
+    }
+}
+.container {
+    position: relative;
+}
+.media a::before {
+    content: '\25B6';
+    font-size: 75px;
+    position: absolute;
+    top: 10px;
+    left: 35px;
+}
+.media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
+    border: 1px solid blue;
+}
+.media img,
+.media video {
+    height: 100%;
+    width: 100%;
+}
+a {
+    color: blue;
+    text-shadow: blue 0.8px 0px;
+}
+a:active {
+    color: red;
+}
+{% endcss %}
+
+<div class="description">
+	<p>this is a collection of recent work. more can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.</p>
+
+	<p>all images, sounds and concepts were created by me. you can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
+
+	<p><em>downloading recommended for best experience.</em></p>
+</div>
 
 {% for video in collections.videos | reverse %}
-	<article style="width: {{video.data.width / 1280 * 100}}%; padding-left: {{video.data.margin_left}}%;">
+	<article style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
 		<div class="container" style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
 			<div class="media">
 			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.webm">
@@ -19,17 +74,27 @@ heading: "&#128249;&nbsp;VIDEOS"
 		</div>
 
 		<div class="content">
-		    <div class="download">
-			    &#128190;&nbsp;download:
-			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
-			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
-		    </div>
 
 			<h2>{{ video.data.title }}</h2>
 
-			<em><time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time></em>
+			<em>
+				<time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
+			
+				<p class="specs">
+					{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px,
+					{{ video.data.frame_rate }}fps
+					<br>
+					{{ video.data.camera }}
+				</p>
+			</em>
 
 			{{ video.content | safe }}
+
+		    <p class="download">
+			    download:
+			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
+			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
+		    </p>
 		</div>
 
 	</article>
