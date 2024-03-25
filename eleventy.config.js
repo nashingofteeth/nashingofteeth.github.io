@@ -11,7 +11,6 @@ module.exports = function(eleventyConfig) {
 		"./tools/": "/",
 		".htaccess": "/",
 		"CNAME": "/",
-		"404.html": "/",
 	});
 
 	// Official plugins
