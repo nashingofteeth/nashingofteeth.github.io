@@ -8,6 +8,13 @@ body {
     background-color: Azure;
     color: Navy;
 }
+a {
+    color: blue;
+    text-shadow: blue 0.8px 0px;
+}
+a:active {
+    color: red;
+}
 @media only screen and (max-width: 768px) {
     article {
         padding-left: 0 !important;
@@ -43,22 +50,15 @@ body {
     height: 100%;
     width: 100%;
 }
-a {
-    color: blue;
-    text-shadow: blue 0.8px 0px;
-}
-a:active {
-    color: red;
-}
 {% endcss %}
 
-<div class="description">
+<section class="description">
 	<p>this is a collection of recent work. earlier material can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.</p>
 
 	<p>all images, sounds and concepts were created by me. you can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
 
 	<p><em>downloading recommended for best experience.</em></p>
-</div>
+</section>
 
 {% for video in collections.videos | reverse %}
 	<a id="{{ video.fileSlug }}"></a>
