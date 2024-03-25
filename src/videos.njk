@@ -53,7 +53,7 @@ a:active {
 {% endcss %}
 
 <div class="description">
-	<p>this is a collection of recent work. more can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.</p>
+	<p>this is a collection of recent work. earlier material can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.</p>
 
 	<p>all images, sounds and concepts were created by me. you can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
 
@@ -61,6 +61,7 @@ a:active {
 </div>
 
 {% for video in collections.videos | reverse %}
+	<a id="{{ video.fileSlug }}"></a>
 	<article style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
 		<div class="container" style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
 			<div class="media">
@@ -75,7 +76,7 @@ a:active {
 
 		<div class="content">
 
-			<h2>{{ video.data.title }}</h2>
+			<h2>{{ video.data.title }}&nbsp;<a href="#{{ video.fileSlug }}" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
 
 			<em>
 				<time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
@@ -91,7 +92,7 @@ a:active {
 			{{ video.content | safe }}
 
 		    <p class="download">
-			    download:
+			    <strong>DOWNLOAD:</strong>
 			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
 			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
 		    </p>
