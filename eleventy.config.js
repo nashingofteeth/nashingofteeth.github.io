@@ -6,12 +6,10 @@ const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
 
 module.exports = function(eleventyConfig) {
 
-	eleventyConfig.addPassthroughCopy({
-		"./public/": "/",
-		"./tools/": "/",
-		".htaccess": "/",
-		"CNAME": "/",
-	});
+	eleventyConfig.addPassthroughCopy("public");
+	eleventyConfig.addPassthroughCopy("tools");
+	eleventyConfig.addPassthroughCopy(".htaccess");
+	eleventyConfig.addPassthroughCopy("CNAME");
 
 	// Official plugins
 	eleventyConfig.addPlugin(pluginRss);
@@ -44,7 +42,7 @@ module.exports = function(eleventyConfig) {
 			input: "src",
 			includes: "_includes",
 			data: "_data",
-			output: "docs"
+			output: "dist"
 		},
 
 		pathPrefix: "/",
