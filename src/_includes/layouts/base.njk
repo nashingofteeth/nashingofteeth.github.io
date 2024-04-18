@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{{ description or metadata.description }}">
+		<meta name="keywords" content="{{ metadata.keywords }}" >
+
+		<title>{{ title or metadata.title }}</title>
+
+		<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metadata.title }}">
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R3L8HWQRD0"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'G-R3L8HWQRD0');
+		</script>
+
+		{%- css %}
+		body {
+		    font-family: monospace;
+		}
+		a {
+		    letter-spacing: 1px;
+		    text-decoration: none;
+		}
+		{% endcss %}
+		<style>{% getBundle "css" %}</style>
+	</head>
+	<body>
+		{{ content | safe }}
+	</body>
+</html>

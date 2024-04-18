@@ -1,11 +1,4 @@
-AddType text/cache-manifest .appcache
-ErrorDocument 404 /404.html
-
-#Remove php extension
-RewriteEngine on 
-RewriteCond %{REQUEST_FILENAME} !-d 
-RewriteCond %{REQUEST_FILENAME}\.php -f 
-RewriteRule ^(.*)$ $1.php
+ErrorDocument 404 /404/index.html
 
 #Remove html extension
 RewriteEngine on 
