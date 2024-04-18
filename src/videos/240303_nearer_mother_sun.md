@@ -9,3 +9,4 @@ master: "https://u.pcloud.link/publink/show?code=XZxC3J0ZF157xLF2fPYUoid5vdcSp4h
 permalink: false
 margin_left: 20
 ---
+inside a shape, but open to salvation. don't tell.
