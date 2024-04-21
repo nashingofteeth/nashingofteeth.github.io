@@ -1,9 +1,27 @@
----
-layout: layouts/base.njk
----
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Video artist and sound maker in Portland, Oregon">
+		<meta name="keywords" content="matthew nash, nash, mw nash, videos, videographer, portland, editor, video editor, video artist, filmmaker, algorist" >
 
-{%- css %}
-body {
+		<title>matthew nash</title>
+
+		<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="matthew nash">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="matthew nash">
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R3L8HWQRD0"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'G-R3L8HWQRD0');
+		</script>
+		<style>body {
     font-size: .9vw;
     text-align: right;
     color: skyblue;
@@ -49,7 +67,16 @@ a:active {
         font-size: 4.5vw;
     }
 }
-{% endcss %}
+body {
+		    font-family: monospace;
+		}
+		a {
+		    letter-spacing: 1px;
+		    text-decoration: none;
+		}</style>
+	</head>
+	<body>
+		
 
 <h1>matthew nash <em>video artist</em></h1>
 <p>&#127758; <strong>portland, oregon</strong></p>
@@ -67,3 +94,6 @@ a:active {
     </p>
 </nav>
 <p>&#128233; <strong>matthew at nash dot video</strong></p>
+
+	</body>
+</html>

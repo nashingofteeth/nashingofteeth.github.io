@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="en">
+	<title>matthew nash</title>
+	<subtitle>Video artist and sound maker in Portland, Oregon</subtitle>
+	<link href="https://nash.video/feed/feed.xml" rel="self"/>
+	<link href="https://nash.video/"/>
+	<updated>2024-04-21T20:51:30Z</updated>
+	<id>https://nash.video/</id>
+	<author>
+		<name>Matthew Nash</name>
+		<email>matthew@nash.video</email>
+	</author>
+</feed>
