@@ -1,3 +1,8 @@
+<!--
+This website is a potato. https://potato.cheap/
+Build with 11ty (https://www.11ty.dev/)
+Media hosted by Storj (https://storj.io/)
+-->
 <!doctype html>
 <html lang="en">
 	<head>
@@ -22,21 +27,24 @@
 		  gtag('config', 'G-R3L8HWQRD0');
 		</script>
 		<style>body {
-    font-size: .9vw;
+    background-color: floralwhite;
+}
+img {
+    width: 400px;
+    position: absolute;
+    top: 0;
+    left: 50px;
+}
+main {
     text-align: right;
     color: skyblue;
-    background-image: url('img/me.jpg');
-    background-size: 20vw;
-    background-repeat: no-repeat;
-    background-position: 0 0;
-    background-color: floralwhite;
     position: absolute;
-    top: 3vw;
-    left: 25%;
+    top: 110px;
+    left: 349.5px;
 }
 h1 {
-    font-size: 1.1vw;
     letter-spacing: 1.5px;
+    line-height: 1.4;
     text-transform: uppercase;
     font-weight: normal;
 }
@@ -46,6 +54,7 @@ h1 em {
 a {
     color: skyblue;
     text-shadow: blue 0.8px 0px;
+    margin: 0 0 0 10px;
 }
 a:hover {
     color: blue;
@@ -55,20 +64,22 @@ a:active {
 }
 
 @media only screen and (max-width: 768px) {
-    body {
-        background-size: 36vw;
-        background-position: top right 25%;
-        font-size: 3.8vw;
-        left: 5%;
-        top: 51vw;
+    main {
+        left: 30.5px;
+        top: 210px;
         text-align: left;
     }
-    h1 {
-        font-size: 4.5vw;
+    img {
+        width: 200px;
+        left: 107px;
+    }
+    a {
+        margin: 0 10px 0 0;
     }
 }
 body {
 		    font-family: monospace;
+		    font-size: 15px;
 		}
 		a {
 		    letter-spacing: 1px;
@@ -77,14 +88,19 @@ body {
 	</head>
 	<body>
 		
-
-<h1>matthew nash <em>video artist</em></h1>
+<picture>
+    <source srcset="img/me.webp" type="image/webp" />
+    <img fetchpriority="high" src="img/me.jpg" alt="me" />
+</picture>
+<main>
+<h1>matthew nash <em><sup>video&nbsp;artist</sup></em></h1>
 <p>&#127758; <strong>portland, oregon</strong></p>
 <nav>
     <p>
-        <a href="videos">&#128249; videos</a>
-        <a href="tools">&#128295; tools</a>
+        <a href="videos">&#128249;&nbsp;videos</a>
+        <a href="tools">&#128295;&nbsp;tools</a>
     </p>
+</nav>
     <p>
         &#128279;   
         <a href="https://github.com/nashingofteeth" title="github">gh</a>
@@ -92,8 +108,7 @@ body {
         <a href="https://rateyourmusic.com/~nashingofteeth" title="rate your music">rym</a>
         <a href="https://www.tiktok.com/@nashingteeth" title="tiktok">tt</a>
     </p>
-</nav>
 <p>&#128233; <strong>matthew at nash dot video</strong></p>
-
+</main>
 	</body>
 </html>
