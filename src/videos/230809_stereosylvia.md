@@ -6,7 +6,7 @@ height: 3840
 frame_rate: 60
 camera: iPhone 13 Mini
 master: "https://u.pcloud.link/publink/show?code=XZJdPJ0ZuGfDuAtHxbh3lbNDpryPdHRTgYzX"
-margin_left: 50
+margin_left: 5
 permalink: false
 ---
 a favorite tree
