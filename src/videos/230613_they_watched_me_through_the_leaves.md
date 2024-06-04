@@ -9,4 +9,4 @@ master: "https://u.pcloud.link/publink/show?code=XZAhr80ZqsJutKeux7RkD0oEELBocua
 permalink: false
 margin_left: 0
 ---
-Entry in Movie Madness's Direct-to-Video 48-hour film festival.
+Entry in [Movie Madness](https://moviemadness.org/)'s first Direct-to-Video 48-hour film festival.
