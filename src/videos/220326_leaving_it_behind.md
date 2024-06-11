@@ -9,4 +9,4 @@ master: "https://u.pcloud.link/publink/show?code=XZ5Mi80ZGPyhyqdE5vJiCpHFjnOjI4d
 permalink: false
 margin_left: 20
 ---
-in the springtime of my life, a river sounds
+in the springtime of my life a river sounds

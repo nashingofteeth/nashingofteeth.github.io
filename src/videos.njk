@@ -53,16 +53,14 @@ a:active {
 {% endcss %}
 
 <section class="description">
-	<p>this is a collection of recent work. earlier material can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.</p>
+	<p>All images, sounds and concepts were created by me. you can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
 
-	<p>all images, sounds and concepts were created by me. you can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
-
-	<p><em>downloading recommended for best experience.</em></p>
+	<p><em>Downloading recommended for best experience.</em></p>
 </section>
 
 {% for video in collections.videos | reverse %}
 	<a id="{{ video.fileSlug }}"></a>
-	<article style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
+	<article class="top-space" style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
 		<div class="container" style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
 			<div class="media">
 			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.webm">
@@ -80,7 +78,7 @@ a:active {
 
 			<em>
 				<time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
-			
+
 				<p class="specs">
 					{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px,
 					{{ video.data.frame_rate }}fps
@@ -100,5 +98,9 @@ a:active {
 
 	</article>
 {% endfor %}
+
+<section class="top-space">
+    Earlier work can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.
+</section>
 
 <script src="../js/videos.js"></script>
