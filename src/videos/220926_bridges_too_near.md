@@ -3,6 +3,7 @@ title: bridges to near
 date: 2022-09-26
 width: 2160
 height: 3840
+runtime: 50s
 frame_rate: 60
 camera: iPhone 13 Mini
 master: "https://u.pcloud.link/publink/show?code=XZh7vJ0ZvBiqKQU3kl5eVW37FlCinRXc6JHk"

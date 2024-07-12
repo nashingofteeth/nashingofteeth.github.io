@@ -3,6 +3,7 @@ title: the wind that night
 date: 2022-09-19
 width: 2160
 height: 3840
+runtime: 49s
 frame_rate: 60
 camera: iPhone 13 Mini
 master: "https://u.pcloud.link/publink/show?code=XZhkvJ0Z1r4aIrdW0VurKRrHSgjYGXnVRTy0"

@@ -3,6 +3,7 @@ title: they watched me through the leaves
 date: 2023-06-13
 width: 1920
 height: 1080
+runtime: 4m56s
 frame_rate: 24
 camera: Sony Handycam CX405
 master: "https://u.pcloud.link/publink/show?code=XZAhr80ZqsJutKeux7RkD0oEELBocuaDDPOX"

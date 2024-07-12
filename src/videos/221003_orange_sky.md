@@ -3,6 +3,7 @@ title: orange sky
 date: 2022-10-02
 width: 1215
 height: 2160
+runtime: 49s
 frame_rate: 60
 camera: iPhone 13 Mini
 master: "https://u.pcloud.link/publink/show?code=XZiyvJ0ZUWgD5cB4EsRyFKAlFV5PthbM1W1y"

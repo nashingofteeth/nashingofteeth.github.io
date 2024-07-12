@@ -50,6 +50,11 @@ a:active {
     height: 100%;
     width: 100%;
 }
+.specs {
+font-size: 0.9em;
+border-left: 1px dashed Navy;
+padding-left: 10px;
+}
 {% endcss %}
 
 <section class="description">
@@ -79,15 +84,16 @@ a:active {
 			<em>
 				<time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
 
-				<p class="specs">
-					{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px,
-					{{ video.data.frame_rate }}fps
-					<br>
-					{{ video.data.camera }}
-				</p>
 			</em>
-
 			{{ video.content | safe }}
+
+			<p class="specs">
+				{{ video.data.runtime }} at {{ video.data.frame_rate }}fps
+				<br>
+				{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px
+				<br>
+				{{ video.data.camera }}
+			</p>
 
 		    <p class="download">
 			    <strong>DOWNLOAD:</strong>
