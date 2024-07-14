@@ -51,15 +51,17 @@ a:active {
     width: 100%;
 }
 .specs {
-font-size: 0.9em;
-border-left: 1px dashed Navy;
-padding-left: 10px;
+    font-size: 0.9em;
+    border-left: 1px dashed Navy;
+    padding-left: 10px;
+}
+.download {
+    font-size: 0.9em;
 }
 {% endcss %}
 
 <section class="description">
 	<p>All images, sounds and concepts were created by me. You can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
-
 	<p><em>Downloading recommended for best experience.</em></p>
 </section>
 
@@ -81,22 +83,20 @@ padding-left: 10px;
 
 			<h2>{{ video.data.title }}&nbsp;<a href="#{{ video.fileSlug }}" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
 
-			<em>
-				<time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
-
-			</em>
 			{{ video.content | safe }}
 
 			<p class="specs">
-				{{ video.data.runtime }} at {{ video.data.frame_rate }}fps
+				<strong>DURATION: </strong>{{ video.data.runtime }} at {{ video.data.frame_rate }}fps
 				<br>
-				{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px
+				<strong>RESOLUTION: </strong>{{ video.data.width }}&nbsp;x&nbsp;{{ video.data.height }}px
 				<br>
-				{{ video.data.camera }}
+				<strong>CAMERA: </strong>{{ video.data.camera }}
+				<br>
+			    <strong>DATE: </strong><time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
 			</p>
 
 		    <p class="download">
-			    <strong>DOWNLOAD:</strong>
+			    &#128190;
 			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
 			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
 		    </p>
