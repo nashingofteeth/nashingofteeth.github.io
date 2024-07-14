@@ -11,4 +11,4 @@ permalink: false
 margin_left: 0
 ---
 
-Entry in [Movie Madness](https://moviemadness.org/)'s second Direct-to-Video 48-hour film festival. Winner of SOMETHING.
+Entry in [Movie Madness](https://moviemadness.org/)'s second Direct-to-Video 48-hour film festival. Winner for Best Technical Elements.
