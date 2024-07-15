@@ -19,10 +19,14 @@ footer a,
 a.bookmark {
     text-shadow: none;
 }
+.up-arrow {
+    font-size: 1.4em;
+    margin-right: 3px;
+}
 {% endcss %}
 
 <header>
-	<a href="/">&#11014;&nbsp;HOME</a>
+	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
 	<h1>{{ heading | safe}}</h1>
 </header>
 
