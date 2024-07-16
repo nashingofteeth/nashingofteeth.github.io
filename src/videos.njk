@@ -10,7 +10,7 @@ body {
 }
 a {
     color: blue;
-    text-shadow: blue 0.8px 0px;
+    text-shadow: blue 1px 0px;
 }
 a:active {
     color: red;
@@ -61,7 +61,7 @@ a:active {
 {% endcss %}
 
 <section class="description">
-	<p>All images, sounds and concepts were created by me. You can read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
+	<p>All images, sounds and concepts were created by me. Read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
 	<p><em>Downloading recommended for best experience.</em></p>
 </section>
 
@@ -96,8 +96,9 @@ a:active {
 			</p>
 
 		    <p class="download">
-			    &#128190;
-			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a> or
+			    <span aria-label="Download">&#128190;</span>
+				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a>
+				or
 			    <a href="{{ video.data.master }}" target="_blank">lossless</a>
 		    </p>
 		</div>
