@@ -6,7 +6,6 @@ height: 1080
 runtime: 4m56s
 frame_rate: 24
 camera: Sony Handycam CX405
-master: "https://u.pcloud.link/publink/show?code=XZAhr80ZqsJutKeux7RkD0oEELBocuaDDPOX"
 permalink: false
 margin_left: 0
 ---

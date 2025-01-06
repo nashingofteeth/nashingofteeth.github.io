@@ -6,7 +6,6 @@ height: 2160
 runtime: 4m44s
 frame_rate: 60
 camera: Sony a6300
-master: "https://u.pcloud.link/publink/show?code=XZwlNJ0Z2PjU2wqjbA07TwXCaEyalJtAfT6y"
 permalink: false
 margin_left: 5
 ---

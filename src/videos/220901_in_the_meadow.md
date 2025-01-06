@@ -6,7 +6,6 @@ height: 2160
 runtime: 29s
 frame_rate: 50
 camera: iPhone 13 Mini
-master: "https://u.pcloud.link/publink/show?code=XZ4XvJ0ZhucL7dOOOhSBTFjMn9uwohd3wM3k"
 permalink: false
 margin_left: 65
 ---
