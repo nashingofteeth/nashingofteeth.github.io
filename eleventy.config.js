@@ -4,47 +4,44 @@ const pluginRss = require("@11ty/eleventy-plugin-rss");
 const pluginBundle = require("@11ty/eleventy-plugin-bundle");
 const { EleventyHtmlBasePlugin } = require("@11ty/eleventy");
 
-module.exports = function(eleventyConfig) {
+module.exports = (eleventyConfig) => {
+  eleventyConfig.addPassthroughCopy({ public: "/" });
+  eleventyConfig.addPassthroughCopy({ tools: "/" });
+  eleventyConfig.addPassthroughCopy(".htaccess");
+  eleventyConfig.addPassthroughCopy("CNAME");
 
-	eleventyConfig.addPassthroughCopy( { "public" : "/" } );
-	eleventyConfig.addPassthroughCopy( { "tools" : "/" } );
-	eleventyConfig.addPassthroughCopy(".htaccess");
-	eleventyConfig.addPassthroughCopy("CNAME");
+  // Official plugins
+  eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
+  eleventyConfig.addPlugin(pluginBundle);
 
-	// Official plugins
-	eleventyConfig.addPlugin(pluginRss);
-	eleventyConfig.addPlugin(EleventyHtmlBasePlugin);
-	eleventyConfig.addPlugin(pluginBundle);
+  // Filters
+  eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
+    // Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
+    return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(
+      format || "LLLL dd, yyyy",
+    );
+  });
 
-	// Filters
-	eleventyConfig.addFilter("readableDate", (dateObj, format, zone) => {
-		// Formatting tokens for Luxon: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
-		return DateTime.fromJSDate(dateObj, { zone: zone || "utc" }).toFormat(format || "LLLL dd, yyyy");
-	});
+  eleventyConfig.addFilter("htmlDateString", (dateObj) => {
+    // dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
+    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("yyyy-LL-dd");
+  });
 
-	eleventyConfig.addFilter('htmlDateString', (dateObj) => {
-		// dateObj input: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#valid-date-string
-		return DateTime.fromJSDate(dateObj, {zone: 'utc'}).toFormat('yyyy-LL-dd');
-	});
+  return {
+    templateFormats: ["md", "njk", "html"],
 
-	return {
-		templateFormats: [
-			"md",
-			"njk",
-			"html",
-		],
+    markdownTemplateEngine: "njk",
 
-		markdownTemplateEngine: "njk",
+    htmlTemplateEngine: "njk",
 
-		htmlTemplateEngine: "njk",
+    dir: {
+      input: "src",
+      includes: "_includes",
+      data: "_data",
+      output: "dist",
+    },
 
-		dir: {
-			input: "src",
-			includes: "_includes",
-			data: "_data",
-			output: "dist"
-		},
-
-		pathPrefix: "/",
-	};
+    pathPrefix: "/",
+  };
 };

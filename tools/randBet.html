@@ -1,10 +1,12 @@
-<input type="number" id="min" value="1">
-<input type="number" id="max" value="24">
-<input type="number" id="result">
+<input type="number" id="min" value="1" />
+<input type="number" id="max" value="24" />
+<input type="number" id="result" />
 <script>
-setInterval(function(){
-    var min = document.getElementById('min').value;
-        var max = document.getElementById('max').value; 
-	    document.getElementById('result').value = Math.floor(Math.random() * (parseInt(max) - parseInt(min) + 1)) + parseInt(min);
-	    }, 1000);
+    setInterval(function () {
+        var min = document.getElementById("min").value;
+        var max = document.getElementById("max").value;
+        document.getElementById("result").value =
+            Math.floor(Math.random() * (parseInt(max) - parseInt(min) + 1)) +
+            parseInt(min);
+    }, 1000);
 </script>

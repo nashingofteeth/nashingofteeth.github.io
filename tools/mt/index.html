@@ -1,51 +1,59 @@
 <html lang="en" manifest="cache.appcache">
-<head>
-    <title>Metric Clock</title>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-    <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
-    <style>
-        body {
-            margin-top: 20vh;
-            font-family: 'Crimson Text', serif;
-            text-align: center;
-        }
-        #content {
-            border: 1vmin solid black;
-            width: 65vmin;
-            margin: auto;
-            line-height: 15vh;
-            padding: 10vmin 10vmin 8vmin 10vmin;
-        }
-        #time {
-            font-size: 25vmin;
-        }
-        a {
-            font-size: 11vmin;
-            color: black;
-            text-decoration: none;
-        }
-        a:hover { text-decoration: underline; }
-    </style>
-    <script type="text/javascript">
-        function showTime() {
-            var date = new Date();
-            var milli = date.getMilliseconds();
-            var seconds = date.getSeconds() * 1000;
-            var minutes = date.getMinutes() * 60000;
-            var hours = date.getHours() * 3600000;
-            var totalMilli = milli + seconds + minutes + hours;
-            var decimal = totalMilli/8640000;
-            var fixed = parseFloat(decimal).toFixed(4);
-            document.getElementById('time').innerHTML = fixed;
-            document.title = fixed + " - Metric Clock";
-        }
-    </script>
-</head>
-<body onload="setInterval(function(){showTime()});">
-    <div id="content">
-        <span id="time"></span>
-        <br>
-        <a href="https://en.wikipedia.org/wiki/Decimal_time">decimal hours</a>
-    </div>
-</body>
+    <head>
+        <title>Metric Clock</title>
+        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Crimson+Text"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <style>
+            body {
+                margin-top: 20vh;
+                font-family: "Crimson Text", serif;
+                text-align: center;
+            }
+            #content {
+                border: 1vmin solid black;
+                width: 65vmin;
+                margin: auto;
+                line-height: 15vh;
+                padding: 10vmin 10vmin 8vmin 10vmin;
+            }
+            #time {
+                font-size: 25vmin;
+            }
+            a {
+                font-size: 11vmin;
+                color: black;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+        </style>
+        <script type="text/javascript">
+            function showTime() {
+                var date = new Date();
+                var milli = date.getMilliseconds();
+                var seconds = date.getSeconds() * 1000;
+                var minutes = date.getMinutes() * 60000;
+                var hours = date.getHours() * 3600000;
+                var totalMilli = milli + seconds + minutes + hours;
+                var decimal = totalMilli / 8640000;
+                var fixed = parseFloat(decimal).toFixed(4);
+                document.getElementById("time").innerHTML = fixed;
+                document.title = fixed + " - Metric Clock";
+            }
+        </script>
+    </head>
+    <body onload="setInterval(function(){showTime()});">
+        <div id="content">
+            <span id="time"></span>
+            <br />
+            <a href="https://en.wikipedia.org/wiki/Decimal_time"
+                >decimal hours</a
+            >
+        </div>
+    </body>
 </html>
