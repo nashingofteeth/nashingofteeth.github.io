@@ -9,3 +9,4 @@ camera: iPhone 13 Mini
 permalink: false
 margin_left: 15
 ---
+divided into strokes but aspiring to full vision. maybe complete in the style of chimes.

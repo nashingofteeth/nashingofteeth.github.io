@@ -10,5 +10,3 @@ permalink: false
 margin_left: 60
 ---
 a springful of flowers, an invocation, a feeling of living i will never lose.
-
-millefiori it’s called.
