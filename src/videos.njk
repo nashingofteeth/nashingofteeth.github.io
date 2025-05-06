@@ -3,6 +3,10 @@ layout: layouts/page.njk
 title: videos - matthew nash
 heading: "&#128249;&nbsp;VIDEOS"
 ---
+
+{% set storjshareBaseUrl = "https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/" %}
+{% set storjshareLosslessUrl = "https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/" %}
+
 {%- css %}
 body {
     background-color: Azure;
@@ -46,7 +50,8 @@ a:active {
     border: 1px solid blue;
 }
 .media img,
-.media video {
+.media video,
+.media iframe {
     height: 100%;
     width: 100%;
 }
@@ -67,15 +72,38 @@ a:active {
 
 {% for video in collections.videos | reverse %}
 	<a id="{{ video.fileSlug }}"></a>
-	<article class="top-space" style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
-		<div class="container" style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
+	<article
+    	class="top-space"
+  		style="width: {{ 0.5625 / (video.data.height / video.data.width)  * 100}}%; padding-left: {{video.data.margin_left}}%;">
+		<div
+    		class="container"
+            style="padding-top: {{ video.data.height / video.data.width * 100 }}%;">
 			<div class="media">
-			    <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.webm">
-			        <picture>
-			            <source srcset="../img/{{ video.fileSlug }}.webp" type="image/webp" />
-			            <img fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}" loading="{% if loop.first %}eager{% else %}lazy{% endif %}" src="../img/{{ video.fileSlug }}.jpg" alt="{{ video.data.title }} video cover" />
-			        </picture>
-			    </a>
+			    <a
+					{% if video.data.youtube_id %}
+						href="https://www.youtube.com/watch?v={{ video.data.youtube_id }}"
+					    data-youtube-id="{{ video.data.youtube_id }}"
+					{% else %}
+    					href="{{ storjshareBaseUrl }}{{ video.fileSlug }}.mp4"
+    					data-webm="{{ storjshareBaseUrl }}{{ video.fileSlug }}.webm"
+					{% endif %}>
+					{% if video.data.youtube_id %}
+						<img
+							fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}"
+							loading="{% if loop.first %}eager{% else %}lazy{% endif %}"
+							src="https://img.youtube.com/vi/{{ video.data.youtube_id }}/maxresdefault.jpg"
+							alt="{{ video.data.title }} video cover" />
+					{% else %}
+						<picture>
+							<source srcset="../img/{{ video.fileSlug }}.webp" type="image/webp" />
+							<img
+								fetchpriority="{% if loop.first %}high{% else %}auto{% endif %}"
+								loading="{% if loop.first %}eager{% else %}lazy{% endif %}"
+								src="../img/{{ video.fileSlug }}.jpg"
+								alt="{{ video.data.title }} video cover" />
+						</picture>
+					{% endif %}
+                </a>
 		    </div>
 		</div>
 
@@ -95,12 +123,14 @@ a:active {
 			    <strong>DATE: </strong><time datetime="{{ video.date | htmlDateString }}">{{ video.date | readableDate() }}</time>
 			</p>
 
+		    {% if not video.data.youtube_id %}
 		    <p class="download">
 			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/{{ video.fileSlug }}.mp4" target="_blank">lossy</a>
+				<a href="{{ storjshareBaseUrl }}{{ video.fileSlug }}.mp4" target="_blank">lossy</a>
 				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/{{ video.fileSlug }}.mov" target="_blank">lossless</a>
+				<a href="{{ storjshareLosslessUrl }}{{ video.fileSlug }}.mov" target="_blank">lossless</a>
 		    </p>
+		    {% endif %}
 		</div>
 
 	</article>
