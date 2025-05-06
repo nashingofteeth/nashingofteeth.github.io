@@ -1,5 +1,5 @@
 ---
-title: march 25 magnolia
+title: March 25 Magnolia
 date: 2025-04-26
 width: 1920
 height: 1080

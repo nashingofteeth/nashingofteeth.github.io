@@ -1,5 +1,5 @@
 ---
-title: fatal relief
+title: Fatal Relief
 date: 2024-07-07
 width: 1920
 height: 1080

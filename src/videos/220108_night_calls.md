@@ -1,5 +1,5 @@
 ---
-title: night calls
+title: Night Calls
 date: 2022-01-08
 width: 2880
 height: 2160

@@ -1,5 +1,5 @@
 ---
-title: same portals as yesterday
+title: Same portals as yesterday
 date: 2024-06-04
 width: 1080
 height: 1080

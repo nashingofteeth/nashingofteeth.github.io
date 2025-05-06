@@ -1,5 +1,5 @@
 ---
-title: no tooth dog
+title: No Tooth Dog
 date: 2024-11-01
 width: 1920
 height: 1080
