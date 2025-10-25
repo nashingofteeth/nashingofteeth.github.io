@@ -21,15 +21,6 @@ Media hosted by Storj (https://storj.io/).
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="${metadata.title}">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="${metadata.title}">
 
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R3L8HWQRD0"></script>
-		<script>
-		  window.dataLayer = window.dataLayer || [];
-		  function gtag(){dataLayer.push(arguments);}
-		  gtag('js', new Date());
-
-		  gtag('config', 'G-R3L8HWQRD0');
-		</script>
-
 		<style>${css}</style>
 	</head>
 	<body>
