@@ -7,7 +7,7 @@ on:
 env:
   FORCE_COLOR: 1
 
-concurrency: # prevent concurrent deploys doing strange things
+concurrency:
   group: deploy-site
   cancel-in-progress: true
 
@@ -41,7 +41,7 @@ jobs:
         uses: bcomnes/deploy-to-neocities@v3
         with:
           api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
-          cleanup: false
+          cleanup: true
           neocities_supporter: false
           preview_before_deploy: true
           dist_dir: dist
