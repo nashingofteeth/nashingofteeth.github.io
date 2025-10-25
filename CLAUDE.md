@@ -19,7 +19,7 @@ This is a personal video portfolio website for Matthew Nash, a video artist and 
 - **CSS Strategy:** Per-page inline CSS (separate .css files)
 - **Video Hosting:** Storj cloud storage (primary), YouTube (backup)
 - **Deployment:** GitHub Actions → GitHub Pages
-- **Analytics:** Google Analytics 4 + GoatCounter
+- **Analytics:** GoatCounter (privacy-focused)
 
 ## Project Structure
 
@@ -79,29 +79,27 @@ atlas/
 
 ## Recent Updates (2025-10-25)
 
-### Template Refactoring - Partials System
-The template system has been significantly refactored to eliminate duplicate code by introducing a `templates/partials/` directory with reusable components:
+### Build System & Asset Management
+- **Inline JavaScript:** JS now inlined in HTML output (no separate file requests)
+- **Watch script:** Added `npm run watch` for automatic rebuilds during development
+- **Asset organization:** CSS and static assets moved to cleaner structure
+  - Template CSS files in `templates/` directory alongside their templates
+  - Static assets (images, tools) in `public/` folder
+- **Google Analytics removed:** Now uses only GoatCounter for privacy-focused analytics
 
-- **Created 7 new partials** to extract common functionality
+### Template System - Partials Architecture
+- **Created 7 reusable partials** to eliminate duplicate code
 - **Reduced template file sizes** by 70-80% (e.g., `videos.js` from 115→30 lines, `video-single.js` from 106→22 lines)
-- **Centralized constants** (Storj URLs) in one location
+- **Centralized constants** (Storj URLs) in `templates/partials/constants.js`
 - **Unified CSS loading** with a single `loadCss()` utility function
 - **Shared video article component** used by both gallery and individual video pages
 
-### URL Structure Updates
-- **Video page URLs** now use hyphens instead of underscores for better web conventions
-  - Example: `/videos/220326-leaving-it-behind/` (was `220326_leaving_it_behind`)
-- **File references** (images, videos) still use underscores to match existing media files
+### URL & Content Structure
+- **Video page URLs** now use hyphens for better web conventions: `/videos/220326-leaving-it-behind/`
+- **File references** still use underscores to match existing media files
 - **Dual slug system**: `slug` (with hyphens for URLs) and `filename` (with underscores for file paths)
-
-### Footer & Layout Improvements
-- **Sticky footer** using flexbox: appears at bottom of viewport on short pages, flows naturally on long pages
-- **Page wrapper** moved from `base.js` to `page.js` for better template hierarchy
-- **CC0 license icon** inlined as SVG in footer (from `public/img/zero.svg`)
-- **Footer content**: "Uncopyright 2025 Matthew Nash" + potato link
-
-### Removed Unused Fields
-- **Removed `permalink` property** from all video markdown frontmatter (was legacy field, unused by build system)
+- **Camera field optional:** Video frontmatter no longer requires `camera` property
+- **Removed `permalink` property:** Cleaned up unused legacy field from all video markdown files
 
 ## Key Features
 
@@ -129,52 +127,40 @@ Video description content in markdown...
 
 **Output:** Each video generates:
 - Gallery entry at `/videos/` (with left margin offset)
-- Individual page at `/videos/[slug]/` (full width, no margin)
+- Individual page at `/videos/[slug]/` (same styling as gallery entry)
 
 ### 2. Template System
 
 Templates are JavaScript functions using template literals:
 
 ```
-base.js (HTML root + analytics + CSS inlining)
+base.js (HTML root + analytics + inline CSS/JS)
     ↓
-page.js (adds .page-wrapper flexbox + header/footer) → used by videos.js, tools.js
+page.js (flexbox wrapper + header/footer) → used by videos.js, tools.js
     ↓
-home.js (standalone homepage)
+home.js (homepage)
 videos.js (video gallery)
 video-single.js (individual video pages)
 tools.js (tools page)
 404.js (error page)
 ```
 
-Each template imports its corresponding CSS file(s) using the `loadCss()` utility and passes them to base.js for inlining.
-
-**Partials System:**
 Templates use reusable components from `templates/partials/`:
 - `constants.js` - Storj URLs and shared constants
 - `css-loader.js` - Unified CSS file loading
 - `video-thumbnail.js` - Generates thumbnail HTML (YouTube or local)
-- `download-links.js` - Generates download links for Storj videos
+- `download-links.js` - Download links for Storj videos
 - `video-article.js` - Complete video article markup (used by gallery and single pages)
 - `header.js` - Page header (supports both standard and video-single styles)
 - `footer.js` - Page footer with CC0 icon and potato link
 
 ### 3. Individual Video Pages
 
-Each video has its own dedicated page at `/videos/[slug]/`:
-
-**Features:**
+Each video has a dedicated page at `/videos/[slug]/` with:
 - Identical styling to gallery entries (including left margin offset)
-- Header with HOME and VIDEOS links (both with up arrow, same style)
-- Same content structure as gallery entries
+- Header with HOME and VIDEOS links
 - Same video player functionality
 - Direct shareable URLs
-
-**Gallery vs. Individual:**
-- Gallery (`/videos/`): All videos with artistic left margin offsets
-- Individual (`/videos/[slug]/`): Single video with same styling, just without other videos
-- Bookmark links (🔗) in gallery navigate to individual pages
-- Both pages apply the `margin_left` field from video frontmatter
 
 ### 4. Responsive Video Layout
 
@@ -222,10 +208,12 @@ npm install          # Install dependencies (marked + gray-matter)
 npm run build        # Build site to dist/
 ```
 
-**Note:** There is no dev server with hot reload in the custom build system. To preview changes:
-1. Run `npm run build`
-2. Open `dist/index.html` in your browser
-3. Use a simple HTTP server if needed: `python3 -m http.server --directory dist 8080`
+**Development commands:**
+```bash
+npm run build        # Build site to dist/
+npm run watch        # Auto-rebuild on file changes
+npm start            # Build + serve at localhost:8080
+```
 
 ### Adding a New Video
 
@@ -442,15 +430,10 @@ These conventions are automatically enforced by the editor configuration. Manual
 
 ## Analytics
 
-### Google Analytics 4
-- **Property ID:** G-R3L8HWQRD0
-- **Location:** Inline in `base.njk` layout
-- **Tracking:** Page views, user interactions
-
-### GoatCounter
-- **Privacy-focused alternative**
-- **Script:** Loaded from `gc.zgo.at`
-- **No cookies, no personal data**
+**GoatCounter** - Privacy-focused analytics
+- Script loaded from `gc.zgo.at`
+- No cookies, no personal data collection
+- Counter available at: nashingofteeth.goatcounter.com
 
 ## Content Guidelines
 
@@ -474,23 +457,21 @@ Common ratios used in this portfolio:
 
 ## Troubleshooting
 
-### Videos not appearing?
-- Check `src/videos/videos.11tydata.js` tags collection
-- Verify frontmatter has all required fields
-
-### Layout issues?
+**Videos not appearing?**
+- Verify frontmatter has all required fields (see Video Frontmatter Fields table)
 - Check `width` and `height` match actual video dimensions
-- Adjust `margin_left` percentage (0-40 typical)
-- Test at different viewport sizes (768px, 576px breakpoints)
 
-### Deployment failing?
+**Layout issues?**
+- Test at different viewport sizes (768px, 576px breakpoints)
+- Adjust `margin_left` percentage (0-40 typical)
+
+**Deployment failing?**
 - Check GitHub Actions logs
 - Verify `npm run build` succeeds locally
-- Ensure all dependencies in `package.json`
 
-### Thumbnails not loading?
+**Thumbnails not loading?**
 - Verify files exist in `public/img/`
-- Check filename matches video slug
+- Check filename matches video slug (with underscores)
 - Ensure both JPG and WebP versions present
 
 ## Related Projects
@@ -535,21 +516,12 @@ Not specified in repository. Contact author for usage permissions.
 **Video Count:** 19 videos (as of 2025-08-17)
 **Pages Generated:** ~25 HTML pages (home, gallery, 19 individual videos, tools, 404)
 
-## Architecture Improvements
+## Architecture Notes
 
-### Code Organization
-The codebase has been refactored to follow DRY principles:
-- **Before refactoring:** ~320 lines of duplicate code across templates
-- **After refactoring:** ~30 lines in partials, reused everywhere
-- **Reduction:** 73-79% smaller template files
+**Code Organization:** Templates follow DRY principles with reusable partials (~73-79% size reduction)
 
-### URL Convention
+**URL Convention:**
 - Page URLs use hyphens: `/videos/220326-leaving-it-behind/`
 - File paths use underscores: `220326_leaving_it_behind.mp4`
-- Build script maintains both `slug` and `filename` properties for each video
 
-### Layout System
-- Flexbox-based sticky footer (bottom of viewport on short pages, natural flow on long pages)
-- `.page-wrapper` container with `min-height: 100vh` and `flex-direction: column`
-- Main content uses `flex: 1` to fill available space
-- Footer uses `align-self: flex-end` for right alignment
+**Layout System:** Flexbox-based with sticky footer (bottom of viewport on short pages, natural flow on long pages)
