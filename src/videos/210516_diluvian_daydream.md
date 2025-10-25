@@ -6,7 +6,6 @@ height: 720
 runtime: 3m23s
 frame_rate: 60
 camera: Sony Handycam CX405
-permalink: false
 margin_left: 10
 ---
 sunken wonders at the diluvian end

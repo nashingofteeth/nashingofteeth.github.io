@@ -6,7 +6,6 @@ height: 1080
 runtime: 4m56s
 frame_rate: 24
 camera: Sony Handycam CX405
-permalink: false
 margin_left: 0
 ---
 Entry in [Movie Madness](https://moviemadness.org/)'s first Direct-to-Video 48-hour film festival.
