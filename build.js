@@ -77,11 +77,15 @@ function readVideos() {
     // Convert markdown to HTML
     const html = marked(content);
 
-    // Extract slug from filename (remove date prefix and .md extension)
-    const slug = file.replace(".md", "");
+    // Extract filename without extension
+    const filename = file.replace(".md", "");
+
+    // Create URL slug with hyphens
+    const slug = filename.replace(/_/g, "-");
 
     videos.push({
       slug,
+      filename, // Keep original with underscores for file references
       title: data.title,
       date: data.date,
       width: data.width,

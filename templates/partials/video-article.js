@@ -39,8 +39,8 @@ function videoArticle(
           video.youtube_id
             ? `href="https://www.youtube.com/watch?v=${video.youtube_id}"
 				    data-youtube-id="${video.youtube_id}"`
-            : `href="${STORJ_BASE_URL}${video.slug}.mp4"
-					data-webm="${STORJ_BASE_URL}${video.slug}.webm"`
+            : `href="${STORJ_BASE_URL}${video.filename}.mp4"
+					data-webm="${STORJ_BASE_URL}${video.filename}.webm"`
         }>
 				${thumbnailHtml}
             </a>
