@@ -1,23 +1,32 @@
 body {
   margin: 0;
-  padding: 0 25px 0 25px;
+  padding: 0;
+}
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
   max-width: 1080px;
 }
 header {
   margin-top: 20px;
 }
 main {
-  margin: 20px 0px;
+  flex: 1;
 }
 .top-space {
   margin-top: 100px;
 }
 footer {
-  position: fixed;
-  bottom: 20px;
-  right: 25px;
+  margin-bottom: 20px;
+  font-size: 0.8em;
+  line-height: 27px;
 }
-footer a,
+footer svg {
+  vertical-align: sub;
+}
+a #potato,
 a.bookmark {
   text-shadow: none;
 }
