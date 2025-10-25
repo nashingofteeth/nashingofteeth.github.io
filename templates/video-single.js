@@ -13,7 +13,7 @@ function videoSingle(video) {
 ${header(null, true)}
 
 <main>
-${videoArticle(video, true, "../../img/", false)}
+${videoArticle(video, true, false)}
 </main>
 
 ${footer()}

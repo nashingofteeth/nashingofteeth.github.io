@@ -2,10 +2,9 @@
  * Generate thumbnail HTML for a video
  * @param {Object} video - Video object with youtube_id, slug, and filename
  * @param {boolean} isFirst - Whether this is the first video (for fetchpriority)
- * @param {string} imgPathPrefix - Path prefix for local images (e.g., "../img/" or "../../img/")
  * @returns {string} Thumbnail HTML
  */
-function videoThumbnail(video, isFirst = false, imgPathPrefix = "../img/") {
+function videoThumbnail(video, isFirst = false) {
   const fetchpriority = isFirst ? "high" : "auto";
   const loading = isFirst ? "eager" : "lazy";
 
@@ -18,11 +17,11 @@ function videoThumbnail(video, isFirst = false, imgPathPrefix = "../img/") {
   }
 
   return `<picture>
-        <source srcset="${imgPathPrefix}${video.filename}.webp" type="image/webp" />
+        <source srcset="/img/${video.filename}.webp" type="image/webp" />
         <img
           fetchpriority="${fetchpriority}"
           loading="${loading}"
-          src="${imgPathPrefix}${video.filename}.jpg"
+          src="/img/${video.filename}.jpg"
           alt="${video.title} video cover" />
       </picture>`;
 }

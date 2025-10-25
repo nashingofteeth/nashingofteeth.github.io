@@ -524,4 +524,10 @@ Not specified in repository. Contact author for usage permissions.
 - Page URLs use hyphens: `/videos/220326-leaving-it-behind/`
 - File paths use underscores: `220326_leaving_it_behind.mp4`
 
+**Image Path Convention:**
+- Always use absolute paths starting with `/` (e.g., `/img/thumbnail.jpg`)
+- Never use relative paths (e.g., `../img/thumbnail.jpg`)
+- This prevents broken images on subpages at different directory depths
+- Example: `/img/220326_leaving_it_behind.jpg` works from both `/videos/` and `/videos/220326-leaving-it-behind/`
+
 **Layout System:** Flexbox-based with sticky footer (bottom of viewport on short pages, natural flow on long pages)

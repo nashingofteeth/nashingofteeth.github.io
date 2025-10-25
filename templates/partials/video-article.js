@@ -7,21 +7,15 @@ const downloadLinks = require("./download-links.js");
  * Generate a complete video article HTML
  * @param {Object} video - Video object with all metadata
  * @param {boolean} isFirst - Whether this is the first video (for fetchpriority)
- * @param {string} imgPathPrefix - Path prefix for local images (e.g., "../img/" or "../../img/")
  * @param {boolean} showBookmark - Whether to show the bookmark link to individual page
  * @returns {string} Video article HTML
  */
-function videoArticle(
-  video,
-  isFirst = false,
-  imgPathPrefix = "../img/",
-  showBookmark = true,
-) {
+function videoArticle(video, isFirst = false, showBookmark = true) {
   const aspectRatio = video.height / video.width;
   const paddingTop = aspectRatio * 100;
   const containerWidth = (0.5625 / aspectRatio) * 100;
 
-  const thumbnailHtml = videoThumbnail(video, isFirst, imgPathPrefix);
+  const thumbnailHtml = videoThumbnail(video, isFirst);
   const downloadLinksHtml = downloadLinks(video);
   const bookmarkLink = showBookmark
     ? `&nbsp;<a href="/videos/${video.slug}/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a>`

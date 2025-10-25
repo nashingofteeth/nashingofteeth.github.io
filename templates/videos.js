@@ -16,7 +16,7 @@ function videos(videoCollection) {
   const videosHtml = sortedVideos
     .map((video, index) => {
       const isFirst = index === 0;
-      return videoArticle(video, isFirst, "../img/", true);
+      return videoArticle(video, isFirst, true);
     })
     .join("\n");
 
