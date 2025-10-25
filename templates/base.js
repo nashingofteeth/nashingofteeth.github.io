@@ -1,22 +1,25 @@
-<!--
+const metadata = require('../src/_data/metadata.js');
+
+function base(content, title, description, css) {
+  return `<!--
 This website is a potato (https://potato.cheap/).
-Built with 11ty (https://www.11ty.dev/).
+Built with custom Node.js static site generator.
 Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
-<html lang="{{ metadata.language }}">
+<html lang="${metadata.language}">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="{{ description or metadata.description }}">
-		<meta name="keywords" content="{{ metadata.keywords }}" >
+		<meta name="description" content="${description || metadata.description}">
+		<meta name="keywords" content="${metadata.keywords}" >
 
-		<title>{{ title or metadata.title }}</title>
+		<title>${title || metadata.title}</title>
 
 		<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 
-		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="{{ metadata.title }}">
-		<link rel="alternate" href="/feed/feed.json" type="application/json" title="{{ metadata.title }}">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="${metadata.title}">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="${metadata.title}">
 
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-R3L8HWQRD0"></script>
 		<script>
@@ -27,22 +30,15 @@ Media hosted by Storj (https://storj.io/).
 		  gtag('config', 'G-R3L8HWQRD0');
 		</script>
 
-		{%- css %}
-		body {
-		    font-family: monospace;
-		    font-size: 15px;
-		}
-		a {
-		    letter-spacing: 1px;
-		    text-decoration: none;
-		}
-		{% endcss %}
-		<style>{% getBundle "css" %}</style>
+		<style>${css}</style>
 	</head>
 	<body>
-		{{ content | safe }}
+		${content}
 
 		<script data-goatcounter="https://nashingofteeth.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 	</body>
-</html>
+</html>`;
+}
+
+module.exports = base;

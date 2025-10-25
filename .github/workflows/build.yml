@@ -1,4 +1,4 @@
-name: Build Eleventy
+name: Build Site
 on:
   push:
     branches:
@@ -24,9 +24,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          #publish_dir is the folder on the docker instance which eleventy builds the pages to.
-          #it is not the docs folder in the repository
+          # publish_dir is the folder where build.js outputs the site
           publish_dir: dist
-          #publish_branch is the branch in the repository.
-          #this is where you need to point GitHub pages
+          # publish_branch is the branch in the repository for GitHub Pages
           publish_branch: gh-pages
