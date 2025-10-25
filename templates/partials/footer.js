@@ -3,7 +3,7 @@
  * @returns {string} Footer HTML
  */
 function footer() {
-  return `<footer class="top-space">
+  return `<footer>
 	<a href="https://potato.cheap/" target="_blank" aria-label="Potato" title="This website is a potato.">&#129364;</a>
 </footer>`;
 }
