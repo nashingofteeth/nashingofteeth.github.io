@@ -55,12 +55,9 @@ function videoArticle(
 
 		<p class="specs">
 			<strong>DURATION: </strong>${video.runtime} at ${video.frame_rate}fps
-			<br>
-			<strong>RESOLUTION: </strong>${video.width}&nbsp;x&nbsp;${video.height}px
-			<br>
-			<strong>CAMERA: </strong>${video.camera}
-			<br>
-		    <strong>DATE: </strong><time datetime="${htmlDateString(video.date)}">${formatDate(video.date)}</time>
+			<br><strong>RESOLUTION: </strong>${video.width}&nbsp;x&nbsp;${video.height}px
+			${video.camera ? `<br><strong>CAMERA: </strong>${video.camera}` : ""}
+			<br><strong>DATE: </strong><time datetime="${htmlDateString(video.date)}">${formatDate(video.date)}</time>
 		</p>
 
 	    ${downloadLinksHtml}

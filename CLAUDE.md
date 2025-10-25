@@ -117,9 +117,9 @@ width: 1920
 height: 1080
 runtime: 6m2s
 frame_rate: 24
-camera: Sony Handycam CX405
-margin_left: 0              # Used only in gallery view
-youtube_id: (optional)      # If hosted on YouTube
+camera: Sony Handycam CX405  # Optional field
+margin_left: 0               # Used only in gallery view
+youtube_id: (optional)       # If hosted on YouTube
 ---
 
 Video description content in markdown...
@@ -248,7 +248,7 @@ npm run build        # Build site to dist/
    height: 1080
    runtime: 3m15s
    frame_rate: 24
-   camera: Your Camera Model
+   camera: Your Camera Model  # Optional
    margin_left: 0
    ---
 
@@ -275,7 +275,7 @@ npm run build        # Build site to dist/
 | `height` | Yes | `1080` | Video height in pixels |
 | `runtime` | Yes | `9m` or `6m2s` | Duration (human-readable) |
 | `frame_rate` | Yes | `24` or `60` | Frames per second |
-| `camera` | Yes | `Sony a6300` | Camera model used |
+| `camera` | No | `Sony a6300` | Camera model used (optional) |
 | `margin_left` | Yes | `20` | Left offset percentage (0-40 typical) |
 | `youtube_id` | No | `dQw4w9WgXcQ` | YouTube video ID (if using YouTube) |
 
