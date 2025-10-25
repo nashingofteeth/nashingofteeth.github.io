@@ -151,17 +151,6 @@ async function build() {
     console.log("  ✓ public/ → dist/");
   }
 
-  // Copy CNAME and .htaccess
-  if (fs.existsSync("CNAME")) {
-    fs.copyFileSync("CNAME", path.join(DIST_DIR, "CNAME"));
-    console.log("  ✓ CNAME → dist/");
-  }
-
-  if (fs.existsSync(".htaccess")) {
-    fs.copyFileSync(".htaccess", path.join(DIST_DIR, ".htaccess"));
-    console.log("  ✓ .htaccess → dist/");
-  }
-
   console.log("\n✨ Build complete! Output in dist/\n");
 }
 
