@@ -17,7 +17,6 @@ const SRC_DIR = "src";
 const DIST_DIR = "dist";
 const VIDEOS_DIR = path.join(SRC_DIR, "videos");
 const PUBLIC_DIR = "public";
-const TOOLS_DIR = "tools";
 
 // Utility: Recursively remove directory
 function removeDir(dirPath) {
@@ -150,11 +149,6 @@ async function build() {
   if (fs.existsSync(PUBLIC_DIR)) {
     copyDir(PUBLIC_DIR, DIST_DIR);
     console.log("  ✓ public/ → dist/");
-  }
-
-  if (fs.existsSync(TOOLS_DIR)) {
-    copyDir(TOOLS_DIR, DIST_DIR);
-    console.log("  ✓ tools/ → dist/");
   }
 
   // Copy CNAME and .htaccess
