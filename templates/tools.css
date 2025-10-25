@@ -1,11 +1,11 @@
 body {
-	background-color: AntiqueWhite;
-	color: Maroon;
+  background-color: AntiqueWhite;
+  color: Maroon;
 }
 a {
-    color: SaddleBrown;
-    text-shadow: Red 0.8px 0px;
+  color: SaddleBrown;
+  text-shadow: Red 0.8px 0px;
 }
 a:active {
-    color: Red;
+  color: Red;
 }

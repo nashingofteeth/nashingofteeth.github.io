@@ -1,4 +1,4 @@
-const metadata = require('../src/_data/metadata.js');
+const metadata = require("../src/_data/metadata.js");
 
 function base(content, title, description, css) {
   return `<!--

@@ -1,22 +1,23 @@
 body {
-    margin: 0;
-    padding: 0 25px 0 25px;
-    max-width: 1080px;
+  margin: 0;
+  padding: 0 25px 0 25px;
+  max-width: 1080px;
 }
 header {
-    margin-top: 20px;
+  margin-top: 20px;
 }
-header, footer {
-    margin-bottom: 20px;
+header,
+footer {
+  margin-bottom: 20px;
 }
 .top-space {
-    margin-top: 100px;
+  margin-top: 100px;
 }
 footer a,
 a.bookmark {
-    text-shadow: none;
+  text-shadow: none;
 }
 .up-arrow {
-    font-size: 1.4em;
-    margin-right: 3px;
+  font-size: 1.4em;
+  margin-right: 3px;
 }

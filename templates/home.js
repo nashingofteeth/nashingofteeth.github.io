@@ -1,11 +1,11 @@
-const base = require('./base.js');
-const fs = require('fs');
-const path = require('path');
+const base = require("./base.js");
+const fs = require("fs");
+const path = require("path");
 
 function home() {
-  const baseCss = fs.readFileSync(path.join(__dirname, 'base.css'), 'utf8');
-  const homeCss = fs.readFileSync(path.join(__dirname, 'home.css'), 'utf8');
-  const combinedCss = baseCss + '\n' + homeCss;
+  const baseCss = fs.readFileSync(path.join(__dirname, "base.css"), "utf8");
+  const homeCss = fs.readFileSync(path.join(__dirname, "home.css"), "utf8");
+  const combinedCss = baseCss + "\n" + homeCss;
 
   const content = `<picture>
     <source srcset="img/me.webp" type="image/webp" />
