@@ -38,10 +38,10 @@ jobs:
           publish_branch: gh-pages
 
       - name: Deploy to Neocities
-        uses: bcomnes/deploy-to-neocities@v2
+        uses: bcomnes/deploy-to-neocities@v3
         with:
           api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
-          cleanup: true
+          cleanup: false
+          neocities_supporter: false
+          preview_before_deploy: true
           dist_dir: dist
-          neocities_supporter: false # set to true if you have a supporter account
-          preview_before_deploy: false
