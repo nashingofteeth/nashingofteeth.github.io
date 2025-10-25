@@ -1,6 +1,6 @@
 <!--
 This website is a potato (https://potato.cheap/).
-Built with 11ty (https://www.11ty.dev/).
+Built with custom Node.js static site generator.
 Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
@@ -26,1188 +26,1059 @@ Media hosted by Storj (https://storj.io/).
 
 		  gtag('config', 'G-R3L8HWQRD0');
 		</script>
+
 		<style>body {
-    background-color: Azure;
-    color: Navy;
+  font-family: monospace;
+  font-size: 15px;
 }
 a {
-    color: blue;
-    text-shadow: blue 1px 0px;
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
+  max-width: 1080px;
+}
+header {
+  margin-top: 20px;
+}
+main {
+  flex: 1;
+}
+.top-space {
+  margin-top: 100px;
+}
+footer {
+  margin-bottom: 20px;
+  font-size: 0.8em;
+  line-height: 27px;
+}
+footer svg {
+  vertical-align: sub;
+}
+a #potato,
+a.bookmark {
+  text-shadow: none;
+}
+.up-arrow {
+  font-size: 1.4em;
+  margin-right: 3px;
+}
+
+body {
+  background-color: Azure;
+  color: Navy;
+}
+a {
+  color: blue;
+  text-shadow: blue 1px 0px;
 }
 a:active {
-    color: red;
+  color: red;
 }
 @media only screen and (max-width: 768px) {
-    article {
-        padding-left: 0 !important;
-        width: 70% !important;
-    }
+  article {
+    padding-left: 0 !important;
+    width: 70% !important;
+  }
 }
 @media only screen and (max-width: 576px) {
-    article {
-        width: 100% !important;
-    }
+  article {
+    width: 100% !important;
+  }
 }
 .container {
-    position: relative;
+  position: relative;
 }
 .media a::before {
-    content: '\25B6';
-    font-size: 75px;
-    position: absolute;
-    top: 10px;
-    left: 35px;
+  content: "\25B6";
+  font-size: 75px;
+  position: absolute;
+  top: 10px;
+  left: 35px;
 }
 .media {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: blue;
-    border: 1px solid blue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  border: 1px solid blue;
 }
 .media img,
 .media video,
 .media iframe {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 .specs {
-    font-size: 0.9em;
-    border-left: 1px dashed Navy;
-    padding-left: 10px;
+  font-size: 0.9em;
+  border-left: 1px dashed Navy;
+  padding-left: 10px;
 }
 .download {
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
-body {
-    margin: 0;
-    padding: 0 25px 0 25px;
-    max-width: 1080px;
-}
-header {
-    margin-top: 20px;
-}
-header, footer {
-    margin-bottom: 20px;
-}
-.top-space {
-    margin-top: 100px;
-}
-footer a,
-a.bookmark {
-    text-shadow: none;
-}
-.up-arrow {
-    font-size: 1.4em;
-    margin-right: 3px;
-}
-body {
-		    font-family: monospace;
-		    font-size: 15px;
-		}
-		a {
-		    letter-spacing: 1px;
-		    text-decoration: none;
-		}</style>
+</style>
 	</head>
 	<body>
-		
-
+		<div class="page-wrapper">
 <header>
 	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
 	<h1>&#128249;&nbsp;VIDEOS</h1>
 </header>
 
 <main>
-
-
-
-
 <section class="description">
 	<p>All images and sounds shown here were created by me unless otherwise noted. Read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
 	<p><em>Downloading recommended for best experience.</em></p>
 </section>
 
-
-	<a id="250817_the_claw"></a>
-	<article
-    	class="top-space"
-  		style="width: 100%; padding-left: 0%;">
-		<div
-    		class="container"
-            style="padding-top: 56.25%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/250817_the_claw.webp" type="image/webp" />
-							<img
-								fetchpriority="high"
-								loading="eager"
-								src="../img/250817_the_claw.jpg"
-								alt="the claw video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>the claw&nbsp;<a href="#250817_the_claw" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>'s third Direct-to-Video 48-hour film festival.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>6m2s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2025-08-17">August 17, 2025</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/250817_the_claw.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="250320_march_9_camellia"></a>
-	<article
-    	class="top-space"
-  		style="width: 42.1875%; padding-left: 15%;">
-		<div
-    		class="container"
-            style="padding-top: 133.33333333333331%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/250320_march_9_camellia.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/250320_march_9_camellia.jpg"
-								alt="march 9 camellia video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>march 9 camellia&nbsp;<a href="#250320_march_9_camellia" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>divided into strokes but aspiring to full vision. maybe complete in the style of chimes.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>30s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>720&nbsp;x&nbsp;960px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2025-03-20">March 20, 2025</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/250320_march_9_camellia.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="240707_fatal_relief"></a>
-	<article
-    	class="top-space"
-  		style="width: 100%; padding-left: 0%;">
-		<div
-    		class="container"
-            style="padding-top: 56.25%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/240707_fatal_relief.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/240707_fatal_relief.jpg"
-								alt="Fatal Relief video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>Fatal Relief&nbsp;<a href="#240707_fatal_relief" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>'s second Direct-to-Video 48-hour film festival. Winner for Best Technical Elements.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>5m51s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2024-07-07">July 07, 2024</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240707_fatal_relief.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="240604_same_portals_as_yesterday"></a>
-	<article
-    	class="top-space"
-  		style="width: 56.25%; padding-left: 15%;">
-		<div
-    		class="container"
-            style="padding-top: 100%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/240604_same_portals_as_yesterday.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/240604_same_portals_as_yesterday.jpg"
-								alt="Same portals as yesterday video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>Same portals as yesterday&nbsp;<a href="#240604_same_portals_as_yesterday" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>microcosmic landscapes portal</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>1m42s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>1080&nbsp;x&nbsp;1080px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2024-06-04">June 04, 2024</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240604_same_portals_as_yesterday.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="240303_nearer_mother_sun"></a>
-	<article
-    	class="top-space"
-  		style="width: 42.1875%; padding-left: 40%;">
-		<div
-    		class="container"
-            style="padding-top: 133.33333333333331%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/240303_nearer_mother_sun.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/240303_nearer_mother_sun.jpg"
-								alt="nearer mother sun video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>nearer mother sun&nbsp;<a href="#240303_nearer_mother_sun" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>inside a shape, but open to salvation. don't tell.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>2m24s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>720&nbsp;x&nbsp;960px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2024-03-03">March 03, 2024</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240303_nearer_mother_sun.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="230809_stereosylvia"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 5%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/230809_stereosylvia.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/230809_stereosylvia.jpg"
-								alt="stereosylvia video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>stereosylvia&nbsp;<a href="#230809_stereosylvia" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>a favorite tree</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>58s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2023-08-09">August 09, 2023</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230809_stereosylvia.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="230621_the_reaching_rock"></a>
-	<article
-    	class="top-space"
-  		style="width: 56.25%; padding-left: 20%;">
-		<div
-    		class="container"
-            style="padding-top: 100%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/230621_the_reaching_rock.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/230621_the_reaching_rock.jpg"
-								alt="the reaching rock video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>the reaching rock&nbsp;<a href="#230621_the_reaching_rock" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			
-
-			<p class="specs">
-				<strong>DURATION: </strong>35s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;2160px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2023-06-21">June 21, 2023</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230621_the_reaching_rock.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="230613_they_watched_me_through_the_leaves"></a>
-	<article
-    	class="top-space"
-  		style="width: 100%; padding-left: 0%;">
-		<div
-    		class="container"
-            style="padding-top: 56.25%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/230613_they_watched_me_through_the_leaves.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/230613_they_watched_me_through_the_leaves.jpg"
-								alt="they watched me through the leaves video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>they watched me through the leaves&nbsp;<a href="#230613_they_watched_me_through_the_leaves" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>'s first Direct-to-Video 48-hour film festival.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>4m56s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2023-06-13">June 13, 2023</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230613_they_watched_me_through_the_leaves.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="230605_canopy_triptych"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 20%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/230605_canopy_triptych.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/230605_canopy_triptych.jpg"
-								alt="canopy triptych video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>canopy triptych&nbsp;<a href="#230605_canopy_triptych" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			
-
-			<p class="specs">
-				<strong>DURATION: </strong>25s at 24fps
-				<br>
-				<strong>RESOLUTION: </strong>1080&nbsp;x&nbsp;1920px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2023-06-05">June 05, 2023</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230605_canopy_triptych.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="230525_millefiori"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 60%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/230525_millefiori.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/230525_millefiori.jpg"
-								alt="millefiori video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>millefiori&nbsp;<a href="#230525_millefiori" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>a springful of flowers, an invocation, a feeling of living i will never lose.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>59s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>4608&nbsp;x&nbsp;8192px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2023-05-25">May 25, 2023</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230525_millefiori.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="221003_orange_sky"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 13%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/221003_orange_sky.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/221003_orange_sky.jpg"
-								alt="orange sky video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>orange sky&nbsp;<a href="#221003_orange_sky" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>A simple idiom says to stay alert to dangers of the front acre. But a quiet devastation seeks our silence. Even fear will not save us.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>49s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>1215&nbsp;x&nbsp;2160px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-10-02">October 02, 2022</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/221003_orange_sky.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="220926_bridges_too_near"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 26%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220926_bridges_too_near.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220926_bridges_too_near.jpg"
-								alt="bridges to near video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>bridges to near&nbsp;<a href="#220926_bridges_too_near" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>A bridge too near their obligation to perform any function of consonance, the smallest pieces can claim their own shoulders and sideways when the river runs deadly deep.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>50s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-09-26">September 26, 2022</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220926_bridges_too_near.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="220919_the_wind_that_night"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 39%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220919_the_wind_that_night.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220919_the_wind_that_night.jpg"
-								alt="the wind that night video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>the wind that night&nbsp;<a href="#220919_the_wind_that_night" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>The wind that night was a sight that would not leave the sparrow to a fate of real sadness. It passed and passed the trees to the real safety of park stairs and yellows.</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>49s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-09-19">September 19, 2022</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220919_the_wind_that_night.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="220912_a_cylinder_seal_of_summer"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 52%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220912_a_cylinder_seal_of_summer.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220912_a_cylinder_seal_of_summer.jpg"
-								alt="a cylinder seal of summer video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>a cylinder seal of summer&nbsp;<a href="#220912_a_cylinder_seal_of_summer" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			
-
-			<p class="specs">
-				<strong>DURATION: </strong>1m at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-09-12">September 12, 2022</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220912_a_cylinder_seal_of_summer.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="220901_in_the_meadow"></a>
-	<article
-    	class="top-space"
-  		style="width: 31.640625%; padding-left: 65%;">
-		<div
-    		class="container"
-            style="padding-top: 177.77777777777777%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220901_in_the_meadow.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220901_in_the_meadow.jpg"
-								alt="in the meadow video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>in the meadow&nbsp;<a href="#220901_in_the_meadow" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>i saw a sign of the past but a feeling would not hold and the wicked did not fear me</p>
-
-
-			<p class="specs">
-				<strong>DURATION: </strong>29s at 50fps
-				<br>
-				<strong>RESOLUTION: </strong>1215&nbsp;x&nbsp;2160px
-				<br>
-				<strong>CAMERA: </strong>iPhone 13 Mini
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-09-01">September 01, 2022</time>
-			</p>
-
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220901_in_the_meadow.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
-
-	</article>
-
-	<a id="220515_behind_the_sky"></a>
-	<article
-    	class="top-space"
-  		style="width: 75%; padding-left: 5%;">
-		<div
-    		class="container"
-            style="padding-top: 75%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220515_behind_the_sky.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220515_behind_the_sky.jpg"
-								alt="behind the sky video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
-
-		<div class="content">
-
-			<h2>behind the sky&nbsp;<a href="#220515_behind_the_sky" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>Clouds painted by sound.</p>
+<article
+	class="top-space"
+	style="width: 100%; padding-left: 0%;">
+	<div
+		class="container"
+		style="padding-top: 56.25%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.webm">
+				<picture>
+        <source srcset="../img/250817_the_claw.webp" type="image/webp" />
+        <img
+          fetchpriority="high"
+          loading="eager"
+          src="../img/250817_the_claw.jpg"
+          alt="the claw video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>the claw&nbsp;<a href="/videos/250817_the_claw/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>&#39;s third Direct-to-Video 48-hour film festival.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>6m2s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2025-08-17">August 17, 2025</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250817_the_claw.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/250817_the_claw.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 42.1875%; padding-left: 15%;">
+	<div
+		class="container"
+		style="padding-top: 133.33333333333331%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.webm">
+				<picture>
+        <source srcset="../img/250320_march_9_camellia.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/250320_march_9_camellia.jpg"
+          alt="march 9 camellia video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>march 9 camellia&nbsp;<a href="/videos/250320_march_9_camellia/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>divided into strokes but aspiring to full vision. maybe complete in the style of chimes.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>30s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>720&nbsp;x&nbsp;960px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2025-03-20">March 20, 2025</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/250320_march_9_camellia.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/250320_march_9_camellia.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 100%; padding-left: 0%;">
+	<div
+		class="container"
+		style="padding-top: 56.25%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.webm">
+				<picture>
+        <source srcset="../img/240707_fatal_relief.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/240707_fatal_relief.jpg"
+          alt="Fatal Relief video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>Fatal Relief&nbsp;<a href="/videos/240707_fatal_relief/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>&#39;s second Direct-to-Video 48-hour film festival. Winner for Best Technical Elements.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>5m51s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2024-07-07">July 7, 2024</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240707_fatal_relief.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240707_fatal_relief.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 56.25%; padding-left: 15%;">
+	<div
+		class="container"
+		style="padding-top: 100%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.webm">
+				<picture>
+        <source srcset="../img/240604_same_portals_as_yesterday.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/240604_same_portals_as_yesterday.jpg"
+          alt="Same portals as yesterday video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>Same portals as yesterday&nbsp;<a href="/videos/240604_same_portals_as_yesterday/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>microcosmic landscapes portal</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>1m42s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>1080&nbsp;x&nbsp;1080px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2024-06-04">June 4, 2024</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240604_same_portals_as_yesterday.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240604_same_portals_as_yesterday.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 42.1875%; padding-left: 40%;">
+	<div
+		class="container"
+		style="padding-top: 133.33333333333331%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.webm">
+				<picture>
+        <source srcset="../img/240303_nearer_mother_sun.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/240303_nearer_mother_sun.jpg"
+          alt="nearer mother sun video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>nearer mother sun&nbsp;<a href="/videos/240303_nearer_mother_sun/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>inside a shape, but open to salvation. don&#39;t tell.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>2m24s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>720&nbsp;x&nbsp;960px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2024-03-03">March 3, 2024</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/240303_nearer_mother_sun.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/240303_nearer_mother_sun.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 5%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.webm">
+				<picture>
+        <source srcset="../img/230809_stereosylvia.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/230809_stereosylvia.jpg"
+          alt="stereosylvia video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>stereosylvia&nbsp;<a href="/videos/230809_stereosylvia/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>a favorite tree</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>58s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2023-08-09">August 9, 2023</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230809_stereosylvia.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230809_stereosylvia.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 56.25%; padding-left: 20%;">
+	<div
+		class="container"
+		style="padding-top: 100%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.webm">
+				<picture>
+        <source srcset="../img/230621_the_reaching_rock.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/230621_the_reaching_rock.jpg"
+          alt="the reaching rock video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>the reaching rock&nbsp;<a href="/videos/230621_the_reaching_rock/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		
+
+		<p class="specs">
+			<strong>DURATION: </strong>35s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;2160px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2023-06-21">June 21, 2023</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230621_the_reaching_rock.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230621_the_reaching_rock.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 100%; padding-left: 0%;">
+	<div
+		class="container"
+		style="padding-top: 56.25%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.webm">
+				<picture>
+        <source srcset="../img/230613_they_watched_me_through_the_leaves.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/230613_they_watched_me_through_the_leaves.jpg"
+          alt="they watched me through the leaves video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>they watched me through the leaves&nbsp;<a href="/videos/230613_they_watched_me_through_the_leaves/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>Entry in <a href="https://moviemadness.org/">Movie Madness</a>&#39;s first Direct-to-Video 48-hour film festival.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>4m56s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>1920&nbsp;x&nbsp;1080px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2023-06-13">June 13, 2023</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230613_they_watched_me_through_the_leaves.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230613_they_watched_me_through_the_leaves.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 20%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.webm">
+				<picture>
+        <source srcset="../img/230605_canopy_triptych.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/230605_canopy_triptych.jpg"
+          alt="canopy triptych video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>canopy triptych&nbsp;<a href="/videos/230605_canopy_triptych/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		
+
+		<p class="specs">
+			<strong>DURATION: </strong>25s at 24fps
+			<br>
+			<strong>RESOLUTION: </strong>1080&nbsp;x&nbsp;1920px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2023-06-05">June 5, 2023</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230605_canopy_triptych.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230605_canopy_triptych.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 60%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.webm">
+				<picture>
+        <source srcset="../img/230525_millefiori.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/230525_millefiori.jpg"
+          alt="millefiori video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>millefiori&nbsp;<a href="/videos/230525_millefiori/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>a springful of flowers, an invocation, a feeling of living i will never lose.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>59s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>4608&nbsp;x&nbsp;8192px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2023-05-25">May 25, 2023</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/230525_millefiori.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/230525_millefiori.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 13%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.webm">
+				<picture>
+        <source srcset="../img/221003_orange_sky.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/221003_orange_sky.jpg"
+          alt="orange sky video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>orange sky&nbsp;<a href="/videos/221003_orange_sky/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>A simple idiom says to stay alert to dangers of the front acre. But a quiet devastation seeks our silence. Even fear will not save us.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>49s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>1215&nbsp;x&nbsp;2160px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-10-02">October 2, 2022</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/221003_orange_sky.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/221003_orange_sky.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 26%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.webm">
+				<picture>
+        <source srcset="../img/220926_bridges_too_near.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220926_bridges_too_near.jpg"
+          alt="bridges to near video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>bridges to near&nbsp;<a href="/videos/220926_bridges_too_near/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>A bridge too near their obligation to perform any function of consonance, the smallest pieces can claim their own shoulders and sideways when the river runs deadly deep.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>50s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-09-26">September 26, 2022</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220926_bridges_too_near.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220926_bridges_too_near.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 39%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.webm">
+				<picture>
+        <source srcset="../img/220919_the_wind_that_night.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220919_the_wind_that_night.jpg"
+          alt="the wind that night video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>the wind that night&nbsp;<a href="/videos/220919_the_wind_that_night/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>The wind that night was a sight that would not leave the sparrow to a fate of real sadness. It passed and passed the trees to the real safety of park stairs and yellows.</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>49s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-09-19">September 19, 2022</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220919_the_wind_that_night.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 52%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.webm">
+				<picture>
+        <source srcset="../img/220912_a_cylinder_seal_of_summer.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220912_a_cylinder_seal_of_summer.jpg"
+          alt="a cylinder seal of summer video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>a cylinder seal of summer&nbsp;<a href="/videos/220912_a_cylinder_seal_of_summer/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		
+
+		<p class="specs">
+			<strong>DURATION: </strong>1m at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2160&nbsp;x&nbsp;3840px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-09-12">September 12, 2022</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220912_a_cylinder_seal_of_summer.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220912_a_cylinder_seal_of_summer.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 31.640625%; padding-left: 65%;">
+	<div
+		class="container"
+		style="padding-top: 177.77777777777777%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.webm">
+				<picture>
+        <source srcset="../img/220901_in_the_meadow.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220901_in_the_meadow.jpg"
+          alt="in the meadow video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>in the meadow&nbsp;<a href="/videos/220901_in_the_meadow/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>i saw a sign of the past but a feeling would not hold and the wicked did not fear me</p>
+
+
+		<p class="specs">
+			<strong>DURATION: </strong>29s at 50fps
+			<br>
+			<strong>RESOLUTION: </strong>1215&nbsp;x&nbsp;2160px
+			<br>
+			<strong>CAMERA: </strong>iPhone 13 Mini
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-09-01">September 1, 2022</time>
+		</p>
+
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220901_in_the_meadow.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220901_in_the_meadow.mov" target="_blank">lossless</a>
+      </p>
+	</div>
+
+</article>
+<article
+	class="top-space"
+	style="width: 75%; padding-left: 5%;">
+	<div
+		class="container"
+		style="padding-top: 75%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.webm">
+				<picture>
+        <source srcset="../img/220515_behind_the_sky.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220515_behind_the_sky.jpg"
+          alt="behind the sky video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
+
+	<div class="content">
+
+		<h2>behind the sky&nbsp;<a href="/videos/220515_behind_the_sky/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
+
+		<p>Clouds painted by sound.</p>
 <p>Nominee for <em>Best Experimental Short</em> at <a href="https://pdxfestofcinema.com/">PFCAT</a>.</p>
 
 
-			<p class="specs">
-				<strong>DURATION: </strong>4m44s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2880&nbsp;x&nbsp;2160px
-				<br>
-				<strong>CAMERA: </strong>Sony a6300
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-05-15">May 15, 2022</time>
-			</p>
+		<p class="specs">
+			<strong>DURATION: </strong>4m44s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2880&nbsp;x&nbsp;2160px
+			<br>
+			<strong>CAMERA: </strong>Sony a6300
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-05-15">May 15, 2022</time>
+		</p>
 
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220515_behind_the_sky.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220515_behind_the_sky.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220515_behind_the_sky.mov" target="_blank">lossless</a>
+      </p>
+	</div>
 
-	</article>
+</article>
+<article
+	class="top-space"
+	style="width: 75%; padding-left: 20%;">
+	<div
+		class="container"
+		style="padding-top: 75%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.webm">
+				<picture>
+        <source srcset="../img/220326_leaving_it_behind.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220326_leaving_it_behind.jpg"
+          alt="leaving it behind video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
 
-	<a id="220326_leaving_it_behind"></a>
-	<article
-    	class="top-space"
-  		style="width: 75%; padding-left: 20%;">
-		<div
-    		class="container"
-            style="padding-top: 75%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220326_leaving_it_behind.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220326_leaving_it_behind.jpg"
-								alt="leaving it behind video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
+	<div class="content">
 
-		<div class="content">
+		<h2>leaving it behind&nbsp;<a href="/videos/220326_leaving_it_behind/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
 
-			<h2>leaving it behind&nbsp;<a href="#220326_leaving_it_behind" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>in the springtime of my life a river sounds</p>
+		<p>in the springtime of my life a river sounds</p>
 <p>Screened at <a href="https://www.boathousemicrocinema.com/mar-12-2025/">Boathouse Microcinema on March 12, 2025</a>.</p>
 
 
-			<p class="specs">
-				<strong>DURATION: </strong>9m at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>1440&nbsp;x&nbsp;1080px
-				<br>
-				<strong>CAMERA: </strong>Sony a6300
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-03-26">March 26, 2022</time>
-			</p>
+		<p class="specs">
+			<strong>DURATION: </strong>9m at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>1440&nbsp;x&nbsp;1080px
+			<br>
+			<strong>CAMERA: </strong>Sony a6300
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-03-26">March 26, 2022</time>
+		</p>
 
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220326_leaving_it_behind.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220326_leaving_it_behind.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220326_leaving_it_behind.mov" target="_blank">lossless</a>
+      </p>
+	</div>
 
-	</article>
+</article>
+<article
+	class="top-space"
+	style="width: 75%; padding-left: 0%;">
+	<div
+		class="container"
+		style="padding-top: 75%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.webm">
+				<picture>
+        <source srcset="../img/220108_night_calls.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/220108_night_calls.jpg"
+          alt="Night Calls video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
 
-	<a id="220108_night_calls"></a>
-	<article
-    	class="top-space"
-  		style="width: 75%; padding-left: 0%;">
-		<div
-    		class="container"
-            style="padding-top: 75%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/220108_night_calls.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/220108_night_calls.jpg"
-								alt="Night Calls video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
+	<div class="content">
 
-		<div class="content">
+		<h2>Night Calls&nbsp;<a href="/videos/220108_night_calls/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
 
-			<h2>Night Calls&nbsp;<a href="#220108_night_calls" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>wandering like a whisper of light</p>
+		<p>wandering like a whisper of light</p>
 
 
-			<p class="specs">
-				<strong>DURATION: </strong>3m10s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>2880&nbsp;x&nbsp;2160px
-				<br>
-				<strong>CAMERA: </strong>Sony a6300
-				<br>
-			    <strong>DATE: </strong><time datetime="2022-01-08">January 08, 2022</time>
-			</p>
+		<p class="specs">
+			<strong>DURATION: </strong>3m10s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>2880&nbsp;x&nbsp;2160px
+			<br>
+			<strong>CAMERA: </strong>Sony a6300
+			<br>
+		    <strong>DATE: </strong><time datetime="2022-01-08">January 8, 2022</time>
+		</p>
 
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220108_night_calls.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220108_night_calls.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/220108_night_calls.mov" target="_blank">lossless</a>
+      </p>
+	</div>
 
-	</article>
+</article>
+<article
+	class="top-space"
+	style="width: 75%; padding-left: 10%;">
+	<div
+		class="container"
+		style="padding-top: 75%;">
+		<div class="media">
+		    <a
+				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.mp4"
+					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.webm">
+				<picture>
+        <source srcset="../img/210516_diluvian_daydream.webp" type="image/webp" />
+        <img
+          fetchpriority="auto"
+          loading="lazy"
+          src="../img/210516_diluvian_daydream.jpg"
+          alt="diluvian daydream video cover" />
+      </picture>
+            </a>
+	    </div>
+	</div>
 
-	<a id="210516_diluvian_daydream"></a>
-	<article
-    	class="top-space"
-  		style="width: 75%; padding-left: 10%;">
-		<div
-    		class="container"
-            style="padding-top: 75%;">
-			<div class="media">
-			    <a
-					
-    					href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.mp4"
-    					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.webm"
-					>
-					
-						<picture>
-							<source srcset="../img/210516_diluvian_daydream.webp" type="image/webp" />
-							<img
-								fetchpriority="auto"
-								loading="lazy"
-								src="../img/210516_diluvian_daydream.jpg"
-								alt="diluvian daydream video cover" />
-						</picture>
-					
-                </a>
-		    </div>
-		</div>
+	<div class="content">
 
-		<div class="content">
+		<h2>diluvian daydream&nbsp;<a href="/videos/210516_diluvian_daydream/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
 
-			<h2>diluvian daydream&nbsp;<a href="#210516_diluvian_daydream" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
-
-			<p>sunken wonders at the diluvian end</p>
+		<p>sunken wonders at the diluvian end</p>
 <p><em>music by Robert Schumann</em></p>
 
 
-			<p class="specs">
-				<strong>DURATION: </strong>3m23s at 60fps
-				<br>
-				<strong>RESOLUTION: </strong>960&nbsp;x&nbsp;720px
-				<br>
-				<strong>CAMERA: </strong>Sony Handycam CX405
-				<br>
-			    <strong>DATE: </strong><time datetime="2021-05-16">May 16, 2021</time>
-			</p>
+		<p class="specs">
+			<strong>DURATION: </strong>3m23s at 60fps
+			<br>
+			<strong>RESOLUTION: </strong>960&nbsp;x&nbsp;720px
+			<br>
+			<strong>CAMERA: </strong>Sony Handycam CX405
+			<br>
+		    <strong>DATE: </strong><time datetime="2021-05-16">May 16, 2021</time>
+		</p>
 
-		    
-		    <p class="download">
-			    <span aria-label="Download">&#128190;</span>
-				<a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.mp4" target="_blank">lossy</a>
-				or
-				<a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/210516_diluvian_daydream.mov" target="_blank">lossless</a>
-		    </p>
-		    
-		</div>
+	    <p class="download">
+        <span aria-label="Download">&#128190;</span>
+        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/210516_diluvian_daydream.mp4" target="_blank">lossy</a>
+        or
+        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/Projects%2FFilmography%2FMasters/210516_diluvian_daydream.mov" target="_blank">lossless</a>
+      </p>
+	</div>
 
-	</article>
-
+</article>
 
 <section class="top-space">
     Earlier work can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.
 </section>
 
 <script src="../js/videos.js"></script>
-
 </main>
 
 <footer class="top-space">
-	<a href="https://potato.cheap/" target="_blank" aria-label="Potato" title="This website is a potato.">&#129364;</a>
+	<a href="https://potato.cheap/" target="_blank">
+    <span id="potato">&#129364;</span>
+    This website is a potato
+  </a>
+  <br/>
+  <a href="https://creativecommons.org/public-domain/cc0/" target="_blank">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15px" height="15px" viewBox="-0.5 0.5 64 64" xml:space="preserve">
+      <path d="M31.5,14.08c-10.565,0-13.222,9.969-13.222,18.42c0,8.452,2.656,18.42,13.222,18.42   c10.564,0,13.221-9.968,13.221-18.42C44.721,24.049,42.064,14.08,31.5,14.08z M31.5,21.026c0.429,0,0.82,0.066,1.188,0.157   c0.761,0.656,1.133,1.561,0.403,2.823l-7.036,12.93c-0.216-1.636-0.247-3.24-0.247-4.437C25.808,28.777,26.066,21.026,31.5,21.026z    M36.766,26.987c0.373,1.984,0.426,4.056,0.426,5.513c0,3.723-0.258,11.475-5.69,11.475c-0.428,0-0.822-0.045-1.188-0.136   c-0.07-0.021-0.134-0.043-0.202-0.067c-0.112-0.032-0.23-0.068-0.336-0.11c-1.21-0.515-1.972-1.446-0.874-3.093L36.766,26.987z"/>
+      <path d="M31.433,0.5c-8.877,0-16.359,3.09-22.454,9.3c-3.087,3.087-5.443,6.607-7.082,10.532   C0.297,24.219-0.5,28.271-0.5,32.5c0,4.268,0.797,8.32,2.397,12.168c1.6,3.85,3.921,7.312,6.969,10.396   c3.085,3.049,6.549,5.399,10.398,7.037c3.886,1.602,7.939,2.398,12.169,2.398c4.229,0,8.34-0.826,12.303-2.465   c3.962-1.639,7.496-3.994,10.621-7.081c3.011-2.933,5.289-6.297,6.812-10.106C62.73,41,63.5,36.883,63.5,32.5   c0-4.343-0.77-8.454-2.33-12.303c-1.562-3.885-3.848-7.32-6.857-10.33C48.025,3.619,40.385,0.5,31.433,0.5z M31.567,6.259   c7.238,0,13.412,2.566,18.554,7.709c2.477,2.477,4.375,5.31,5.67,8.471c1.296,3.162,1.949,6.518,1.949,10.061   c0,7.354-2.516,13.454-7.506,18.33c-2.592,2.516-5.502,4.447-8.74,5.781c-3.2,1.334-6.498,1.994-9.927,1.994   c-3.468,0-6.788-0.653-9.949-1.948c-3.163-1.334-6.001-3.238-8.516-5.716c-2.515-2.514-4.455-5.353-5.826-8.516   c-1.333-3.199-2.017-6.498-2.017-9.927c0-3.467,0.684-6.787,2.017-9.949c1.371-3.2,3.312-6.074,5.826-8.628   C18.092,8.818,24.252,6.259,31.567,6.259z"/>
+    </svg>
+    Uncopyright
+  </a>
+  2025 Matthew Nash
 </footer>
-
+</div>
 
 		<script data-goatcounter="https://nashingofteeth.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
