@@ -1,11 +1,18 @@
-name: Build Site
+name: Build and Deploy
 on:
   push:
     branches:
       - main
 
+env:
+  FORCE_COLOR: 1
+
+concurrency: # prevent concurrent deploys doing strange things
+  group: deploy-site
+  cancel-in-progress: true
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +27,8 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Deploy
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -28,3 +36,12 @@ jobs:
           publish_dir: dist
           # publish_branch is the branch in the repository for GitHub Pages
           publish_branch: gh-pages
+
+      - name: Deploy to Neocities
+        uses: bcomnes/deploy-to-neocities@v2
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_TOKEN }}
+          cleanup: true
+          dist_dir: dist
+          neocities_supporter: false # set to true if you have a supporter account
+          preview_before_deploy: false
