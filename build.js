@@ -8,6 +8,7 @@ const matter = require("gray-matter");
 // Import templates
 const homeTemplate = require("./templates/home.js");
 const videosTemplate = require("./templates/videos.js");
+const videoSingleTemplate = require("./templates/video-single.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
 
@@ -122,6 +123,12 @@ async function build() {
   // Videos page
   const videosHtml = videosTemplate(videos);
   writeHtml("videos/index.html", videosHtml);
+
+  // Individual video pages
+  for (const video of videos) {
+    const videoHtml = videoSingleTemplate(video);
+    writeHtml(`videos/${video.slug}/index.html`, videoHtml);
+  }
 
   // Tools page
   const toolsHtml = toolsTemplate();

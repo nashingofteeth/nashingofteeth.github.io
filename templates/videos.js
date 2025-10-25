@@ -51,8 +51,7 @@ function videos(videoCollection) {
         </p>`
         : "";
 
-      return `<a id="${video.slug}"></a>
-	<article
+      return `<article
     	class="top-space"
   		style="width: ${containerWidth}%; padding-left: ${video.margin_left}%;">
 		<div
@@ -74,7 +73,7 @@ function videos(videoCollection) {
 
 		<div class="content">
 
-			<h2>${video.title}&nbsp;<a href="#${video.slug}" class="bookmark" aria-label="Jumping to this video" title="Jumping to this video">&#128279;</a></h2>
+			<h2>${video.title}&nbsp;<a href="/videos/${video.slug}/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a></h2>
 
 			${video.content}
 
