@@ -1,10 +1,12 @@
 const base = require("./base.js");
 const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
+const loadJs = require("./partials/js-loader.js");
 const videoArticle = require("./partials/video-article.js");
 
 function videos(videoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "videos.css");
+  const combinedJs = loadJs("public/js/videos.js");
 
   // Sort videos newest first
   const sortedVideos = [...videoCollection].sort(
@@ -27,12 +29,16 @@ ${videosHtml}
 
 <section class="top-space">
     Earlier work can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.
-</section>
-
-<script src="../js/videos.js"></script>`;
+</section>`;
 
   const pageContent = page(mainContent, "&#128249;&nbsp;VIDEOS");
-  return base(pageContent, "videos - matthew nash", null, combinedCss);
+  return base(
+    pageContent,
+    "videos - matthew nash",
+    null,
+    combinedCss,
+    combinedJs,
+  );
 }
 
 module.exports = videos;

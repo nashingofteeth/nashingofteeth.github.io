@@ -1,6 +1,6 @@
 const metadata = require("../src/_data/metadata.js");
 
-function base(content, title, description, css) {
+function base(content, title, description, css = null, js = null) {
   return `<!--
 This website is a potato (https://potato.cheap/).
 Built with custom Node.js static site generator.
@@ -35,9 +35,12 @@ Media hosted by Storj (https://storj.io/).
 	<body>
 		${content}
 
-		<script data-goatcounter="https://nashingofteeth.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-	</body>
+		<script 
+      data-goatcounter="https://nashingofteeth.goatcounter.com/count" 
+      async src="//gc.zgo.at/count.js"
+    ></script>
+${js ? `    <script>${js}</script>\n` : ""}	
+  </body>
 </html>`;
 }
 
