@@ -1,11 +1,8 @@
 const base = require("./base.js");
-const fs = require("fs");
-const path = require("path");
+const loadCss = require("./partials/css-loader.js");
 
 function notFound() {
-  const baseCss = fs.readFileSync(path.join(__dirname, "base.css"), "utf8");
-  const notFoundCss = fs.readFileSync(path.join(__dirname, "404.css"), "utf8");
-  const combinedCss = baseCss + "\n" + notFoundCss;
+  const combinedCss = loadCss("base.css", "404.css");
 
   const content = `<img src="../img/404.jpg"/>
 <p><em>You 404'ed it, silly goose.</em></p>`;
