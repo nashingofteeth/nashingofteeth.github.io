@@ -7,7 +7,7 @@ const videoArticle = require("./partials/video-article.js");
 
 function videoSingle(video) {
   const combinedCss = loadCss("base.css", "page.css", "video-single.css");
-  const combinedJs = loadJs("public/js/videos.js");
+  const combinedJs = loadJs("videos.js");
 
   const pageContent = `<div class="page-wrapper">
 ${header(null, true)}

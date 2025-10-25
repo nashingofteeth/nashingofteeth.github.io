@@ -6,7 +6,7 @@ const videoArticle = require("./partials/video-article.js");
 
 function videos(videoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "videos.css");
-  const combinedJs = loadJs("public/js/videos.js");
+  const combinedJs = loadJs("videos.js");
 
   // Sort videos newest first
   const sortedVideos = [...videoCollection].sort(
