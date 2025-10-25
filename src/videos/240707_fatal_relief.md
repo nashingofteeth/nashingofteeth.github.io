@@ -6,7 +6,6 @@ height: 1080
 runtime: 5m51s
 frame_rate: 24
 camera: Sony Handycam CX405
-permalink: false
 margin_left: 0
 ---
 

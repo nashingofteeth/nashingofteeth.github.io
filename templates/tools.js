@@ -1,23 +1,11 @@
----
-layout: layouts/page.njk
-title: tool shed - matthew nash
-heading: "TOOLS&nbsp;&#129520;"
----
-{%- css %}
-body {
-	background-color: AntiqueWhite;
-	color: Maroon;
-}
-a {
-    color: SaddleBrown;
-    text-shadow: Red 0.8px 0px;
-}
-a:active {
-    color: Red;
-}
-{% endcss %}
+const base = require("./base.js");
+const page = require("./page.js");
+const loadCss = require("./partials/css-loader.js");
 
-<article>
+function tools() {
+  const combinedCss = loadCss("base.css", "page.css", "tools.css");
+
+  const mainContent = `<article>
 	<p><a href="https://github.com/nashingofteeth/sequitur">video sequencer</a></p>
 	<p><a href="/ratio">aspect ratio calculator</a></p>
 	<p><a href="/sand">html editor</a></p>
@@ -28,4 +16,10 @@ a:active {
 	<p><a href="/unicode">ascii -> unicode</a></p>
 	<p><a href="/charShuff">word shuffler</a></p>
 	<p><a href="/charPerms">word permuter</a></p>
-</article>
+</article>`;
+
+  const pageContent = page(mainContent, "TOOLS&nbsp;&#129520;");
+  return base(pageContent, "tool shed - matthew nash", null, combinedCss);
+}
+
+module.exports = tools;

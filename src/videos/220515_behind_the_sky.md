@@ -6,7 +6,6 @@ height: 2160
 runtime: 4m44s
 frame_rate: 60
 camera: Sony a6300
-permalink: false
 margin_left: 5
 ---
 Clouds painted by sound.

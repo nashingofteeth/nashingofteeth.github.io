@@ -6,6 +6,5 @@ height: 3840
 runtime: 1m
 frame_rate: 60
 camera: iPhone 13 Mini
-permalink: false
 margin_left: 52
 ---
