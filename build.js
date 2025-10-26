@@ -151,6 +151,23 @@ async function build() {
     console.log("  ✓ public/ → dist/");
   }
 
+  // Copy tools directory contents to dist root
+  const toolsDir = "tools";
+  if (fs.existsSync(toolsDir)) {
+    const toolFiles = fs.readdirSync(toolsDir, { withFileTypes: true });
+    for (const entry of toolFiles) {
+      const srcPath = path.join(toolsDir, entry.name);
+      const destPath = path.join(DIST_DIR, entry.name);
+
+      if (entry.isDirectory()) {
+        copyDir(srcPath, destPath);
+      } else {
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+    console.log("  ✓ tools/ → dist/");
+  }
+
   console.log("\n✨ Build complete! Output in dist/\n");
 }
 
