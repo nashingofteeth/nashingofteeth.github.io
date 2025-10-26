@@ -18,9 +18,6 @@ Media hosted by Storj (https://storj.io/).
 
 		<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 
-		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="${metadata.title}">
-		<link rel="alternate" href="/feed/feed.json" type="application/json" title="${metadata.title}">
-
 		<style>${css}</style>
 	</head>
 	<body>
