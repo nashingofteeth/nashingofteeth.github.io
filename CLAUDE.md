@@ -84,7 +84,9 @@ atlas/
 - **Watch script:** Added `npm run watch` for automatic rebuilds during development
 - **Asset organization:** CSS and static assets moved to cleaner structure
   - Template CSS files in `templates/` directory alongside their templates
-  - Static assets (images, tools) in `public/` folder
+  - Static assets (images, JS) in `public/` folder
+  - Tools directory at repository root (copied to `dist/` root for correct links)
+- **Tools deployment:** Tool HTML files (ratio.html, color.html, etc.) copied to `dist/` root, matching URL structure in tools page
 - **Google Analytics removed:** Now uses only GoatCounter for privacy-focused analytics
 
 ### Template System - Partials Architecture
@@ -280,9 +282,14 @@ npm start            # Build + serve at localhost:8080
 2. Setup Node.js (latest)
 3. Install dependencies (`npm install`)
 4. Build site (`npm run build`)
-5. Deploy to `gh-pages` branch
+5. Deploy to `gh-pages` branch (GitHub Pages)
+6. Deploy to Neocities (with cleanup enabled)
 
 **Live site updates:** Automatic (1-2 minutes after push)
+
+**Deployment targets:**
+- **GitHub Pages:** Primary hosting at nash.video
+- **Neocities:** Secondary/mirror hosting
 
 ### Custom Domain
 
@@ -305,7 +312,7 @@ The main build script performs these steps:
    - Individual video pages (`videos/[slug]/index.html` for each video)
    - Tools page (`tools/index.html`)
    - 404 page (`404.html`)
-5. **Copy assets** - Copies `public/`, `tools/`, `CNAME`, `.htaccess` to `dist/`
+5. **Copy assets** - Copies `public/` contents to `dist/`, then copies `tools/` contents to `dist/` root (for correct URL routing)
 
 ### Helper Functions (`templates/utils.js`)
 
@@ -329,10 +336,10 @@ The main build script performs these steps:
 
 ### Files Copied to dist/
 
-- `public/` → `/` (images, JavaScript)
-- `tools/` → `/` (utility web apps)
-- `.htaccess` → root
-- `CNAME` → root
+- `public/` contents → `dist/` (images, JavaScript, .htaccess, CNAME)
+- `tools/` contents → `dist/` root (utility web apps: ratio.html, color.html, unicode.html, etc.)
+  - Tools must be at root level to match URL structure in tools page (/ratio, /color, etc.)
+  - Subdirectories like `mt/` are preserved
 
 ## Code Formatting Conventions
 
