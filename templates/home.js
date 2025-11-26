@@ -14,6 +14,7 @@ function home() {
 <nav>
     <p>
         <a href="videos">&#128249;&nbsp;videos</a>
+        <a href="plants">&#127793;&nbsp;plants</a>
         <a href="tools">&#128295;&nbsp;tools</a>
     </p>
 </nav>
