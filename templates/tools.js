@@ -19,7 +19,7 @@ function tools() {
 </article>`;
 
   const pageContent = page(mainContent, "TOOLS&nbsp;&#129520;");
-  return base(pageContent, "tool shed - matthew nash", null, combinedCss);
+  return base(pageContent, "tool - matthew nash", null, combinedCss);
 }
 
 module.exports = tools;
