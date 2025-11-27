@@ -1,5 +1,5 @@
 {
-  "generated": "2025-11-27T02:31:06.248Z",
+  "generated": "2025-11-27T02:55:58.932Z",
   "totalPlants": 695,
   "taxonomy": [
     {
@@ -381,24 +381,22 @@
                                     {
                                       "name": "Daucus",
                                       "file": null,
-                                      "otherFiles": [
-                                        {
-                                          "fileName": "Daucus carota",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Daucus_carota",
-                                          "aliases": [
-                                            "bird's nest",
-                                            "bishop's lace",
-                                            "carrot flower",
-                                            "European wild carrot",
-                                            "Queen Anne's lace",
-                                            "wild carrot"
-                                          ]
-                                        }
-                                      ],
+                                      "otherFiles": [],
                                       "children": [
                                         {
-                                          "name": "Carota",
-                                          "file": null,
+                                          "name": "Daucus carota",
+                                          "file": {
+                                            "fileName": "Daucus carota",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Daucus_carota",
+                                            "aliases": [
+                                              "bird's nest",
+                                              "bishop's lace",
+                                              "carrot flower",
+                                              "European wild carrot",
+                                              "Queen Anne's lace",
+                                              "wild carrot"
+                                            ]
+                                          },
                                           "otherFiles": [
                                             {
                                               "fileName": "carrot",
@@ -784,20 +782,18 @@
                                     {
                                       "name": "Cynara",
                                       "file": null,
-                                      "otherFiles": [
-                                        {
-                                          "fileName": "Cynara cardunculus",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Cardoon",
-                                          "aliases": [
-                                            "artichoke thistle",
-                                            "cardoon"
-                                          ]
-                                        }
-                                      ],
+                                      "otherFiles": [],
                                       "children": [
                                         {
-                                          "name": "Cardunculus",
-                                          "file": null,
+                                          "name": "Cynara cardunculus",
+                                          "file": {
+                                            "fileName": "Cynara cardunculus",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Cardoon",
+                                            "aliases": [
+                                              "artichoke thistle",
+                                              "cardoon"
+                                            ]
+                                          },
                                           "otherFiles": [
                                             {
                                               "fileName": "Cynara cardunculus var. scolymus",
@@ -3076,6 +3072,17 @@
                                   },
                                   "otherFiles": [
                                     {
+                                      "fileName": "Platanus × hispanica",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/London_plane",
+                                      "aliases": [
+                                        "hybrid plane",
+                                        "London plane",
+                                        "London planetree",
+                                        "Platanus × acerifolia",
+                                        "Platanus acerifolia"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Platanus occidentalis",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Platanus_occidentalis",
                                       "aliases": [
@@ -3093,17 +3100,6 @@
                                       "wikipedia": "https://en.wikipedia.org/wiki/Platanus_orientalis",
                                       "aliases": [
                                         "Oriental plane"
-                                      ]
-                                    },
-                                    {
-                                      "fileName": "Platanus × hispanica",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/London_plane",
-                                      "aliases": [
-                                        "hybrid plane",
-                                        "London plane",
-                                        "London planetree",
-                                        "Platanus × acerifolia",
-                                        "Platanus acerifolia"
                                       ]
                                     }
                                   ],
@@ -3490,50 +3486,30 @@
                                             "Oriental mustard",
                                             "vegetable mustard"
                                           ]
-                                        },
-                                        {
-                                          "fileName": "Brassica oleracea",
-                                          "wikipedia": null,
-                                          "aliases": [
-                                            "wild cabbage"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Brassica rapa",
-                                          "wikipedia": null,
-                                          "aliases": [
-                                            "bird's rape",
-                                            "field mustard",
-                                            "keblock",
-                                            "turnip rape"
-                                          ]
                                         }
                                       ],
                                       "children": [
                                         {
-                                          "name": "Oleracea",
-                                          "file": null,
+                                          "name": "Brassica oleracea",
+                                          "file": {
+                                            "fileName": "Brassica oleracea",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Brassica_oleracea",
+                                            "aliases": [
+                                              "wild cabbage"
+                                            ]
+                                          },
                                           "otherFiles": [
-                                            {
-                                              "fileName": "Brussels sprout",
-                                              "wikipedia": null,
-                                              "aliases": []
-                                            },
-                                            {
-                                              "fileName": "Romanesco broccoli",
-                                              "wikipedia": "https://en.wikipedia.org/wiki/Romanesco_broccoli",
-                                              "aliases": [
-                                                "broccolo romanesco",
-                                                "romanesco",
-                                                "romanesque cauliflower"
-                                              ]
-                                            },
                                             {
                                               "fileName": "broccoli",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Broccoli",
                                               "aliases": [
                                                 "🥦"
                                               ]
+                                            },
+                                            {
+                                              "fileName": "Brussels sprout",
+                                              "wikipedia": null,
+                                              "aliases": []
                                             },
                                             {
                                               "fileName": "cauliflower",
@@ -3548,13 +3524,31 @@
                                                 "Chinese kale",
                                                 "kai-lan"
                                               ]
+                                            },
+                                            {
+                                              "fileName": "Romanesco broccoli",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Romanesco_broccoli",
+                                              "aliases": [
+                                                "broccolo romanesco",
+                                                "romanesco",
+                                                "romanesque cauliflower"
+                                              ]
                                             }
                                           ],
                                           "children": []
                                         },
                                         {
-                                          "name": "Rapa",
-                                          "file": null,
+                                          "name": "Brassica rapa",
+                                          "file": {
+                                            "fileName": "Brassica rapa",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Brassica_rapa",
+                                            "aliases": [
+                                              "bird's rape",
+                                              "field mustard",
+                                              "keblock",
+                                              "turnip rape"
+                                            ]
+                                          },
                                           "otherFiles": [
                                             {
                                               "fileName": "bok choy",
@@ -4862,6 +4856,13 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Geranium × oxonianum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Geranium_%C3%97_oxonianum",
+                                          "aliases": [
+                                            "Oxford geranium"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Geranium macrorrhizum",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Geranium_macrorrhizum",
                                           "aliases": [
@@ -4891,13 +4892,6 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Geranium_purpureum",
                                           "aliases": [
                                             "little-robin"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Geranium × oxonianum",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Geranium_%C3%97_oxonianum",
-                                          "aliases": [
-                                            "Oxford geranium"
                                           ]
                                         }
                                       ],
@@ -4939,6 +4933,13 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Euphorbia × martini",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Euphorbia_%C3%97_martini",
+                                          "aliases": [
+                                            "Martin's spurge"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Euphorbia characias",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Euphorbia_characias",
                                           "aliases": [
@@ -4960,13 +4961,6 @@
                                           "aliases": [
                                             "gopher spurge",
                                             "upright myrtle spurge"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Euphorbia × martini",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Euphorbia_%C3%97_martini",
-                                          "aliases": [
-                                            "Martin's spurge"
                                           ]
                                         }
                                       ],
@@ -5439,6 +5433,20 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Tilia × euchlora",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Tilia_%C3%97_euchlora",
+                                          "aliases": []
+                                        },
+                                        {
+                                          "fileName": "Tilia × europaea",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Tilia_%C3%97_europaea",
+                                          "aliases": [
+                                            "common lime",
+                                            "common linden",
+                                            "European lime"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Tilia cordata",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Tilia_cordata",
                                           "aliases": [
@@ -5465,20 +5473,6 @@
                                           "aliases": [
                                             "silver lime",
                                             "silver linden"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Tilia × euchlora",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Tilia_%C3%97_euchlora",
-                                          "aliases": []
-                                        },
-                                        {
-                                          "fileName": "Tilia × europaea",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Tilia_%C3%97_europaea",
-                                          "aliases": [
-                                            "common lime",
-                                            "common linden",
-                                            "European lime"
                                           ]
                                         }
                                       ],
@@ -5661,19 +5655,19 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Fuchsia × standishii",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Fuchsia_%C3%97_standishii",
+                                          "aliases": [
+                                            "Standish's Fuchsia"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Fuchsia magellanica",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Fuchsia_magellanica",
                                           "aliases": [
                                             "chilco",
                                             "hardy fuchsia",
                                             "hummingbird fuchsia"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Fuchsia × standishii",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Fuchsia_%C3%97_standishii",
-                                          "aliases": [
-                                            "Standish's Fuchsia"
                                           ]
                                         }
                                       ],
@@ -6317,6 +6311,15 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Prunus × yedoensis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_%C3%97_yedoensis",
+                                          "aliases": [
+                                            "Cerasus × yedoensis",
+                                            "Somei-yoshino",
+                                            "Yoshino cherry"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Prunus amygdalus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Almond",
                                           "aliases": [
@@ -6388,15 +6391,6 @@
                                           "aliases": [
                                             "🌸",
                                             "Japanese cherry"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Prunus × yedoensis",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_%C3%97_yedoensis",
-                                          "aliases": [
-                                            "Cerasus × yedoensis",
-                                            "Somei-yoshino",
-                                            "Yoshino cherry"
                                           ]
                                         }
                                       ],
@@ -6901,16 +6895,6 @@
                                       },
                                       "otherFiles": [
                                         {
-                                          "fileName": "Citrus reticulata",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Mandarin_orange",
-                                          "aliases": [
-                                            "🍊",
-                                            "mandarin",
-                                            "mandarin orange",
-                                            "tangerine"
-                                          ]
-                                        },
-                                        {
                                           "fileName": "Citrus × aurantiifolia",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Key_lime",
                                           "aliases": [
@@ -6941,6 +6925,16 @@
                                           "aliases": [
                                             "orange",
                                             "sweet orange"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Citrus reticulata",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Mandarin_orange",
+                                          "aliases": [
+                                            "🍊",
+                                            "mandarin",
+                                            "mandarin orange",
+                                            "tangerine"
                                           ]
                                         }
                                       ],
@@ -6983,6 +6977,14 @@
                                         ]
                                       },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Acer × freemanii",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Acer_%C3%97_freemanii",
+                                          "aliases": [
+                                            "Freeman maple",
+                                            "Freeman's maple"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Acer campestre",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Acer_campestre",
@@ -7096,14 +7098,6 @@
                                           "aliases": [
                                             "Tatar maple",
                                             "Tatarian maple"
-                                          ]
-                                        },
-                                        {
-                                          "fileName": "Acer × freemanii",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Acer_%C3%97_freemanii",
-                                          "aliases": [
-                                            "Freeman maple",
-                                            "Freeman's maple"
                                           ]
                                         }
                                       ],
@@ -7822,6 +7816,14 @@
                                   },
                                   "otherFiles": [
                                     {
+                                      "fileName": "Magnolia × soulangeana",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_%C3%97_soulangeana",
+                                      "aliases": [
+                                        "saucer magnolia",
+                                        "tulip tree"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Magnolia acuminata",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_acuminata",
                                       "aliases": [
@@ -7882,14 +7884,6 @@
                                         "sweetbay",
                                         "sweetbay magnolia",
                                         "white bay"
-                                      ]
-                                    },
-                                    {
-                                      "fileName": "Magnolia × soulangeana",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_%C3%97_soulangeana",
-                                      "aliases": [
-                                        "saucer magnolia",
-                                        "tulip tree"
                                       ]
                                     }
                                   ],
@@ -8380,6 +8374,14 @@
                               "file": null,
                               "otherFiles": [
                                 {
+                                  "fileName": "Iris × germanica",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Iris_%C3%97_germanica",
+                                  "aliases": [
+                                    "bearded iris",
+                                    "German bearded iris"
+                                  ]
+                                },
+                                {
                                   "fileName": "Iris douglasiana",
                                   "wikipedia": null,
                                   "aliases": [
@@ -8411,14 +8413,6 @@
                                     "flag",
                                     "Oregon iris",
                                     "tough-leaved iris"
-                                  ]
-                                },
-                                {
-                                  "fileName": "Iris × germanica",
-                                  "wikipedia": "https://en.wikipedia.org/wiki/Iris_%C3%97_germanica",
-                                  "aliases": [
-                                    "bearded iris",
-                                    "German bearded iris"
                                   ]
                                 }
                               ],
@@ -9218,6 +9212,16 @@
                               },
                               "otherFiles": [
                                 {
+                                  "fileName": "Cupressus × leylandii",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Leyland_cypress",
+                                  "aliases": [
+                                    "× Cupressocyparis leylandii",
+                                    "× Cuprocyparis leylandii",
+                                    "Leyland cypress",
+                                    "leylandii"
+                                  ]
+                                },
+                                {
                                   "fileName": "Cupressus dupreziana",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Cupressus_dupreziana",
                                   "aliases": [
@@ -9233,16 +9237,6 @@
                                     "Mediterranean cypress",
                                     "Persian cypress",
                                     "Tuscan cypress"
-                                  ]
-                                },
-                                {
-                                  "fileName": "Cupressus × leylandii",
-                                  "wikipedia": "https://en.wikipedia.org/wiki/Leyland_cypress",
-                                  "aliases": [
-                                    "× Cupressocyparis leylandii",
-                                    "× Cuprocyparis leylandii",
-                                    "Leyland cypress",
-                                    "leylandii"
                                   ]
                                 }
                               ],

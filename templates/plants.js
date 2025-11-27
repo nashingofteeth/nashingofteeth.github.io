@@ -76,6 +76,14 @@ function plants(plantData) {
   const combinedCss = loadCss("base.css", "page.css", "plants.css");
   const combinedJs = loadJs("plants.js");
 
+  // Format the generated date
+  const generatedDate = new Date(plantData.generated);
+  const formattedDate = generatedDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
   const plantListHtml = `<div class="plant-list">
   <ul>
     ${generatePlantList(plantData.taxonomy)}
@@ -86,7 +94,11 @@ function plants(plantData) {
   <p>A taxonomical list of plants I've discovered and documented.</p>
 </section>
 
-${plantListHtml}`;
+${plantListHtml}
+
+<section class="last-updated muted">
+  Last updated: ${formattedDate}
+</section>`;
 
   const pageContent = page(mainContent, "&#127793;&nbsp;PLANTS");
   return base(

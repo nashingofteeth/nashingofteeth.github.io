@@ -59,17 +59,21 @@ a:active {
   content: "▶";
 }
 
-
-.plant-list .muted {
-  color: #80a080;
-}
-
 .plant-list .aliases {
   font-size: 0.8em;
 }
 
 .plant-list ul.collapsed {
   display: none;
+}
+
+.muted {
+  color: #80a080;
+}
+
+.last-updated {
+  margin-top: 20px;
+  font-size: 0.8em;
 }
 
 @media (max-width: 576px) {
