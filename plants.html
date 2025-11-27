@@ -89,6 +89,29 @@
         ul.collapsed {
             display: none;
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            ul {
+                padding-left: 1.5ch;
+            }
+
+            li {
+                padding-left: 1.5ch;
+            }
+
+            li::before {
+                left: -3px;
+            }
+        }
     </style>
     <script>
         function toggleNode(li) {
@@ -250,7 +273,7 @@
 <ul>
 <li class="has-children" onclick="toggleNode(this)"><span class="muted">Carota</span></li>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Carrot" target="_blank">carrot</a> <span class="aliases">(🥕, carrot)</span></li>
+<li><a href="https://en.wikipedia.org/wiki/Carrot" target="_blank">carrot</a> <span class="aliases">(🥕, Daucus carota subsp. sativus)</span></li>
 </ul>
 </ul>
 </ul>
@@ -386,7 +409,7 @@
 <ul>
 <li class="has-children" onclick="toggleNode(this)"><span class="muted">Cynara</span></li>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Cardoon" target="_blank">Cardoon</a> <span class="aliases">(artichoke thistle, Cynara cardunculus)</span></li>
+<li><a href="https://en.wikipedia.org/wiki/Cardoon" target="_blank">Cynara cardunculus</a> <span class="aliases">(artichoke thistle, cardoon)</span></li>
 </ul>
 <ul>
 <li class="has-children" onclick="toggleNode(this)"><span class="muted">Cardunculus</span></li>
