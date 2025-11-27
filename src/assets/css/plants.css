@@ -1,0 +1,96 @@
+body {
+  background-color: HoneyDew;
+  color: DarkGreen;
+}
+a {
+  color: Green;
+  text-shadow: Green 1px 0px;
+}
+a:active {
+  color: LimeGreen;
+}
+
+.plant-list {
+  line-height: 1.4;
+  color: #2d3a2d;
+  margin-top: 60px;
+  margin-left: 4px;
+}
+
+.plant-list ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 2ch;
+  border-left: 1px solid #d0e8d0;
+}
+
+.plant-list > ul {
+  border-left: none;
+  padding-left: 0;
+}
+
+.plant-list li {
+  margin: 0.2rem 0;
+  position: relative;
+  padding-left: 2ch;
+}
+
+.plant-list li::before {
+  content: "•";
+  position: absolute;
+  left: -4px;
+  color: #5a8a5a;
+}
+
+.plant-list li.has-children {
+  cursor: pointer;
+}
+
+.plant-list li.has-children::before {
+  content: "▼";
+  color: #5a8a5a;
+}
+
+.plant-list li.has-children:hover::before {
+  color: #00c400;
+}
+
+.plant-list li.has-children.collapsed::before {
+  content: "▶";
+}
+
+
+.plant-list .muted {
+  color: #80a080;
+}
+
+.plant-list .aliases {
+  font-size: 0.8em;
+}
+
+.plant-list ul.collapsed {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .plant-list {
+    font-size: 0.8em;
+  }
+
+  .plant-list ul {
+    padding-left: 1.5ch;
+  }
+
+  .plant-list > ul {
+    padding-left: 0;
+  }
+
+  .plant-list li {
+    padding-left: 1.5ch;
+    margin: 0.5rem 0;
+  }
+
+  .plant-list li::before {
+    left: -3px;
+  }
+}

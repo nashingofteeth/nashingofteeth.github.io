@@ -9,6 +9,7 @@ const matter = require("gray-matter");
 const homeTemplate = require("./templates/home.js");
 const videosTemplate = require("./templates/videos.js");
 const videoSingleTemplate = require("./templates/video-single.js");
+const plantsTemplate = require("./templates/plants.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
 
@@ -131,6 +132,16 @@ async function build() {
   for (const video of videos) {
     const videoHtml = videoSingleTemplate(video);
     writeHtml(`videos/${video.slug}/index.html`, videoHtml);
+  }
+
+  // Plants page
+  const plantDataPath = path.join(__dirname, "_data/plant-data.json");
+  if (fs.existsSync(plantDataPath)) {
+    const plantData = JSON.parse(fs.readFileSync(plantDataPath, "utf-8"));
+    const plantsHtml = plantsTemplate(plantData);
+    writeHtml("plants/index.html", plantsHtml);
+  } else {
+    console.log("  ⚠️  plant-data.json not found, skipping plants page");
   }
 
   // Tools page
