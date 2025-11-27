@@ -1,6 +1,6 @@
 {
-  "generated": "2025-11-27T03:43:09.445Z",
-  "totalPlants": 698,
+  "generated": "2025-11-27T06:13:00.832Z",
+  "totalPlants": 700,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -399,11 +399,11 @@
                                           },
                                           "otherFiles": [
                                             {
-                                              "fileName": "carrot",
+                                              "fileName": "Daucus carota subsp. sativus",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Carrot",
                                               "aliases": [
                                                 "🥕",
-                                                "Daucus carota subsp. sativus"
+                                                "carrot"
                                               ]
                                             }
                                           ],
@@ -717,7 +717,7 @@
                                         },
                                         {
                                           "fileName": "Centaurea montana",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Centaurea_montana",
                                           "aliases": [
                                             "bachelor's button",
                                             "montane knapweed",
@@ -728,7 +728,7 @@
                                         },
                                         {
                                           "fileName": "Centaurea triumfettii",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Centaurea_triumfettii",
                                           "aliases": [
                                             "squarrose knapweed"
                                           ]
@@ -939,7 +939,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Campanula medium",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Campanula_medium",
                                           "aliases": [
                                             "Canterbury bells"
                                           ]
@@ -998,7 +998,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Brunnera macrophylla",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Brunnera_macrophylla",
                                           "aliases": [
                                             "great forget-me-not",
                                             "heartleaf",
@@ -1120,7 +1120,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Deutzia gracilis",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Deutzia_gracilis",
                                           "aliases": [
                                             "Japanese snow flower",
                                             "slender deutzia"
@@ -1211,7 +1211,7 @@
                                         },
                                         {
                                           "fileName": "Viburnum plicatum",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Viburnum_plicatum",
                                           "aliases": [
                                             "Japanese snowball bush"
                                           ]
@@ -1416,7 +1416,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Erica terminalis",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Erica_terminalis",
                                           "aliases": [
                                             "Corsican heath",
                                             "upright heath"
@@ -1495,7 +1495,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Rhododendron occidentale",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Rhododendron_occidentale",
                                           "aliases": [
                                             "California azalea",
                                             "western azalea"
@@ -1703,7 +1703,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Vinca minor",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Vinca_minor",
                                           "aliases": [
                                             "common periwinkle",
                                             "creeping myrtle",
@@ -1950,7 +1950,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Calceolaria integrifolia",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Calceolaria_integrifolia",
                                           "aliases": [
                                             "bush slipperwort"
                                           ]
@@ -2026,7 +2026,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Lavandula stoechas",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Lavandula_stoechas",
                                           "aliases": [
                                             "French lavender",
                                             "Spanish lavender",
@@ -2187,9 +2187,11 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Stachys byzantina",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Stachys_byzantina",
                                           "aliases": [
                                             "lamb's ear",
+                                            "lamb's-ear",
+                                            "Monty plant",
                                             "woolly hedgenettle"
                                           ]
                                         }
@@ -2555,6 +2557,23 @@
                                             "dodder",
                                             "European dodder",
                                             "greater dodder"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Ipomoea",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Ipomoea batatas",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Sweet_potato",
+                                          "aliases": [
+                                            "🍠",
+                                            "sweet potato",
+                                            "sweet potatoes",
+                                            "sweetpotato"
                                           ]
                                         }
                                       ],
@@ -3012,7 +3031,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Phytolacca americana",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Phytolacca_americana",
                                       "aliases": [
                                         "American pokeweed",
                                         "dragonberries",
@@ -3162,7 +3181,7 @@
                               "otherFiles": [
                                 {
                                   "fileName": "Epimedium",
-                                  "wikipedia": null,
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Epimedium",
                                   "aliases": [
                                     "barrenwort",
                                     "bishop's hat",
@@ -3274,7 +3293,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Dicentra formosa",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Dicentra_formosa",
                                       "aliases": [
                                         "Pacific bleeding-heart",
                                         "western",
@@ -3320,7 +3339,7 @@
                                     },
                                     {
                                       "fileName": "Aquilegia canadensis",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Aquilegia_canadensis",
                                       "aliases": [
                                         "Canada columbine",
                                         "Canadian",
@@ -3384,7 +3403,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Delphinium elatum",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Delphinium_elatum",
                                       "aliases": [
                                         "alpine delphinium",
                                         "candle larkspur",
@@ -3414,10 +3433,11 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Ficaria verna",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Ficaria_verna",
                                       "aliases": [
                                         "lesser celandine",
-                                        "pilewort"
+                                        "pilewort",
+                                        "Ranunculus ficaria"
                                       ]
                                     }
                                   ],
@@ -3514,30 +3534,32 @@
                                           },
                                           "otherFiles": [
                                             {
-                                              "fileName": "broccoli",
+                                              "fileName": "Brassica oleracea var. alboglabra",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Gai_lan",
+                                              "aliases": [
+                                                "Chinese broccoli",
+                                                "Chinese kale",
+                                                "gai lan",
+                                                "kai-lan"
+                                              ]
+                                            },
+                                            {
+                                              "fileName": "Brassica oleracea var. italica",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Broccoli",
                                               "aliases": [
-                                                "🥦"
+                                                "🥦",
+                                                "broccoli"
                                               ]
                                             },
                                             {
                                               "fileName": "Brussels sprout",
-                                              "wikipedia": null,
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Brussels_sprout",
                                               "aliases": []
                                             },
                                             {
                                               "fileName": "cauliflower",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Cauliflower",
                                               "aliases": []
-                                            },
-                                            {
-                                              "fileName": "gai lan",
-                                              "wikipedia": null,
-                                              "aliases": [
-                                                "Chinese broccoli",
-                                                "Chinese kale",
-                                                "kai-lan"
-                                              ]
                                             },
                                             {
                                               "fileName": "Romanesco broccoli",
@@ -3566,12 +3588,15 @@
                                           "otherFiles": [
                                             {
                                               "fileName": "bok choy",
-                                              "wikipedia": null,
-                                              "aliases": []
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Bok_choy",
+                                              "aliases": [
+                                                "pak choi",
+                                                "pok choi"
+                                              ]
                                             },
                                             {
                                               "fileName": "rapini",
-                                              "wikipedia": null,
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Rapini",
                                               "aliases": [
                                                 "broccoli rabe",
                                                 "raab"
@@ -3638,16 +3663,34 @@
                                     {
                                       "name": "Raphanus",
                                       "file": null,
-                                      "otherFiles": [
+                                      "otherFiles": [],
+                                      "children": [
                                         {
-                                          "fileName": "Raphanus sativus",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Radish",
-                                          "aliases": [
-                                            "radish"
-                                          ]
+                                          "name": "Raphanus sativus",
+                                          "file": {
+                                            "fileName": "Raphanus sativus",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Radish",
+                                            "aliases": [
+                                              "radish"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Raphanus sativus var. longipinnatus",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Daikon",
+                                              "aliases": [
+                                                "daikon",
+                                                "long white radish",
+                                                "mooli",
+                                                "Oriental radish",
+                                                "white radish",
+                                                "winter radish"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
                                         }
-                                      ],
-                                      "children": []
+                                      ]
                                     },
                                     {
                                       "name": "Sisymbrium",
@@ -4131,6 +4174,7 @@
                                           "fileName": "Phaseolus vulgaris",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Phaseolus_vulgaris",
                                           "aliases": [
+                                            "🫘",
                                             "black bean",
                                             "black turtle bean",
                                             "common bean",
@@ -5145,7 +5189,7 @@
                                       "name": "Salix",
                                       "file": {
                                         "fileName": "Salix",
-                                        "wikipedia": null,
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Willow",
                                         "aliases": [
                                           "osiers",
                                           "sallows",
@@ -5301,7 +5345,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Alcea biennis",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Alcea_biennis",
                                           "aliases": [
                                             "biennial hollyhock"
                                           ]
@@ -5520,7 +5564,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Edgeworthia chrysantha",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Edgeworthia_chrysantha",
                                           "aliases": [
                                             "mitsumata",
                                             "Oriental paperbush"
@@ -5969,7 +6013,7 @@
                                   "name": "Rosaceae",
                                   "file": {
                                     "fileName": "Rosaceae",
-                                    "wikipedia": null,
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Rosaceae",
                                     "aliases": [
                                       "rose family"
                                     ]
@@ -6046,7 +6090,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Chaenomeles japonica",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Chaenomeles_japonica",
                                           "aliases": [
                                             "Japanese quince",
                                             "Japonica",
@@ -6075,7 +6119,7 @@
                                       "name": "Crataegus",
                                       "file": {
                                         "fileName": "Crataegus",
-                                        "wikipedia": null,
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Crataegus",
                                         "aliases": [
                                           "hawberry",
                                           "hawthorn",
@@ -6153,7 +6197,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Dasiphora fruticosa",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Dasiphora_fruticosa",
                                           "aliases": [
                                             "bush cinquefoil",
                                             "golden hardhack",
@@ -6710,7 +6754,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Cotinus coggygria",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cotinus_coggygria",
                                           "aliases": [
                                             "dyer's sumach",
                                             "Eurasian smoketree",
@@ -6781,10 +6825,11 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Toxicodendron diversilobum",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Toxicodendron_diversilobum",
                                           "aliases": [
                                             "Pacific poison oak",
                                             "poison oak",
+                                            "Rhus diversiloba",
                                             "western poison oak"
                                           ]
                                         },
@@ -6812,7 +6857,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Commiphora africana",
-                                          "wikipedia": null,
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Commiphora_africana",
                                           "aliases": [
                                             "African myrrh"
                                           ]
@@ -7349,7 +7394,7 @@
                               "name": "Crassulaceae",
                               "file": {
                                 "fileName": "Crassulaceae",
-                                "wikipedia": null,
+                                "wikipedia": "https://en.wikipedia.org/wiki/Crassulaceae",
                                 "aliases": [
                                   "crassulas",
                                   "orpine",
@@ -7449,7 +7494,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Loropetalum chinense",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Loropetalum_chinense",
                                       "aliases": [
                                         "Chinese fringe flower",
                                         "loropetalum",
@@ -7511,7 +7556,7 @@
                                   "name": "Bergenia",
                                   "file": {
                                     "fileName": "Bergenia",
-                                    "wikipedia": null,
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Bergenia",
                                     "aliases": [
                                       "elephant-eared saxifrage",
                                       "elephant's ears"
@@ -7520,7 +7565,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Bergenia crassifolia",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Bergenia_crassifolia",
                                       "aliases": [
                                         "badan",
                                         "elephant-ears",
@@ -7873,7 +7918,7 @@
                                     },
                                     {
                                       "fileName": "Magnolia stellata",
-                                      "wikipedia": null,
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_stellata",
                                       "aliases": [
                                         "star magnolia"
                                       ]
@@ -8119,7 +8164,7 @@
                                 },
                                 {
                                   "fileName": "Allium giganteum",
-                                  "wikipedia": null,
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Allium_giganteum",
                                   "aliases": [
                                     "giant leek",
                                     "giant onion"
@@ -8167,7 +8212,7 @@
                             },
                             {
                               "fileName": "Muscari",
-                              "wikipedia": null,
+                              "wikipedia": "https://en.wikipedia.org/wiki/Muscari",
                               "aliases": [
                                 "grape hyacinth"
                               ]
@@ -8396,14 +8441,14 @@
                                 },
                                 {
                                   "fileName": "Iris douglasiana",
-                                  "wikipedia": null,
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Iris_douglasiana",
                                   "aliases": [
                                     "Douglas iris"
                                   ]
                                 },
                                 {
                                   "fileName": "Iris japonica",
-                                  "wikipedia": null,
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Iris_japonica",
                                   "aliases": [
                                     "butterfly flower",
                                     "fringed iris",
@@ -8698,6 +8743,7 @@
                                       "fileName": "Triticum aestivum",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Common_wheat",
                                       "aliases": [
+                                        "🍞",
                                         "bread wheat",
                                         "common wheat",
                                         "wheat"
