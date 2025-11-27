@@ -10,8 +10,17 @@ function generatePlantList(taxonomy, level = 0) {
 
   for (let i = 0; i < taxonomy.length; i++) {
     const node = taxonomy[i];
-    const hasChildren =
-      node.children.length > 0 || node.otherFiles.length > 0;
+    const totalChildren = node.children.length + node.otherFiles.length;
+    let hasMultipleChildren = totalChildren > 1;
+
+    // If exactly 1 child, check if that child has children (grandchildren exist)
+    if (totalChildren === 1 && node.children.length === 1) {
+      const singleChild = node.children[0];
+      const grandchildrenCount = singleChild.children.length + singleChild.otherFiles.length;
+      if (grandchildrenCount > 0) {
+        hasMultipleChildren = true;
+      }
+    }
 
     // Generate content for this node
     let content = "";
@@ -33,8 +42,8 @@ function generatePlantList(taxonomy, level = 0) {
       content = `<span class="muted">${node.name}</span>`;
     }
 
-    // Create list item
-    if (hasChildren) {
+    // Create list item - only add toggle if more than 1 child
+    if (hasMultipleChildren) {
       html += `${indent}<li class="has-children" onclick="toggleNode(this, event)">${content}</li>\n`;
     } else {
       html += `${indent}<li>${content}</li>\n`;
