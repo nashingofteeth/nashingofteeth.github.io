@@ -1,6 +1,6 @@
 {
-  "generated": "2025-11-27T02:55:58.932Z",
-  "totalPlants": 695,
+  "generated": "2025-11-27T03:43:09.445Z",
+  "totalPlants": 698,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1521,19 +1521,21 @@
                                       },
                                       "otherFiles": [
                                         {
-                                          "fileName": "blueberry",
+                                          "fileName": "Vaccinium sect. Cyanococcus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Blueberry",
                                           "aliases": [
                                             "🫐",
                                             "blueberries",
+                                            "blueberry",
                                             "Cyanococcus"
                                           ]
                                         },
                                         {
-                                          "fileName": "cranberry",
+                                          "fileName": "Vaccinium subg. Oxycoccus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Cranberry",
                                           "aliases": [
                                             "cranberries",
+                                            "cranberry",
                                             "Oxycoccus"
                                           ]
                                         }
@@ -2591,19 +2593,6 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
-                                          "fileName": "Capsicum annuum",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Capsicum_annuum",
-                                          "aliases": [
-                                            "🫑",
-                                            "bell pepper",
-                                            "capsicum",
-                                            "mango",
-                                            "paprika",
-                                            "pepper",
-                                            "sweet pepper"
-                                          ]
-                                        },
-                                        {
                                           "fileName": "Capsicum frutescens",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Capsicum_frutescens",
                                           "aliases": [
@@ -2613,7 +2602,32 @@
                                           ]
                                         }
                                       ],
-                                      "children": []
+                                      "children": [
+                                        {
+                                          "name": "Capsicum annuum",
+                                          "file": {
+                                            "fileName": "Capsicum annuum",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Capsicum_annuum",
+                                            "aliases": []
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "bell pepper",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Bell_pepper",
+                                              "aliases": [
+                                                "🫑",
+                                                "bell pepper",
+                                                "capsicum",
+                                                "mango",
+                                                "paprika",
+                                                "pepper",
+                                                "sweet pepper"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
+                                        }
+                                      ]
                                     },
                                     {
                                       "name": "Nicotiana",
@@ -3761,31 +3775,30 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
-                                          "fileName": "zucchini",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Zucchini",
+                                          "fileName": "pumpkin",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Pumpkin",
                                           "aliases": [
-                                            "courgette",
-                                            "Cucurbita pepo var. cylindrica",
-                                            "zucchinis"
+                                            "🎃",
+                                            "pumpkins"
                                           ]
                                         }
                                       ],
-                                      "children": []
-                                    },
-                                    {
-                                      "name": "Cucurbiteae",
-                                      "file": null,
-                                      "otherFiles": [],
                                       "children": [
                                         {
-                                          "name": "Cucurbita",
-                                          "file": null,
+                                          "name": "Cucurbita pepo",
+                                          "file": {
+                                            "fileName": "Cucurbita pepo",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Cucurbita_pepo",
+                                            "aliases": []
+                                          },
                                           "otherFiles": [
                                             {
-                                              "fileName": "pumpkin",
-                                              "wikipedia": "https://en.wikipedia.org/wiki/Pumpkin",
+                                              "fileName": "Cucurbita pepo var. cylindrica",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Zucchini",
                                               "aliases": [
-                                                "pumpkins"
+                                                "courgette",
+                                                "zucchini",
+                                                "zucchinis"
                                               ]
                                             }
                                           ],
@@ -9489,7 +9502,13 @@
                             },
                             {
                               "name": "Cedrus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Cedrus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Cedrus",
+                                "aliases": [
+                                  "cedar"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Cedrus atlantica",
