@@ -1,7 +1,7 @@
 {
-  "generated": "2025-11-29T00:42:41.720Z",
-  "totalPlants": 701,
-  "totalTaxa": 543,
+  "generated": "2025-11-29T07:17:37.090Z",
+  "totalPlants": 704,
+  "totalTaxa": 544,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -7000,6 +7000,15 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Citrus maxima",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Pomelo",
+                                          "aliases": [
+                                            "pomelo",
+                                            "pummelo",
+                                            "shaddock"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Citrus reticulata",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Mandarin_orange",
                                           "aliases": [
@@ -7010,7 +7019,29 @@
                                           ]
                                         }
                                       ],
-                                      "children": []
+                                      "children": [
+                                        {
+                                          "name": "Citrus medica",
+                                          "file": {
+                                            "fileName": "Citrus medica",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Citron",
+                                            "aliases": [
+                                              "citron"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Citrus medica var. sarcodactylis",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Buddha%27s_hand",
+                                              "aliases": [
+                                                "Buddha's hand",
+                                                "fingered citron"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
+                                        }
+                                      ]
                                     },
                                     {
                                       "name": "Ruta",
