@@ -1,6 +1,7 @@
 <!--
 This website is a potato (https://potato.cheap/).
 Built with custom Node.js static site generator.
+Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
 Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
@@ -683,8 +684,9 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Lamium_purpureum" target="_blank">Lamium purpureum</a> <span class="aliases">(purple archangel, purple dead-nettle, red dead-nettle)</span></li>
                 </ul>
-                <li><span class="muted">Lavandula</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Lavandula</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Lavandula_angustifolia" target="_blank">Lavandula angustifolia</a> <span class="aliases">(common lavender, English lavender, garden lavender, lavender, narrow-leaved lavender, true lavender)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Lavandula_stoechas" target="_blank">Lavandula stoechas</a> <span class="aliases">(French lavender, Spanish lavender, topped lavender)</span></li>
                 </ul>
                 <li><span class="muted">Melissa</span></li>
@@ -1304,7 +1306,7 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Quercus_palustris" target="_blank">Quercus palustris</a> <span class="aliases">(pin oak, swamp oak, swamp Spanish oak)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Quercus_robur" target="_blank">Quercus robur</a> <span class="aliases">(English oak, pedunculate oak)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Quercus_rubra" target="_blank">Quercus rubra</a> <span class="aliases">(champion oak, northern red oak, red oak)</span></li>
-                  <li><a href="https://en.wikipedia.org/wiki/Quercus_suber" target="_blank">Quercus suber</a> <span class="aliases">(cork oak)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Quercus_suber" target="_blank">Quercus suber</a> <span class="aliases">(cork oak, 🍾)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Quercus_velutina" target="_blank">Quercus velutina</a> <span class="aliases">(black oak, eastern black oak)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Quercus_virginiana" target="_blank">Quercus virginiana</a> <span class="aliases">(southern live oak)</span></li>
                 </ul>
@@ -1820,6 +1822,10 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Rambutan" target="_blank">Nephelium lappaceum</a> <span class="aliases">(rambutan)</span></li>
                 </ul>
+                <li><span class="muted">Sapindus</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Sapindus_saponaria" target="_blank">Sapindus saponaria</a> <span class="aliases">(a'e, jaboncillo, manele, sulluku, western soapberry, wingleaf soapberry)</span></li>
+                </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Simaroubaceae</span></li>
               <ul>
@@ -2187,14 +2193,23 @@ a:active {
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Poaceae</span></li>
             <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Bamboo" target="_blank">bamboo</a> <span class="aliases">(🎋, 🎍, bamboos, Bambusoideae)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Bromus" target="_blank">Bromus</a> <span class="aliases">(brome grasses, Bromeae, bromes, cheat grasses, chess grasses)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Cenchrus" target="_blank">Cenchrus</a> <span class="aliases">(buffelgrasses, sand spur, sandburs)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Wild_rice" target="_blank">Zizania</a> <span class="aliases">(Canada rice, Indian rice, manoomin, mnomen, psíŋ, water oats, wild rice)</span></li>
             </ul>
             <ul>
+              <li><span class="muted">Hordeum</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Barley" target="_blank">Hordeum vulgare</a> <span class="aliases">(barley)</span></li>
+              </ul>
               <li><span class="muted">Oryza</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Oryza_sativa" target="_blank">Oryza sativa</a> <span class="aliases">(🌾, Asian cultivated rice, rice)</span></li>
+              </ul>
+              <li><span class="muted">Secale</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Rye" target="_blank">Secale cereale</a> <span class="aliases">(rye)</span></li>
               </ul>
               <li><span class="muted">Triticum</span></li>
               <ul>
@@ -2456,7 +2471,7 @@ a:active {
 </div>
 
 <section class="last-updated muted">
-  Last updated: November 29, 2025
+  Last updated: November 30, 2025
 </section>
 </main>
 
