@@ -4,6 +4,7 @@ function base(content, title, description, css = null, js = null) {
   return `<!--
 This website is a potato (https://potato.cheap/).
 Built with custom Node.js static site generator.
+Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
 Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
