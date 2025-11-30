@@ -1,7 +1,6 @@
 {
-  "generated": "2025-11-29T07:17:37.090Z",
-  "totalPlants": 704,
-  "totalTaxa": 544,
+  "generated": "2025-11-30T23:54:22.041Z",
+  "totalPlants": 709,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -2037,6 +2036,18 @@
                                       "name": "Lavandula",
                                       "file": null,
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Lavandula angustifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Lavandula_angustifolia",
+                                          "aliases": [
+                                            "common lavender",
+                                            "English lavender",
+                                            "garden lavender",
+                                            "lavender",
+                                            "narrow-leaved lavender",
+                                            "true lavender"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Lavandula stoechas",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Lavandula_stoechas",
@@ -4762,6 +4773,7 @@
                                           "fileName": "Quercus suber",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Quercus_suber",
                                           "aliases": [
+                                            "🍾",
                                             "cork oak"
                                           ]
                                         },
@@ -7264,6 +7276,25 @@
                                         }
                                       ],
                                       "children": []
+                                    },
+                                    {
+                                      "name": "Sapindus",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Sapindus saponaria",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Sapindus_saponaria",
+                                          "aliases": [
+                                            "a'e",
+                                            "jaboncillo",
+                                            "manele",
+                                            "sulluku",
+                                            "western soapberry",
+                                            "wingleaf soapberry"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
                                     }
                                   ]
                                 },
@@ -8743,6 +8774,16 @@
                               "file": null,
                               "otherFiles": [
                                 {
+                                  "fileName": "bamboo",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Bamboo",
+                                  "aliases": [
+                                    "🎋",
+                                    "🎍",
+                                    "bamboos",
+                                    "Bambusoideae"
+                                  ]
+                                },
+                                {
                                   "fileName": "Bromus",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Bromus",
                                   "aliases": [
@@ -8778,6 +8819,20 @@
                               ],
                               "children": [
                                 {
+                                  "name": "Hordeum",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Hordeum vulgare",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Barley",
+                                      "aliases": [
+                                        "barley"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Oryza",
                                   "file": null,
                                   "otherFiles": [
@@ -8788,6 +8843,20 @@
                                         "🌾",
                                         "Asian cultivated rice",
                                         "rice"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Secale",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Secale cereale",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Rye",
+                                      "aliases": [
+                                        "rye"
                                       ]
                                     }
                                   ],
