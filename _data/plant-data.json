@@ -1,6 +1,6 @@
 {
-  "generated": "2025-11-30T23:54:22.041Z",
-  "totalPlants": 709,
+  "generated": "2025-12-02T04:57:35.176Z",
+  "totalPlants": 712,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -280,6 +280,7 @@
                 "aliases": [
                   "💐",
                   "angiosperm",
+                  "angiosperms",
                   "flowering plants",
                   "flowers"
                 ]
@@ -3120,7 +3121,7 @@
                                   "name": "Platanus",
                                   "file": {
                                     "fileName": "Platanus",
-                                    "wikipedia": "https://en.wikipedia.org/wiki/Platanus_orientalis",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Platanus",
                                     "aliases": [
                                       "plane trees",
                                       "planes",
@@ -4161,7 +4162,7 @@
                                       "name": "Parkinsonia",
                                       "file": {
                                         "fileName": "Parkinsonia",
-                                        "wikipedia": "https://en.wikipedia.org/wiki/Parkinsonia_florida",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Parkinsonia",
                                         "aliases": [
                                           "Cercidium",
                                           "green tree",
@@ -4846,7 +4847,7 @@
                                       "name": "Juglans",
                                       "file": {
                                         "fileName": "Juglans",
-                                        "wikipedia": "https://en.wikipedia.org/wiki/Juglans_nigra",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Juglans",
                                         "aliases": [
                                           "walnut",
                                           "walnut trees"
@@ -5337,7 +5338,7 @@
                                       "name": "Adansonia",
                                       "file": {
                                         "fileName": "Adansonia",
-                                        "wikipedia": "https://en.wikipedia.org/wiki/Adansonia#In_culture",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Adansonia",
                                         "aliases": [
                                           "baobab",
                                           "baobabs"
@@ -6415,6 +6416,7 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Prunus_avium",
                                           "aliases": [
                                             "🍒",
+                                            "cherries",
                                             "cherry",
                                             "gean",
                                             "sweet cherry",
@@ -6465,7 +6467,8 @@
                                           "aliases": [
                                             "🍑",
                                             "nectarine",
-                                            "peach"
+                                            "peach",
+                                            "peaches"
                                           ]
                                         },
                                         {
@@ -6474,6 +6477,16 @@
                                           "aliases": [
                                             "🌸",
                                             "Japanese cherry"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Prunus subg. Prunus",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Plum",
+                                          "aliases": [
+                                            "plum",
+                                            "plums",
+                                            "prune",
+                                            "prunes"
                                           ]
                                         }
                                       ],
@@ -6490,19 +6503,35 @@
                                             "Bradford pear",
                                             "Callery pear"
                                           ]
-                                        },
-                                        {
-                                          "fileName": "Pyrus communis",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Pyrus_communis",
-                                          "aliases": [
-                                            "🍐",
-                                            "common pear",
-                                            "pear",
-                                            "pears"
-                                          ]
                                         }
                                       ],
-                                      "children": []
+                                      "children": [
+                                        {
+                                          "name": "Pyrus communis",
+                                          "file": {
+                                            "fileName": "Pyrus communis",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Pyrus_communis",
+                                            "aliases": [
+                                              "🍐",
+                                              "common pear",
+                                              "pear",
+                                              "pears"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Pyrus communis 'Williams'",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Williams_pear",
+                                              "aliases": [
+                                                "Bartlett pear",
+                                                "Williams pear",
+                                                "Williams' bon chrétien pear"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
+                                        }
+                                      ]
                                     },
                                     {
                                       "name": "Rosa",
@@ -7001,6 +7030,13 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Meyer_lemon",
                                           "aliases": [
                                             "Meyer lemon"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Citrus × paradisi",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Grapefruit",
+                                          "aliases": [
+                                            "grapefruit"
                                           ]
                                         },
                                         {
@@ -9001,7 +9037,7 @@
                               "name": "Tulipa",
                               "file": {
                                 "fileName": "Tulipa",
-                                "wikipedia": "https://en.wikipedia.org/wiki/Tulipa_orphanidea",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Tulip",
                                 "aliases": [
                                   "🌷",
                                   "tulip",
