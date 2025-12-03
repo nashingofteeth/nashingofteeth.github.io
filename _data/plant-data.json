@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-02T04:57:35.176Z",
-  "totalPlants": 712,
+  "generated": "2025-12-03T16:02:16.296Z",
+  "totalPlants": 716,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -449,6 +449,21 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Fennel",
                                           "aliases": [
                                             "fennel"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Petroselinum",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Petroselinum crispum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Parsley",
+                                          "aliases": [
+                                            "garden parsley",
+                                            "parsley"
                                           ]
                                         }
                                       ],
@@ -1550,6 +1565,27 @@
                                             "cranberries",
                                             "cranberry",
                                             "Oxycoccus"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Pentaphylacaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Cleyera",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Cleyera japonica",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cleyera_japonica",
+                                          "aliases": [
+                                            "sakaki"
                                           ]
                                         }
                                       ],
@@ -7408,6 +7444,20 @@
                               "otherFiles": [],
                               "children": [
                                 {
+                                  "name": "Phoradendron",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Phoradendron libocedri",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Phoradendron_libocedri",
+                                      "aliases": [
+                                        "incense-cedar mistletoe"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Santalum",
                                   "file": null,
                                   "otherFiles": [
@@ -7778,27 +7828,7 @@
                                   "laurels"
                                 ]
                               },
-                              "otherFiles": [
-                                {
-                                  "fileName": "Umbellularia",
-                                  "wikipedia": "https://en.wikipedia.org/wiki/Umbellularia",
-                                  "aliases": [
-                                    "balm of heaven",
-                                    "California bay",
-                                    "California bay laurel",
-                                    "California laurel",
-                                    "cinnamon bush",
-                                    "headache tree",
-                                    "mountain laurel",
-                                    "Oregon myrtle",
-                                    "peppernut tree",
-                                    "pepperwood",
-                                    "pōl’-cum ōl",
-                                    "spicebush",
-                                    "Umbellularia californica"
-                                  ]
-                                }
-                              ],
+                              "otherFiles": [],
                               "children": [
                                 {
                                   "name": "Camphora",
@@ -7908,6 +7938,32 @@
                                         "sassafras",
                                         "silky sassafras",
                                         "white sassafras"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Umbellularia",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Umbellularia californica",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Umbellularia",
+                                      "aliases": [
+                                        "balm of heaven",
+                                        "California bay",
+                                        "California bay laurel",
+                                        "California laurel",
+                                        "cinnamon bush",
+                                        "headache tree",
+                                        "mountain laurel",
+                                        "Oregon myrtle",
+                                        "peppernut tree",
+                                        "pepperwood",
+                                        "pōl’-cum ōl",
+                                        "spicebush",
+                                        "Umbellularia"
                                       ]
                                     }
                                   ],
@@ -9351,7 +9407,9 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Calocedrus_decurrens",
                                   "aliases": [
                                     "California incense cedar",
-                                    "incense cedar"
+                                    "incense cedar",
+                                    "incense-cedar",
+                                    "Libocedras decurrens"
                                   ]
                                 }
                               ],
@@ -9359,7 +9417,14 @@
                             },
                             {
                               "name": "Chamaecyparis",
-                              "file": null,
+                              "file": {
+                                "fileName": "Chamaecyparis",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Chamaecyparis",
+                                "aliases": [
+                                  "cypress",
+                                  "false cypress"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Chamaecyparis lawsoniana",
