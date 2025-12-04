@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-03T16:02:16.296Z",
-  "totalPlants": 716,
+  "generated": "2025-12-04T15:49:54.901Z",
+  "totalPlants": 721,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -82,173 +82,228 @@
       "otherFiles": [],
       "children": [
         {
-          "name": "Lycophytes",
-          "file": null,
-          "otherFiles": [
-            {
-              "fileName": "Lycopodiopsida",
-              "wikipedia": "https://en.wikipedia.org/wiki/Lycopodiopsida",
-              "aliases": [
-                "clubmosses",
-                "firmosses",
-                "lycophytes",
-                "lycopods",
-                "lycopsids",
-                "quillworts",
-                "spikemosses"
-              ]
-            }
-          ],
-          "children": []
-        },
-        {
-          "name": "Polypodiophyta",
+          "name": "Pteridophyta",
           "file": {
-            "fileName": "Polypodiophyta",
-            "wikipedia": "https://en.wikipedia.org/wiki/Fern",
+            "fileName": "Pteridophyta",
+            "wikipedia": "https://en.wikipedia.org/wiki/Pteridophyte",
             "aliases": [
-              "fern",
-              "ferns",
-              "Polypodiophyta",
-              "Polypodiopsida"
+              "cryptogams",
+              "pteridophyte"
             ]
           },
           "otherFiles": [],
           "children": [
             {
-              "name": "Polypodiopsida",
+              "name": "Lycophytes",
               "file": null,
               "otherFiles": [],
               "children": [
                 {
-                  "name": "Equisetales",
-                  "file": null,
+                  "name": "Lycopodiopsida",
+                  "file": {
+                    "fileName": "Lycopodiopsida",
+                    "wikipedia": "https://en.wikipedia.org/wiki/Lycopodiopsida",
+                    "aliases": [
+                      "clubmosses",
+                      "firmosses",
+                      "lycophytes",
+                      "lycopods",
+                      "lycopsids",
+                      "quillworts",
+                      "spikemosses"
+                    ]
+                  },
                   "otherFiles": [],
                   "children": [
                     {
-                      "name": "Equisetaceae",
+                      "name": "Lycopodiales",
                       "file": null,
                       "otherFiles": [],
                       "children": [
                         {
-                          "name": "Equisetum",
-                          "file": {
-                            "fileName": "Equisetum",
-                            "wikipedia": "https://en.wikipedia.org/wiki/Equisetum",
-                            "aliases": [
-                              "horsetail",
-                              "mare's tail"
-                            ]
-                          },
-                          "otherFiles": [
+                          "name": "Lycopodiaceae",
+                          "file": null,
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Equisetum pratense",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Equisetum_pratense",
-                              "aliases": [
-                                "meadow horsetail",
-                                "shade horsetail",
-                                "shady horsetail"
-                              ]
+                              "name": "Diphasiastrum",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Diphasiastrum alpinum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Diphasiastrum_alpinum",
+                                  "aliases": [
+                                    "alpine clubmoss"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Diphasiastrum sitchense",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Diphasiastrum_sitchense",
+                                  "aliases": [
+                                    "Sitka clubmoss"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
+                          ]
                         }
                       ]
                     }
                   ]
-                },
+                }
+              ]
+            },
+            {
+              "name": "Polypodiophyta",
+              "file": {
+                "fileName": "Polypodiophyta",
+                "wikipedia": "https://en.wikipedia.org/wiki/Fern",
+                "aliases": [
+                  "fern",
+                  "ferns",
+                  "Polypodiophyta",
+                  "Polypodiopsida"
+                ]
+              },
+              "otherFiles": [],
+              "children": [
                 {
-                  "name": "Polypodiales",
+                  "name": "Polypodiopsida",
                   "file": null,
                   "otherFiles": [],
                   "children": [
                     {
-                      "name": "Dennstaedtiaceae",
+                      "name": "Equisetales",
                       "file": null,
                       "otherFiles": [],
                       "children": [
                         {
-                          "name": "Pteridium",
+                          "name": "Equisetaceae",
                           "file": null,
-                          "otherFiles": [
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Pteridium aquilinum",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Pteridium_aquilinum",
-                              "aliases": [
-                                "bracken",
-                                "brake",
-                                "common bracken",
-                                "eagle fern",
-                                "pasture brake"
-                              ]
+                              "name": "Equisetum",
+                              "file": {
+                                "fileName": "Equisetum",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Equisetum",
+                                "aliases": [
+                                  "horsetail",
+                                  "mare's tail"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Equisetum pratense",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Equisetum_pratense",
+                                  "aliases": [
+                                    "meadow horsetail",
+                                    "shade horsetail",
+                                    "shady horsetail"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
+                          ]
                         }
                       ]
                     },
                     {
-                      "name": "Dryopteridaceae",
+                      "name": "Polypodiales",
                       "file": null,
                       "otherFiles": [],
                       "children": [
                         {
-                          "name": "Polystichum",
+                          "name": "Dennstaedtiaceae",
                           "file": null,
-                          "otherFiles": [
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Polystichum munitum",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Polystichum_munitum",
-                              "aliases": [
-                                "western swordfern"
-                              ]
+                              "name": "Pteridium",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Pteridium aquilinum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pteridium_aquilinum",
+                                  "aliases": [
+                                    "bracken",
+                                    "brake",
+                                    "common bracken",
+                                    "eagle fern",
+                                    "pasture brake"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "name": "Polypodiaceae",
-                      "file": null,
-                      "otherFiles": [],
-                      "children": [
+                          ]
+                        },
                         {
-                          "name": "Polypodium",
+                          "name": "Dryopteridaceae",
                           "file": null,
-                          "otherFiles": [
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Polypodium glycyrrhiza",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Polypodium_glycyrrhiza",
-                              "aliases": [
-                                "licorice fern",
-                                "many-footed fern",
-                                "sweet root"
-                              ]
+                              "name": "Polystichum",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Polystichum munitum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Polystichum_munitum",
+                                  "aliases": [
+                                    "western swordfern"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
-                        }
-                      ]
-                    },
-                    {
-                      "name": "Pteridaceae",
-                      "file": null,
-                      "otherFiles": [],
-                      "children": [
+                          ]
+                        },
                         {
-                          "name": "Adiantum",
+                          "name": "Polypodiaceae",
                           "file": null,
-                          "otherFiles": [
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Adiantum pedatum",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Adiantum_pedatum",
-                              "aliases": [
-                                "northern maidenhair fern"
-                              ]
+                              "name": "Polypodium",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Polypodium glycyrrhiza",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Polypodium_glycyrrhiza",
+                                  "aliases": [
+                                    "licorice fern",
+                                    "many-footed fern",
+                                    "sweet root"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
+                          ]
+                        },
+                        {
+                          "name": "Pteridaceae",
+                          "file": null,
+                          "otherFiles": [],
+                          "children": [
+                            {
+                              "name": "Adiantum",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Adiantum pedatum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Adiantum_pedatum",
+                                  "aliases": [
+                                    "northern maidenhair fern"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            }
+                          ]
                         }
                       ]
                     }
@@ -267,6 +322,7 @@
               "phaenogam",
               "phanerogam",
               "seed plant",
+              "Spermatophyta",
               "spermatophyte"
             ]
           },
@@ -282,7 +338,8 @@
                   "angiosperm",
                   "angiosperms",
                   "flowering plants",
-                  "flowers"
+                  "flowers",
+                  "Magnoliophyta"
                 ]
               },
               "otherFiles": [],
@@ -1433,6 +1490,23 @@
                                             "madrone",
                                             "Pacific madrone",
                                             "refrigerator tree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Calluna",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Calluna vulgaris",
+                                          "wikipedia": null,
+                                          "aliases": [
+                                            "Calluna",
+                                            "common heather",
+                                            "heather",
+                                            "ling"
                                           ]
                                         }
                                       ],
@@ -3280,6 +3354,14 @@
                                       "wikipedia": "https://en.wikipedia.org/wiki/Berberis_eurybracteata",
                                       "aliases": [
                                         "Mahonia eurybracteata"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Berberis japonica",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Berberis_japonica",
+                                      "aliases": [
+                                        "Japanese Mahonia",
+                                        "Mahonia tikushiensis"
                                       ]
                                     },
                                     {
