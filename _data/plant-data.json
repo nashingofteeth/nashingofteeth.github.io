@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-04T15:49:54.901Z",
-  "totalPlants": 721,
+  "generated": "2025-12-06T21:21:37.771Z",
+  "totalPlants": 726,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1148,6 +1148,7 @@
                                         "wikipedia": "https://en.wikipedia.org/wiki/Cornus",
                                         "aliases": [
                                           "cornels",
+                                          "dogwood",
                                           "dogwoods"
                                         ]
                                       },
@@ -5299,10 +5300,19 @@
                                         "aliases": [
                                           "aspen",
                                           "cottonwood",
+                                          "cottonwoods",
                                           "poplar"
                                         ]
                                       },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Populus nigra",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Populus_nigra",
+                                          "aliases": [
+                                            "black poplar",
+                                            "Lombardy poplar"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Populus tremuloides",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Populus_tremuloides",
@@ -8452,6 +8462,17 @@
                           "file": null,
                           "otherFiles": [
                             {
+                              "fileName": "Camassia",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Camassia",
+                              "aliases": [
+                                "camas",
+                                "camash",
+                                "Indian hyacinth",
+                                "quamash",
+                                "wild hyacinth"
+                              ]
+                            },
+                            {
                               "fileName": "Hyacinthus",
                               "wikipedia": "https://en.wikipedia.org/wiki/Hyacinth",
                               "aliases": [
@@ -8640,6 +8661,22 @@
                                     "red hot poker",
                                     "torch lily",
                                     "tritomea"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Phormium",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Phormium tenax",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Phormium_tenax",
+                                  "aliases": [
+                                    "flax",
+                                    "New Zealand flax",
+                                    "New Zealand hemp"
                                   ]
                                 }
                               ],
@@ -9397,9 +9434,29 @@
                         },
                         {
                           "name": "Podocarpaceae",
-                          "file": null,
+                          "file": {
+                            "fileName": "Podocarpaceae",
+                            "wikipedia": "https://en.wikipedia.org/wiki/Podocarpaceae",
+                            "aliases": [
+                              "podocarps"
+                            ]
+                          },
                           "otherFiles": [],
                           "children": [
+                            {
+                              "name": "Dacrydium",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Dacrydium cupressinum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Dacrydium_cupressinum",
+                                  "aliases": [
+                                    "rimu"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
                             {
                               "name": "Podocarpus",
                               "file": null,
