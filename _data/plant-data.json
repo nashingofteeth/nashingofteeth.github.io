@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-06T21:21:37.771Z",
-  "totalPlants": 726,
+  "generated": "2025-12-08T15:47:57.521Z",
+  "totalPlants": 733,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -287,7 +287,15 @@
                         {
                           "name": "Pteridaceae",
                           "file": null,
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "Gaga",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Gaga_(plant)",
+                              "aliases": [
+                                "gaga lipfern"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Adiantum",
@@ -1491,6 +1499,19 @@
                                             "madrone",
                                             "Pacific madrone",
                                             "refrigerator tree"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Arbutus unedo",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Arbutus_unedo",
+                                          "aliases": [
+                                            "arbutus berry",
+                                            "cain",
+                                            "cane apple",
+                                            "Irish strawberry tree",
+                                            "Killarney strawberry tree",
+                                            "madrone",
+                                            "strawberry tree"
                                           ]
                                         }
                                       ],
@@ -7930,9 +7951,14 @@
                                       "fileName": "Camphora officinarum",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Camphora_officinarum",
                                       "aliases": [
+                                        "camphor",
                                         "camphor laurel",
                                         "camphor tree",
-                                        "camphorwood"
+                                        "camphorwood",
+                                        "Cinnamomum camphora",
+                                        "kusunoki",
+                                        "Laurus camphora",
+                                        "xiang zhang"
                                       ]
                                     }
                                   ],
@@ -8876,6 +8902,23 @@
                                   "children": []
                                 },
                                 {
+                                  "name": "Euterpe",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Euterpe oleracea",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/A%C3%A7a%C3%AD_palm",
+                                      "aliases": [
+                                        "acai",
+                                        "açaí",
+                                        "açaí berries",
+                                        "açaí palm"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Phoenix",
                                   "file": null,
                                   "otherFiles": [
@@ -8942,7 +8985,23 @@
                         {
                           "name": "Poales",
                           "file": null,
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "Cyperaceae",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Cyperaceae",
+                              "aliases": [
+                                "sedges"
+                              ]
+                            },
+                            {
+                              "fileName": "Juncaceae",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Juncaceae",
+                              "aliases": [
+                                "rush family",
+                                "rushes"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Bromeliaceae",
@@ -9711,7 +9770,8 @@
                                   "aliases": [
                                     "California redwood",
                                     "coast redwood",
-                                    "coastal redwood"
+                                    "coastal redwood",
+                                    "Sequoia"
                                   ]
                                 }
                               ],
@@ -9852,7 +9912,13 @@
                       "children": [
                         {
                           "name": "Pinaceae",
-                          "file": null,
+                          "file": {
+                            "fileName": "Pinaceae",
+                            "wikipedia": "https://en.wikipedia.org/wiki/Pinaceae",
+                            "aliases": [
+                              "pine family"
+                            ]
+                          },
                           "otherFiles": [],
                           "children": [
                             {
@@ -9861,7 +9927,9 @@
                                 "fileName": "Abies",
                                 "wikipedia": "https://en.wikipedia.org/wiki/Fir",
                                 "aliases": [
-                                  "fir"
+                                  "fir",
+                                  "firs",
+                                  "true firs"
                                 ]
                               },
                               "otherFiles": [
@@ -9872,6 +9940,15 @@
                                     "Colorado fir",
                                     "concolor fir",
                                     "white fir"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Abies firma",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Abies_firma",
+                                  "aliases": [
+                                    "Japanese fir",
+                                    "momi fir",
+                                    "Momitanne"
                                   ]
                                 },
                                 {
