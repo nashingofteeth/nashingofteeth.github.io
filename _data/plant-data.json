@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-09T16:21:32.336Z",
-  "totalPlants": 733,
+  "generated": "2025-12-11T16:58:41.024Z",
+  "totalPlants": 746,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1823,7 +1823,16 @@
                                 {
                                   "name": "Apocynaceae",
                                   "file": null,
-                                  "otherFiles": [],
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Asclepias",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Asclepias",
+                                      "aliases": [
+                                        "milkweed",
+                                        "milkweeds"
+                                      ]
+                                    }
+                                  ],
                                   "children": [
                                     {
                                       "name": "Trachelospermum",
@@ -5038,6 +5047,20 @@
                                       "children": []
                                     }
                                   ]
+                                },
+                                {
+                                  "name": "Nothofagaceae",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Nothofagus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Nothofagus",
+                                      "aliases": [
+                                        "southern beeches"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
                                 }
                               ]
                             },
@@ -8930,6 +8953,14 @@
                                         "CIDP",
                                         "pineapple palm"
                                       ]
+                                    },
+                                    {
+                                      "fileName": "Phoenix dactylifera",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Date_palm",
+                                      "aliases": [
+                                        "date palm",
+                                        "dates"
+                                      ]
                                     }
                                   ],
                                   "children": []
@@ -9134,7 +9165,13 @@
                                 },
                                 {
                                   "name": "Triticum",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Triticum",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Wheat",
+                                    "aliases": [
+                                      "wheat"
+                                    ]
+                                  },
                                   "otherFiles": [
                                     {
                                       "fileName": "Triticum aestivum",
@@ -9353,7 +9390,16 @@
                   "gymnosperms"
                 ]
               },
-              "otherFiles": [],
+              "otherFiles": [
+                {
+                  "fileName": "Cycadophyta",
+                  "wikipedia": "https://en.wikipedia.org/wiki/Cycad",
+                  "aliases": [
+                    "cycad",
+                    "cycads"
+                  ]
+                }
+              ],
               "children": [
                 {
                   "name": "Ginkgophyta",
@@ -9497,10 +9543,19 @@
                             "fileName": "Podocarpaceae",
                             "wikipedia": "https://en.wikipedia.org/wiki/Podocarpaceae",
                             "aliases": [
+                              "podocarp",
                               "podocarps"
                             ]
                           },
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "Parasitaxus",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Parasitaxus",
+                              "aliases": [
+                                "cèdre rabougri"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Dacrydium",
@@ -9518,7 +9573,11 @@
                             },
                             {
                               "name": "Podocarpus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Podocarpus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Podocarpus",
+                                "aliases": []
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Podocarpus macrophyllus",
@@ -9528,6 +9587,18 @@
                                     "fern pine",
                                     "Japanese yew",
                                     "yew plum pine"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Podocarpus nubigenus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Podocarpus_nubigenus",
+                                  "aliases": []
+                                },
+                                {
+                                  "fileName": "Podocarpus totara",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Podocarpus_totara",
+                                  "aliases": [
+                                    "tōtara"
                                   ]
                                 }
                               ],
@@ -9718,7 +9789,14 @@
                             },
                             {
                               "name": "Juniperus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Juniperus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Juniper",
+                                "aliases": [
+                                  "juniper",
+                                  "junipers"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Juniperus communis",
@@ -9884,7 +9962,14 @@
                           "children": [
                             {
                               "name": "Taxus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Taxus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Taxus",
+                                "aliases": [
+                                  "yew",
+                                  "yews"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Taxus baccata",
@@ -9958,6 +10043,19 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Abies grandis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Abies_grandis",
+                                  "aliases": [
+                                    "giant fir",
+                                    "grand fir",
+                                    "great silver fir",
+                                    "lowland white fir",
+                                    "Oregon fir",
+                                    "Vancouver fir",
+                                    "western white fir"
+                                  ]
+                                },
+                                {
                                   "fileName": "Abies lasiocarpa",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Abies_lasiocarpa",
                                   "aliases": [
@@ -9972,6 +10070,17 @@
                                     "Abies nobilis",
                                     "noble fir",
                                     "red fir"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Abies religiosa",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Abies_religiosa",
+                                  "aliases": [
+                                    "árbol de Navidad",
+                                    "oyamel",
+                                    "oyamel fir",
+                                    "pinabete",
+                                    "sacred fir"
                                   ]
                                 }
                               ],
