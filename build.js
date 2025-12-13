@@ -135,12 +135,11 @@ async function build() {
   }
 
   // Plants page
-  const plantDataPath = path.join(__dirname, "src/_data/plant-data.json");
-  if (fs.existsSync(plantDataPath)) {
-    const plantData = JSON.parse(fs.readFileSync(plantDataPath, "utf-8"));
+  try {
+    const plantData = require("./src/_data/plant-data.json");
     const plantsHtml = plantsTemplate(plantData);
     writeHtml("plants/index.html", plantsHtml);
-  } else {
+  } catch (error) {
     console.log("  ⚠️  plant-data.json not found, skipping plants page");
   }
 
