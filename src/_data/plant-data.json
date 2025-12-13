@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-11T16:58:41.024Z",
-  "totalPlants": 746,
+  "generated": "2025-12-13T23:25:15.092Z",
+  "totalPlants": 748,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -8201,6 +8201,14 @@
                                       ]
                                     },
                                     {
+                                      "fileName": "Magnolia figo",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_figo",
+                                      "aliases": [
+                                        "banana shrub",
+                                        "port wine magnolia"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Magnolia grandiflora",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Magnolia_grandiflora",
                                       "aliases": [
@@ -9516,6 +9524,18 @@
                                     "pewen",
                                     "piñonero"
                                   ]
+                                },
+                                {
+                                  "fileName": "Araucaria heterophylla",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Araucaria_heterophylla",
+                                  "aliases": [
+                                    "living Christmas tree",
+                                    "Norfolk Island pine",
+                                    "Norfolk pine",
+                                    "Polynesian pine",
+                                    "star pine",
+                                    "triangle tree"
+                                  ]
                                 }
                               ],
                               "children": []
@@ -9565,6 +9585,7 @@
                                   "fileName": "Dacrydium cupressinum",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Dacrydium_cupressinum",
                                   "aliases": [
+                                    "red pine",
                                     "rimu"
                                   ]
                                 }
