@@ -18,8 +18,8 @@ function tools() {
 	<p><a href="/charPerms">word permuter</a></p>
 </article>`;
 
-  const pageContent = page(mainContent, "TOOLS&nbsp;&#129520;");
-  return base(pageContent, "tool - matthew nash", null, combinedCss);
+  const pageContent = page(mainContent, "&#129520;&nbsp;TOOLS");
+  return base(pageContent, "tools - matthew nash", null, combinedCss);
 }
 
 module.exports = tools;
