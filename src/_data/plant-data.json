@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-13T23:25:15.092Z",
-  "totalPlants": 748,
+  "generated": "2025-12-14T00:16:34.145Z",
+  "totalPlants": 751,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -4392,6 +4392,26 @@
                                           "aliases": [
                                             "clammy locust",
                                             "rose acacia"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Senegalia",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Senegalia greggii",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Senegalia_greggii",
+                                          "aliases": [
+                                            "acacia bush",
+                                            "catclaw acacia",
+                                            "catclaw mesquite",
+                                            "Gregg's catclaw",
+                                            "paradise flower",
+                                            "wait-a-bit tree",
+                                            "wait-a-minute bush"
                                           ]
                                         }
                                       ],
@@ -10064,6 +10084,14 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Abies fraseri",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Fraser_fir",
+                                  "aliases": [
+                                    "Fraser fir",
+                                    "Fraser's fir"
+                                  ]
+                                },
+                                {
                                   "fileName": "Abies grandis",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Abies_grandis",
                                   "aliases": [
@@ -10422,6 +10450,16 @@
                                     "Japanese black pine",
                                     "Japanese pine",
                                     "kuromatsu"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus virginiana",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_virginiana",
+                                  "aliases": [
+                                    "Jersey pine",
+                                    "possum pine",
+                                    "scrub pine",
+                                    "Virginia pine"
                                   ]
                                 },
                                 {
