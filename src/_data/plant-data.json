@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-14T00:16:34.145Z",
-  "totalPlants": 751,
+  "generated": "2025-12-17T15:26:58.856Z",
+  "totalPlants": 756,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -993,6 +993,14 @@
                                       "name": "Senecio",
                                       "file": null,
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Senecio candidans",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Senecio_candicans",
+                                          "aliases": [
+                                            "angel wings",
+                                            "sea cabbage"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Senecio sylvaticus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Senecio_sylvaticus",
@@ -7305,7 +7313,13 @@
                                 },
                                 {
                                   "name": "Sapindaceae",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Sapindaceae",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Sapindaceae",
+                                    "aliases": [
+                                      "soapberry family"
+                                    ]
+                                  },
                                   "otherFiles": [],
                                   "children": [
                                     {
@@ -7448,7 +7462,14 @@
                                     },
                                     {
                                       "name": "Aesculus",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Aesculus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Aesculus",
+                                        "aliases": [
+                                          "buckeye",
+                                          "horse chestnut"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Aesculus flava",
@@ -8119,6 +8140,7 @@
                                         "cinnamon bush",
                                         "headache tree",
                                         "mountain laurel",
+                                        "myrtlewood money",
                                         "Oregon myrtle",
                                         "peppernut tree",
                                         "pepperwood",
@@ -8496,7 +8518,8 @@
                                     "🧅",
                                     "bulb onion",
                                     "common onion",
-                                    "onion"
+                                    "onion",
+                                    "onions"
                                   ]
                                 },
                                 {
@@ -9592,7 +9615,9 @@
                               "fileName": "Parasitaxus",
                               "wikipedia": "https://en.wikipedia.org/wiki/Parasitaxus",
                               "aliases": [
-                                "cèdre rabougri"
+                                "cèdre rabougri",
+                                "corail",
+                                "Parasitaxus usta"
                               ]
                             }
                           ],
@@ -9608,6 +9633,18 @@
                                     "red pine",
                                     "rimu"
                                   ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Falcatifolium",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Falcatifolium taxoides",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Falcatifolium_taxoides",
+                                  "aliases": []
                                 }
                               ],
                               "children": []
@@ -9844,6 +9881,13 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_communis",
                                   "aliases": [
                                     "common juniper"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Juniperus occidentalis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_occidentalis",
+                                  "aliases": [
+                                    "western juniper"
                                   ]
                                 },
                                 {
