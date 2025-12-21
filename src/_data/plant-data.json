@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-17T15:26:58.856Z",
-  "totalPlants": 756,
+  "generated": "2025-12-21T00:28:36.758Z",
+  "totalPlants": 761,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1669,6 +1669,27 @@
                                             "cranberries",
                                             "cranberry",
                                             "Oxycoccus"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Lecythidaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Bertholletia",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Bertholletia excelsa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Brazil_nut",
+                                          "aliases": [
+                                            "Brazil nut"
                                           ]
                                         }
                                       ],
@@ -4051,6 +4072,29 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Momordica",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Momordica charantia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Momordica_charantia",
+                                          "aliases": [
+                                            "balsam-pear",
+                                            "bitter apple",
+                                            "bitter gourd",
+                                            "bitter melon",
+                                            "bitter squash",
+                                            "cerassee",
+                                            "gouya",
+                                            "goya",
+                                            "karavila",
+                                            "karela"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Siraitia",
                                       "file": null,
                                       "otherFiles": [
@@ -4089,7 +4133,16 @@
                                       "pea family"
                                     ]
                                   },
-                                  "otherFiles": [],
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Paubrasilia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Paubrasilia",
+                                      "aliases": [
+                                        "brazilwood",
+                                        "Paubrasilia echinata"
+                                      ]
+                                    }
+                                  ],
                                   "children": [
                                     {
                                       "name": "Acacia",
@@ -7815,6 +7868,14 @@
                                   "file": null,
                                   "otherFiles": [
                                     {
+                                      "fileName": "Hamamelis × intermedia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Hamamelis_%C3%97_intermedia",
+                                      "aliases": [
+                                        "hybrid witch hazel",
+                                        "witch hazel"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Hamamelis virginiana",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Hamamelis_virginiana",
                                       "aliases": [
@@ -8793,6 +8854,14 @@
                               "wikipedia": "https://en.wikipedia.org/wiki/Crocosmia",
                               "aliases": [
                                 "montbretia"
+                              ]
+                            },
+                            {
+                              "fileName": "Crocus",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Crocus",
+                              "aliases": [
+                                "croci",
+                                "crocuses"
                               ]
                             }
                           ],
