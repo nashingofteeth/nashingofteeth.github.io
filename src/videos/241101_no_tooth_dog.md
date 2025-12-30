@@ -11,3 +11,5 @@ margin_left: 0
 youtube_id: QxfYx5JY3lw
 ---
 Music video for "No Tooth Dog" from *[Double Snakes EP](https://badnotes.bandcamp.com/album/double-snakes-ep)*. Music by [Bad Notes](https://www.instagram.com/badnotes999/).
+
+Screened at [Local Sightings on September 28, 2025](https://nwfilmforum.org/films/local-sightings-2025-afterimages-experimental-shorts/).

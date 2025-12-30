@@ -10,3 +10,5 @@ permalink: false
 margin_left: 0
 ---
 surrendering, away it goes. something shadowing itself. pink and blue and perfect day.
+
+Screened at [Boathouse Microcinema on October 12, 2025](https://www.boathousemicrocinema.com/oct-12-2025/).
