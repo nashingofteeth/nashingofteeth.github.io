@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-21T00:28:36.758Z",
-  "totalPlants": 761,
+  "generated": "2025-12-30T08:20:55.726Z",
+  "totalPlants": 778,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -713,7 +713,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Achillea clypeolata",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Achillea_clypeolata",
+                                          "wikipedia": null,
                                           "aliases": [
                                             "moonshine yarrow"
                                           ]
@@ -1375,7 +1375,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Vesalea grandifolia",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Vesalea_grandifolia",
+                                          "wikipedia": null,
                                           "aliases": []
                                         }
                                       ],
@@ -1520,6 +1520,20 @@
                                             "Killarney strawberry tree",
                                             "madrone",
                                             "strawberry tree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Arctostaphylos",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Arctostaphylos pungens",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Arctostaphylos_pungens",
+                                          "aliases": [
+                                            "pointleaf manzanita"
                                           ]
                                         }
                                       ],
@@ -2034,7 +2048,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Amphilophium buccinatorium",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Amphilophium_buccinatorium",
+                                          "wikipedia": null,
                                           "aliases": [
                                             "Blood-Trumpet"
                                           ]
@@ -2571,7 +2585,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Antirrhinum australe",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Antirrhinum_australe",
+                                          "wikipedia": null,
                                           "aliases": []
                                         },
                                         {
@@ -4156,10 +4170,30 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Acacia heterophylla",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Acacia_heterophylla",
+                                          "aliases": [
+                                            "highland tamarind",
+                                            "tamarin des hauts"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Acacia koa",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Acacia_koa",
                                           "aliases": [
                                             "koa"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Acacia melanoxylon",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Acacia_melanoxylon",
+                                          "aliases": [
+                                            "Australian blackwood",
+                                            "blackwood",
+                                            "blackwood acacia",
+                                            "hickory",
+                                            "mudgerabah",
+                                            "Tasmanian blackwood"
                                           ]
                                         }
                                       ],
@@ -4691,6 +4725,17 @@
                                             "common hornbeam",
                                             "European hornbeam",
                                             "yoke elm"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Carpinus caroliniana",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Carpinus_caroliniana",
+                                          "aliases": [
+                                            "American hornbeam",
+                                            "blue-beech",
+                                            "ironwood",
+                                            "muscle beech",
+                                            "musclewood"
                                           ]
                                         },
                                         {
@@ -5494,6 +5539,14 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Salix matsudana",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Salix_babylonica#Relation_to_Salix_matsudana",
+                                          "aliases": [
+                                            "Chinese willow",
+                                            "corkscrew willow"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Salix nigra",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Salix_nigra",
                                           "aliases": [
@@ -5771,7 +5824,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Tilia × euchlora",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Tilia_%C3%97_euchlora",
+                                          "wikipedia": null,
                                           "aliases": []
                                         },
                                         {
@@ -5950,6 +6003,15 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Eucalyptus pauciflora",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Eucalyptus_pauciflora",
+                                          "aliases": [
+                                            "cabbage gum",
+                                            "snow gum",
+                                            "white sally"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Eucalyptus regnans",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Eucalyptus_regnans",
                                           "aliases": [
@@ -5993,7 +6055,7 @@
                                       "otherFiles": [
                                         {
                                           "fileName": "Fuchsia × standishii",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Fuchsia_%C3%97_standishii",
+                                          "wikipedia": null,
                                           "aliases": [
                                             "Standish's Fuchsia"
                                           ]
@@ -6345,6 +6407,18 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Amelanchier alnifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Amelanchier_alnifolia",
+                                          "aliases": [
+                                            "Pacific serviceberry",
+                                            "saskatoon",
+                                            "saskatoon berry",
+                                            "western juneberry",
+                                            "western serviceberry",
+                                            "western shadbush"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Amelanchier canadensis",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Amelanchier_canadensis",
                                           "aliases": [
@@ -6576,6 +6650,13 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Malus angustifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Malus_angustifolia",
+                                          "aliases": [
+                                            "southern crabapple"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Malus domestica",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Apple",
                                           "aliases": [
@@ -6583,6 +6664,7 @@
                                             "🍏",
                                             "apple",
                                             "domestic apple",
+                                            "Malus pumila",
                                             "orchard apple"
                                           ]
                                         },
@@ -6734,7 +6816,7 @@
                                         },
                                         {
                                           "fileName": "Prunus subg. Prunus",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Plum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_subg._Prunus",
                                           "aliases": [
                                             "plum",
                                             "plums",
@@ -6942,6 +7024,14 @@
                                           "aliases": [
                                             "field elm",
                                             "Tartan elm"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Ulmus parvifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Ulmus_parvifolia",
+                                          "aliases": [
+                                            "Chinese elm",
+                                            "lacebark elm"
                                           ]
                                         },
                                         {
@@ -7294,7 +7384,7 @@
                                         },
                                         {
                                           "fileName": "Citrus × sinensis",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Orange_(fruit)",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis",
                                           "aliases": [
                                             "orange",
                                             "sweet orange"
@@ -7989,7 +8079,7 @@
                                   "otherFiles": [
                                     {
                                       "fileName": "Saxifraga hostii",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/Saxifraga_hostii",
+                                      "wikipedia": null,
                                       "aliases": []
                                     }
                                   ],
@@ -8437,6 +8527,7 @@
                     "fileName": "Monocots",
                     "wikipedia": "https://en.wikipedia.org/wiki/Monocotyledon",
                     "aliases": [
+                      "Liliopsida",
                       "monocot",
                       "monocots",
                       "Monocotyledon"
@@ -9302,6 +9393,13 @@
                                         "common wheat",
                                         "wheat"
                                       ]
+                                    },
+                                    {
+                                      "fileName": "Triticum monococcum",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Einkorn",
+                                      "aliases": [
+                                        "einkorn"
+                                      ]
                                     }
                                   ],
                                   "children": []
@@ -9384,12 +9482,20 @@
                     },
                     {
                       "name": "Liliales",
-                      "file": null,
+                      "file": {
+                        "fileName": "Liliales",
+                        "wikipedia": "https://en.wikipedia.org/wiki/Liliales",
+                        "aliases": []
+                      },
                       "otherFiles": [],
                       "children": [
                         {
                           "name": "Liliaceae",
-                          "file": null,
+                          "file": {
+                            "fileName": "Liliaceae",
+                            "wikipedia": "https://en.wikipedia.org/wiki/Liliaceae",
+                            "aliases": []
+                          },
                           "otherFiles": [],
                           "children": [
                             {
@@ -9776,7 +9882,10 @@
                               "aliases": [
                                 "Cryptomeria japonica",
                                 "Japanese cedar",
+                                "Japanese cyptomeria",
                                 "Japanese redwood",
+                                "Japanese-cedar",
+                                "peacock pine",
                                 "Sugi"
                               ]
                             }
@@ -9945,6 +10054,14 @@
                                 ]
                               },
                               "otherFiles": [
+                                {
+                                  "fileName": "Juniperus chinensis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_chinensis",
+                                  "aliases": [
+                                    "Chinese juniper",
+                                    "shimpaku juniper"
+                                  ]
+                                },
                                 {
                                   "fileName": "Juniperus communis",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_communis",
@@ -10136,6 +10253,14 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Taxus brevifolia",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Taxus_brevifolia",
+                                  "aliases": [
+                                    "Pacific yew",
+                                    "western yew"
+                                  ]
+                                },
+                                {
                                   "fileName": "Taxus cuspidata",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Taxus_cuspidata",
                                   "aliases": [
@@ -10152,7 +10277,11 @@
                     },
                     {
                       "name": "Pinales",
-                      "file": null,
+                      "file": {
+                        "fileName": "Pinales",
+                        "wikipedia": "https://en.wikipedia.org/wiki/Pinales",
+                        "aliases": []
+                      },
                       "otherFiles": [],
                       "children": [
                         {
@@ -10178,6 +10307,13 @@
                                 ]
                               },
                               "otherFiles": [
+                                {
+                                  "fileName": "Abies balsamea",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Abies_balsamea",
+                                  "aliases": [
+                                    "balsam fir"
+                                  ]
+                                },
                                 {
                                   "fileName": "Abies concolor",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Abies_concolor",
@@ -10491,18 +10627,6 @@
                                   ]
                                 },
                                 {
-                                  "fileName": "Pinus ponderosa",
-                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_ponderosa",
-                                  "aliases": [
-                                    "blackjack pine",
-                                    "bull pine",
-                                    "filipinus pine",
-                                    "ponderosa pine",
-                                    "western yellow-pine",
-                                    "white pine"
-                                  ]
-                                },
-                                {
                                   "fileName": "Pinus pungens",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Table_mountain_pine",
                                   "aliases": [
@@ -10585,7 +10709,37 @@
                                   ]
                                 }
                               ],
-                              "children": []
+                              "children": [
+                                {
+                                  "name": "Pinus ponderosa",
+                                  "file": {
+                                    "fileName": "Pinus ponderosa",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Pinus_ponderosa",
+                                    "aliases": [
+                                      "blackjack pine",
+                                      "bull pine",
+                                      "filipinus pine",
+                                      "Pinus ponderosa subsp. ponderosa",
+                                      "ponderosa pine",
+                                      "western yellow-pine",
+                                      "white pine"
+                                    ]
+                                  },
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Pinus ponderosa subsp. scopulorum",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Pinus_ponderosa#Subspecies_and_varieties",
+                                      "aliases": [
+                                        "Pinus scopulorum",
+                                        "Rocky Mountain pine",
+                                        "Rocky Mountain ponderosa pine",
+                                        "Rocky Mountain yellow pine"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                }
+                              ]
                             },
                             {
                               "name": "Pseudotsuga",
