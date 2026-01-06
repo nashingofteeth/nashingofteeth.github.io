@@ -1,6 +1,6 @@
 {
-  "generated": "2025-12-30T08:20:55.726Z",
-  "totalPlants": 778,
+  "generated": "2026-01-06T00:58:52.382Z",
+  "totalPlants": 788,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -761,6 +761,30 @@
                                             "little burdock",
                                             "louse-bur",
                                             "wild rhubarb"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Artemisia",
+                                      "file": {
+                                        "fileName": "Artemisia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Artemisia_(plant)",
+                                        "aliases": [
+                                          "mugwort",
+                                          "sagebrush",
+                                          "wormwood"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Artemisia tridentata",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Artemisia_tridentata",
+                                          "aliases": [
+                                            "big sagebrush",
+                                            "Great Basin sagebrush",
+                                            "simply sagebrush"
                                           ]
                                         }
                                       ],
@@ -5054,6 +5078,14 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Quercus tardifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Quercus_tardifolia",
+                                          "aliases": [
+                                            "Chisos Mountains oak",
+                                            "lateleaf oak"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Quercus velutina",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Quercus_velutina",
                                           "aliases": [
@@ -6663,6 +6695,7 @@
                                             "🍎",
                                             "🍏",
                                             "apple",
+                                            "apples",
                                             "domestic apple",
                                             "Malus pumila",
                                             "orchard apple"
@@ -6837,6 +6870,24 @@
                                           "aliases": [
                                             "Bradford pear",
                                             "Callery pear"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Pyrus pyrifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Pyrus_pyrifolia",
+                                          "aliases": [
+                                            "apple pear",
+                                            "Asian pear",
+                                            "Chinese pear",
+                                            "Japanese pear",
+                                            "Korean pear",
+                                            "naspati",
+                                            "papple",
+                                            "Persian pear",
+                                            "sand pear",
+                                            "Taiwanese pear",
+                                            "three-halves pear",
+                                            "zodiac pear"
                                           ]
                                         }
                                       ],
@@ -7383,14 +7434,6 @@
                                           ]
                                         },
                                         {
-                                          "fileName": "Citrus × sinensis",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis",
-                                          "aliases": [
-                                            "orange",
-                                            "sweet orange"
-                                          ]
-                                        },
-                                        {
                                           "fileName": "Citrus maxima",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Pomelo",
                                           "aliases": [
@@ -7428,6 +7471,26 @@
                                                 "Buddha's hand",
                                                 "fingered citron"
                                               ]
+                                            }
+                                          ],
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "Citrus × sinensis",
+                                          "file": {
+                                            "fileName": "Citrus × sinensis",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis",
+                                            "aliases": [
+                                              "Citrus sinensis",
+                                              "orange",
+                                              "sweet orange"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "navel orange",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Navel_orange",
+                                              "aliases": []
                                             }
                                           ],
                                           "children": []
@@ -7742,6 +7805,36 @@
                                             "🍇",
                                             "common grape vine",
                                             "grape"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Zygophyllales",
+                              "file": null,
+                              "otherFiles": [],
+                              "children": [
+                                {
+                                  "name": "Zygophyllaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Larrea",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Larrea tridentata",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Larrea_tridentata",
+                                          "aliases": [
+                                            "chaparral",
+                                            "creosote bush",
+                                            "greasewood"
                                           ]
                                         }
                                       ],
@@ -8798,6 +8891,16 @@
                                     "dragon blood tree",
                                     "Socotra dragon tree"
                                   ]
+                                },
+                                {
+                                  "fileName": "Dracaena trifasciata",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Dracaena_trifasciata",
+                                  "aliases": [
+                                    "mother-in-law's tongue",
+                                    "Saint George's sword",
+                                    "snake plant",
+                                    "viper's bowstring hemp"
+                                  ]
                                 }
                               ],
                               "children": []
@@ -9102,23 +9205,19 @@
                                   "palms"
                                 ]
                               },
-                              "otherFiles": [],
-                              "children": [
+                              "otherFiles": [
                                 {
-                                  "name": "Cocos",
-                                  "file": {
-                                    "fileName": "Cocos",
-                                    "wikipedia": "https://en.wikipedia.org/wiki/Coconut",
-                                    "aliases": [
-                                      "🥥",
-                                      "cocoanut",
-                                      "coconut",
-                                      "Cocos nucifera"
-                                    ]
-                                  },
-                                  "otherFiles": [],
-                                  "children": []
-                                },
+                                  "fileName": "Cocos",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Coconut",
+                                  "aliases": [
+                                    "🥥",
+                                    "cocoanut",
+                                    "coconut",
+                                    "Cocos nucifera"
+                                  ]
+                                }
+                              ],
+                              "children": [
                                 {
                                   "name": "Elaeis",
                                   "file": null,
@@ -9153,8 +9252,32 @@
                                   "children": []
                                 },
                                 {
+                                  "name": "Lodoicea",
+                                  "file": {
+                                    "fileName": "Lodoicea",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Lodoicea",
+                                    "aliases": [
+                                      "coco de mer",
+                                      "coco fesse",
+                                      "Coco-de-mer",
+                                      "double coconut",
+                                      "Lodoicea maldivica",
+                                      "love nut",
+                                      "Maldive coconut",
+                                      "sea coconut",
+                                      "Seychelles nut"
+                                    ]
+                                  },
+                                  "otherFiles": [],
+                                  "children": []
+                                },
+                                {
                                   "name": "Phoenix",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Phoenix",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Phoenix_(plant)",
+                                    "aliases": []
+                                  },
                                   "otherFiles": [
                                     {
                                       "fileName": "Phoenix canariensis",
@@ -9570,6 +9693,29 @@
                             }
                           ],
                           "children": []
+                        },
+                        {
+                          "name": "Smilacaceae",
+                          "file": null,
+                          "otherFiles": [],
+                          "children": [
+                            {
+                              "name": "Smilax",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Smilax ornata",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Smilax_ornata",
+                                  "aliases": [
+                                    "Honduran sarsaparilla",
+                                    "Jamaican sarsaparilla",
+                                    "sarsaparilla"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            }
+                          ]
                         }
                       ]
                     },
