@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-06T00:58:52.382Z",
-  "totalPlants": 788,
+  "generated": "2026-01-19T00:35:20.248Z",
+  "totalPlants": 795,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -648,6 +648,14 @@
                                             "English holly",
                                             "European holly",
                                             "holly"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Ilex cornuta",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Ilex_cornuta",
+                                          "aliases": [
+                                            "Chinese holly",
+                                            "horned holly"
                                           ]
                                         }
                                       ],
@@ -1554,6 +1562,14 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Arctostaphylos manzanita",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Arctostaphylos_manzanita",
+                                          "aliases": [
+                                            "common manzanita",
+                                            "whiteleaf manzanita"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Arctostaphylos pungens",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Arctostaphylos_pungens",
                                           "aliases": [
@@ -2390,6 +2406,13 @@
                                           "aliases": [
                                             "anise-scented sage",
                                             "hummingbird sage"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Salvia jordanii",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Salvia_jordanii",
+                                          "aliases": [
+                                            "Algerian rosemary"
                                           ]
                                         },
                                         {
@@ -6394,6 +6417,14 @@
                                   },
                                   "otherFiles": [
                                     {
+                                      "fileName": "Lyonothamnus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Lyonothamnus",
+                                      "aliases": [
+                                        "Channel Island ironwood",
+                                        "Lyonothamnus floribundus"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Sorbus",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Sorbus",
                                       "aliases": [
@@ -9049,17 +9080,32 @@
                               "aliases": [
                                 "montbretia"
                               ]
-                            },
-                            {
-                              "fileName": "Crocus",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Crocus",
-                              "aliases": [
-                                "croci",
-                                "crocuses"
-                              ]
                             }
                           ],
                           "children": [
+                            {
+                              "name": "Crocus",
+                              "file": {
+                                "fileName": "Crocus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Crocus",
+                                "aliases": [
+                                  "croci",
+                                  "crocuses"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Crocus sativus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Crocus_sativus",
+                                  "aliases": [
+                                    "autumn crocus",
+                                    "saffron",
+                                    "saffron crocus"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
                             {
                               "name": "Dietes",
                               "file": null,
@@ -9218,6 +9264,20 @@
                                 }
                               ],
                               "children": [
+                                {
+                                  "name": "Corypha",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Corypha umbraculifera",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Corypha_umbraculifera",
+                                      "aliases": [
+                                        "talipot palm"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
                                 {
                                   "name": "Elaeis",
                                   "file": null,
@@ -9887,6 +9947,18 @@
                                     "pehuen pine",
                                     "pewen",
                                     "piñonero"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Araucaria columnaris",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Araucaria_columnaris",
+                                  "aliases": [
+                                    "columnar araucaria",
+                                    "Cook araucaria",
+                                    "Cook pine",
+                                    "Cook's pine",
+                                    "coral reef araucaria",
+                                    "New Caledonia pine"
                                   ]
                                 },
                                 {
