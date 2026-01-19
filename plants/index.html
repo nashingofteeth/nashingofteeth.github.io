@@ -341,9 +341,10 @@ a:active {
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Aquifoliaceae</span></li>
               <ul>
-                <li><span class="muted">Ilex</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Ilex</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Ilex_aquifolium" target="_blank">Ilex aquifolium</a> <span class="aliases">(Christmas holly, common holly, English holly, European holly, holly)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Ilex_cornuta" target="_blank">Ilex cornuta</a> <span class="aliases">(Chinese holly, horned holly)</span></li>
                 </ul>
               </ul>
             </ul>
@@ -561,8 +562,9 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Arbutus_menziesii" target="_blank">Arbutus menziesii</a> <span class="aliases">(arbutus, madrona, madrone, Pacific madrone, refrigerator tree)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Arbutus_unedo" target="_blank">Arbutus unedo</a> <span class="aliases">(arbutus berry, cain, cane apple, Irish strawberry tree, Killarney strawberry tree, madrone, strawberry tree)</span></li>
                 </ul>
-                <li><span class="muted">Arctostaphylos</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Arctostaphylos</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Arctostaphylos_manzanita" target="_blank">Arctostaphylos manzanita</a> <span class="aliases">(common manzanita, whiteleaf manzanita)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Arctostaphylos_pungens" target="_blank">Arctostaphylos pungens</a> <span class="aliases">(pointleaf manzanita)</span></li>
                 </ul>
                 <li><span class="muted">Calluna</span></li>
@@ -774,6 +776,7 @@ a:active {
                 <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Salvia</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Salvia_guaranitica" target="_blank">Salvia guaranitica</a> <span class="aliases">(anise-scented sage, hummingbird sage)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Salvia_jordanii" target="_blank">Salvia jordanii</a> <span class="aliases">(Algerian rosemary)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Salvia_microphylla" target="_blank">Salvia microphylla</a> <span class="aliases">(alvia grahamii, baby sage, blackcurrant sage, Graham's sage, Salvia lemmonii, Salvia neurepia)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Rosemary" target="_blank">Salvia rosmarinus</a> <span class="aliases">(rosemary)</span></li>
                 </ul>
@@ -1667,6 +1670,7 @@ a:active {
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Rosaceae" target="_blank">Rosaceae</a> <span class="aliases">(rose family)</span></li>
               <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Lyonothamnus" target="_blank">Lyonothamnus</a> <span class="aliases">(Channel Island ironwood, Lyonothamnus floribundus)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Sorbus" target="_blank">Sorbus</a> <span class="aliases">(mountain-ash, rowan)</span></li>
               </ul>
               <ul>
@@ -2231,9 +2235,12 @@ a:active {
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Iridaceae</span></li>
           <ul>
             <li><a href="https://en.wikipedia.org/wiki/Crocosmia" target="_blank">Crocosmia</a> <span class="aliases">(montbretia)</span></li>
-            <li><a href="https://en.wikipedia.org/wiki/Crocus" target="_blank">Crocus</a> <span class="aliases">(croci, crocuses)</span></li>
           </ul>
           <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Crocus" target="_blank">Crocus</a> <span class="aliases">(croci, crocuses)</span></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Crocus_sativus" target="_blank">Crocus sativus</a> <span class="aliases">(autumn crocus, saffron, saffron crocus)</span></li>
+            </ul>
             <li><span class="muted">Dietes</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Dietes_grandiflora" target="_blank">Dietes grandiflora</a> <span class="aliases">(African iris, fairy iris, fortnight lily, large wild iris)</span></li>
@@ -2271,6 +2278,10 @@ a:active {
               <li><a href="https://en.wikipedia.org/wiki/Coconut" target="_blank">Cocos</a> <span class="aliases">(🥥, cocoanut, coconut, Cocos nucifera)</span></li>
             </ul>
             <ul>
+              <li><span class="muted">Corypha</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Corypha_umbraculifera" target="_blank">Corypha umbraculifera</a> <span class="aliases">(talipot palm)</span></li>
+              </ul>
               <li><span class="muted">Elaeis</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Elaeis_guineensis" target="_blank">Elaeis guineensis</a> <span class="aliases">(African oil palm, macaw-fat, oil palm)</span></li>
@@ -2445,6 +2456,7 @@ a:active {
             <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Araucaria" target="_blank">Araucaria</a></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Araucaria_araucana" target="_blank">Araucaria araucana</a> <span class="aliases">(Chile pine, monkey puzzle, monkey puzzle tree, monkey tail tree, pehuen pine, pewen, piñonero)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Araucaria_columnaris" target="_blank">Araucaria columnaris</a> <span class="aliases">(columnar araucaria, Cook araucaria, Cook pine, Cook's pine, coral reef araucaria, New Caledonia pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Araucaria_heterophylla" target="_blank">Araucaria heterophylla</a> <span class="aliases">(living Christmas tree, Norfolk Island pine, Norfolk pine, Polynesian pine, star pine, triangle tree)</span></li>
             </ul>
             <li><span class="muted">Araucarioxylon</span></li>
@@ -2639,7 +2651,7 @@ a:active {
 </div>
 
 <section class="last-updated muted">
-  Last updated: January 6, 2026
+  Last updated: January 19, 2026
 </section>
 </main>
 
