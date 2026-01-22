@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-19T00:35:20.248Z",
-  "totalPlants": 795,
+  "generated": "2026-01-22T04:54:54.292Z",
+  "totalPlants": 799,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -4593,6 +4593,15 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Vachellia cornigera",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Vachellia_cornigera",
+                                          "aliases": [
+                                            "bullhorn acacia",
+                                            "cachito",
+                                            "subín"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Vachellia nilotica",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Vachellia_nilotica",
                                           "aliases": [
@@ -6256,6 +6265,30 @@
                                   ]
                                 },
                                 {
+                                  "name": "Elaeagnaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Elaeagnus",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Elaeagnus angustifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Elaeagnus_angustifolia",
+                                          "aliases": [
+                                            "oleaster",
+                                            "Russian olive",
+                                            "silver berry",
+                                            "wild olive"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
                                   "name": "Moraceae",
                                   "file": null,
                                   "otherFiles": [],
@@ -6422,14 +6455,6 @@
                                       "aliases": [
                                         "Channel Island ironwood",
                                         "Lyonothamnus floribundus"
-                                      ]
-                                    },
-                                    {
-                                      "fileName": "Sorbus",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/Sorbus",
-                                      "aliases": [
-                                        "mountain-ash",
-                                        "rowan"
                                       ]
                                     }
                                   ],
@@ -7027,6 +7052,29 @@
                                             "groundcover raspberry",
                                             "Himalayan bramble",
                                             "Korean raspberry"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Sorbus",
+                                      "file": {
+                                        "fileName": "Sorbus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Sorbus",
+                                        "aliases": [
+                                          "mountain-ash",
+                                          "rowan"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Sorbus aucuparia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Sorbus_aucuparia",
+                                          "aliases": [
+                                            "mountain-ash",
+                                            "Quicken Tree",
+                                            "rowan"
                                           ]
                                         }
                                       ],
@@ -7715,6 +7763,15 @@
                                             "common buckeye",
                                             "sweet buckeye",
                                             "yellow buckeye"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Aesculus glabra",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Aesculus_glabra",
+                                          "aliases": [
+                                            "fetid buckeye",
+                                            "Ohio buckeye",
+                                            "Texas buckeye"
                                           ]
                                         },
                                         {
