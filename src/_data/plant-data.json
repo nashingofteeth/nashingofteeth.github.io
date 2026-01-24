@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-22T04:54:54.292Z",
-  "totalPlants": 799,
+  "generated": "2026-01-24T22:54:34.544Z",
+  "totalPlants": 811,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -171,7 +171,13 @@
                 {
                   "name": "Polypodiopsida",
                   "file": null,
-                  "otherFiles": [],
+                  "otherFiles": [
+                    {
+                      "fileName": "Cyatheales",
+                      "wikipedia": "https://en.wikipedia.org/wiki/Cyatheales",
+                      "aliases": []
+                    }
+                  ],
                   "children": [
                     {
                       "name": "Equisetales",
@@ -264,7 +270,16 @@
                         {
                           "name": "Polypodiaceae",
                           "file": null,
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "Platycerium",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Platycerium",
+                              "aliases": [
+                                "elkhorn ferns",
+                                "staghorn"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Polypodium",
@@ -299,7 +314,13 @@
                           "children": [
                             {
                               "name": "Adiantum",
-                              "file": null,
+                              "file": {
+                                "fileName": "Adiantum",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Adiantum",
+                                "aliases": [
+                                  "maidenhair fern"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Adiantum pedatum",
@@ -656,6 +677,13 @@
                                           "aliases": [
                                             "Chinese holly",
                                             "horned holly"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Ilex opaca",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Ilex_opaca",
+                                          "aliases": [
+                                            "American holly"
                                           ]
                                         }
                                       ],
@@ -3214,6 +3242,21 @@
                               ]
                             },
                             {
+                              "name": "Droseraceae",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Drosera",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Drosera",
+                                  "aliases": [
+                                    "sundew",
+                                    "sundews"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
                               "name": "Montiaceae",
                               "file": null,
                               "otherFiles": [],
@@ -3518,7 +3561,18 @@
                             {
                               "name": "Lardizabalaceae",
                               "file": null,
-                              "otherFiles": [],
+                              "otherFiles": [
+                                {
+                                  "fileName": "Boquila",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Boquila",
+                                  "aliases": [
+                                    "Boquila trifoliolata",
+                                    "chameleon vine",
+                                    "pilpil",
+                                    "voqui blanco"
+                                  ]
+                                }
+                              ],
                               "children": [
                                 {
                                   "name": "Akebia",
@@ -4032,6 +4086,18 @@
                               "file": null,
                               "otherFiles": [],
                               "children": [
+                                {
+                                  "name": "Begoniaceae",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Begonia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Begonia",
+                                      "aliases": []
+                                    }
+                                  ],
+                                  "children": []
+                                },
                                 {
                                   "name": "Cucurbitaceae",
                                   "file": null,
@@ -7945,6 +8011,27 @@
                               "otherFiles": [],
                               "children": [
                                 {
+                                  "name": "Arceuthobium",
+                                  "file": {
+                                    "fileName": "Arceuthobium",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Arceuthobium",
+                                    "aliases": [
+                                      "dwarf mistletoe",
+                                      "dwarf mistletoes"
+                                    ]
+                                  },
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Arceuthobium douglasii",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Arceuthobium_douglasii",
+                                      "aliases": [
+                                        "Douglas fir dwarf mistletoe"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Phoradendron",
                                   "file": null,
                                   "otherFiles": [
@@ -8726,8 +8813,24 @@
                           "file": null,
                           "otherFiles": [
                             {
+                              "fileName": "Anthurium",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Anthurium",
+                              "aliases": [
+                                "anthurium",
+                                "flamingo flower",
+                                "laceleaf",
+                                "pigtail plant",
+                                "tailflower"
+                              ]
+                            },
+                            {
                               "fileName": "Monstera",
                               "wikipedia": "https://en.wikipedia.org/wiki/Monstera",
+                              "aliases": []
+                            },
+                            {
+                              "fileName": "Philodendron",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Philodendron",
                               "aliases": []
                             },
                             {
@@ -9571,6 +9674,21 @@
                               ],
                               "children": [
                                 {
+                                  "name": "Dendrocalamus",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Dendrocalamus sinicus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Dendrocalamus_sinicus",
+                                      "aliases": [
+                                        "dragon bamboo",
+                                        "giant bamboo"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Hordeum",
                                   "file": null,
                                   "otherFiles": [
@@ -10147,7 +10265,8 @@
                             "fileName": "Cupressaceae",
                             "wikipedia": "https://en.wikipedia.org/wiki/Cupressaceae",
                             "aliases": [
-                              "cypress family"
+                              "cypress family",
+                              "cypresses"
                             ]
                           },
                           "otherFiles": [
