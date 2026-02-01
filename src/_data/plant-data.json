@@ -1,6 +1,6 @@
 {
-  "generated": "2026-01-24T22:54:34.544Z",
-  "totalPlants": 811,
+  "generated": "2026-02-01T18:19:39.215Z",
+  "totalPlants": 820,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1025,13 +1025,21 @@
                                     },
                                     {
                                       "name": "Madia",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Madia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Madia",
+                                        "aliases": [
+                                          "tarweed",
+                                          "tarweeds"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Madia elegans",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Madia_elegans",
                                           "aliases": [
-                                            "common madia"
+                                            "common madia",
+                                            "tarweed"
                                           ]
                                         }
                                       ],
@@ -4777,6 +4785,17 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Alnus glutinosa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Alnus_glutinosa",
+                                          "aliases": [
+                                            "alder",
+                                            "black alder",
+                                            "common alder",
+                                            "European alder",
+                                            "European black alder"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Alnus rubra",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Alnus_rubra",
                                           "aliases": [
@@ -5121,6 +5140,17 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Quercus laurifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Quercus_laurifolia",
+                                          "aliases": [
+                                            "diamond-leaf oak",
+                                            "laurel oak",
+                                            "obtusa oak",
+                                            "swamp laurel oak",
+                                            "water oak"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Quercus macrocarpa",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Quercus_macrocarpa",
                                           "aliases": [
@@ -5165,6 +5195,21 @@
                                             "champion oak",
                                             "northern red oak",
                                             "red oak"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Quercus sect. Lobatae",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/List_of_Quercus_species#Section_Lobatae",
+                                          "aliases": [
+                                            "black oak",
+                                            "red oak"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Quercus sect. Quercus",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/List_of_Quercus_species#Section_Quercus",
+                                          "aliases": [
+                                            "white oak"
                                           ]
                                         },
                                         {
@@ -6902,6 +6947,13 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Prunus armeniaca",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_armeniaca",
+                                          "aliases": [
+                                            "apricot"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Prunus avium",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Prunus_avium",
                                           "aliases": [
@@ -6922,6 +6974,17 @@
                                             "purple leaf plum",
                                             "purple-leaf plum",
                                             "Thundercloud"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Prunus cerasus",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_cerasus",
+                                          "aliases": [
+                                            "amarena",
+                                            "Amarena cherry",
+                                            "dwarf cherry",
+                                            "sour cherry",
+                                            "tart cherry"
                                           ]
                                         },
                                         {
@@ -7091,6 +7154,15 @@
                                           "aliases": [
                                             "Armenian blackberry",
                                             "Himalayan blackberry"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Rubus leucodermis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Rubus_leucodermis",
+                                          "aliases": [
+                                            "blackcap raspberry",
+                                            "blue raspberry",
+                                            "whitebark raspberry"
                                           ]
                                         },
                                         {
@@ -10282,6 +10354,18 @@
                                 "peacock pine",
                                 "Sugi"
                               ]
+                            },
+                            {
+                              "fileName": "Fitzroya",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Fitzroya",
+                              "aliases": [
+                                "alerce",
+                                "Andes cypress",
+                                "Fitzroya cupressoides",
+                                "lahual",
+                                "lawal",
+                                "Patagonian cypress"
+                              ]
                             }
                           ],
                           "children": [
@@ -10534,6 +10618,7 @@
                                       "aliases": [
                                         "giant redwood",
                                         "giant sequoia",
+                                        "sequoia",
                                         "Sierra redwood",
                                         "Wellingtonia"
                                       ]
@@ -10712,8 +10797,17 @@
                                   "fileName": "Abies concolor",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Abies_concolor",
                                   "aliases": [
+                                    "Abies concolor subsp. concolor",
+                                    "Abies concolor subsp. lowiana",
+                                    "Abies concolor var. concolor",
+                                    "Abies concolor var. lowiana",
+                                    "Abies lowiana",
                                     "Colorado fir",
+                                    "Colorado white fir",
                                     "concolor fir",
+                                    "Low's white fir",
+                                    "Rocky Mountain white fir",
+                                    "Sierra Nevada white fir",
                                     "white fir"
                                   ]
                                 },
