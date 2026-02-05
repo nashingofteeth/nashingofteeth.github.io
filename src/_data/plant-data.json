@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-01T18:19:39.215Z",
-  "totalPlants": 820,
+  "generated": "2026-02-05T15:45:57.817Z",
+  "totalPlants": 828,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -171,14 +171,42 @@
                 {
                   "name": "Polypodiopsida",
                   "file": null,
-                  "otherFiles": [
-                    {
-                      "fileName": "Cyatheales",
-                      "wikipedia": "https://en.wikipedia.org/wiki/Cyatheales",
-                      "aliases": []
-                    }
-                  ],
+                  "otherFiles": [],
                   "children": [
+                    {
+                      "name": "Cyatheales",
+                      "file": {
+                        "fileName": "Cyatheales",
+                        "wikipedia": "https://en.wikipedia.org/wiki/Cyatheales",
+                        "aliases": []
+                      },
+                      "otherFiles": [],
+                      "children": [
+                        {
+                          "name": "Cyatheaceae",
+                          "file": null,
+                          "otherFiles": [],
+                          "children": [
+                            {
+                              "name": "Sphaeropteris",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Sphaeropteris medullaris",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Sphaeropteris_medullaris",
+                                  "aliases": [
+                                    "black tree fern",
+                                    "Cyathea medullaris",
+                                    "mamaku"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    },
                     {
                       "name": "Equisetales",
                       "file": null,
@@ -1470,7 +1498,11 @@
                             },
                             {
                               "name": "Ericales",
-                              "file": null,
+                              "file": {
+                                "fileName": "Ericales",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Ericales",
+                                "aliases": []
+                              },
                               "otherFiles": [],
                               "children": [
                                 {
@@ -1836,6 +1868,46 @@
                                             "arctic starflower",
                                             "chickweed-wintergreen",
                                             "Trientalis europaea"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Sapotaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Manilkara",
+                                      "file": {
+                                        "fileName": "Manilkara",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Manilkara",
+                                        "aliases": []
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Manilkara zapota",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Manilkara_zapota",
+                                          "aliases": [
+                                            "bully tree",
+                                            "chicle",
+                                            "chicoe",
+                                            "chicooe",
+                                            "chicozapote",
+                                            "chicozapotee",
+                                            "chiku",
+                                            "dilly tree",
+                                            "marmalade plum",
+                                            "naseberrye",
+                                            "nispero",
+                                            "sapodilla",
+                                            "sapote",
+                                            "sawo",
+                                            "soapapple",
+                                            "soapapple tree"
                                           ]
                                         }
                                       ],
@@ -3740,6 +3812,20 @@
                                   "children": []
                                 },
                                 {
+                                  "name": "Eranthis",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Eranthis hyemalis",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Eranthis_hyemalis",
+                                      "aliases": [
+                                        "winter aconite"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Eriocapitella",
                                   "file": null,
                                   "otherFiles": [
@@ -5512,6 +5598,24 @@
                                         }
                                       ],
                                       "children": []
+                                    },
+                                    {
+                                      "name": "Hevea",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Hevea brasiliensis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Hevea_brasiliensis",
+                                          "aliases": [
+                                            "Pará rubber tree",
+                                            "rubber plant",
+                                            "rubber tree",
+                                            "seringueira",
+                                            "sharinga tree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
                                     }
                                   ]
                                 },
@@ -6075,7 +6179,8 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Edgeworthia_chrysantha",
                                           "aliases": [
                                             "mitsumata",
-                                            "Oriental paperbush"
+                                            "Oriental paperbush",
+                                            "paperbush"
                                           ]
                                         }
                                       ],
@@ -7162,6 +7267,7 @@
                                           "aliases": [
                                             "blackcap raspberry",
                                             "blue raspberry",
+                                            "Chkohpeen",
                                             "whitebark raspberry"
                                           ]
                                         },
@@ -7514,7 +7620,13 @@
                                 },
                                 {
                                   "name": "Burseraceae",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Burseraceae",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Burseraceae",
+                                    "aliases": [
+                                      "incense tree family"
+                                    ]
+                                  },
                                   "otherFiles": [],
                                   "children": [
                                     {
@@ -7526,6 +7638,22 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Commiphora_africana",
                                           "aliases": [
                                             "African myrrh"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Protium",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Protium heptaphyllum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Protium_heptaphyllum",
+                                          "aliases": [
+                                            "almécega",
+                                            "almíscar",
+                                            "breu"
                                           ]
                                         }
                                       ],
