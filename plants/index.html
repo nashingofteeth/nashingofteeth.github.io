@@ -223,9 +223,16 @@ a:active {
     <ul>
       <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Polypodiopsida</span></li>
       <ul>
-        <li><a href="https://en.wikipedia.org/wiki/Cyatheales" target="_blank">Cyatheales</a></li>
-      </ul>
-      <ul>
+        <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Cyatheales" target="_blank">Cyatheales</a></li>
+        <ul>
+          <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Cyatheaceae</span></li>
+          <ul>
+            <li><span class="muted">Sphaeropteris</span></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Sphaeropteris_medullaris" target="_blank">Sphaeropteris medullaris</a> <span class="aliases">(black tree fern, Cyathea medullaris, mamaku)</span></li>
+            </ul>
+          </ul>
+        </ul>
         <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Equisetales</span></li>
         <ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Equisetaceae</span></li>
@@ -541,7 +548,7 @@ a:active {
                 </ul>
               </ul>
             </ul>
-            <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Ericales</span></li>
+            <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Ericales" target="_blank">Ericales</a></li>
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Actinidiaceae</span></li>
               <ul>
@@ -629,6 +636,13 @@ a:active {
                 <li><span class="muted">Lysimachia</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Lysimachia_europaea" target="_blank">Lysimachia europaea</a> <span class="aliases">(arctic starflower, chickweed-wintergreen, Trientalis europaea)</span></li>
+                </ul>
+              </ul>
+              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Sapotaceae</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Manilkara" target="_blank">Manilkara</a></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Manilkara_zapota" target="_blank">Manilkara zapota</a> <span class="aliases">(bully tree, chicle, chicoe, chicooe, chicozapote, chicozapotee, chiku, dilly tree, marmalade plum, naseberrye, nispero, sapodilla, sapote, sawo, soapapple, soapapple tree)</span></li>
                 </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Styracaceae</span></li>
@@ -1096,6 +1110,10 @@ a:active {
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Delphinium_elatum" target="_blank">Delphinium elatum</a> <span class="aliases">(alpine delphinium, candle larkspur, guardian lavender)</span></li>
               </ul>
+              <li><span class="muted">Eranthis</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Eranthis_hyemalis" target="_blank">Eranthis hyemalis</a> <span class="aliases">(winter aconite)</span></li>
+              </ul>
               <li><span class="muted">Eriocapitella</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Eriocapitella_%C3%97_hybrida" target="_blank">Eriocapitella × hybrida</a> <span class="aliases">(Japanese anemone)</span></li>
@@ -1467,6 +1485,10 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Euphorbia_lathyris" target="_blank">Euphorbia lathyris</a> <span class="aliases">(caper spurge, paper spurge)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Euphorbia_rigida" target="_blank">Euphorbia rigida</a> <span class="aliases">(gopher spurge, upright myrtle spurge)</span></li>
                 </ul>
+                <li><span class="muted">Hevea</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Hevea_brasiliensis" target="_blank">Hevea brasiliensis</a> <span class="aliases">(Pará rubber tree, rubber plant, rubber tree, seringueira, sharinga tree)</span></li>
+                </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Hypericaceae</span></li>
               <ul>
@@ -1583,7 +1605,7 @@ a:active {
                 </ul>
                 <li><span class="muted">Edgeworthia</span></li>
                 <ul>
-                  <li><a href="https://en.wikipedia.org/wiki/Edgeworthia_chrysantha" target="_blank">Edgeworthia chrysantha</a> <span class="aliases">(mitsumata, Oriental paperbush)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Edgeworthia_chrysantha" target="_blank">Edgeworthia chrysantha</a> <span class="aliases">(mitsumata, Oriental paperbush, paperbush)</span></li>
                 </ul>
               </ul>
             </ul>
@@ -1799,7 +1821,7 @@ a:active {
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Rubus" target="_blank">Rubus</a> <span class="aliases">(brambles, bristleberries)</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Rubus_armeniacus" target="_blank">Rubus armeniacus</a> <span class="aliases">(Armenian blackberry, Himalayan blackberry)</span></li>
-                  <li><a href="https://en.wikipedia.org/wiki/Rubus_leucodermis" target="_blank">Rubus leucodermis</a> <span class="aliases">(blackcap raspberry, blue raspberry, whitebark raspberry)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Rubus_leucodermis" target="_blank">Rubus leucodermis</a> <span class="aliases">(blackcap raspberry, blue raspberry, Chkohpeen, whitebark raspberry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Rubus_parviflorus" target="_blank">Rubus parviflorus</a> <span class="aliases">(redcap, thimbleberry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Rubus_spectabilis" target="_blank">Rubus spectabilis</a> <span class="aliases">(salmonberry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Rubus_tricolor" target="_blank">Rubus tricolor</a> <span class="aliases">(Chinese bramble, creeping bramble, groundcover bramble, groundcover raspberry, Himalayan bramble, Korean raspberry)</span></li>
@@ -1873,11 +1895,15 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Toxicodendron_radicans" target="_blank">Toxicodendron radicans</a> <span class="aliases">(eastern poison ivy, poison ivy)</span></li>
                 </ul>
               </ul>
-              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Burseraceae</span></li>
+              <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Burseraceae" target="_blank">Burseraceae</a> <span class="aliases">(incense tree family)</span></li>
               <ul>
                 <li><span class="muted">Commiphora</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Commiphora_africana" target="_blank">Commiphora africana</a> <span class="aliases">(African myrrh)</span></li>
+                </ul>
+                <li><span class="muted">Protium</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Protium_heptaphyllum" target="_blank">Protium heptaphyllum</a> <span class="aliases">(almécega, almíscar, breu)</span></li>
                 </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Meliaceae" target="_blank">Meliaceae</a> <span class="aliases">(mahogany family)</span></li>
@@ -2699,7 +2725,7 @@ a:active {
 </div>
 
 <section class="last-updated muted">
-  Last updated: February 1, 2026
+  Last updated: February 5, 2026
 </section>
 </main>
 
