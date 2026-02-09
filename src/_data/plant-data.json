@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-05T15:45:57.817Z",
-  "totalPlants": 828,
+  "generated": "2026-02-09T15:12:26.432Z",
+  "totalPlants": 843,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1023,13 +1023,19 @@
                                     },
                                     {
                                       "name": "Helianthus",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Helianthus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Helianthus",
+                                        "aliases": [
+                                          "🌻",
+                                          "sunflowers"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Helianthus annuus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Common_sunflower",
                                           "aliases": [
-                                            "🌻",
                                             "common sunflower",
                                             "sunflower"
                                           ]
@@ -2186,6 +2192,14 @@
                                       "aliases": [
                                         "Morning Cloud",
                                         "Pink Dawn"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Tabebuia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Tabebuia",
+                                      "aliases": [
+                                        "trumpet tree",
+                                        "trumpet trees"
                                       ]
                                     }
                                   ],
@@ -4239,7 +4253,15 @@
                                     },
                                     {
                                       "name": "Cucurbita",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Cucurbita",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Cucurbita",
+                                        "aliases": [
+                                          "gourd",
+                                          "pumpkin",
+                                          "squash"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "pumpkin",
@@ -4349,6 +4371,7 @@
                                       "🫛",
                                       "bean",
                                       "legume",
+                                      "legumes",
                                       "Leguminosae",
                                       "pea",
                                       "pea family"
@@ -4361,6 +4384,14 @@
                                       "aliases": [
                                         "brazilwood",
                                         "Paubrasilia echinata"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Tamarindus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Tamarind",
+                                      "aliases": [
+                                        "tamarind",
+                                        "Tamarindus indica"
                                       ]
                                     }
                                   ],
@@ -4566,6 +4597,24 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Inga",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Inga edulis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Inga_edulis",
+                                          "aliases": [
+                                            "cuaniquil",
+                                            "guaba",
+                                            "guama",
+                                            "ice-cream bean",
+                                            "joaquiniquil"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Laburnum",
                                       "file": null,
                                       "otherFiles": [
@@ -4636,6 +4685,20 @@
                                       "name": "Phaseolus",
                                       "file": null,
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Phaseolus acutifolius",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Phaseolus_acutifolius",
+                                          "aliases": [
+                                            "Escomite",
+                                            "Pavi",
+                                            "Pawi",
+                                            "Tepari",
+                                            "tepary bean",
+                                            "Yori mui",
+                                            "Yori muni",
+                                            "Yorimuni"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Phaseolus coccineus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Phaseolus_coccineus",
@@ -6672,6 +6735,11 @@
                                         "Channel Island ironwood",
                                         "Lyonothamnus floribundus"
                                       ]
+                                    },
+                                    {
+                                      "fileName": "Photinia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Photinia",
+                                      "aliases": []
                                     }
                                   ],
                                   "children": [
@@ -7788,13 +7856,12 @@
                                           ]
                                         },
                                         {
-                                          "fileName": "Citrus reticulata",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Mandarin_orange",
+                                          "fileName": "Citrus unshiu",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Citrus_unshiu",
                                           "aliases": [
-                                            "🍊",
-                                            "mandarin",
-                                            "mandarin orange",
-                                            "tangerine"
+                                            "Japanese mandarin",
+                                            "satsuma",
+                                            "satsuma mandarin"
                                           ]
                                         }
                                       ],
@@ -7815,6 +7882,29 @@
                                               "aliases": [
                                                 "Buddha's hand",
                                                 "fingered citron"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "Citrus reticulata",
+                                          "file": {
+                                            "fileName": "Citrus reticulata",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Mandarin_orange",
+                                            "aliases": [
+                                              "🍊",
+                                              "mandarin",
+                                              "mandarin orange",
+                                              "tangerine"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Sumo Citrus",
+                                              "wikipedia": null,
+                                              "aliases": [
+                                                "dekopon"
                                               ]
                                             }
                                           ],
@@ -8203,7 +8293,15 @@
                         {
                           "name": "Santalales",
                           "file": null,
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "mistletoe",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Mistletoe",
+                              "aliases": [
+                                "mistletoes"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Santalaceae",
@@ -8293,7 +8391,19 @@
                               "children": [
                                 {
                                   "name": "Liquidambar",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Liquidambar",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Liquidambar",
+                                    "aliases": [
+                                      "American storax",
+                                      "gum",
+                                      "redgum",
+                                      "satin-walnut",
+                                      "star gum",
+                                      "styrax",
+                                      "sweetgum"
+                                    ]
+                                  },
                                   "otherFiles": [
                                     {
                                       "fileName": "Liquidambar orientalis",
@@ -8431,6 +8541,13 @@
                                       "aliases": [
                                         "hybrid witch hazel",
                                         "witch hazel"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Hamamelis mollis",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Hamamelis_mollis",
+                                      "aliases": [
+                                        "Chinese witch hazel"
                                       ]
                                     },
                                     {
@@ -10683,6 +10800,13 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Juniperus rigida",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_rigida",
+                                  "aliases": [
+                                    "temple juniper"
+                                  ]
+                                },
+                                {
                                   "fileName": "Juniperus scopulorum",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Juniperus_scopulorum",
                                   "aliases": [
@@ -10873,6 +10997,27 @@
                                   "aliases": [
                                     "Japanese yew",
                                     "spreading yew"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Torreya",
+                              "file": {
+                                "fileName": "Torreya",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Torreya",
+                                "aliases": [
+                                  "nutmeg yew"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Torreya grandis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Torreya_grandis",
+                                  "aliases": [
+                                    "Chinese nutmeg yew",
+                                    "Chinese Torreya"
                                   ]
                                 }
                               ],
