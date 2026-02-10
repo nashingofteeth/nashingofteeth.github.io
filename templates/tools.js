@@ -8,7 +8,6 @@ function tools() {
   const mainContent = `<article>
 	<p><a href="https://github.com/nashingofteeth/sequitur">video sequencer</a></p>
 	<p><a href="/ratio">aspect ratio calculator</a></p>
-	<p><a href="http://nash.video/sand">html editor</a></p>
 	<p><a href="/mt">metric clock</a></p>
 	<p><a href="http://nash.video/bolus-calculator">bolus calculator</a></p>
 	<p><a href="/color">random color</a></p>
