@@ -16,7 +16,7 @@ function footer() {
     </svg>
     Uncopyright
   </a>
-  2025 Matthew Nash
+  2026 Matthew Nash
 </footer>`;
 }
 
