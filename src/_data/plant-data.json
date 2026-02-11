@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-09T15:12:26.432Z",
-  "totalPlants": 843,
+  "generated": "2026-02-11T16:08:59.218Z",
+  "totalPlants": 856,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1367,6 +1367,36 @@
                                             "mock-orange",
                                             "syringa",
                                             "wild mockorange"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Nyssaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Nyssa",
+                                      "file": {
+                                        "fileName": "Nyssa",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Tupelo_(tree)",
+                                        "aliases": [
+                                          "tupelo"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Nyssa sylvatica",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Nyssa_sylvatica",
+                                          "aliases": [
+                                            "black gum",
+                                            "black tupelo",
+                                            "sour gum",
+                                            "tupelo"
                                           ]
                                         }
                                       ],
@@ -3210,6 +3240,39 @@
                                   "children": []
                                 },
                                 {
+                                  "name": "Beta",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Beta vulgaris",
+                                      "file": {
+                                        "fileName": "Beta vulgaris",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Beta_vulgaris",
+                                        "aliases": [
+                                          "beet"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Beta vulgaris subsp. vulgaris",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Beetroot",
+                                          "aliases": [
+                                            "beet",
+                                            "beet greens",
+                                            "beetroot",
+                                            "garden beet",
+                                            "golden beet",
+                                            "red beet",
+                                            "table beet"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
                                   "name": "Celosia",
                                   "file": null,
                                   "otherFiles": [
@@ -3697,7 +3760,20 @@
                                   "poppy family"
                                 ]
                               },
-                              "otherFiles": [],
+                              "otherFiles": [
+                                {
+                                  "fileName": "Sanguinaria",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Sanguinaria",
+                                  "aliases": [
+                                    "black paste",
+                                    "bloodwort",
+                                    "Canada puccoon",
+                                    "red puccoon",
+                                    "redroot",
+                                    "Sanguinaria canadensis"
+                                  ]
+                                }
+                              ],
                               "children": [
                                 {
                                   "name": "Dicentra",
@@ -6084,6 +6160,24 @@
                                             "palo borracho",
                                             "samu'ũ",
                                             "silk floss tree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Gossypium",
+                                      "file": {
+                                        "fileName": "Gossypium",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Gossypium",
+                                        "aliases": []
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Gossypium arboreum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Gossypium_arboreum",
+                                          "aliases": [
+                                            "tree cotton"
                                           ]
                                         }
                                       ],
@@ -9235,15 +9329,7 @@
                         {
                           "name": "Amaryllidaceae",
                           "file": null,
-                          "otherFiles": [
-                            {
-                              "fileName": "Galanthus",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Galanthus",
-                              "aliases": [
-                                "snowdrop"
-                              ]
-                            }
-                          ],
+                          "otherFiles": [],
                           "children": [
                             {
                               "name": "Agapanthus",
@@ -9303,6 +9389,27 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Allium_subhirsutum",
                                   "aliases": [
                                     "hairy garlic"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Galanthus",
+                              "file": {
+                                "fileName": "Galanthus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Galanthus",
+                                "aliases": [
+                                  "snowdrop"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Galanthus woronowii",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Galanthus_woronowii",
+                                  "aliases": [
+                                    "green snowdrop",
+                                    "Woronow's snowdrop"
                                   ]
                                 }
                               ],
@@ -9572,12 +9679,30 @@
                               },
                               "otherFiles": [
                                 {
+                                  "fileName": "Crocus chrysanthus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Crocus_chrysanthus",
+                                  "aliases": [
+                                    "golden crocus",
+                                    "snow crocus"
+                                  ]
+                                },
+                                {
                                   "fileName": "Crocus sativus",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Crocus_sativus",
                                   "aliases": [
                                     "autumn crocus",
                                     "saffron",
                                     "saffron crocus"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Crocus tommasinianus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Crocus_tommasinianus",
+                                  "aliases": [
+                                    "early crocus",
+                                    "Tommasini's crocus",
+                                    "tommies",
+                                    "woodland crocus"
                                   ]
                                 }
                               ],
@@ -10678,6 +10803,7 @@
                                   "fileName": "Chamaecyparis obtusa",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Chamaecyparis_obtusa",
                                   "aliases": [
+                                    "Chamaecyparis obtusa var. formosana",
                                     "hinoki",
                                     "hinoki cypress",
                                     "Japanese cypress"
@@ -10725,6 +10851,7 @@
                                   "aliases": [
                                     "× Cupressocyparis leylandii",
                                     "× Cuprocyparis leylandii",
+                                    "Hesperotropsis × leylandii",
                                     "Leyland cypress",
                                     "leylandii"
                                   ]
@@ -10959,7 +11086,13 @@
                         },
                         {
                           "name": "Taxaceae",
-                          "file": null,
+                          "file": {
+                            "fileName": "Taxaceae",
+                            "wikipedia": "https://en.wikipedia.org/wiki/Taxaceae",
+                            "aliases": [
+                              "yew family"
+                            ]
+                          },
                           "otherFiles": [],
                           "children": [
                             {
@@ -11017,7 +11150,8 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Torreya_grandis",
                                   "aliases": [
                                     "Chinese nutmeg yew",
-                                    "Chinese Torreya"
+                                    "Chinese Torreya",
+                                    "fei shu"
                                   ]
                                 }
                               ],
@@ -11428,6 +11562,24 @@
                                     "northern white pine",
                                     "soft pine",
                                     "Weymouth pine",
+                                    "white pine"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus subg. Pinus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_subg._Pinus",
+                                  "aliases": [
+                                    "hard pine",
+                                    "yellow pine"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus subg. Strobus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Strobus",
+                                  "aliases": [
+                                    "Pinus subg. Ducampopinus",
+                                    "pinyon pine",
+                                    "soft pine",
                                     "white pine"
                                   ]
                                 },
