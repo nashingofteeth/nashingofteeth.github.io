@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-11T16:08:59.218Z",
-  "totalPlants": 856,
+  "generated": "2026-02-17T16:22:16.712Z",
+  "totalPlants": 866,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -686,7 +686,14 @@
                                   "children": [
                                     {
                                       "name": "Ilex",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Ilex",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Holly",
+                                        "aliases": [
+                                          "Aquifoliaceae",
+                                          "holly"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Ilex aquifolium",
@@ -1335,7 +1342,13 @@
                                     },
                                     {
                                       "name": "Hydrangea",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Hydrangea",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Hydrangea",
+                                        "aliases": [
+                                          "hortensia"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Hydrangea paniculata",
@@ -3761,6 +3774,15 @@
                                 ]
                               },
                               "otherFiles": [
+                                {
+                                  "fileName": "Lamprocapnos",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Lamprocapnos",
+                                  "aliases": [
+                                    "Asian bleeding heart",
+                                    "bleeding heart",
+                                    "Lamprocapnos spectabilis"
+                                  ]
+                                },
                                 {
                                   "fileName": "Sanguinaria",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Sanguinaria",
@@ -7313,6 +7335,22 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Pyracantha",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Pyracantha crenulata",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Pyracantha_crenulata",
+                                          "aliases": [
+                                            "Himalayan firethorn",
+                                            "Nepal firethorn",
+                                            "Nepalese firethorn"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Pyrus",
                                       "file": null,
                                       "otherFiles": [
@@ -7684,7 +7722,14 @@
                                     },
                                     {
                                       "name": "Cotinus",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Cotinus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Cotinus",
+                                        "aliases": [
+                                          "smoke bush",
+                                          "smoketree"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Cotinus coggygria",
@@ -7741,7 +7786,15 @@
                                     },
                                     {
                                       "name": "Rhus",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Rhus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Sumac",
+                                        "aliases": [
+                                          "sumac",
+                                          "sumach",
+                                          "sumacs"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Rhus typhina",
@@ -7941,6 +7994,15 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Citrus × tangelo",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Tangelo",
+                                          "aliases": [
+                                            "C. reticulata × C. maxima or × C. paradisi",
+                                            "Minneola tangelo",
+                                            "tangelo"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Citrus maxima",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Pomelo",
                                           "aliases": [
@@ -8016,6 +8078,13 @@
                                             ]
                                           },
                                           "otherFiles": [
+                                            {
+                                              "fileName": "Citrus × sinensis var. Valencia",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Valencia_orange",
+                                              "aliases": [
+                                                "Valencia orange"
+                                              ]
+                                            },
                                             {
                                               "fileName": "navel orange",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Navel_orange",
@@ -8139,6 +8208,17 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Acer pensylvanicum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Acer_pensylvanicum",
+                                          "aliases": [
+                                            "goosefoot maple",
+                                            "moose maple",
+                                            "moosewood",
+                                            "striped maple",
+                                            "whistlewood"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Acer platanoides",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Acer_platanoides",
                                           "aliases": [
@@ -8182,6 +8262,13 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Acer_saccharum",
                                           "aliases": [
                                             "sugar maple"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Acer sect. Macrantha",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Snakebark_maple",
+                                          "aliases": [
+                                            "snakebark maple"
                                           ]
                                         },
                                         {
@@ -10829,7 +10916,13 @@
                                   "fileName": "Cunninghamia lanceolata",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Cunninghamia_lanceolata",
                                   "aliases": [
-                                    "Chinese fir"
+                                    "Chi Sa mộc",
+                                    "China fir",
+                                    "China-fir",
+                                    "Chinese fir",
+                                    "Chinese-fir",
+                                    "koyo-zan-zoku",
+                                    "shanmu shu"
                                   ]
                                 }
                               ],
