@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-17T16:22:16.712Z",
-  "totalPlants": 866,
+  "generated": "2026-02-22T01:33:54.783Z",
+  "totalPlants": 883,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -1481,17 +1481,30 @@
                                 {
                                   "name": "Caprifoliaceae",
                                   "file": null,
-                                  "otherFiles": [
-                                    {
-                                      "fileName": "Lonicera",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/Honeysuckle",
-                                      "aliases": [
-                                        "honeysuckle",
-                                        "honeysuckles"
-                                      ]
-                                    }
-                                  ],
+                                  "otherFiles": [],
                                   "children": [
+                                    {
+                                      "name": "Lonicera",
+                                      "file": {
+                                        "fileName": "Lonicera",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Honeysuckle",
+                                        "aliases": [
+                                          "honeysuckle",
+                                          "honeysuckles"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Lonicera japonica",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Lonicera_japonica",
+                                          "aliases": [
+                                            "golden-and-silver honeysuckle",
+                                            "Japanese honeysuckle"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
                                     {
                                       "name": "Symphoricarpos",
                                       "file": {
@@ -1791,11 +1804,25 @@
                                         "fileName": "Rhododendron",
                                         "wikipedia": "https://en.wikipedia.org/wiki/Rhododendron",
                                         "aliases": [
+                                          "azalea",
+                                          "azaleas",
+                                          "azalia",
                                           "rhododendron",
                                           "rhododendrons"
                                         ]
                                       },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Rhododendron macrophyllum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Rhododendron_macrophyllum",
+                                          "aliases": [
+                                            "big leaf rhododendron",
+                                            "California rhododendron",
+                                            "California rose bay",
+                                            "coast rhododendron",
+                                            "Pacific rhododendron"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Rhododendron occidentale",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Rhododendron_occidentale",
@@ -1840,6 +1867,28 @@
                                             "cranberries",
                                             "cranberry",
                                             "Oxycoccus"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Fouquieriaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Fouquieria",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Fouquieria columnaris",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Fouquieria_columnaris",
+                                          "aliases": [
+                                            "Boojum tree",
+                                            "cirio"
                                           ]
                                         }
                                       ],
@@ -2009,7 +2058,14 @@
                                   "children": [
                                     {
                                       "name": "Camellia",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Camellia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Camellia",
+                                        "aliases": [
+                                          "camellia",
+                                          "camellias"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Camellia japonica",
@@ -2024,6 +2080,15 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Camellia_sasanqua",
                                           "aliases": [
                                             "sasanqua camellia"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Camellia sinensis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Camellia_sinensis",
+                                          "aliases": [
+                                            "tea plant",
+                                            "tea shrub",
+                                            "tea tree"
                                           ]
                                         }
                                       ],
@@ -2070,6 +2135,15 @@
                                       "aliases": [
                                         "milkweed",
                                         "milkweeds"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Nerium",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Nerium",
+                                      "aliases": [
+                                        "Nerium oleander",
+                                        "oleander",
+                                        "rosebay"
                                       ]
                                     }
                                   ],
@@ -2149,6 +2223,27 @@
                                             "☕",
                                             "Arabica coffee",
                                             "coffee"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Gardenia",
+                                      "file": {
+                                        "fileName": "Gardenia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Gardenia",
+                                        "aliases": [
+                                          "gardenia"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Gardenia jasminoides",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Gardenia_jasminoides",
+                                          "aliases": [
+                                            "cape jasmine",
+                                            "gardenia"
                                           ]
                                         }
                                       ],
@@ -2522,6 +2617,13 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Phlomis fruticosa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Phlomis_fruticosa",
+                                          "aliases": [
+                                            "Jerusalem sage"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Phlomis russeliana",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Phlomis_russeliana",
                                           "aliases": [
@@ -2868,6 +2970,13 @@
                                           "aliases": [
                                             "digger's speedwell"
                                           ]
+                                        },
+                                        {
+                                          "fileName": "Veronica polita",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Veronica_polita",
+                                          "aliases": [
+                                            "grey field-speedwell"
+                                          ]
                                         }
                                       ],
                                       "children": []
@@ -3171,6 +3280,22 @@
                               "file": null,
                               "otherFiles": [],
                               "children": [
+                                {
+                                  "name": "Buxus",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Buxus sempervirens",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Buxus_sempervirens",
+                                      "aliases": [
+                                        "boxwood",
+                                        "common box",
+                                        "European box"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
                                 {
                                   "name": "Pachysandra",
                                   "file": null,
@@ -3602,6 +3727,16 @@
                                       "wikipedia": "https://en.wikipedia.org/wiki/Platanus_orientalis",
                                       "aliases": [
                                         "Oriental plane"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Platanus racemosa",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Platanus_racemosa",
+                                      "aliases": [
+                                        "aliso",
+                                        "California plane tree",
+                                        "California sycamore",
+                                        "western sycamore"
                                       ]
                                     }
                                   ],
@@ -5046,6 +5181,7 @@
                                           "fileName": "Alnus rubra",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Alnus_rubra",
                                           "aliases": [
+                                            "Oregon alder",
                                             "red alder"
                                           ]
                                         }
@@ -5303,6 +5439,13 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Quercus × munzii",
+                                          "wikipedia": null,
+                                          "aliases": [
+                                            "Munz oak"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Quercus agrifolia",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Quercus_agrifolia",
                                           "aliases": [
@@ -5398,6 +5541,14 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Quercus lobata",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Quercus_lobata",
+                                          "aliases": [
+                                            "roble",
+                                            "valley oak"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Quercus macrocarpa",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Quercus_macrocarpa",
                                           "aliases": [
@@ -5473,6 +5624,13 @@
                                           "aliases": [
                                             "Chisos Mountains oak",
                                             "lateleaf oak"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Quercus turbinella",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Quercus_turbinella",
+                                          "aliases": [
+                                            "shrub oak, turbinella oak, shrub live oak, and gray oak"
                                           ]
                                         },
                                         {
@@ -6851,11 +7009,6 @@
                                         "Channel Island ironwood",
                                         "Lyonothamnus floribundus"
                                       ]
-                                    },
-                                    {
-                                      "fileName": "Photinia",
-                                      "wikipedia": "https://en.wikipedia.org/wiki/Photinia",
-                                      "aliases": []
                                     }
                                   ],
                                   "children": [
@@ -7172,6 +7325,24 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Malus_sieversii",
                                           "aliases": [
                                             "wolf apple"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Photinia",
+                                      "file": {
+                                        "fileName": "Photinia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Photinia",
+                                        "aliases": []
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Photinia glabra",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Photinia_glabra",
+                                          "aliases": [
+                                            "Japanese photinia"
                                           ]
                                         }
                                       ],
@@ -8058,7 +8229,7 @@
                                           "otherFiles": [
                                             {
                                               "fileName": "Sumo Citrus",
-                                              "wikipedia": null,
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Dekopon",
                                               "aliases": [
                                                 "dekopon"
                                               ]
@@ -8391,6 +8562,7 @@
                                           "fileName": "Ailanthus altissima",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Ailanthus_altissima",
                                           "aliases": [
+                                            "ailanthus",
                                             "ailanthus tree",
                                             "tree of heaven"
                                           ]
@@ -9091,11 +9263,31 @@
                                       "fileName": "Asimina triloba",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Asimina_triloba",
                                       "aliases": [
+                                        "American custard apple",
                                         "American papaw",
+                                        "Appalachian banana",
+                                        "asimoya",
+                                        "banango",
+                                        "hillbilly mango",
+                                        "Hoosier banana",
+                                        "Indian banana",
                                         "Indiana banana",
+                                        "Kansas banana",
+                                        "Kentucky banana",
+                                        "Michigan banana",
+                                        "Missouri banana",
+                                        "Ozark banana",
                                         "paw paw",
                                         "paw-paw",
-                                        "pawpaw"
+                                        "pawpaw",
+                                        "poor man's banana",
+                                        "prairie banana",
+                                        "Quaker delight",
+                                        "riwahárikstikuc",
+                                        "tózhaⁿ hu",
+                                        "umbi",
+                                        "West Virginia banana",
+                                        "wild banana"
                                       ]
                                     }
                                   ],
@@ -9814,7 +10006,13 @@
                             },
                             {
                               "name": "Iris",
-                              "file": null,
+                              "file": {
+                                "fileName": "Iris",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Iris_(plant)",
+                                "aliases": [
+                                  "iris"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Iris × germanica",
