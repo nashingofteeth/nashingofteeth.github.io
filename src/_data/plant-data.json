@@ -1,6 +1,6 @@
 {
-  "generated": "2026-02-22T20:00:34.869Z",
-  "totalPlants": 883,
+  "generated": "2026-03-07T06:44:11.261Z",
+  "totalPlants": 913,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -289,6 +289,13 @@
                                   "aliases": [
                                     "western swordfern"
                                   ]
+                                },
+                                {
+                                  "fileName": "Polystichum setiferum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Polystichum_setiferum",
+                                  "aliases": [
+                                    "soft shield fern"
+                                  ]
                                 }
                               ],
                               "children": []
@@ -422,6 +429,8 @@
                         "fileName": "Eudicots",
                         "wikipedia": "https://en.wikipedia.org/wiki/Eudicots",
                         "aliases": [
+                          "eudicot",
+                          "eudicots",
                           "eudicotyledons",
                           "non-magnoliid dicots",
                           "tricolpates"
@@ -719,6 +728,17 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Ilex_opaca",
                                           "aliases": [
                                             "American holly"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Ilex paraguariensis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Yerba_mate",
+                                          "aliases": [
+                                            "mate",
+                                            "maté",
+                                            "Paraguay tea",
+                                            "yerba mate",
+                                            "yerba maté"
                                           ]
                                         }
                                       ],
@@ -1313,6 +1333,14 @@
                                             "mountain dogwood",
                                             "Pacific dogwood",
                                             "western dogwood"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Cornus officinalis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cornus_officinalis",
+                                          "aliases": [
+                                            "Japanese cornel",
+                                            "Japanese cornelian cherry"
                                           ]
                                         }
                                       ],
@@ -2150,6 +2178,25 @@
                                     }
                                   ],
                                   "children": [
+                                    {
+                                      "name": "Cerbera",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Cerbera manghas",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cerbera_manghas",
+                                          "aliases": [
+                                            "bintaro",
+                                            "Cerbera tanghin",
+                                            "pink-eyed cerbera",
+                                            "sea mango",
+                                            "tangena",
+                                            "wawai"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
                                     {
                                       "name": "Trachelospermum",
                                       "file": null,
@@ -5201,6 +5248,15 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Betula alleghaniensis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Betula_alleghaniensis",
+                                          "aliases": [
+                                            "golden birch",
+                                            "swamp birch",
+                                            "yellow birch"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Betula nigra",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Betula_nigra",
                                           "aliases": [
@@ -6505,6 +6561,13 @@
                                           "fileName": "Daphne alpina",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Daphne_alpina",
                                           "aliases": []
+                                        },
+                                        {
+                                          "fileName": "Daphne odora",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Daphne_odora",
+                                          "aliases": [
+                                            "winter daphne"
+                                          ]
                                         }
                                       ],
                                       "children": []
@@ -7082,6 +7145,28 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Cercocarpus",
+                                      "file": {
+                                        "fileName": "Cercocarpus",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Cercocarpus",
+                                        "aliases": [
+                                          "mountain mahogany",
+                                          "mountain-mahogany"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Cercocarpus ledifolius",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cercocarpus_ledifolius",
+                                          "aliases": [
+                                            "curl-leaf mountain mahogany",
+                                            "curlleaf mountain-mahogany"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Chaenomeles",
                                       "file": null,
                                       "otherFiles": [
@@ -7495,6 +7580,15 @@
                                           ]
                                         },
                                         {
+                                          "fileName": "Prunus subg. Cerasus",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cherry_blossom",
+                                          "aliases": [
+                                            "cherry blossom",
+                                            "Japanese cherry",
+                                            "sakura"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Prunus subg. Prunus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Prunus_subg._Prunus",
                                           "aliases": [
@@ -7595,6 +7689,16 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Rosa × centifolia",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Rosa_%C3%97_centifolia",
+                                          "aliases": [
+                                            "cabbage rose",
+                                            "May rose",
+                                            "Provence rose",
+                                            "Rose de Mai"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Rosa foetida",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Rosa_foetida",
                                           "aliases": [
@@ -7626,6 +7730,20 @@
                                         ]
                                       },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "blackberry",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Blackberry",
+                                          "aliases": [
+                                            "Rubusa"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "raspberry",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Raspberry",
+                                          "aliases": [
+                                            "Rubus subg. Idaeobatus"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Rubus armeniacus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Rubus_armeniacus",
@@ -7832,7 +7950,25 @@
                                           "fileName": "Cercopia obtusifolia",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Cecropia_obtusifolia",
                                           "aliases": [
-                                            "blunt-leaved trumpet tree, pop-a-gun, tree-of-laziness, and snakewood tree"
+                                            "blunt-leaved trumpet tree",
+                                            "pop-a-gun",
+                                            "snakewood tree",
+                                            "tree-of-laziness"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Dendrocnide",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Dendrocnide excelsa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Dendrocnide_excelsa",
+                                          "aliases": [
+                                            "fibrewood",
+                                            "giant stinging tree"
                                           ]
                                         }
                                       ],
@@ -8018,6 +8154,49 @@
                                   "otherFiles": [],
                                   "children": [
                                     {
+                                      "name": "Boswellia",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Boswellia sacra",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Boswellia_sacra",
+                                          "aliases": [
+                                            "frankincense",
+                                            "frankincense tree",
+                                            "olibanum tree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Bursera",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Bursera graveolens",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Bursera_graveolens",
+                                          "aliases": [
+                                            "palo santo"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Bursera simaruba",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Bursera_simaruba",
+                                          "aliases": [
+                                            "almácigo",
+                                            "chaca",
+                                            "copperwood",
+                                            "gumbo-limbo",
+                                            "naked Indian",
+                                            "the tourist tree",
+                                            "West Indian birch"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Commiphora",
                                       "file": null,
                                       "otherFiles": [
@@ -8026,6 +8205,16 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Commiphora_africana",
                                           "aliases": [
                                             "African myrrh"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Commiphora myrrha",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Commiphora_myrrha",
+                                          "aliases": [
+                                            "common myrrh",
+                                            "herabol myrrh",
+                                            "myrrh",
+                                            "Somali myrrh"
                                           ]
                                         }
                                       ],
@@ -8072,6 +8261,39 @@
                                             "margosa",
                                             "neem",
                                             "nimtree"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Swietenia",
+                                      "file": {
+                                        "fileName": "Swietenia",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Swietenia",
+                                        "aliases": [
+                                          "mahogany"
+                                        ]
+                                      },
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Swietenia macrophylla",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Swietenia_macrophylla",
+                                          "aliases": [
+                                            "big-leaf mahogany",
+                                            "Honduran mahogany",
+                                            "Honduras mahogany",
+                                            "mahogany"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Swietenia mahagoni",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Swietenia_mahagoni",
+                                          "aliases": [
+                                            "American mahogany",
+                                            "Cuban mahogany",
+                                            "small-leaved mahogany",
+                                            "West Indian mahogany"
                                           ]
                                         }
                                       ],
@@ -8230,10 +8452,12 @@
                                           },
                                           "otherFiles": [
                                             {
-                                              "fileName": "Sumo Citrus",
+                                              "fileName": "dekopon",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Dekopon",
                                               "aliases": [
-                                                "dekopon"
+                                                "shiranuhi",
+                                                "shiranui",
+                                                "Sumo Citrus"
                                               ]
                                             }
                                           ],
@@ -8262,6 +8486,29 @@
                                               "fileName": "navel orange",
                                               "wikipedia": "https://en.wikipedia.org/wiki/Navel_orange",
                                               "aliases": []
+                                            }
+                                          ],
+                                          "children": []
+                                        },
+                                        {
+                                          "name": "Tangor",
+                                          "file": {
+                                            "fileName": "tangor",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Tangor",
+                                            "aliases": [
+                                              "C. reticulata × C. sinensis",
+                                              "temple orange"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Murcott",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Murcott_(fruit)",
+                                              "aliases": [
+                                                "C. reticulata × C. sinensis 'Murcott'",
+                                                "C. reticulata × C. sinensis var. Murcott",
+                                                "Honey Tangerine"
+                                              ]
                                             }
                                           ],
                                           "children": []
@@ -8658,6 +8905,33 @@
                             }
                           ],
                           "children": [
+                            {
+                              "name": "Loranthaceae",
+                              "file": {
+                                "fileName": "Loranthaceae",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Loranthaceae",
+                                "aliases": [
+                                  "showy mistletoes"
+                                ]
+                              },
+                              "otherFiles": [],
+                              "children": [
+                                {
+                                  "name": "Nuytsia",
+                                  "file": {
+                                    "fileName": "Nuytsia",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Nuytsia",
+                                    "aliases": [
+                                      "Christmas tree",
+                                      "Nuytsia floribunda",
+                                      "Western Australian Christmas tree"
+                                    ]
+                                  },
+                                  "otherFiles": [],
+                                  "children": []
+                                }
+                              ]
+                            },
                             {
                               "name": "Santalaceae",
                               "file": null,
@@ -11052,7 +11326,14 @@
                             },
                             {
                               "name": "Calocedrus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Calocedrus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Calocedrus",
+                                "aliases": [
+                                  "incense cedar",
+                                  "incense-cedar"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Calocedrus decurrens",
@@ -11165,6 +11446,20 @@
                                     "Mediterranean cypress",
                                     "Persian cypress",
                                     "Tuscan cypress"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Glyptostrobus",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Glyptostrobus pensilis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Glyptostrobus_pensilis",
+                                  "aliases": [
+                                    "Chinese swamp cypress"
                                   ]
                                 }
                               ],
@@ -11487,6 +11782,14 @@
                               },
                               "otherFiles": [
                                 {
+                                  "fileName": "Abies alba",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Abies_alba",
+                                  "aliases": [
+                                    "European silver fir",
+                                    "silver fir"
+                                  ]
+                                },
+                                {
                                   "fileName": "Abies balsamea",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Abies_balsamea",
                                   "aliases": [
@@ -11605,6 +11908,25 @@
                                     "cedar of Lebanon",
                                     "Lebanese cedar",
                                     "Lebanon cedar"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Keteleeria",
+                              "file": {
+                                "fileName": "Keteleeria",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Keteleeria",
+                                "aliases": []
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Keteleeria davidiana",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Keteleeria_davidiana",
+                                  "aliases": [
+                                    "Keteleeria",
+                                    "tie jian shan"
                                   ]
                                 }
                               ],
@@ -11906,7 +12228,7 @@
                                   ]
                                 },
                                 {
-                                  "fileName": "Pinyon pine",
+                                  "fileName": "pinyon pine",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Pinyon_pine",
                                   "aliases": [
                                     "pine nuts",
@@ -11946,6 +12268,21 @@
                                   "children": []
                                 }
                               ]
+                            },
+                            {
+                              "name": "Pseudolarix",
+                              "file": null,
+                              "otherFiles": [
+                                {
+                                  "fileName": "Pseudolarix amabilis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pseudolarix_amabilis",
+                                  "aliases": [
+                                    "golden larch",
+                                    "golden-larch"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             },
                             {
                               "name": "Pseudotsuga",
