@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-07T06:44:11.261Z",
-  "totalPlants": 913,
+  "generated": "2026-03-09T19:05:13.632Z",
+  "totalPlants": 915,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -3048,6 +3048,15 @@
                                             "butterfly-bush",
                                             "orange eye",
                                             "summer lilac"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Buddleja globosa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Buddleja_globosa",
+                                          "aliases": [
+                                            "matico",
+                                            "orange ball buddleja",
+                                            "orange-ball-tree"
                                           ]
                                         },
                                         {
@@ -12117,6 +12126,19 @@
                                     "California mountain pine",
                                     "silver pine",
                                     "Western white pine"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus mugo",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_mugo",
+                                  "aliases": [
+                                    "bog pine",
+                                    "creeping pine",
+                                    "dwarf mountain pine",
+                                    "mountain pine",
+                                    "mugo pine",
+                                    "scrub mountain pine",
+                                    "Swiss mountain pine"
                                   ]
                                 },
                                 {
