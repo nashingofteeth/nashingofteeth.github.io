@@ -94,20 +94,12 @@ a:active {
   font-weight: bold;
 }
 
-/* In search results the tree is fully expanded — no toggle affordance needed */
-.plant-list[data-search-active] li.has-children {
-  cursor: default;
+.plant-list mark {
+  background-color: DarkSeaGreen;
+  color: inherit;
+  font-style: italic;
 }
 
-.plant-list[data-search-active] li.has-children::before {
-  content: "•";
-  color: #5a8a5a;
-}
-
-.plant-list[data-search-active] li.search-match::before {
-  content: "▶";
-  color: DarkGreen;
-}
 
 .plant-list ul.collapsed {
   display: none;

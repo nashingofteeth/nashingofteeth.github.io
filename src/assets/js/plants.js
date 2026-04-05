@@ -182,6 +182,19 @@ function toggleNode(li, event) {
     return false;
   }
 
+  // Wrap matching substring in <mark> — safe to call on plain text segments
+  function highlightMatch(text, q) {
+    if (!q) return text;
+    var lower = text.toLowerCase();
+    var idx = lower.indexOf(q);
+    if (idx === -1) return text;
+    return (
+      text.slice(0, idx) +
+      "<mark>" + text.slice(idx, idx + q.length) + "</mark>" +
+      highlightMatch(text.slice(idx + q.length), q)
+    );
+  }
+
   // Run search: returns { matchSet, ancestorSet, matchedFileNames } or null
   function runSearch(query) {
     var q = query.toLowerCase().trim();
@@ -242,16 +255,18 @@ function toggleNode(li, event) {
   }
 
   // Build HTML for a single file (otherFile entry)
-  function fileHtml(file, isHighlighted, matchedFileNames) {
+  function fileHtml(file, isHighlighted, q) {
     var aliasText = "";
     if (file.aliases && file.aliases.length > 0) {
-      aliasText = " <span class=\"aliases\">(" + file.aliases.join(", ") + ")</span>";
+      var highlightedAliases = file.aliases.map(function (a) { return highlightMatch(a, q); });
+      aliasText = " <span class=\"aliases\">(" + highlightedAliases.join(", ") + ")</span>";
     }
+    var name = highlightMatch(file.fileName, q);
     var label = "";
     if (file.wikipedia) {
-      label = "<a href=\"" + file.wikipedia + "\" target=\"_blank\">" + file.fileName + "</a>" + aliasText;
+      label = "<a href=\"" + file.wikipedia + "\" target=\"_blank\">" + name + "</a>" + aliasText;
     } else {
-      label = file.fileName + aliasText;
+      label = name + aliasText;
     }
     if (isHighlighted) {
       return "<li class=\"search-match\">" + label + "</li>\n";
@@ -260,27 +275,36 @@ function toggleNode(li, event) {
   }
 
   // Render a node label (without its children)
-  function nodeLabelHtml(node, extraClass) {
-    var cls = extraClass ? " class=\"" + extraClass + "\"" : "";
+  // hasChildren: adds has-children class + onclick toggle handler
+  // startCollapsed: adds collapsed class (use alongside hasChildren)
+  function nodeLabelHtml(node, extraClass, q, hasChildren, startCollapsed) {
+    var classes = [];
+    if (extraClass) classes.push(extraClass);
+    if (hasChildren) classes.push("has-children");
+    if (startCollapsed) classes.push("collapsed");
+    var cls = classes.length > 0 ? " class=\"" + classes.join(" ") + "\"" : "";
+    var onclick = hasChildren ? " onclick=\"toggleNode(this, event)\"" : "";
     var content = "";
     if (node.file) {
       var aliasText = "";
       if (node.file.aliases && node.file.aliases.length > 0) {
-        aliasText = " <span class=\"aliases\">(" + node.file.aliases.join(", ") + ")</span>";
+        var highlightedAliases = node.file.aliases.map(function (a) { return highlightMatch(a, q); });
+        aliasText = " <span class=\"aliases\">(" + highlightedAliases.join(", ") + ")</span>";
       }
+      var displayName = highlightMatch(node.name, q);
       if (node.file.wikipedia) {
-        content = "<a href=\"" + node.file.wikipedia + "\" target=\"_blank\">" + node.name + "</a>" + aliasText;
+        content = "<a href=\"" + node.file.wikipedia + "\" target=\"_blank\">" + displayName + "</a>" + aliasText;
       } else {
-        content = node.name + aliasText;
+        content = displayName + aliasText;
       }
     } else {
-      content = "<span class=\"muted\">" + node.name + "</span>";
+      content = "<span class=\"muted\">" + highlightMatch(node.name, q) + "</span>";
     }
-    return "<li" + cls + ">" + content + "</li>\n";
+    return "<li" + cls + onclick + ">" + content + "</li>\n";
   }
 
   // Render pruned (search result) tree — merged ancestor chains
-  function renderPrunedTree(nodes, matchSet, ancestorSet, matchedFileNames) {
+  function renderPrunedTree(nodes, matchSet, ancestorSet, matchedFileNames, q) {
     var html = "";
 
     for (var i = 0; i < nodes.length; i++) {
@@ -292,26 +316,58 @@ function toggleNode(li, event) {
       if (!isMatch && !isAncestor) continue;
 
       if (isMatch) {
-        // Render as match node with all descendants fully expanded
-        html += nodeLabelHtml(node, "search-match");
-
         var hasSubContent = node.otherFiles.length > 0 || node.children.length > 0;
+
+        // Expand if any direct taxonomy children are also in the result set
+        var hasMatchingChildren = false;
+        for (var ci = 0; ci < node.children.length; ci++) {
+          if (matchSet.indexOf(node.children[ci]) !== -1 || ancestorSet.indexOf(node.children[ci]) !== -1) {
+            hasMatchingChildren = true;
+            break;
+          }
+        }
+
+        // Also expand if any otherFile (species entry) is itself a match —
+        // collapsing would hide the thing that actually matched the query
+        var hasMatchingOtherFile = false;
+        for (var oi2 = 0; oi2 < node.otherFiles.length; oi2++) {
+          if (matchedFileNames[node.otherFiles[oi2].fileName]) {
+            hasMatchingOtherFile = true;
+            break;
+          }
+        }
+
+        var shouldCollapse = hasSubContent && !hasMatchingChildren && !hasMatchingOtherFile;
+        html += nodeLabelHtml(node, "search-match", q, hasSubContent, shouldCollapse);
+
         if (hasSubContent) {
-          html += "<ul>\n";
-          for (var j = 0; j < node.otherFiles.length; j++) {
-            var isHighlighted = !!matchedFileNames[node.otherFiles[j].fileName];
-            html += fileHtml(node.otherFiles[j], isHighlighted, matchedFileNames);
+          html += "<ul" + (shouldCollapse ? " class=\"collapsed\"" : "") + ">\n";
+
+          if (shouldCollapse) {
+            // Collapsed (exploration): show all content so expanding reveals full context
+            for (var oi = 0; oi < node.otherFiles.length; oi++) {
+              var isHighlighted = !!matchedFileNames[node.otherFiles[oi].fileName];
+              html += fileHtml(node.otherFiles[oi], isHighlighted, q);
+            }
+            if (node.children.length > 0) {
+              html += generatePlantList(node.children, 0);
+            }
+          } else {
+            // Open: only matching content — siblings are not shown
+            for (var oi3 = 0; oi3 < node.otherFiles.length; oi3++) {
+              if (matchedFileNames[node.otherFiles[oi3].fileName]) {
+                html += fileHtml(node.otherFiles[oi3], true, q);
+              }
+            }
+            if (hasMatchingChildren) {
+              html += renderPrunedTree(node.children, matchSet, ancestorSet, matchedFileNames, q);
+            }
           }
-          if (node.children.length > 0) {
-            html += generatePlantList(node.children, 0);
-          }
+
           html += "</ul>\n";
         }
       } else {
-        // Ancestor-only node: render label, recurse into relevant children only
-        html += nodeLabelHtml(node, "");
-
-        // Only descend into children that are in matchSet or ancestorSet
+        // Ancestor-only node: no highlight, but collapsible if it has relevant children
         var relevantChildren = [];
         for (var k = 0; k < node.children.length; k++) {
           var child = node.children[k];
@@ -320,9 +376,13 @@ function toggleNode(li, event) {
           }
         }
 
-        if (relevantChildren.length > 0) {
+        // Start expanded (matches below must be visible), but make it toggleable
+        var ancestorHasChildren = relevantChildren.length > 0;
+        html += nodeLabelHtml(node, "", "", ancestorHasChildren, false);
+
+        if (ancestorHasChildren) {
           html += "<ul>\n";
-          html += renderPrunedTree(relevantChildren, matchSet, ancestorSet, matchedFileNames);
+          html += renderPrunedTree(relevantChildren, matchSet, ancestorSet, matchedFileNames, q);
           html += "</ul>\n";
         }
       }
@@ -370,7 +430,7 @@ function toggleNode(li, event) {
             if (!result || (result.matchSet.length === 0)) {
               renderTree("<li class=\"muted\">No results.</li>", true);
             } else {
-              renderTree(renderPrunedTree(plantData.taxonomy, result.matchSet, result.ancestorSet, result.matchedFileNames), true);
+              renderTree(renderPrunedTree(plantData.taxonomy, result.matchSet, result.ancestorSet, result.matchedFileNames, query.toLowerCase().trim()), true);
             }
           }
         }, 250);
