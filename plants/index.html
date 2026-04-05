@@ -241,9 +241,10 @@ a:active {
         <ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Equisetaceae</span></li>
           <ul>
-            <li><a href="https://en.wikipedia.org/wiki/Equisetum" target="_blank">Equisetum</a> <span class="aliases">(horsetail, mare's tail)</span></li>
+            <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Equisetum" target="_blank">Equisetum</a> <span class="aliases">(horsetail, mare's tail)</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Equisetum_pratense" target="_blank">Equisetum pratense</a> <span class="aliases">(meadow horsetail, shade horsetail, shady horsetail)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Equisetum_telmateia" target="_blank">Equisetum telmateia</a> <span class="aliases">(great horsetail)</span></li>
             </ul>
           </ul>
         </ul>
@@ -395,6 +396,10 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Artemisia_tridentata" target="_blank">Artemisia tridentata</a> <span class="aliases">(big sagebrush, Great Basin sagebrush, simply sagebrush)</span></li>
                 </ul>
+                <li><span class="muted">Bellis</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Bellis_perennis" target="_blank">Bellis perennis</a> <span class="aliases">(common daisy, English daisy, lawn daisy)</span></li>
+                </ul>
                 <li><span class="muted">Boltonia</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Boltonia_asteroides" target="_blank">Boltonia asteroides</a> <span class="aliases">(false aster, false chamomile, white doll's daisy)</span></li>
@@ -436,6 +441,10 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Common_sunflower" target="_blank">Helianthus annuus</a> <span class="aliases">(common sunflower, sunflower)</span></li>
                 </ul>
+                <li><span class="muted">Lactuca</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Lactuca_muralis" target="_blank">Lactuca muralis</a> <span class="aliases">(Mycelis muralis, wall lettuce)</span></li>
+                </ul>
                 <li><span class="muted">Lapsana</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Lapsana_communis" target="_blank">Lapsana communis</a> <span class="aliases">(common nipplewort)</span></li>
@@ -475,6 +484,7 @@ a:active {
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Boraginaceae</span></li>
               <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Myosotis" target="_blank">Myosotis</a> <span class="aliases">(forget-me-nots, scorpion grasses)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Pentaglottis" target="_blank">Pentaglottis</a> <span class="aliases">(evergreen bugloss, green alkanet)</span></li>
               </ul>
               <ul>
@@ -497,6 +507,14 @@ a:active {
                 <li><span class="muted">Symphytum</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Symphytum_asperum" target="_blank">Symphytum asperum</a> <span class="aliases">(prickly comfrey, rough comfrey)</span></li>
+                </ul>
+              </ul>
+              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Hydrophyllaceae</span></li>
+              <ul>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Hydrophyllum</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Hydrophyllum_tenuipes" target="_blank">Hydrophyllum tenuipes</a> <span class="aliases">(Pacific waterleaf, slender-stemmed waterleaf)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Hydrophyllum_virginianum" target="_blank">Hydrophyllum virginianum</a> <span class="aliases">(eastern waterleaf, Virginia waterleaf)</span></li>
                 </ul>
               </ul>
             </ul>
@@ -558,9 +576,10 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Lonicera_japonica" target="_blank">Lonicera japonica</a> <span class="aliases">(golden-and-silver honeysuckle, Japanese honeysuckle)</span></li>
                 </ul>
-                <li><a href="https://en.wikipedia.org/wiki/Symphoricarpos" target="_blank">Symphoricarpos</a> <span class="aliases">(ghostberry, snowberry, waxberry)</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Symphoricarpos" target="_blank">Symphoricarpos</a> <span class="aliases">(ghostberry, snowberry, waxberry)</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Symphoricarpos_albus" target="_blank">Symphoricarpos albus</a> <span class="aliases">(common snowberry)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Symphoricarpos_mollis" target="_blank">Symphoricarpos mollis</a> <span class="aliases">(creeping snowberry, Southern California snowberry, trip vine)</span></li>
                 </ul>
                 <li><span class="muted">Vesalea</span></li>
                 <ul>
@@ -610,8 +629,9 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Calluna" target="_blank">Calluna vulgaris</a> <span class="aliases">(Calluna, common heather, heather, ling)</span></li>
                 </ul>
-                <li><span class="muted">Erica</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Erica</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Erica_carnea" target="_blank">Erica carnea</a> <span class="aliases">(alpine heath, spring heath, winter heath, winter-flowering heather)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Erica_terminalis" target="_blank">Erica terminalis</a> <span class="aliases">(Corsican heath, upright heath)</span></li>
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Gaultheria</span></li>
@@ -635,6 +655,7 @@ a:active {
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Vaccinium" target="_blank">Vaccinium</a></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Vaccinium_parvifolium" target="_blank">Vaccinium parvifolium</a> <span class="aliases">(red huckleberry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Blueberry" target="_blank">Vaccinium sect. Cyanococcus</a> <span class="aliases">(🫐, blueberries, blueberry, Cyanococcus)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Cranberry" target="_blank">Vaccinium subg. Oxycoccus</a> <span class="aliases">(cranberries, cranberry, Oxycoccus)</span></li>
                 </ul>
@@ -731,6 +752,9 @@ a:active {
                 </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Rubiaceae</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Houstonia_(plant)" target="_blank">Houstonia</a> <span class="aliases">(bluet)</span></li>
+              </ul>
               <ul>
                 <li><span class="muted">Coffea</span></li>
                 <ul>
@@ -875,8 +899,9 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Jasminum_nudiflorum" target="_blank">Jasminum nudiflorum</a> <span class="aliases">(winter jasmine)</span></li>
                 </ul>
-                <li><span class="muted">Ligustrum</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Ligustrum</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Ligustrum_%C3%97_ibolium" target="_blank">Ligustrum × ibolium</a> <span class="aliases">(ibolium privet, north privet)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Ligustrum_lucidum" target="_blank">Ligustrum lucidum</a> <span class="aliases">(broad-leaf privet, Chinese privet, glossy privet, tree privet, wax-leaf privet)</span></li>
                 </ul>
                 <li><span class="muted">Olea</span></li>
@@ -887,8 +912,9 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Osmanthus_heterophyllus" target="_blank">Osmanthus heterophyllus</a> <span class="aliases">(Chinese-holly, false holly, holly olive, holly osmanthus)</span></li>
                 </ul>
-                <li><span class="muted">Syringa</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Syringa</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Syringa_%C3%97_persica" target="_blank">Syringa × persica</a> <span class="aliases">(Persian lilac)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Syringa_reticulata" target="_blank">Syringa reticulata</a> <span class="aliases">(Japanese tree lilac)</span></li>
                 </ul>
               </ul>
@@ -913,13 +939,17 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Digitalis_purpurea" target="_blank">Digitalis purpurea</a> <span class="aliases">(common foxglove, foxglove)</span></li>
                 </ul>
+                <li><span class="muted">Linaria</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Linaria_purpurea" target="_blank">Linaria purpurea</a> <span class="aliases">(purple toadflax)</span></li>
+                </ul>
                 <li><span class="muted">Plantago</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Plantago_lanceolata" target="_blank">Plantago lanceolata</a> <span class="aliases">(buckhorn, English plantain, lamb's tongue, narrowleaf plantain, ribleaf, ribwort plantain)</span></li>
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Veronica</span></li>
                 <ul>
-                  <li><a href="https://en.wikipedia.org/wiki/Veronica_brachysiphon" target="_blank">Veronica brachysiphon</a> <span class="aliases">(Hebe brachysiphon)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Veronica_brachysiphon" target="_blank">Veronica brachysiphon</a> <span class="aliases">(Hebe brachysiphon, Hooker's hebe)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Veronica_perfoliata" target="_blank">Veronica perfoliata</a> <span class="aliases">(digger's speedwell)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Veronica_polita" target="_blank">Veronica polita</a> <span class="aliases">(grey field-speedwell)</span></li>
                 </ul>
@@ -1056,7 +1086,12 @@ a:active {
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Caryophyllaceae</span></li>
             <ul>
-              <li><span class="muted">Silene</span></li>
+              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Dianthus</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Dianthus_barbatus" target="_blank">Dianthus barbatus</a> <span class="aliases">(sweet William)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Dianthus_caryophyllus" target="_blank">Dianthus caryophyllus</a> <span class="aliases">(carnation, clove pink, red carnation)</span></li>
+              </ul>
+              <li><a href="https://en.wikipedia.org/wiki/Silene" target="_blank">Silene</a> <span class="aliases">(campion, catchfly)</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Silene_coronaria" target="_blank">Silene coronaria</a> <span class="aliases">(bloody William, dusty miller, Lychnis coronaria, mullein-pink, rose campion)</span></li>
               </ul>
@@ -1089,6 +1124,7 @@ a:active {
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Phytolacca_americana" target="_blank">Phytolacca americana</a> <span class="aliases">(American pokeweed, dragonberries, inkberry, pigeonberry weed, poke sallet, pokeberry, pokeweed)</span></li>
                 <li>Phytolacca bogotensis <span class="aliases">(Southern pokeweed)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Phytolacca_dioica" target="_blank">Phytolacca dioica</a> <span class="aliases">(ombú, umbu)</span></li>
               </ul>
             </ul>
           </ul>
@@ -1117,6 +1153,10 @@ a:active {
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Banksia_grandis" target="_blank">Banksia grandis</a> <span class="aliases">(beera, biara, boongura, bull banksia, giant banksia, gwangia, peera, pira)</span></li>
               </ul>
+              <li><span class="muted">Leucospermum</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Leucospermum_cordifolium" target="_blank">Leucospermum cordifolium</a> <span class="aliases">(bobbejaanklou, ornamental pincushion)</span></li>
+              </ul>
             </ul>
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Ranunculales</span></li>
@@ -1127,11 +1167,13 @@ a:active {
               <li><a href="https://en.wikipedia.org/wiki/Nandina" target="_blank">Nandina</a> <span class="aliases">(heavenly bamboo, nandina, Nandina domestica, sacred bamboo)</span></li>
             </ul>
             <ul>
-              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Berberis</span></li>
+              <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Berberis" target="_blank">Berberis</a> <span class="aliases">(barberry)</span></li>
               <ul>
-                <li><a href="https://en.wikipedia.org/wiki/Berberis_aquifolium" target="_blank">Berberis aquifolium</a> <span class="aliases">(holly-leaved barberry, Oregon grape)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Berberis_aquifolium" target="_blank">Berberis aquifolium</a> <span class="aliases">(holly-leaved barberry, Mahonia aquifolium, Oregon grape)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Berberis_eurybracteata" target="_blank">Berberis eurybracteata</a> <span class="aliases">(Mahonia eurybracteata)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Berberis_japonica" target="_blank">Berberis japonica</a> <span class="aliases">(Japanese Mahonia, Mahonia tikushiensis)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Berberis_microphylla" target="_blank">Berberis microphylla</a> <span class="aliases">(box-leaved barberry, calafate, Magellan barberry, michay)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Berberis_nervosa" target="_blank">Berberis nervosa</a> <span class="aliases">(Cascade barberry, Cascade Oregon-grape, dull Oregon-grape, dwarf Oregon-grape)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Berberis_repens" target="_blank">Berberis repens</a> <span class="aliases">(creeping barberry, creeping grape holly, creeping mahonia, creeping Oregon grape)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Berberis_thunbergii" target="_blank">Berberis thunbergii</a> <span class="aliases">(Japanese barberry, red barberry, Thunberg's barberry)</span></li>
               </ul>
@@ -1166,6 +1208,9 @@ a:active {
               </ul>
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Ranunculaceae</span></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Hellebore" target="_blank">Helleborus</a> <span class="aliases">(Christmas rose, hellebore, Helleboreae, hellebores, Lenten rose, winter rose)</span></li>
+            </ul>
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Aquilegia</span></li>
               <ul>
@@ -1232,11 +1277,19 @@ a:active {
                     <li><a href="https://en.wikipedia.org/wiki/Rapini" target="_blank">rapini</a> <span class="aliases">(broccoli rabe, raab)</span></li>
                   </ul>
                 </ul>
+                <li><span class="muted">Cardamine</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Cardamine_nuttallii" target="_blank">Cardamine nuttallii</a> <span class="aliases">(Nuttall's toothwort)</span></li>
+                </ul>
+                <li><span class="muted">Eruca</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Eruca_sativa" target="_blank">Eruca sativa</a> <span class="aliases">(arugula, colewort, eruca, garden rocket, rocket, roquette, ruchetta, rucola, rucoli, rugula, salad rocket)</span></li>
+                </ul>
                 <li><span class="muted">Hesperis</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Hesperis_matronalis" target="_blank">Hesperis matronalis</a> <span class="aliases">(damask-violet, dame's gilliflower, dame's rocket, dame's-violett, dames-wortt, mother-of-the-evening, night-scented gilliflower, queen's gilliflower, rogue's gilliflower, sweet rocket)</span></li>
                 </ul>
-                <li><span class="muted">Iberis</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Iberis" target="_blank">Iberis</a> <span class="aliases">(candytuft)</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Iberis_sempervirens" target="_blank">Iberis sempervirens</a> <span class="aliases">(evergreen candytuft, perennial candytuft)</span></li>
                 </ul>
@@ -1319,6 +1372,7 @@ a:active {
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Fabaceae" target="_blank">Fabaceae</a> <span class="aliases">(🫛, bean, legume, legumes, Leguminosae, pea, pea family)</span></li>
               <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Faboideae" target="_blank">Faboideae</a> <span class="aliases">(Papilionaceae, Papilionoideae)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Paubrasilia" target="_blank">Paubrasilia</a> <span class="aliases">(brazilwood, Paubrasilia echinata)</span></li>
                 <li><a href="https://en.wikipedia.org/wiki/Tamarind" target="_blank">Tamarindus</a> <span class="aliases">(tamarind, Tamarindus indica)</span></li>
               </ul>
@@ -1446,6 +1500,7 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Betula_nigra" target="_blank">Betula nigra</a> <span class="aliases">(black birch, river birch, water birch)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Betula_papyrifera" target="_blank">Betula papyrifera</a> <span class="aliases">(American white birch, canoe birch, paper birch, white birch)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Betula_pendula" target="_blank">Betula pendula</a> <span class="aliases">(East Asian white birch, European white birch, silver birch, warty birch, weeping birch)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Betula_pubescens" target="_blank">Betula pubescens</a> <span class="aliases">(Betula alba, downy birch, European white birch, hairy birch, moor birch, white birch)</span></li>
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Hornbeam" target="_blank">Carpinus</a> <span class="aliases">(hornbeam, hornbeams)</span></li>
                 <ul>
@@ -1475,7 +1530,7 @@ a:active {
                 <li><a href="https://en.wikipedia.org/wiki/Notholithocarpus" target="_blank">Notholithocarpus</a> <span class="aliases">(Notholithocarpus densiflorus, tanbark-oak, tanoak)</span></li>
               </ul>
               <ul>
-                <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Chestnut" target="_blank">Castanea</a> <span class="aliases">(🌰, chestnut)</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Chestnut" target="_blank">Castanea</a> <span class="aliases">(🌰, chestnut, chestnuts)</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Castanea_crenata" target="_blank">Castanea crenata</a> <span class="aliases">(Japanese chestnut, Korean chestnut)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/American_chestnut" target="_blank">Castanea dentata</a> <span class="aliases">(American chestnut)</span></li>
@@ -1525,6 +1580,7 @@ a:active {
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Juglans" target="_blank">Juglans</a> <span class="aliases">(walnut, walnut trees)</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Juglans_cinerea" target="_blank">Juglans cinerea</a> <span class="aliases">(butternut, white walnut)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Juglans_mandshurica" target="_blank">Juglans mandshurica</a> <span class="aliases">(Manchurian walnut, tigernut)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Juglans_nigra" target="_blank">Juglans nigra</a> <span class="aliases">(black walnut, eastern American black walnut)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Juglans_regia" target="_blank">Juglans regia</a> <span class="aliases">(common walnut, English walnut, Persian walnut)</span></li>
@@ -1550,13 +1606,14 @@ a:active {
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Geraniaceae</span></li>
               <ul>
-                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Geranium</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Geranium" target="_blank">Geranium</a> <span class="aliases">(cranesbills, geraniums)</span></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Geranium_%C3%97_oxonianum" target="_blank">Geranium × oxonianum</a> <span class="aliases">(Oxford geranium)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Geranium_macrorrhizum" target="_blank">Geranium macrorrhizum</a> <span class="aliases">(bigroot geranium, Bulgarian geranium, rock crane's-bill)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Geranium_molle" target="_blank">Geranium molle</a> <span class="aliases">(dove's-foot crane's-bill, dovesfoot geranium)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Geranium_platypetalum" target="_blank">Geranium platypetalum</a> <span class="aliases">(broad-petaled geranium, glandular crane's-bill)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Geranium_purpureum" target="_blank">Geranium purpureum</a> <span class="aliases">(little-robin)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Geranium_robertianum" target="_blank">Geranium robertianum</a> <span class="aliases">(herb-robert, Robert's geranium)</span></li>
                 </ul>
                 <li><span class="muted">Pelargonium</span></li>
                 <ul>
@@ -1623,14 +1680,15 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Salix_alba" target="_blank">Salix alba</a> <span class="aliases">(silver willow, white willow)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Salix_babylonica" target="_blank">Salix babylonica</a> <span class="aliases">(Babylon willow, weeping willow)</span></li>
-                  <li><a href="https://en.wikipedia.org/wiki/Salix_babylonica#Relation_to_Salix_matsudana" target="_blank">Salix matsudana</a> <span class="aliases">(Chinese willow, corkscrew willow)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Salix_babylonica#Relation_to_Salix_matsudana" target="_blank">Salix matsudana</a> <span class="aliases">(Chinese willow, corkscrew willow, curly willow)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Salix_nigra" target="_blank">Salix nigra</a> <span class="aliases">(black willow)</span></li>
                 </ul>
               </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Violaceae</span></li>
               <ul>
-                <li><span class="muted">Viola</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Viola_(plant)" target="_blank">Viola</a> <span class="aliases">(violet, violets)</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Viola_glabella" target="_blank">Viola glabella</a> <span class="aliases">(pioneer violet, stream violet)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Viola_odorata" target="_blank">Viola odorata</a> <span class="aliases">(common violet, English violet, florist's violet, garden violet, sweet violet, wood violet)</span></li>
                 </ul>
               </ul>
@@ -1639,8 +1697,9 @@ a:active {
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Cistaceae</span></li>
               <ul>
-                <li><span class="muted">Cistus</span></li>
+                <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Cistus</span></li>
                 <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Cistus_laurifolius" target="_blank">Cistus laurifolius</a> <span class="aliases">(laurel-leaf cistus,[1] laurel-leaved cistus[2] or laurel-leaved rock rose,)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Cistus_parviflorus" target="_blank">Cistus parviflorus</a></li>
                 </ul>
               </ul>
@@ -1684,9 +1743,13 @@ a:active {
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Malva_neglecta" target="_blank">Malva neglecta</a> <span class="aliases">(buttonweed, cheeseplant, cheeseweed, common mallow, dwarf mallow, roundleaf mallow)</span></li>
                 </ul>
+                <li><span class="muted">Pachira</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Pachira_aquatica" target="_blank">Pachira aquatica</a> <span class="aliases">(French peanut, Guiana chestnut, Malabar chestnut, money plant, money tree, Monguba, provision tree, Pumpo, Saba nut)</span></li>
+                </ul>
                 <li><span class="muted">Theobroma</span></li>
                 <ul>
-                  <li><a href="https://en.wikipedia.org/wiki/Theobroma_cacao" target="_blank">Theobroma cacao</a> <span class="aliases">(🍫, cacao tree, chocolate, cocoa tree)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Theobroma_cacao" target="_blank">Theobroma cacao</a> <span class="aliases">(🍫, cacao, cacao tree, chocolate, cocoa, cocoa tree)</span></li>
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Tilia" target="_blank">Tilia</a> <span class="aliases">(basswood, lime, linden)</span></li>
                 <ul>
@@ -1902,6 +1965,10 @@ a:active {
                     <li><a href="https://en.wikipedia.org/wiki/Honeycrisp" target="_blank">Malus domestica 'Honeycrisp'</a> <span class="aliases">(Honeycrisp)</span></li>
                   </ul>
                 </ul>
+                <li><span class="muted">Oemleria</span></li>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Oemleria_cerasiformis" target="_blank">Oemleria cerasiformis</a> <span class="aliases">(Indian peach, Indian plum, osoberry, squaw plum)</span></li>
+                </ul>
                 <li><a href="https://en.wikipedia.org/wiki/Photinia" target="_blank">Photinia</a></li>
                 <ul>
                   <li><a href="https://en.wikipedia.org/wiki/Photinia_glabra" target="_blank">Photinia glabra</a> <span class="aliases">(Japanese photinia)</span></li>
@@ -1916,7 +1983,6 @@ a:active {
                 </ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Prunus" target="_blank">Prunus</a> <span class="aliases">(stonefruit)</span></li>
                 <ul>
-                  <li><a href="https://en.wikipedia.org/wiki/Prunus_%C3%97_subhirtella" target="_blank">Prunus × subhirtella</a> <span class="aliases">(rosebud cherry, spring cherry, winter-flowering cherry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Prunus_%C3%97_yedoensis" target="_blank">Prunus × yedoensis</a> <span class="aliases">(Cerasus × yedoensis, Somei-yoshino, Yoshino cherry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Almond" target="_blank">Prunus amygdalus</a> <span class="aliases">(almond, Prunus dulcis)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Prunus_armeniaca" target="_blank">Prunus armeniaca</a> <span class="aliases">(apricot)</span></li>
@@ -1930,6 +1996,12 @@ a:active {
                   <li><a href="https://en.wikipedia.org/wiki/Prunus_serrulata" target="_blank">Prunus serrulata</a> <span class="aliases">(🌸, Japanese cherry)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Cherry_blossom" target="_blank">Prunus subg. Cerasus</a> <span class="aliases">(cherry blossom, Japanese cherry, sakura)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Prunus_subg._Prunus" target="_blank">Prunus subg. Prunus</a> <span class="aliases">(plum, plums, prune, prunes)</span></li>
+                </ul>
+                <ul>
+                  <li><a href="https://en.wikipedia.org/wiki/Prunus_%C3%97_subhirtella" target="_blank">Prunus × subhirtella</a> <span class="aliases">(Prunus subhirtella, rosebud cherry, spring cherry, weeping cherry, winter-flowering cherry)</span></li>
+                  <ul>
+                    <li><a href="https://en.wikipedia.org/wiki/Prunus_subhirtella_%27Pendula%27" target="_blank">Prunus × subhirtella 'Pendula'</a> <span class="aliases">(Japanese flowering cherry, Japanese weeping cherry, weeping cherry, weeping Higan cherry)</span></li>
+                  </ul>
                 </ul>
                 <li><span class="muted">Pyracantha</span></li>
                 <ul>
@@ -2117,11 +2189,12 @@ a:active {
               <ul>
                 <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Maple" target="_blank">Acer</a> <span class="aliases">(🍁, maple, maples)</span></li>
                 <ul>
-                  <li><a href="https://en.wikipedia.org/wiki/Acer_%C3%97_freemanii" target="_blank">Acer × freemanii</a> <span class="aliases">(Freeman maple, Freeman's maple)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Acer_%C3%97_freemanii" target="_blank">Acer × freemanii</a> <span class="aliases">(Armstrong maple, Freeman maple, Freeman's maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_campestre" target="_blank">Acer campestre</a> <span class="aliases">(field maple, hedge maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_circinatum" target="_blank">Acer circinatum</a> <span class="aliases">(vine maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_glabrum" target="_blank">Acer glabrum</a> <span class="aliases">(Douglas maple, Dwarf Maple, Rock Maple, Rocky Mountain maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_griseum" target="_blank">Acer griseum</a> <span class="aliases">(blood-bark maple, paperbark maple)</span></li>
+                  <li><a href="https://en.wikipedia.org/wiki/Acer_japonicum" target="_blank">Acer japonicum</a> <span class="aliases">(downy Japanese-maple, fullmoon maple, hauchiwakaede)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_macrophyllum" target="_blank">Acer macrophyllum</a> <span class="aliases">(bigleaf maple, BLM, Oregon maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_negundo" target="_blank">Acer negundo</a> <span class="aliases">(ash-leaved maple, box elder, boxelder maple, Manitoba maple)</span></li>
                   <li><a href="https://en.wikipedia.org/wiki/Acer_palmatum" target="_blank">Acer palmatum</a> <span class="aliases">(Japanese maple, palmate maple, smooth Japanese maple)</span></li>
@@ -2214,6 +2287,9 @@ a:active {
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Saxifragales</span></li>
           <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Peony" target="_blank">Paeonia</a> <span class="aliases">(Paeoniaceae, paeony, peony)</span></li>
+          </ul>
+          <ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Altingiaceae</span></li>
             <ul>
               <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Liquidambar" target="_blank">Liquidambar</a> <span class="aliases">(American storax, gum, redgum, satin-walnut, star gum, styrax, sweetgum)</span></li>
@@ -2258,6 +2334,11 @@ a:active {
               <li><a href="https://en.wikipedia.org/wiki/Parrotia_persica" target="_blank">Parrotia persica</a> <span class="aliases">(Persian ironwood)</span></li>
             </ul>
             <ul>
+              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Corylopsis</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Corylopsis_spicata" target="_blank">Corylopsis spicata</a> <span class="aliases">(winter hazel)</span></li>
+                <li>Corylopsis veitchiana <span class="aliases">(Veitch's Winter Hazel)</span></li>
+              </ul>
               <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Hamamelis</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Hamamelis_%C3%97_intermedia" target="_blank">Hamamelis × intermedia</a> <span class="aliases">(hybrid witch hazel, witch hazel)</span></li>
@@ -2269,11 +2350,12 @@ a:active {
                 <li><a href="https://en.wikipedia.org/wiki/Loropetalum_chinense" target="_blank">Loropetalum chinense</a> <span class="aliases">(Chinese fringe flower, loropetalum, strap flower)</span></li>
               </ul>
             </ul>
-            <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Peony" target="_blank">Paeoniaceae</a> <span class="aliases">(Paeonia, paeony, peony)</span></li>
+            <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Paeoniaceae</span></li>
             <ul>
-              <li><span class="muted">Paeonia</span></li>
+              <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Paeonia</span></li>
               <ul>
-                <li><a href="https://en.wikipedia.org/wiki/Paeonia_lactiflora" target="_blank">Paeonia lactiflora</a> <span class="aliases">(Chinese herbaceous peony, Chinese peony, common garden peony)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Paeonia_%C3%97_suffruticosa" target="_blank">Paeonia × suffruticosa</a> <span class="aliases">(mǔdān)</span></li>
+                <li><a href="https://en.wikipedia.org/wiki/Paeonia_lactiflora" target="_blank">Paeonia lactiflora</a> <span class="aliases">(Chinese herbaceous peony, Chinese peony, common garden peony, Coral Charm peony)</span></li>
               </ul>
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Saxifragaceae</span></li>
@@ -2442,9 +2524,10 @@ a:active {
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Galanthus_woronowii" target="_blank">Galanthus woronowii</a> <span class="aliases">(green snowdrop, Woronow's snowdrop)</span></li>
             </ul>
-            <li><span class="muted">Narcissus</span></li>
+            <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Narcissus_(plant)" target="_blank">Narcissus</a> <span class="aliases">(daffodil, daffodils, jonquil, narcissi, narcissus)</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Narcissus_pseudonarcissus" target="_blank">Narcissus pseudonarcissus</a> <span class="aliases">(Lent lily, wild daffodil)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Narcissus_tazetta" target="_blank">Narcissus tazetta</a> <span class="aliases">(bunch-flowered daffodil, bunch-flowered narcissus, Chinese sacred lily, cream narcissus, joss flower, paperwhite, polyanthus narcissus)</span></li>
             </ul>
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Asparagaceae</span></li>
@@ -2459,6 +2542,7 @@ a:active {
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Asparagus_densiflorus" target="_blank">Asparagus densiflorus</a> <span class="aliases">(asparagus ferns, foxtail asparagus, foxtail fern, plume fern)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Asparagus" target="_blank">Asparagus officinalis</a> <span class="aliases">(asparagus)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Asparagus_setaceus" target="_blank">Asparagus setaceus</a> <span class="aliases">(asparagus grass, climbing asparagus, common asparagus fern, ferny asparagus, lace fern)</span></li>
             </ul>
             <li><span class="muted">Convallaria</span></li>
             <ul>
@@ -2477,8 +2561,9 @@ a:active {
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Hosta_plantaginea" target="_blank">Hosta plantaginea</a> <span class="aliases">(August lily, fragrant plantain lily)</span></li>
             </ul>
-            <li><span class="muted">Hyacinthoides</span></li>
+            <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Hyacinthoides</span></li>
             <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Hyacinthoides_%C3%97_massartiana" target="_blank">Hyacinthoides × massartiana</a></li>
               <li><a href="https://en.wikipedia.org/wiki/Hyacinthoides_hispanica" target="_blank">Hyacinthoides hispanica</a> <span class="aliases">(Spanish bluebell, wood hyacinth)</span></li>
             </ul>
             <li><span class="muted">Ornithogalum</span></li>
@@ -2536,12 +2621,13 @@ a:active {
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Orchid" target="_blank">Orchidaceae</a> <span class="aliases">(orchid, orchids)</span></li>
           <ul>
-            <li><a href="https://en.wikipedia.org/wiki/Vanilla_(genus)" target="_blank">Vanilla</a> <span class="aliases">(vanilla, vanilla orchids)</span></li>
-          </ul>
-          <ul>
             <li><span class="muted">Goodyera</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Goodyera_pubescens" target="_blank">Goodyera pubescens</a> <span class="aliases">(downy rattlesnake plantain, Peramium pubescens)</span></li>
+            </ul>
+            <li><a href="https://en.wikipedia.org/wiki/Vanilla_(genus)" target="_blank">Vanilla</a> <span class="aliases">(vanilla orchids)</span></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Vanilla_planifolia" target="_blank">Vanilla planifolia</a> <span class="aliases">(flat-leaved vanilla, vanilla, West Indian vanilla)</span></li>
             </ul>
           </ul>
         </ul>
@@ -2594,7 +2680,6 @@ a:active {
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Poales</span></li>
           <ul>
-            <li><a href="https://en.wikipedia.org/wiki/Cyperaceae" target="_blank">Cyperaceae</a> <span class="aliases">(sedges)</span></li>
             <li><a href="https://en.wikipedia.org/wiki/Juncaceae" target="_blank">Juncaceae</a> <span class="aliases">(rush family, rushes)</span></li>
           </ul>
           <ul>
@@ -2607,6 +2692,13 @@ a:active {
               <li><span class="muted">Tillandsia</span></li>
               <ul>
                 <li><a href="https://en.wikipedia.org/wiki/Spanish_moss" target="_blank">Tillandsia usneoides</a> <span class="aliases">(spanish moss)</span></li>
+              </ul>
+            </ul>
+            <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Cyperaceae" target="_blank">Cyperaceae</a> <span class="aliases">(sedges)</span></li>
+            <ul>
+              <li><span class="muted">Eleocharis</span></li>
+              <ul>
+                <li><a href="https://en.wikipedia.org/wiki/Eleocharis_dulcis" target="_blank">Eleocharis dulcis</a> <span class="aliases">(Chinese water chestnut)</span></li>
               </ul>
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Poaceae</span></li>
@@ -2666,7 +2758,7 @@ a:active {
         <ul>
           <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Liliaceae" target="_blank">Liliaceae</a></li>
           <ul>
-            <li><span class="muted">Lilium</span></li>
+            <li><a href="https://en.wikipedia.org/wiki/Lilium" target="_blank">Lilium</a> <span class="aliases">(lillies, lily)</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Lilium_bulbiferum" target="_blank">Lilium bulbiferum</a> <span class="aliases">(fire lily, Jimmy's Bane, orange lily, St. John's Lily, tiger lily)</span></li>
             </ul>
@@ -2679,9 +2771,12 @@ a:active {
               <li><a href="https://en.wikipedia.org/wiki/Tulipa_orphanidea" target="_blank">Tulipa orphanidea</a></li>
             </ul>
           </ul>
-          <li><span class="muted">Melanthiaceae</span></li>
+          <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Melanthiaceae</span></li>
           <ul>
             <li><a href="https://en.wikipedia.org/wiki/Trillium" target="_blank">Trillium</a> <span class="aliases">(birthroot, birthwort, toadshade, tri flower, wakerobin, wood lily)</span></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Trillium_ovatum" target="_blank">Trillium ovatum</a> <span class="aliases">(Pacific trillium, western trillium, western wakerobin, western white trillium)</span></li>
+            </ul>
           </ul>
           <li class="has-children" onclick="toggleNode(this, event)"><span class="muted">Smilacaceae</span></li>
           <ul>
@@ -2895,19 +2990,23 @@ a:active {
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Picea_abies" target="_blank">Picea abies</a> <span class="aliases">(European spruce, Norway spruce)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Picea_breweriana" target="_blank">Picea breweriana</a> <span class="aliases">(Brewer spruce, Brewer's spruce, Brewer's weeping spruce, weeping spruce)</span></li>
-              <li><a href="https://en.wikipedia.org/wiki/Picea_glauca" target="_blank">Picea glauca</a> <span class="aliases">(Alberta white spruce, Black Hills spruce, Canadian spruce, cat spruce, Porsild spruce, skunk spruce, western white spruce, white spruce)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Picea_engelmannii" target="_blank">Picea engelmannii</a> <span class="aliases">(Engelmann spruce, mountain spruce, silver spruce)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Picea_glauca" target="_blank">Picea glauca</a> <span class="aliases">(Alberta white spruce, Black Hills spruce, Canadian spruce, cat spruce, Dwarf Alberta Spruce, Dwarf White Spruce, Porsild spruce, skunk spruce, western white spruce, white spruce)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Picea_mariana" target="_blank">Picea mariana</a> <span class="aliases">(black spruce)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Picea_orientalis" target="_blank">Picea orientalis</a> <span class="aliases">(Caucasian spruce, Oriental spruce)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Blue_spruce" target="_blank">Picea pungens</a> <span class="aliases">(blue spruce, Colorado blue spruce, Colorado spruce)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Picea_sitchensis" target="_blank">Picea sitchensis</a> <span class="aliases">(Sitka spruce)</span></li>
             </ul>
             <li class="has-children" onclick="toggleNode(this, event)"><a href="https://en.wikipedia.org/wiki/Pine" target="_blank">Pinus</a> <span class="aliases">(pine, pines)</span></li>
             <ul>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_albicaulis" target="_blank">Pinus albicaulis</a> <span class="aliases">(creeping pine, pitch pine, scrub pine, white bark pine, white pine, whitebark pine)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Knobcone_pine" target="_blank">Pinus attenuata</a> <span class="aliases">(knobcone pine, Pinus tuberculata)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_canariensis" target="_blank">Pinus canariensis</a> <span class="aliases">(Canary Island pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_contorta" target="_blank">Pinus contorta</a> <span class="aliases">(contorta pine, lodgepole pine, shore pine, twisted pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Coulter_pine" target="_blank">Pinus coulteri</a> <span class="aliases">(big-cone pine, Coulter pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_densiflora" target="_blank">Pinus densiflora</a> <span class="aliases">(Japanese pine, Japanese red pine, Korean red pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_edulis" target="_blank">Pinus edulis</a> <span class="aliases">(Colorado pinyon, pinyon pine, simply piñon, two-needle piñon)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Pinus_jeffreyi" target="_blank">Pinus jeffreyi</a> <span class="aliases">(black pine, gasoline tree, Jeffrey pine, Jeffrey's pine, yellow pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_longaeva" target="_blank">Pinus longaeva</a> <span class="aliases">(Great Basin bristlecone pine, intermountain bristlecone pine, western bristlecone pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Western_white_pine" target="_blank">Pinus monticola</a> <span class="aliases">(California mountain pine, silver pine, Western white pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_mugo" target="_blank">Pinus mugo</a> <span class="aliases">(bog pine, creeping pine, dwarf mountain pine, mountain pine, mugo pine, scrub mountain pine, Swiss mountain pine)</span></li>
@@ -2920,6 +3019,7 @@ a:active {
               <li><a href="https://en.wikipedia.org/wiki/Pinus_strobus" target="_blank">Pinus strobus</a> <span class="aliases">(eastern white pine, northern white pine, soft pine, Weymouth pine, white pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_subg._Pinus" target="_blank">Pinus subg. Pinus</a> <span class="aliases">(hard pine, yellow pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Strobus" target="_blank">Pinus subg. Strobus</a> <span class="aliases">(Pinus subg. Ducampopinus, pinyon pine, soft pine, white pine)</span></li>
+              <li><a href="https://en.wikipedia.org/wiki/Pinus_sylvestris" target="_blank">Pinus sylvestris</a> <span class="aliases">(Baltic pine, European red pine, European redwood, red deal, Scotch fir, Scotch pine, Scots fir, Scots pine, yellow deal)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_taeda" target="_blank">Pinus taeda</a> <span class="aliases">(loblolly pine)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_thunbergii" target="_blank">Pinus thunbergii</a> <span class="aliases">(black pine, gomsol, hēisōng, Japanese black pine, Japanese pine, kuromatsu)</span></li>
               <li><a href="https://en.wikipedia.org/wiki/Pinus_virginiana" target="_blank">Pinus virginiana</a> <span class="aliases">(Jersey pine, possum pine, scrub pine, Virginia pine)</span></li>
@@ -2961,7 +3061,7 @@ a:active {
 </div>
 
 <section class="last-updated muted">
-  Last updated: March 23, 2026
+  Last updated: April 5, 2026
 </section>
 </main>
 
