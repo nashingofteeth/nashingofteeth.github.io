@@ -139,6 +139,12 @@ async function build() {
     const plantData = require("./src/_data/plant-data.json");
     const plantsHtml = plantsTemplate(plantData);
     writeHtml("plants/index.html", plantsHtml);
+    // Copy plant data JSON so the client-side search feature can fetch it
+    fs.copyFileSync(
+      "./src/_data/plant-data.json",
+      path.join(DIST_DIR, "plants", "plant-data.json"),
+    );
+    console.log("  ✓ plant-data.json → dist/plants/");
   } catch (error) {
     console.log("  ⚠️  plant-data.json not found, skipping plants page");
   }

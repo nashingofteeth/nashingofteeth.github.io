@@ -10,10 +10,36 @@ a:active {
   color: LimeGreen;
 }
 
+.plant-search-container {
+  margin-top: 40px;
+}
+
+#plant-search {
+  font-family: inherit;
+  font-size: 1em;
+  color: DarkGreen;
+  background: HoneyDew;
+  border: 1px solid #5a8a5a;
+  padding: 4px 8px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+#plant-search:focus {
+  border-color: DarkGreen;
+}
+
+#plant-search:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .plant-list {
   line-height: 1.4;
   color: #2d3a2d;
-  margin-top: 60px;
+  margin-top: 20px;
   margin-left: 4px;
 }
 
@@ -61,6 +87,26 @@ a:active {
 
 .plant-list .aliases {
   font-size: 0.8em;
+}
+
+.plant-list li.search-match {
+  color: DarkGreen;
+  font-weight: bold;
+}
+
+/* In search results the tree is fully expanded — no toggle affordance needed */
+.plant-list[data-search-active] li.has-children {
+  cursor: default;
+}
+
+.plant-list[data-search-active] li.has-children::before {
+  content: "•";
+  color: #5a8a5a;
+}
+
+.plant-list[data-search-active] li.search-match::before {
+  content: "▶";
+  color: DarkGreen;
 }
 
 .plant-list ul.collapsed {
