@@ -27,7 +27,7 @@ function plants(plantData) {
 </section>
 
 <div class="plant-search-container">
-  <input type="search" id="plant-search" disabled placeholder="Loading search\u2026" autocomplete="off">
+  <input type="search" id="plant-search" disabled placeholder="🏗️ Loading search\u2026" autocomplete="off">
 </div>
 
 ${plantListHtml}

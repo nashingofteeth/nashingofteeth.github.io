@@ -249,7 +249,7 @@ function toggleNode(li, event) {
           } else {
             const result = runSearch(query);
             if (!result) {
-              renderTree(`<li class="muted">No results.</li>`, true);
+              renderTree(`<div class="muted">No results.</div>`, true);
             } else {
               renderTree(
                 renderPrunedTree(
@@ -266,7 +266,7 @@ function toggleNode(li, event) {
       });
 
       searchInput.removeAttribute("disabled");
-      searchInput.setAttribute("placeholder", "Search by name or alias\u2026");
+      searchInput.setAttribute("placeholder", "🔍 Search by binomial or common name\u2026");
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
