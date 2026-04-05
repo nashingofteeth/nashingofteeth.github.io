@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-23T03:29:30.351Z",
-  "totalPlants": 953,
+  "generated": "2026-04-05T21:45:18.847Z",
+  "totalPlants": 1006,
   "taxonomy": [
     {
       "name": "Bryophyta",
@@ -251,6 +251,13 @@
                                     "meadow horsetail",
                                     "shade horsetail",
                                     "shady horsetail"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Equisetum telmateia",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Equisetum_telmateia",
+                                  "aliases": [
+                                    "great horsetail"
                                   ]
                                 }
                               ],
@@ -898,6 +905,22 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Bellis",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Bellis perennis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Bellis_perennis",
+                                          "aliases": [
+                                            "common daisy",
+                                            "English daisy",
+                                            "lawn daisy"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Boltonia",
                                       "file": null,
                                       "otherFiles": [
@@ -1087,6 +1110,21 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Lactuca",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Lactuca muralis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Lactuca_muralis",
+                                          "aliases": [
+                                            "Mycelis muralis",
+                                            "wall lettuce"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Lapsana",
                                       "file": null,
                                       "otherFiles": [
@@ -1237,6 +1275,14 @@
                                   "file": null,
                                   "otherFiles": [
                                     {
+                                      "fileName": "Myosotis",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Myosotis",
+                                      "aliases": [
+                                        "forget-me-nots",
+                                        "scorpion grasses"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Pentaglottis",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Pentaglottis",
                                       "aliases": [
@@ -1322,6 +1368,36 @@
                                           "aliases": [
                                             "prickly comfrey",
                                             "rough comfrey"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "Hydrophyllaceae",
+                                  "file": null,
+                                  "otherFiles": [],
+                                  "children": [
+                                    {
+                                      "name": "Hydrophyllum",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Hydrophyllum tenuipes",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Hydrophyllum_tenuipes",
+                                          "aliases": [
+                                            "Pacific waterleaf",
+                                            "slender-stemmed waterleaf"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Hydrophyllum virginianum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Hydrophyllum_virginianum",
+                                          "aliases": [
+                                            "eastern waterleaf",
+                                            "Virginia waterleaf"
                                           ]
                                         }
                                       ],
@@ -1614,6 +1690,15 @@
                                           "aliases": [
                                             "common snowberry"
                                           ]
+                                        },
+                                        {
+                                          "fileName": "Symphoricarpos mollis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Symphoricarpos_mollis",
+                                          "aliases": [
+                                            "creeping snowberry",
+                                            "Southern California snowberry",
+                                            "trip vine"
+                                          ]
                                         }
                                       ],
                                       "children": []
@@ -1836,6 +1921,16 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Erica carnea",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Erica_carnea",
+                                          "aliases": [
+                                            "alpine heath",
+                                            "spring heath",
+                                            "winter heath",
+                                            "winter-flowering heather"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Erica terminalis",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Erica_terminalis",
                                           "aliases": [
@@ -1955,6 +2050,13 @@
                                         "aliases": []
                                       },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Vaccinium parvifolium",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Vaccinium_parvifolium",
+                                          "aliases": [
+                                            "red huckleberry"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Vaccinium sect. Cyanococcus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Blueberry",
@@ -2336,7 +2438,15 @@
                                 {
                                   "name": "Rubiaceae",
                                   "file": null,
-                                  "otherFiles": [],
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Houstonia",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Houstonia_(plant)",
+                                      "aliases": [
+                                        "bluet"
+                                      ]
+                                    }
+                                  ],
                                   "children": [
                                     {
                                       "name": "Coffea",
@@ -2953,6 +3063,14 @@
                                       "file": null,
                                       "otherFiles": [
                                         {
+                                          "fileName": "Ligustrum × ibolium",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Ligustrum_%C3%97_ibolium",
+                                          "aliases": [
+                                            "ibolium privet",
+                                            "north privet"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Ligustrum lucidum",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Ligustrum_lucidum",
                                           "aliases": [
@@ -3003,6 +3121,13 @@
                                       "name": "Syringa",
                                       "file": null,
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Syringa × persica",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Syringa_%C3%97_persica",
+                                          "aliases": [
+                                            "Persian lilac"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Syringa reticulata",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Syringa_reticulata",
@@ -3093,6 +3218,20 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Linaria",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Linaria purpurea",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Linaria_purpurea",
+                                          "aliases": [
+                                            "purple toadflax"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Plantago",
                                       "file": null,
                                       "otherFiles": [
@@ -3119,7 +3258,8 @@
                                           "fileName": "Veronica brachysiphon",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Veronica_brachysiphon",
                                           "aliases": [
-                                            "Hebe brachysiphon"
+                                            "Hebe brachysiphon",
+                                            "Hooker's hebe"
                                           ]
                                         },
                                         {
@@ -3693,8 +3833,38 @@
                               "otherFiles": [],
                               "children": [
                                 {
-                                  "name": "Silene",
+                                  "name": "Dianthus",
                                   "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Dianthus barbatus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Dianthus_barbatus",
+                                      "aliases": [
+                                        "sweet William"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Dianthus caryophyllus",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Dianthus_caryophyllus",
+                                      "aliases": [
+                                        "carnation",
+                                        "clove pink",
+                                        "red carnation"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
+                                  "name": "Silene",
+                                  "file": {
+                                    "fileName": "Silene",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Silene",
+                                    "aliases": [
+                                      "campion",
+                                      "catchfly"
+                                    ]
+                                  },
                                   "otherFiles": [
                                     {
                                       "fileName": "Silene coronaria",
@@ -3817,6 +3987,14 @@
                                       "wikipedia": null,
                                       "aliases": [
                                         "Southern pokeweed"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Phytolacca dioica",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Phytolacca_dioica",
+                                      "aliases": [
+                                        "ombú",
+                                        "umbu"
                                       ]
                                     }
                                   ],
@@ -3945,6 +4123,21 @@
                                     }
                                   ],
                                   "children": []
+                                },
+                                {
+                                  "name": "Leucospermum",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Leucospermum cordifolium",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Leucospermum_cordifolium",
+                                      "aliases": [
+                                        "bobbejaanklou",
+                                        "ornamental pincushion"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
                                 }
                               ]
                             }
@@ -3984,13 +4177,20 @@
                               "children": [
                                 {
                                   "name": "Berberis",
-                                  "file": null,
+                                  "file": {
+                                    "fileName": "Berberis",
+                                    "wikipedia": "https://en.wikipedia.org/wiki/Berberis",
+                                    "aliases": [
+                                      "barberry"
+                                    ]
+                                  },
                                   "otherFiles": [
                                     {
                                       "fileName": "Berberis aquifolium",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Berberis_aquifolium",
                                       "aliases": [
                                         "holly-leaved barberry",
+                                        "Mahonia aquifolium",
                                         "Oregon grape"
                                       ]
                                     },
@@ -4007,6 +4207,26 @@
                                       "aliases": [
                                         "Japanese Mahonia",
                                         "Mahonia tikushiensis"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Berberis microphylla",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Berberis_microphylla",
+                                      "aliases": [
+                                        "box-leaved barberry",
+                                        "calafate",
+                                        "Magellan barberry",
+                                        "michay"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Berberis nervosa",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Berberis_nervosa",
+                                      "aliases": [
+                                        "Cascade barberry",
+                                        "Cascade Oregon-grape",
+                                        "dull Oregon-grape",
+                                        "dwarf Oregon-grape"
                                       ]
                                     },
                                     {
@@ -4154,7 +4374,20 @@
                             {
                               "name": "Ranunculaceae",
                               "file": null,
-                              "otherFiles": [],
+                              "otherFiles": [
+                                {
+                                  "fileName": "Helleborus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Hellebore",
+                                  "aliases": [
+                                    "Christmas rose",
+                                    "hellebore",
+                                    "Helleboreae",
+                                    "hellebores",
+                                    "Lenten rose",
+                                    "winter rose"
+                                  ]
+                                }
+                              ],
                               "children": [
                                 {
                                   "name": "Aquilegia",
@@ -4468,6 +4701,44 @@
                                       ]
                                     },
                                     {
+                                      "name": "Cardamine",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Cardamine nuttallii",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cardamine_nuttallii",
+                                          "aliases": [
+                                            "Nuttall's toothwort"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
+                                      "name": "Eruca",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Eruca sativa",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Eruca_sativa",
+                                          "aliases": [
+                                            "arugula",
+                                            "colewort",
+                                            "eruca",
+                                            "garden rocket",
+                                            "rocket",
+                                            "roquette",
+                                            "ruchetta",
+                                            "rucola",
+                                            "rucoli",
+                                            "rugula",
+                                            "salad rocket"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Hesperis",
                                       "file": null,
                                       "otherFiles": [
@@ -4492,7 +4763,13 @@
                                     },
                                     {
                                       "name": "Iberis",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Iberis",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Iberis",
+                                        "aliases": [
+                                          "candytuft"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Iberis sempervirens",
@@ -4812,6 +5089,14 @@
                                     ]
                                   },
                                   "otherFiles": [
+                                    {
+                                      "fileName": "Faboideae",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Faboideae",
+                                      "aliases": [
+                                        "Papilionaceae",
+                                        "Papilionoideae"
+                                      ]
+                                    },
                                     {
                                       "fileName": "Paubrasilia",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Paubrasilia",
@@ -5469,6 +5754,18 @@
                                             "warty birch",
                                             "weeping birch"
                                           ]
+                                        },
+                                        {
+                                          "fileName": "Betula pubescens",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Betula_pubescens",
+                                          "aliases": [
+                                            "Betula alba",
+                                            "downy birch",
+                                            "European white birch",
+                                            "hairy birch",
+                                            "moor birch",
+                                            "white birch"
+                                          ]
                                         }
                                       ],
                                       "children": []
@@ -5617,7 +5914,8 @@
                                         "wikipedia": "https://en.wikipedia.org/wiki/Chestnut",
                                         "aliases": [
                                           "🌰",
-                                          "chestnut"
+                                          "chestnut",
+                                          "chestnuts"
                                         ]
                                       },
                                       "otherFiles": [
@@ -5967,6 +6265,14 @@
                                       },
                                       "otherFiles": [
                                         {
+                                          "fileName": "Juglans cinerea",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Juglans_cinerea",
+                                          "aliases": [
+                                            "butternut",
+                                            "white walnut"
+                                          ]
+                                        },
+                                        {
                                           "fileName": "Juglans mandshurica",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Juglans_mandshurica",
                                           "aliases": [
@@ -6062,7 +6368,14 @@
                                   "children": [
                                     {
                                       "name": "Geranium",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Geranium",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Geranium",
+                                        "aliases": [
+                                          "cranesbills",
+                                          "geraniums"
+                                        ]
+                                      },
                                       "otherFiles": [
                                         {
                                           "fileName": "Geranium × oxonianum",
@@ -6101,6 +6414,14 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Geranium_purpureum",
                                           "aliases": [
                                             "little-robin"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Geranium robertianum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Geranium_robertianum",
+                                          "aliases": [
+                                            "herb-robert",
+                                            "Robert's geranium"
                                           ]
                                         }
                                       ],
@@ -6413,7 +6734,8 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Salix_babylonica#Relation_to_Salix_matsudana",
                                           "aliases": [
                                             "Chinese willow",
-                                            "corkscrew willow"
+                                            "corkscrew willow",
+                                            "curly willow"
                                           ]
                                         },
                                         {
@@ -6435,8 +6757,23 @@
                                   "children": [
                                     {
                                       "name": "Viola",
-                                      "file": null,
+                                      "file": {
+                                        "fileName": "Viola",
+                                        "wikipedia": "https://en.wikipedia.org/wiki/Viola_(plant)",
+                                        "aliases": [
+                                          "violet",
+                                          "violets"
+                                        ]
+                                      },
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Viola glabella",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Viola_glabella",
+                                          "aliases": [
+                                            "pioneer violet",
+                                            "stream violet"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Viola odorata",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Viola_odorata",
@@ -6470,6 +6807,13 @@
                                       "name": "Cistus",
                                       "file": null,
                                       "otherFiles": [
+                                        {
+                                          "fileName": "Cistus laurifolius",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Cistus_laurifolius",
+                                          "aliases": [
+                                            "laurel-leaf cistus,[1] laurel-leaved cistus[2] or laurel-leaved rock rose,"
+                                          ]
+                                        },
                                         {
                                           "fileName": "Cistus parviflorus",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Cistus_parviflorus",
@@ -6692,6 +7036,28 @@
                                       "children": []
                                     },
                                     {
+                                      "name": "Pachira",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Pachira aquatica",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Pachira_aquatica",
+                                          "aliases": [
+                                            "French peanut",
+                                            "Guiana chestnut",
+                                            "Malabar chestnut",
+                                            "money plant",
+                                            "money tree",
+                                            "Monguba",
+                                            "provision tree",
+                                            "Pumpo",
+                                            "Saba nut"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Theobroma",
                                       "file": null,
                                       "otherFiles": [
@@ -6700,8 +7066,10 @@
                                           "wikipedia": "https://en.wikipedia.org/wiki/Theobroma_cacao",
                                           "aliases": [
                                             "🍫",
+                                            "cacao",
                                             "cacao tree",
                                             "chocolate",
+                                            "cocoa",
                                             "cocoa tree"
                                           ]
                                         }
@@ -7730,6 +8098,23 @@
                                       ]
                                     },
                                     {
+                                      "name": "Oemleria",
+                                      "file": null,
+                                      "otherFiles": [
+                                        {
+                                          "fileName": "Oemleria cerasiformis",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Oemleria_cerasiformis",
+                                          "aliases": [
+                                            "Indian peach",
+                                            "Indian plum",
+                                            "osoberry",
+                                            "squaw plum"
+                                          ]
+                                        }
+                                      ],
+                                      "children": []
+                                    },
+                                    {
                                       "name": "Photinia",
                                       "file": {
                                         "fileName": "Photinia",
@@ -7788,15 +8173,6 @@
                                         ]
                                       },
                                       "otherFiles": [
-                                        {
-                                          "fileName": "Prunus × subhirtella",
-                                          "wikipedia": "https://en.wikipedia.org/wiki/Prunus_%C3%97_subhirtella",
-                                          "aliases": [
-                                            "rosebud cherry",
-                                            "spring cherry",
-                                            "winter-flowering cherry"
-                                          ]
-                                        },
                                         {
                                           "fileName": "Prunus × yedoensis",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Prunus_%C3%97_yedoensis",
@@ -7920,7 +8296,35 @@
                                           ]
                                         }
                                       ],
-                                      "children": []
+                                      "children": [
+                                        {
+                                          "name": "Prunus × subhirtella",
+                                          "file": {
+                                            "fileName": "Prunus × subhirtella",
+                                            "wikipedia": "https://en.wikipedia.org/wiki/Prunus_%C3%97_subhirtella",
+                                            "aliases": [
+                                              "Prunus subhirtella",
+                                              "rosebud cherry",
+                                              "spring cherry",
+                                              "weeping cherry",
+                                              "winter-flowering cherry"
+                                            ]
+                                          },
+                                          "otherFiles": [
+                                            {
+                                              "fileName": "Prunus × subhirtella 'Pendula'",
+                                              "wikipedia": "https://en.wikipedia.org/wiki/Prunus_subhirtella_%27Pendula%27",
+                                              "aliases": [
+                                                "Japanese flowering cherry",
+                                                "Japanese weeping cherry",
+                                                "weeping cherry",
+                                                "weeping Higan cherry"
+                                              ]
+                                            }
+                                          ],
+                                          "children": []
+                                        }
+                                      ]
                                     },
                                     {
                                       "name": "Pyracantha",
@@ -8891,6 +9295,7 @@
                                           "fileName": "Acer × freemanii",
                                           "wikipedia": "https://en.wikipedia.org/wiki/Acer_%C3%97_freemanii",
                                           "aliases": [
+                                            "Armstrong maple",
                                             "Freeman maple",
                                             "Freeman's maple"
                                           ]
@@ -8926,6 +9331,15 @@
                                           "aliases": [
                                             "blood-bark maple",
                                             "paperbark maple"
+                                          ]
+                                        },
+                                        {
+                                          "fileName": "Acer japonicum",
+                                          "wikipedia": "https://en.wikipedia.org/wiki/Acer_japonicum",
+                                          "aliases": [
+                                            "downy Japanese-maple",
+                                            "fullmoon maple",
+                                            "hauchiwakaede"
                                           ]
                                         },
                                         {
@@ -9340,7 +9754,17 @@
                         {
                           "name": "Saxifragales",
                           "file": null,
-                          "otherFiles": [],
+                          "otherFiles": [
+                            {
+                              "fileName": "Paeonia",
+                              "wikipedia": "https://en.wikipedia.org/wiki/Peony",
+                              "aliases": [
+                                "Paeoniaceae",
+                                "paeony",
+                                "peony"
+                              ]
+                            }
+                          ],
                           "children": [
                             {
                               "name": "Altingiaceae",
@@ -9531,6 +9955,27 @@
                               ],
                               "children": [
                                 {
+                                  "name": "Corylopsis",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Corylopsis spicata",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Corylopsis_spicata",
+                                      "aliases": [
+                                        "winter hazel"
+                                      ]
+                                    },
+                                    {
+                                      "fileName": "Corylopsis veitchiana",
+                                      "wikipedia": null,
+                                      "aliases": [
+                                        "Veitch's Winter Hazel"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                },
+                                {
                                   "name": "Hamamelis",
                                   "file": null,
                                   "otherFiles": [
@@ -9582,15 +10027,7 @@
                             },
                             {
                               "name": "Paeoniaceae",
-                              "file": {
-                                "fileName": "Paeoniaceae",
-                                "wikipedia": "https://en.wikipedia.org/wiki/Peony",
-                                "aliases": [
-                                  "Paeonia",
-                                  "paeony",
-                                  "peony"
-                                ]
-                              },
+                              "file": null,
                               "otherFiles": [],
                               "children": [
                                 {
@@ -9598,12 +10035,20 @@
                                   "file": null,
                                   "otherFiles": [
                                     {
+                                      "fileName": "Paeonia × suffruticosa",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Paeonia_%C3%97_suffruticosa",
+                                      "aliases": [
+                                        "mǔdān"
+                                      ]
+                                    },
+                                    {
                                       "fileName": "Paeonia lactiflora",
                                       "wikipedia": "https://en.wikipedia.org/wiki/Paeonia_lactiflora",
                                       "aliases": [
                                         "Chinese herbaceous peony",
                                         "Chinese peony",
-                                        "common garden peony"
+                                        "common garden peony",
+                                        "Coral Charm peony"
                                       ]
                                     }
                                   ],
@@ -10379,7 +10824,17 @@
                             },
                             {
                               "name": "Narcissus",
-                              "file": null,
+                              "file": {
+                                "fileName": "Narcissus",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Narcissus_(plant)",
+                                "aliases": [
+                                  "daffodil",
+                                  "daffodils",
+                                  "jonquil",
+                                  "narcissi",
+                                  "narcissus"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Narcissus pseudonarcissus",
@@ -10387,6 +10842,19 @@
                                   "aliases": [
                                     "Lent lily",
                                     "wild daffodil"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Narcissus tazetta",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Narcissus_tazetta",
+                                  "aliases": [
+                                    "bunch-flowered daffodil",
+                                    "bunch-flowered narcissus",
+                                    "Chinese sacred lily",
+                                    "cream narcissus",
+                                    "joss flower",
+                                    "paperwhite",
+                                    "polyanthus narcissus"
                                   ]
                                 }
                               ],
@@ -10455,6 +10923,17 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Asparagus",
                                   "aliases": [
                                     "asparagus"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Asparagus setaceus",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Asparagus_setaceus",
+                                  "aliases": [
+                                    "asparagus grass",
+                                    "climbing asparagus",
+                                    "common asparagus fern",
+                                    "ferny asparagus",
+                                    "lace fern"
                                   ]
                                 }
                               ],
@@ -10550,6 +11029,11 @@
                               "name": "Hyacinthoides",
                               "file": null,
                               "otherFiles": [
+                                {
+                                  "fileName": "Hyacinthoides × massartiana",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Hyacinthoides_%C3%97_massartiana",
+                                  "aliases": []
+                                },
                                 {
                                   "fileName": "Hyacinthoides hispanica",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Hyacinthoides_hispanica",
@@ -10807,16 +11291,7 @@
                               "orchids"
                             ]
                           },
-                          "otherFiles": [
-                            {
-                              "fileName": "Vanilla",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Vanilla_(genus)",
-                              "aliases": [
-                                "vanilla",
-                                "vanilla orchids"
-                              ]
-                            }
-                          ],
+                          "otherFiles": [],
                           "children": [
                             {
                               "name": "Goodyera",
@@ -10828,6 +11303,28 @@
                                   "aliases": [
                                     "downy rattlesnake plantain",
                                     "Peramium pubescens"
+                                  ]
+                                }
+                              ],
+                              "children": []
+                            },
+                            {
+                              "name": "Vanilla",
+                              "file": {
+                                "fileName": "Vanilla",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Vanilla_(genus)",
+                                "aliases": [
+                                  "vanilla orchids"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Vanilla planifolia",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Vanilla_planifolia",
+                                  "aliases": [
+                                    "flat-leaved vanilla",
+                                    "vanilla",
+                                    "West Indian vanilla"
                                   ]
                                 }
                               ],
@@ -11035,13 +11532,6 @@
                           "file": null,
                           "otherFiles": [
                             {
-                              "fileName": "Cyperaceae",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Cyperaceae",
-                              "aliases": [
-                                "sedges"
-                              ]
-                            },
-                            {
                               "fileName": "Juncaceae",
                               "wikipedia": "https://en.wikipedia.org/wiki/Juncaceae",
                               "aliases": [
@@ -11080,6 +11570,33 @@
                                       "wikipedia": "https://en.wikipedia.org/wiki/Spanish_moss",
                                       "aliases": [
                                         "spanish moss"
+                                      ]
+                                    }
+                                  ],
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Cyperaceae",
+                              "file": {
+                                "fileName": "Cyperaceae",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Cyperaceae",
+                                "aliases": [
+                                  "sedges"
+                                ]
+                              },
+                              "otherFiles": [],
+                              "children": [
+                                {
+                                  "name": "Eleocharis",
+                                  "file": null,
+                                  "otherFiles": [
+                                    {
+                                      "fileName": "Eleocharis dulcis",
+                                      "wikipedia": "https://en.wikipedia.org/wiki/Eleocharis_dulcis",
+                                      "aliases": [
+                                        "Chinese water chestnut"
                                       ]
                                     }
                                   ],
@@ -11321,7 +11838,14 @@
                           "children": [
                             {
                               "name": "Lilium",
-                              "file": null,
+                              "file": {
+                                "fileName": "Lilium",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Lilium",
+                                "aliases": [
+                                  "lillies",
+                                  "lily"
+                                ]
+                              },
                               "otherFiles": [
                                 {
                                   "fileName": "Lilium bulbiferum",
@@ -11376,21 +11900,37 @@
                         {
                           "name": "Melanthiaceae",
                           "file": null,
-                          "otherFiles": [
+                          "otherFiles": [],
+                          "children": [
                             {
-                              "fileName": "Trillium",
-                              "wikipedia": "https://en.wikipedia.org/wiki/Trillium",
-                              "aliases": [
-                                "birthroot",
-                                "birthwort",
-                                "toadshade",
-                                "tri flower",
-                                "wakerobin",
-                                "wood lily"
-                              ]
+                              "name": "Trillium",
+                              "file": {
+                                "fileName": "Trillium",
+                                "wikipedia": "https://en.wikipedia.org/wiki/Trillium",
+                                "aliases": [
+                                  "birthroot",
+                                  "birthwort",
+                                  "toadshade",
+                                  "tri flower",
+                                  "wakerobin",
+                                  "wood lily"
+                                ]
+                              },
+                              "otherFiles": [
+                                {
+                                  "fileName": "Trillium ovatum",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Trillium_ovatum",
+                                  "aliases": [
+                                    "Pacific trillium",
+                                    "western trillium",
+                                    "western wakerobin",
+                                    "western white trillium"
+                                  ]
+                                }
+                              ],
+                              "children": []
                             }
-                          ],
-                          "children": []
+                          ]
                         },
                         {
                           "name": "Smilacaceae",
@@ -12485,6 +13025,15 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Picea engelmannii",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Picea_engelmannii",
+                                  "aliases": [
+                                    "Engelmann spruce",
+                                    "mountain spruce",
+                                    "silver spruce"
+                                  ]
+                                },
+                                {
                                   "fileName": "Picea glauca",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Picea_glauca",
                                   "aliases": [
@@ -12492,6 +13041,8 @@
                                     "Black Hills spruce",
                                     "Canadian spruce",
                                     "cat spruce",
+                                    "Dwarf Alberta Spruce",
+                                    "Dwarf White Spruce",
                                     "Porsild spruce",
                                     "skunk spruce",
                                     "western white spruce",
@@ -12503,6 +13054,14 @@
                                   "wikipedia": "https://en.wikipedia.org/wiki/Picea_mariana",
                                   "aliases": [
                                     "black spruce"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Picea orientalis",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Picea_orientalis",
+                                  "aliases": [
+                                    "Caucasian spruce",
+                                    "Oriental spruce"
                                   ]
                                 },
                                 {
@@ -12548,6 +13107,14 @@
                                   ]
                                 },
                                 {
+                                  "fileName": "Pinus attenuata",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Knobcone_pine",
+                                  "aliases": [
+                                    "knobcone pine",
+                                    "Pinus tuberculata"
+                                  ]
+                                },
+                                {
                                   "fileName": "Pinus canariensis",
                                   "wikipedia": "https://en.wikipedia.org/wiki/Pinus_canariensis",
                                   "aliases": [
@@ -12589,6 +13156,17 @@
                                     "pinyon pine",
                                     "simply piñon",
                                     "two-needle piñon"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus jeffreyi",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_jeffreyi",
+                                  "aliases": [
+                                    "black pine",
+                                    "gasoline tree",
+                                    "Jeffrey pine",
+                                    "Jeffrey's pine",
+                                    "yellow pine"
                                   ]
                                 },
                                 {
@@ -12707,6 +13285,21 @@
                                     "pinyon pine",
                                     "soft pine",
                                     "white pine"
+                                  ]
+                                },
+                                {
+                                  "fileName": "Pinus sylvestris",
+                                  "wikipedia": "https://en.wikipedia.org/wiki/Pinus_sylvestris",
+                                  "aliases": [
+                                    "Baltic pine",
+                                    "European red pine",
+                                    "European redwood",
+                                    "red deal",
+                                    "Scotch fir",
+                                    "Scotch pine",
+                                    "Scots fir",
+                                    "Scots pine",
+                                    "yellow deal"
                                   ]
                                 },
                                 {
