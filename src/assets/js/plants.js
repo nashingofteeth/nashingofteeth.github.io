@@ -73,6 +73,23 @@ function toggleNode(li, event) {
 }
 
 // ---------------------------------------------------------------------------
+// collapseAll / expandAll — collapse or expand every toggleable node at once
+// ---------------------------------------------------------------------------
+function collapseAll() {
+  const treeEl = document.getElementById("plant-tree");
+  if (!treeEl) return;
+  treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.add("collapsed"));
+  treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.add("collapsed"));
+}
+
+function expandAll() {
+  const treeEl = document.getElementById("plant-tree");
+  if (!treeEl) return;
+  treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.remove("collapsed"));
+  treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
+}
+
+// ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
 //   1. Running in a browser (document exists)
 //   2. #plant-search input is in the DOM

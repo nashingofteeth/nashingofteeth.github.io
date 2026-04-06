@@ -14,6 +14,27 @@ a:active {
   margin-top: 40px;
 }
 
+.plant-controls {
+  margin-top: 8px;
+}
+
+.plant-controls button {
+  font-family: inherit;
+  font-size: 0.85em;
+  color: Green;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 12px;
+  text-decoration: underline;
+  text-shadow: Green 1px 0px;
+}
+
+.plant-controls button:hover {
+  color: LimeGreen;
+}
+
 #plant-search {
   font-family: inherit;
   font-size: 1em;
