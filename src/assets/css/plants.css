@@ -110,17 +110,10 @@ a:active {
   font-size: 0.8em;
 }
 
-.plant-list li.search-match {
-  color: DarkGreen;
-  font-weight: bold;
-}
-
 .plant-list mark {
   background-color: DarkSeaGreen;
   color: inherit;
-  font-style: italic;
 }
-
 
 .plant-list ul.collapsed {
   display: none;
