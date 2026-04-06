@@ -283,7 +283,7 @@ function expandAll() {
       });
 
       searchInput.removeAttribute("disabled");
-      searchInput.setAttribute("placeholder", "🔍 Search by binomial or common name\u2026");
+      searchInput.setAttribute("placeholder", "🔍 Search\u2026");
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
