@@ -104,10 +104,32 @@ function expandAll() {
   let plantData = null;
   // Flat index: every node paired with its ancestor chain
   const searchIndex = [];
+  // Suggestions list: { text, type: "name"|"alias", node, displayText }
+  const suggestions = [];
 
   function buildIndex(nodes, ancestors = []) {
     for (const node of nodes) {
       searchIndex.push({ node, ancestors });
+      // Build suggestion entries for name and aliases
+      suggestions.push({
+        text: node.name.toLowerCase(),
+        type: "name",
+        node,
+        ancestors,
+        displayText: node.name,
+      });
+      if (node.file?.aliases) {
+        for (const alias of node.file.aliases) {
+          suggestions.push({
+            text: alias.toLowerCase(),
+            type: "alias",
+            node,
+            ancestors,
+            displayText: `${node.name} (${alias})`,
+            alias,
+          });
+        }
+      }
       if (node.children?.length) {
         buildIndex(node.children, [...ancestors, node]);
       }
@@ -127,6 +149,161 @@ function expandAll() {
       }
     }
     return false;
+  }
+
+  // Autocomplete: get matching suggestions (max 10)
+  function getSuggestions(query) {
+    const q = query.toLowerCase().trim();
+    if (!q || q.length < 2) return [];
+    const results = [];
+    const seenNodes = new Set();
+    for (const s of suggestions) {
+      if (s.text.includes(q) && !seenNodes.has(s.node)) {
+        results.push(s);
+        seenNodes.add(s.node);
+        if (results.length >= 10) break;
+      }
+    }
+    return results;
+  }
+
+  // Highlight matching text in suggestion display
+  function highlightSuggestion(text, q) {
+    const idx = text.toLowerCase().indexOf(q);
+    if (idx === -1) return text;
+    return (
+      text.slice(0, idx) +
+      `<mark>${text.slice(idx, idx + q.length)}</mark>` +
+      highlightSuggestion(text.slice(idx + q.length), q)
+    );
+  }
+
+  // Render suggestions dropdown
+  let suggestionsEl = null;
+  let selectedIndex = -1;
+  let currentSuggestions = [];
+
+  function showSuggestions(query) {
+    currentSuggestions = getSuggestions(query);
+    if (currentSuggestions.length === 0) {
+      hideSuggestions();
+      return;
+    }
+    selectedIndex = -1;
+    if (!suggestionsEl) {
+      suggestionsEl = document.createElement("ul");
+      suggestionsEl.className = "suggestions-dropdown";
+    }
+    const q = query.toLowerCase().trim();
+    suggestionsEl.innerHTML = currentSuggestions
+      .map((s, i) => {
+        const display = highlightSuggestion(s.displayText, q);
+        const aliasInfo = s.alias
+          ? ` <span class="suggestion-alias">via ${s.alias}</span>`
+          : "";
+        return `<li data-index="${i}">${display}${aliasInfo}</li>`;
+      })
+      .join("");
+    // Insert after search input wrapper
+    const wrapper = searchInput.closest("#plant-search-wrapper");
+    if (wrapper) {
+      wrapper.appendChild(suggestionsEl);
+    } else {
+      searchInput.parentNode.appendChild(suggestionsEl);
+    }
+  }
+
+  function hideSuggestions() {
+    if (suggestionsEl) {
+      suggestionsEl.remove();
+    }
+    suggestionsEl = null;
+    selectedIndex = -1;
+    currentSuggestions = [];
+  }
+
+  function selectSuggestion(index) {
+    const s = currentSuggestions[index];
+    if (!s) return;
+    hideSuggestions();
+    searchInput.value = s.node.name;
+    scrollToNode(s.node, s.ancestors);
+  }
+
+  // Scroll to node: expand ancestors, scroll into view, highlight
+  function scrollToNode(targetNode, ancestors) {
+    // Expand all ancestors first
+    expandAll();
+    // Set timeout to allow DOM to update
+    setTimeout(() => {
+      // Find the target li by looking for exact text match
+      const treeEl = document.getElementById("plant-tree");
+      if (!treeEl) return;
+      const lis = treeEl.querySelectorAll("li");
+      let targetLi = null;
+      for (const li of lis) {
+        const text = li.textContent.trim();
+        if (text === targetNode.name || text.startsWith(targetNode.name + " ")) {
+          targetLi = li;
+          break;
+        }
+      }
+      if (targetLi) {
+        targetLi.classList.add("highlighted");
+        targetLi.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => targetLi.classList.remove("highlighted"), 3000);
+      }
+    }, 50);
+  }
+
+  // Keyboard navigation
+  function handleKeydown(e) {
+    if (!suggestionsEl || currentSuggestions.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % currentSuggestions.length;
+      updateSelected();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      selectedIndex = selectedIndex <= 0 ? currentSuggestions.length - 1 : selectedIndex - 1;
+      updateSelected();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex >= 0) {
+        selectSuggestion(selectedIndex);
+      }
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      hideSuggestions();
+    }
+  }
+
+  function updateSelected() {
+    const items = suggestionsEl.querySelectorAll("li");
+    items.forEach((li, i) => {
+      li.classList.toggle("selected", i === selectedIndex);
+    });
+    if (selectedIndex >= 0) {
+      items[selectedIndex].scrollIntoView({ block: "nearest" });
+    }
+  }
+
+  // Close dropdown on outside click
+  function handleClickOutside(e) {
+    if (suggestionsEl) {
+      const isClickOnSuggestion = e.target.closest(".suggestions-dropdown");
+      const isClickOnSearch = e.target === searchInput;
+      if (isClickOnSuggestion) {
+        // Handle click on suggestion
+        const li = e.target.closest("li");
+        if (li) {
+          const idx = parseInt(li.dataset.index, 10);
+          selectSuggestion(idx);
+        }
+      } else if (!isClickOnSearch) {
+        hideSuggestions();
+      }
+    }
   }
 
   // Wrap each occurrence of q in <mark>, preserving original casing
@@ -259,31 +436,35 @@ function expandAll() {
 
       searchInput.addEventListener("input", () => {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value;
-          if (!query.trim()) {
-            renderTree(generatePlantList(plantData.taxonomy, 0), false);
+        const query = searchInput.value;
+        if (!query.trim()) {
+          hideSuggestions();
+          renderTree(generatePlantList(plantData.taxonomy, 0), false);
+        } else {
+          showSuggestions(query);
+          const result = runSearch(query);
+          if (!result) {
+            renderTree(`<div class="muted">No results.</div>`, true);
           } else {
-            const result = runSearch(query);
-            if (!result) {
-              renderTree(`<div class="muted">No results.</div>`, true);
-            } else {
-              renderTree(
-                renderPrunedTree(
-                  plantData.taxonomy,
-                  result.matchSet,
-                  result.ancestorSet,
-                  query.toLowerCase().trim(),
-                ),
-                true,
-              );
-            }
+            renderTree(
+              renderPrunedTree(
+                plantData.taxonomy,
+                result.matchSet,
+                result.ancestorSet,
+                query.toLowerCase().trim(),
+              ),
+              true,
+            );
           }
-        }, 250);
+        }
+        debounceTimer = setTimeout(() => {}, 250);
       });
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
+
+      searchInput.addEventListener("keydown", handleKeydown);
+      document.addEventListener("click", handleClickOutside);
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled

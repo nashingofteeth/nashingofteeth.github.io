@@ -57,6 +57,53 @@ a:active {
   cursor: not-allowed;
 }
 
+#plant-search-wrapper {
+  position: relative;
+  max-width: 400px;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: HoneyDew;
+  border: 1px solid #5a8a5a;
+  border-top: none;
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions-dropdown li {
+  padding: 6px 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #e0ebe0;
+}
+
+.suggestions-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.suggestions-dropdown li:hover,
+.suggestions-dropdown li.selected {
+  background: DarkSeaGreen;
+  color: HoneyDew;
+}
+
+.suggestions-dropdown li .suggestion-alias {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.suggestions-dropdown li.selected .suggestion-alias {
+  opacity: 0.9;
+}
+
 .plant-list {
   line-height: 1.4;
   color: #2d3a2d;
@@ -113,6 +160,15 @@ a:active {
 .plant-list mark {
   background-color: DarkSeaGreen;
   color: inherit;
+}
+
+.plant-list li.highlighted {
+  animation: highlight-pulse 3s ease-out;
+}
+
+@keyframes highlight-pulse {
+  0% { background-color: Yellow; }
+  100% { background-color: transparent; }
 }
 
 .plant-list ul.collapsed {

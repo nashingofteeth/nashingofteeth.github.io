@@ -27,7 +27,9 @@ function plants(plantData) {
 </section>
 
 <div class="plant-search-container">
-  <input type="search" id="plant-search" disabled placeholder="🏗️ Loading search\u2026" autocomplete="off">
+  <div id="plant-search-wrapper">
+    <input type="search" id="plant-search" disabled placeholder="🏗️ Loading search\u2026" autocomplete="off">
+  </div>
   <div class="plant-controls">
     <button onclick="collapseAll()">collapse all</button>
     <button onclick="expandAll()">expand all</button>
