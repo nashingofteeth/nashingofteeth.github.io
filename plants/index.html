@@ -3164,8 +3164,15 @@ function toggleNode(li, event) {
 function collapseAll() {
   const treeEl = document.getElementById("plant-tree");
   if (!treeEl) return;
-  treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.add("collapsed"));
-  treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.add("collapsed"));
+  treeEl.querySelectorAll("li.has-children").forEach((li) => {
+    li.classList.add("collapsed");
+    let el = li.nextElementSibling;
+    while (el) {
+      if (el.tagName === "LI") break;
+      if (el.tagName === "UL") el.classList.add("collapsed");
+      el = el.nextElementSibling;
+    }
+  });
 }
 
 function expandAll() {
