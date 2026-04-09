@@ -162,15 +162,6 @@ a:active {
   color: inherit;
 }
 
-.plant-list li.highlighted {
-  animation: highlight-pulse 3s ease-out;
-}
-
-@keyframes highlight-pulse {
-  0% { background-color: Yellow; }
-  100% { background-color: transparent; }
-}
-
 .plant-list ul.collapsed {
   display: none;
 }

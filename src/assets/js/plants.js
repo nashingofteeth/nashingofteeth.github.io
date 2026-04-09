@@ -104,32 +104,19 @@ function expandAll() {
   let plantData = null;
   // Flat index: every node paired with its ancestor chain
   const searchIndex = [];
-  // Suggestions list: { text, type: "name"|"alias", node, displayText }
+  // Suggestions list: { text, node, ancestors, displayText }
   const suggestions = [];
 
   function buildIndex(nodes, ancestors = []) {
     for (const node of nodes) {
       searchIndex.push({ node, ancestors });
-      // Build suggestion entries for name and aliases
+      // Build suggestion entries for scientific name only
       suggestions.push({
         text: node.name.toLowerCase(),
-        type: "name",
         node,
         ancestors,
         displayText: node.name,
       });
-      if (node.file?.aliases) {
-        for (const alias of node.file.aliases) {
-          suggestions.push({
-            text: alias.toLowerCase(),
-            type: "alias",
-            node,
-            ancestors,
-            displayText: `${node.name} (${alias})`,
-            alias,
-          });
-        }
-      }
       if (node.children?.length) {
         buildIndex(node.children, [...ancestors, node]);
       }
@@ -151,17 +138,14 @@ function expandAll() {
     return false;
   }
 
-  // Autocomplete: get matching suggestions (max 10)
+  // Autocomplete: get all matching suggestions
   function getSuggestions(query) {
     const q = query.toLowerCase().trim();
     if (!q || q.length < 2) return [];
     const results = [];
-    const seenNodes = new Set();
     for (const s of suggestions) {
-      if (s.text.includes(q) && !seenNodes.has(s.node)) {
+      if (s.text.includes(q)) {
         results.push(s);
-        seenNodes.add(s.node);
-        if (results.length >= 10) break;
       }
     }
     return results;
@@ -198,10 +182,7 @@ function expandAll() {
     suggestionsEl.innerHTML = currentSuggestions
       .map((s, i) => {
         const display = highlightSuggestion(s.displayText, q);
-        const aliasInfo = s.alias
-          ? ` <span class="suggestion-alias">via ${s.alias}</span>`
-          : "";
-        return `<li data-index="${i}">${display}${aliasInfo}</li>`;
+        return `<li data-index="${i}">${display}</li>`;
       })
       .join("");
     // Insert after search input wrapper
@@ -227,33 +208,7 @@ function expandAll() {
     if (!s) return;
     hideSuggestions();
     searchInput.value = s.node.name;
-    scrollToNode(s.node, s.ancestors);
-  }
-
-  // Scroll to node: expand ancestors, scroll into view, highlight
-  function scrollToNode(targetNode, ancestors) {
-    // Expand all ancestors first
-    expandAll();
-    // Set timeout to allow DOM to update
-    setTimeout(() => {
-      // Find the target li by looking for exact text match
-      const treeEl = document.getElementById("plant-tree");
-      if (!treeEl) return;
-      const lis = treeEl.querySelectorAll("li");
-      let targetLi = null;
-      for (const li of lis) {
-        const text = li.textContent.trim();
-        if (text === targetNode.name || text.startsWith(targetNode.name + " ")) {
-          targetLi = li;
-          break;
-        }
-      }
-      if (targetLi) {
-        targetLi.classList.add("highlighted");
-        targetLi.scrollIntoView({ behavior: "smooth", block: "center" });
-        setTimeout(() => targetLi.classList.remove("highlighted"), 3000);
-      }
-    }, 50);
+    searchInput.dispatchEvent(new Event("input"));
   }
 
   // Keyboard navigation
