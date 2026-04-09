@@ -255,31 +255,31 @@ function expandAll() {
       plantData = data;
       buildIndex(plantData.taxonomy);
 
+      // Restore search from URL on initial load
+      const params = new URLSearchParams(window.location.search);
+      const initialQuery = params.get("q") || "";
+      if (initialQuery) {
+        searchInput.value = initialQuery;
+        performSearch(initialQuery);
+      }
+
       let debounceTimer = null;
 
       searchInput.addEventListener("input", () => {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(() => {
           const query = searchInput.value;
-          if (!query.trim()) {
-            renderTree(generatePlantList(plantData.taxonomy, 0), false);
-          } else {
-            const result = runSearch(query);
-            if (!result) {
-              renderTree(`<div class="muted">No results.</div>`, true);
-            } else {
-              renderTree(
-                renderPrunedTree(
-                  plantData.taxonomy,
-                  result.matchSet,
-                  result.ancestorSet,
-                  query.toLowerCase().trim(),
-                ),
-                true,
-              );
-            }
-          }
-        }, 250);
+          updateUrl(query);
+          performSearch(query);
+        }, 500);
+      });
+
+      // Handle back/forward browser navigation
+      window.addEventListener("popstate", () => {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get("q") || "";
+        searchInput.value = query;
+        performSearch(query);
       });
 
       searchInput.removeAttribute("disabled");
@@ -288,6 +288,39 @@ function expandAll() {
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
+
+  // Update URL with search query (pushState for back/forward support)
+  function updateUrl(query) {
+    const url = new URL(window.location);
+    if (query.trim()) {
+      url.search = "q=" + encodeURIComponent(query.trim());
+    } else {
+      url.search = "";
+    }
+    history.pushState({}, "", url);
+  }
+
+  // Perform search and render results
+  function performSearch(query) {
+    if (!query.trim()) {
+      renderTree(generatePlantList(plantData.taxonomy, 0), false);
+    } else {
+      const result = runSearch(query);
+      if (!result) {
+        renderTree(`<div class="muted">No results.</div>`, true);
+      } else {
+        renderTree(
+          renderPrunedTree(
+            plantData.taxonomy,
+            result.matchSet,
+            result.ancestorSet,
+            query.toLowerCase().trim(),
+          ),
+          true,
+        );
+      }
+    }
+  }
 }());
 
 // ---------------------------------------------------------------------------
