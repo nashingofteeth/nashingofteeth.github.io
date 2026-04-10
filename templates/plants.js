@@ -23,7 +23,7 @@ function plants(plantData) {
 </div>`;
 
   const mainContent = `<section class="description">
-  <p>A taxonomical list of plants I've discovered and documented.</p>
+  <p>A taxonomical list of plants I've catalogued.</p>
 </section>
 
 <div class="plant-search-container">
