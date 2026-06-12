@@ -4,7 +4,7 @@ A minimalist static site for showcasing video art, built with a custom Node.js g
 
 ## Overview
 
-This is a personal video portfolio website for Matthew Nash, a video artist and sound maker based in Portland, Oregon. The site features a retro web aesthetic with modern performance optimizations, showcasing video works hosted on Storj cloud storage and YouTube.
+This is a personal video portfolio website for Matthew Nash, a video artist and sound maker based in Portland, Oregon. The site features a retro web aesthetic with modern performance optimizations, showcasing video works hosted on cloud storage and YouTube.
 
 **Live Site:** https://nash.video/
 **Repository:** https://github.com/nashingofteeth/nashingofteeth.github.io
@@ -17,7 +17,7 @@ This is a personal video portfolio website for Matthew Nash, a video artist and 
 - **Markdown Parser:** marked 11.2.0
 - **Frontmatter Parser:** gray-matter 4.0.3
 - **CSS Strategy:** Per-page inline CSS (separate .css files)
-- **Video Hosting:** Storj cloud storage (primary), YouTube (backup)
+- **Video Hosting:** Cloud storage (primary), YouTube (backup)
 - **Deployment:** GitHub Actions → GitHub Pages
 - **Analytics:** GoatCounter (privacy-focused)
 
@@ -29,7 +29,7 @@ atlas/
 │
 ├── templates/                  # Template system
 │   ├── partials/              # Reusable template components (NEW)
-│   │   ├── constants.js       # Storj URLs and shared constants
+│   │   ├── constants.js       # Video hosting URLs and shared constants
 │   │   ├── css-loader.js      # CSS file loading utility
 │   │   ├── video-thumbnail.js # Video thumbnail HTML generator
 │   │   ├── download-links.js  # Download links HTML generator
@@ -92,7 +92,7 @@ atlas/
 ### Template System - Partials Architecture
 - **Created 7 reusable partials** to eliminate duplicate code
 - **Reduced template file sizes** by 70-80% (e.g., `videos.js` from 115→30 lines, `video-single.js` from 106→22 lines)
-- **Centralized constants** (Storj URLs) in `templates/partials/constants.js`
+- **Centralized constants** (video hosting URLs) in `templates/partials/constants.js`
 - **Unified CSS loading** with a single `loadCss()` utility function
 - **Shared video article component** used by both gallery and individual video pages
 
@@ -148,10 +148,10 @@ tools.js (tools page)
 ```
 
 Templates use reusable components from `templates/partials/`:
-- `constants.js` - Storj URLs and shared constants
+- `constants.js` - Video hosting URLs and shared constants
 - `css-loader.js` - Unified CSS file loading
 - `video-thumbnail.js` - Generates thumbnail HTML (YouTube or local)
-- `download-links.js` - Download links for Storj videos
+- `download-links.js` - Download links for hosted videos
 - `video-article.js` - Complete video article markup (used by gallery and single pages)
 - `header.js` - Page header (supports both standard and video-single styles)
 - `footer.js` - Page footer with CC0 icon and potato link
@@ -183,11 +183,11 @@ Each video has a dedicated page at `/videos/[slug]/` with:
 
 ### 6. Video Hosting Strategy
 
-**Storj Cloud Storage (Primary):**
+**Cloud Storage (Primary):**
 - MP4 format (lossy, cross-browser)
 - WebM format (lossy, smaller file size)
 - MOV format (lossless backups)
-- Base URL: `https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/`
+- Base URL: Set in `templates/partials/constants.js`
 
 **YouTube (Alternative):**
 - Embed via youtube-nocookie.com (privacy-enhanced)
@@ -219,7 +219,7 @@ npm start            # Build + serve at localhost:8080
 
 ### Adding a New Video
 
-1. **Upload video files to Storj:**
+1. **Upload video files to cloud storage:**
    - `YYMMDD_title.mp4` (lossy)
    - `YYMMDD_title.webm` (lossy)
    - `YYMMDD_title.mov` (lossless backup)
@@ -427,7 +427,7 @@ These conventions are automatically enforced by the editor configuration. Manual
 1. **Initial state:** Thumbnail image + play button overlay
 2. **User clicks:** JavaScript replaces thumbnail with player
 3. **YouTube videos:** `<iframe>` with autoplay
-4. **Storj videos:** `<video>` element with MP4/WebM sources
+4. **Cloud-hosted videos:** `<video>` element with MP4/WebM sources
 
 **Code snippet:**
 ```javascript

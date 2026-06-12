@@ -1,4 +1,4 @@
-const { STORJ_BASE_URL, STORJ_LOSSLESS_URL } = require("./constants.js");
+const { BASE_URL } = require("./constants.js");
 
 /**
  * Generate download links HTML for a video
@@ -12,9 +12,9 @@ function downloadLinks(video) {
 
   return `<p class="download">
         <span aria-label="Download">&#128190;</span>
-        <a href="${STORJ_BASE_URL}${video.filename}.mp4" target="_blank">lossy</a>
+        <a href="${BASE_URL}${video.filename}.mp4" target="_blank">lossy</a>
         or
-        <a href="${STORJ_LOSSLESS_URL}${video.filename}.mov" target="_blank">lossless</a>
+        <a href="${BASE_URL}${video.filename}.mov" target="_blank">lossless</a>
       </p>`;
 }
 

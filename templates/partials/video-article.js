@@ -1,4 +1,4 @@
-const { STORJ_BASE_URL } = require("./constants.js");
+const { BASE_URL } = require("./constants.js");
 const { formatDate, htmlDateString } = require("../utils.js");
 const videoThumbnail = require("./video-thumbnail.js");
 const downloadLinks = require("./download-links.js");
@@ -33,8 +33,8 @@ function videoArticle(video, isFirst = false, showBookmark = true) {
           video.youtube_id
             ? `href="https://www.youtube.com/watch?v=${video.youtube_id}"
 				    data-youtube-id="${video.youtube_id}"`
-            : `href="${STORJ_BASE_URL}${video.filename}.mp4"
-					data-webm="${STORJ_BASE_URL}${video.filename}.webm"`
+            : `href="${BASE_URL}${video.filename}.mp4"
+					data-webm="${BASE_URL}${video.filename}.webm"`
         }>
 				${thumbnailHtml}
             </a>

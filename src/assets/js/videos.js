@@ -21,7 +21,7 @@ for (const link of links) {
       // Replace the link with the iframe
       this.parentElement.replaceChild(iframe, this);
     } else {
-      // Regular video handling for Storj videos
+      // Regular video handling for cloud-hosted videos
       const video = document.createElement("video");
       const videoMp4Src = document.createElement("source");
       const videoWebMSrc = document.createElement("source");
