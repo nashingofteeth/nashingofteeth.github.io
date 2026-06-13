@@ -33,8 +33,8 @@ function videoArticle(video, isFirst = false, showBookmark = true) {
           video.youtube_id
             ? `href="https://www.youtube.com/watch?v=${video.youtube_id}"
 				    data-youtube-id="${video.youtube_id}"`
-            : `href="${BASE_URL}${video.filename}.mp4"
-					data-webm="${BASE_URL}${video.filename}.webm"`
+            : `href="${BASE_URL}videos/transcodes/${video.filename}.mp4"
+					data-webm="${BASE_URL}videos/transcodes/${video.filename}.webm"`
         }>
 				${thumbnailHtml}
             </a>
