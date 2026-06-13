@@ -2,7 +2,6 @@
 This website is a potato (https://potato.cheap/).
 Built with custom Node.js static site generator.
 Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
-Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
 <html lang="en">
@@ -214,7 +213,7 @@ for (const link of links) {
       // Replace the link with the iframe
       this.parentElement.replaceChild(iframe, this);
     } else {
-      // Regular video handling for Storj videos
+      // Regular video handling for cloud-hosted videos
       const video = document.createElement("video");
       const videoMp4Src = document.createElement("source");
       const videoWebMSrc = document.createElement("source");

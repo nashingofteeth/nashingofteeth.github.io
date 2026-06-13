@@ -2,7 +2,6 @@
 This website is a potato (https://potato.cheap/).
 Built with custom Node.js static site generator.
 Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
-Media hosted by Storj (https://storj.io/).
 -->
 <!doctype html>
 <html lang="en">
@@ -138,14 +137,14 @@ header a {
 		style="padding-top: 177.77777777777777%;">
 		<div class="media">
 		    <a
-				href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4"
-					data-webm="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.webm">
+				href="https://f004.backblazeb2.com/file/nash-potato/videos/transcodes/220919_the_wind_that_night.mp4"
+					data-webm="https://f004.backblazeb2.com/file/nash-potato/videos/transcodes/220919_the_wind_that_night.webm">
 				<picture>
-        <source srcset="/img/220919_the_wind_that_night.webp" type="image/webp" />
+        <source srcset="https://f004.backblazeb2.com/file/nash-potato/videos/thumbnails/220919_the_wind_that_night.webp" type="image/webp" />
         <img
           fetchpriority="high"
           loading="eager"
-          src="/img/220919_the_wind_that_night.jpg"
+          src="https://f004.backblazeb2.com/file/nash-potato/videos/thumbnails/220919_the_wind_that_night.jpg"
           alt="the wind that night video cover" />
       </picture>
             </a>
@@ -168,9 +167,9 @@ header a {
 
 	    <p class="download">
         <span aria-label="Download">&#128190;</span>
-        <a href="https://link.storjshare.io/raw/jx2jhmkhn6jlw53upq2dw2t5jomq/nash-video/220919_the_wind_that_night.mp4" target="_blank">lossy</a>
+        <a href="https://f004.backblazeb2.com/file/nash-potato/videos/transcodes/220919_the_wind_that_night.mp4" target="_blank">lossy</a>
         or
-        <a href="https://link.storjshare.io/raw/jvl6tf34ep5hgpycmohsmset4cwq/backups/archive/filmography/masters/220919_the_wind_that_night.mov" target="_blank">lossless</a>
+        <a href="https://f004.backblazeb2.com/file/nash-potato/videos/220919_the_wind_that_night.mov" target="_blank">lossless</a>
       </p>
 	</div>
 
@@ -221,7 +220,7 @@ for (const link of links) {
       // Replace the link with the iframe
       this.parentElement.replaceChild(iframe, this);
     } else {
-      // Regular video handling for Storj videos
+      // Regular video handling for cloud-hosted videos
       const video = document.createElement("video");
       const videoMp4Src = document.createElement("source");
       const videoWebMSrc = document.createElement("source");
