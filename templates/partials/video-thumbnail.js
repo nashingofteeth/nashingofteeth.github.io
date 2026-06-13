@@ -1,3 +1,5 @@
+const { BASE_URL } = require("./constants");
+
 /**
  * Generate thumbnail HTML for a video
  * @param {Object} video - Video object with youtube_id, slug, and filename
@@ -17,11 +19,11 @@ function videoThumbnail(video, isFirst = false) {
   }
 
   return `<picture>
-        <source srcset="/img/${video.filename}.webp" type="image/webp" />
+        <source srcset="${BASE_URL}videos/thumbnails/${video.filename}.webp" type="image/webp" />
         <img
           fetchpriority="${fetchpriority}"
           loading="${loading}"
-          src="/img/${video.filename}.jpg"
+          src="${BASE_URL}videos/thumbnails/${video.filename}.jpg"
           alt="${video.title} video cover" />
       </picture>`;
 }
