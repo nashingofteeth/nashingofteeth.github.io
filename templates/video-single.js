@@ -4,6 +4,7 @@ const loadJs = require("./partials/js-loader.js");
 const header = require("./partials/header.js");
 const footer = require("./partials/footer.js");
 const videoArticle = require("./partials/video-article.js");
+const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function videoSingle(video) {
   const combinedCss = loadCss("base.css", "page.css", "video-single.css");
@@ -21,7 +22,7 @@ ${footer()}
 
   return base(
     pageContent,
-    `${video.title} - matthew nash`,
+    `${video.title}${SITE_TITLE_SUFFIX}`,
     null,
     combinedCss,
     combinedJs,

@@ -1,5 +1,6 @@
 const base = require("./base.js");
 const loadCss = require("./partials/css-loader.js");
+const { SOCIAL_LINKS } = require("./partials/constants.js");
 
 function home() {
   const combinedCss = loadCss("base.css", "home.css");
@@ -20,10 +21,10 @@ function home() {
 </nav>
     <p>
         &#128279;
-        <a href="https://github.com/nashingofteeth" title="github">gh</a>
-        <a href="https://letterboxd.com/nashingofteeth/" title="letterboxd">lb</a>
-        <a href="https://rateyourmusic.com/~nashingofteeth" title="rate your music">rym</a>
-        <a href="https://www.instagram.com/nashingofteeth/" title="instagram">ig</a>
+        <a href="${SOCIAL_LINKS.github}" title="github">gh</a>
+        <a href="${SOCIAL_LINKS.letterboxd}" title="letterboxd">lb</a>
+        <a href="${SOCIAL_LINKS.ryms}" title="rate your music">rym</a>
+        <a href="${SOCIAL_LINKS.instagram}" title="instagram">ig</a>
     </p>
 <p>&#128233; <strong>matthew at nash dot video</strong></p>
 </main>`;

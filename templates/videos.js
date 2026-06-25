@@ -3,6 +3,7 @@ const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
 const videoArticle = require("./partials/video-article.js");
+const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function videos(videoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "videos.css");
@@ -21,7 +22,7 @@ function videos(videoCollection) {
     .join("\n");
 
   const mainContent = `<section class="description">
-	<p>All images and sounds shown here were created by me unless otherwise noted. Read my video sequencing code <a href="http://github.com/nashingofteeth/sequitur" target="_blank">here</a>.</p>
+	<p>All images and sounds shown here were created by me unless otherwise noted. Read my video sequencing code <a href="${SOCIAL_LINKS.sequitur}" target="_blank">here</a>.</p>
 	<p><em>Downloading recommended for best experience.</em></p>
 </section>
 
@@ -34,7 +35,7 @@ ${videosHtml}
   const pageContent = page(mainContent, "&#128249;&nbsp;VIDEOS");
   return base(
     pageContent,
-    "videos - matthew nash",
+    `videos${SITE_TITLE_SUFFIX}`,
     null,
     combinedCss,
     combinedJs,

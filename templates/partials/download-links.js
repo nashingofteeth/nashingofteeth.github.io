@@ -1,4 +1,4 @@
-const { BASE_URL } = require("./constants.js");
+const { BASE_URL, TRANSCODES_PATH } = require("./constants.js");
 
 /**
  * Generate download links HTML for a video
@@ -12,7 +12,7 @@ function downloadLinks(video) {
 
   return `<p class="download">
         <span aria-label="Download">&#128190;</span>
-        <a href="${BASE_URL}videos/transcodes/${video.filename}.mp4" target="_blank">lossy</a>
+        <a href="${BASE_URL}${TRANSCODES_PATH}${video.filename}.mp4" target="_blank">lossy</a>
         or
         <a href="${BASE_URL}videos/${video.filename}.mov" target="_blank">lossless</a>
       </p>`;

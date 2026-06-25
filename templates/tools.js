@@ -1,12 +1,13 @@
 const base = require("./base.js");
 const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
+const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function tools() {
   const combinedCss = loadCss("base.css", "page.css", "tools.css");
 
   const mainContent = `<article>
-	<p><a href="https://github.com/nashingofteeth/sequitur">video sequencer</a></p>
+	<p><a href="${SOCIAL_LINKS.sequitur}">video sequencer</a></p>
 	<p><a href="/ratio">aspect ratio calculator</a></p>
 	<p><a href="/mt">metric clock</a></p>
 	<p><a href="http://nash.video/bolus-calculator">bolus calculator</a></p>
@@ -18,7 +19,7 @@ function tools() {
 </article>`;
 
   const pageContent = page(mainContent, "&#129520;&nbsp;TOOLS");
-  return base(pageContent, "tools - matthew nash", null, combinedCss);
+  return base(pageContent, `tools${SITE_TITLE_SUFFIX}`, null, combinedCss);
 }
 
 module.exports = tools;

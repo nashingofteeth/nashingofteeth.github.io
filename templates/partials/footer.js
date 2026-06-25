@@ -1,10 +1,12 @@
+const { POTATO_URL } = require("./constants.js");
+
 /**
  * Generate footer HTML
  * @returns {string} Footer HTML
  */
 function footer() {
   return `<footer class="top-space">
-	<a href="https://potato.cheap/" target="_blank">
+	<a href="${POTATO_URL}" target="_blank">
     <span id="potato">&#129364;</span>
     This website is a potato
   </a>

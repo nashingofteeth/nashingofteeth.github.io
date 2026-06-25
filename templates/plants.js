@@ -3,6 +3,7 @@ const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
 const { generatePlantList } = require("../src/assets/js/plants.js");
+const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function plants(plantData) {
   const combinedCss = loadCss("base.css", "page.css", "plants.css");
@@ -43,7 +44,7 @@ ${plantListHtml}
   const pageContent = page(mainContent, "&#127793;&nbsp;PLANTS");
   return base(
     pageContent,
-    "plants - matthew nash",
+    `plants${SITE_TITLE_SUFFIX}`,
     "Taxonomical list of discovered plants",
     combinedCss,
     combinedJs,

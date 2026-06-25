@@ -1,10 +1,11 @@
 const metadata = require("../src/_data/metadata.json");
+const { POTATO_URL, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function base(content, title, description, css = null, js = null) {
   return `<!--
-This website is a potato (https://potato.cheap/).
+This website is a potato (${POTATO_URL}).
 Built with custom Node.js static site generator.
-Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
+Read the code here: ${SOCIAL_LINKS.repo}
 -->
 <!doctype html>
 <html lang="${metadata.language}">
