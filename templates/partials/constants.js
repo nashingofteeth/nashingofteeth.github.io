@@ -18,10 +18,13 @@ const TRANSCODES_PATH = "videos/transcodes/";
 
 const POTATO_URL = "https://potato.cheap/";
 
+const PHOTOS_PATH = "photos/";
+
 module.exports = {
   BASE_URL,
   SITE_TITLE_SUFFIX,
   SOCIAL_LINKS,
   TRANSCODES_PATH,
   POTATO_URL,
+  PHOTOS_PATH,
 };

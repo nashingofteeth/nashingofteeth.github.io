@@ -1,0 +1,61 @@
+body {
+  background-color: WhiteSmoke;
+  color: DimGray;
+}
+a {
+  color: DarkSlateGray;
+  text-shadow: none;
+}
+a:active {
+  color: red;
+}
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+.photo-item {
+  padding: 20px;
+  transform: rotate(var(--rotation, 0deg));
+  transition: transform 0.2s ease;
+}
+.photo-item:hover {
+  transform: rotate(0deg) scale(1.05);
+  z-index: 1;
+}
+.photo-item a {
+  display: block;
+}
+.photo-item picture {
+  display: block;
+}
+.photo-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid white;
+}
+@media only screen and (min-width: 1200px) {
+  .photo-item {
+    width: 25%;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1199px) {
+  .photo-item {
+    width: 33.33%;
+  }
+}
+@media only screen and (min-width: 577px) and (max-width: 767px) {
+  .photo-item {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .photo-item {
+    width: 100%;
+    padding: 10px;
+  }
+  .photo-grid {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,39 @@
+body {
+  background-color: WhiteSmoke;
+  color: DimGray;
+}
+a {
+  color: DarkSlateGray;
+  text-shadow: none;
+}
+a:active {
+  color: red;
+}
+header a {
+  margin-right: 20px;
+}
+.photo-single {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.photo-wrapper {
+  transform: rotate(var(--rotation, 0deg));
+}
+.photo-wrapper img {
+  width: 100%;
+  height: auto;
+  border: 2px solid white;
+}
+.specs {
+  font-size: 0.9em;
+  border-left: 1px dashed DimGray;
+  padding-left: 10px;
+}
+.download {
+  font-size: 0.9em;
+}
+@media only screen and (max-width: 576px) {
+  .photo-single {
+    width: 100%;
+  }
+}

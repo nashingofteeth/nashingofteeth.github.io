@@ -9,6 +9,8 @@ const matter = require("gray-matter");
 const homeTemplate = require("./templates/home.js");
 const videosTemplate = require("./templates/videos.js");
 const videoSingleTemplate = require("./templates/video-single.js");
+const photosTemplate = require("./templates/photos.js");
+const photoSingleTemplate = require("./templates/photo-single.js");
 const plantsTemplate = require("./templates/plants.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
@@ -17,6 +19,7 @@ const notFoundTemplate = require("./templates/404.js");
 const SRC_DIR = "src";
 const DIST_DIR = "dist";
 const VIDEOS_DIR = path.join(SRC_DIR, "videos");
+const PHOTOS_DIR = path.join(SRC_DIR, "photos");
 const PUBLIC_DIR = "public";
 
 // Utility: Recursively remove directory
@@ -102,6 +105,48 @@ function readVideos() {
   return videos;
 }
 
+// Read and parse all photo markdown files
+function readPhotos() {
+  const photos = [];
+
+  if (!fs.existsSync(PHOTOS_DIR)) {
+    return photos;
+  }
+
+  const files = fs.readdirSync(PHOTOS_DIR).filter((f) => f.endsWith(".md"));
+
+  for (const file of files) {
+    const filePath = path.join(PHOTOS_DIR, file);
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    const { data, content } = matter(fileContent);
+
+    // Convert markdown to HTML
+    const html = marked(content);
+
+    // Extract filename without extension
+    const filename = file.replace(".md", "");
+
+    // Create URL slug with hyphens
+    const slug = filename.replace(/_/g, "-");
+
+    photos.push({
+      slug,
+      filename,
+      title: data.title,
+      date: data.date,
+      width: data.width,
+      height: data.height,
+      camera: data.camera,
+      rotation: data.rotation || 0,
+      original: data.original,
+      plant: data.plant,
+      content: html,
+    });
+  }
+
+  return photos;
+}
+
 // Main build function
 async function build() {
   console.log("🏗️  Building nash.video...\n");
@@ -116,6 +161,11 @@ async function build() {
   console.log("Reading video files...");
   const videos = readVideos();
   console.log(`  ✓ Found ${videos.length} videos\n`);
+
+  // Step 2b: Read photo files
+  console.log("Reading photo files...");
+  const photos = readPhotos();
+  console.log(`  ✓ Found ${photos.length} photos\n`);
 
   // Step 3: Generate pages
   console.log("Generating pages...");
@@ -132,6 +182,16 @@ async function build() {
   for (const video of videos) {
     const videoHtml = videoSingleTemplate(video);
     writeHtml(`videos/${video.slug}/index.html`, videoHtml);
+  }
+
+  // Photos page
+  const photosHtml = photosTemplate(photos);
+  writeHtml("photos/index.html", photosHtml);
+
+  // Individual photo pages
+  for (const photo of photos) {
+    const photoHtml = photoSingleTemplate(photo);
+    writeHtml(`photos/${photo.slug}/index.html`, photoHtml);
   }
 
   // Plants page
