@@ -1,16 +1,21 @@
 /**
  * Generate header HTML
- * @param {string|null} heading - Page heading text (null for video-single style)
- * @param {boolean} showVideosLink - Whether to show VIDEOS link (for video-single pages)
+ * @param {string|null} heading - Page heading text (null for single-page style)
+ * @param {boolean} showVideosLink - Whether to show VIDEOS link
+ * @param {boolean} showPhotosLink - Whether to show PHOTOS link
  * @returns {string} Header HTML
  */
-function header(heading = null, showVideosLink = false) {
-  if (showVideosLink) {
-    // Video-single style header with both HOME and VIDEOS links
-    return `<header>
-	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
-	<a href="/videos"><span class="up-arrow">&uarr;</span>VIDEOS</a>
-</header>`;
+function header(heading = null, showVideosLink = false, showPhotosLink = false) {
+  if (showVideosLink || showPhotosLink) {
+    // Single-page style header with HOME + section links
+    let links = `<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>`;
+    if (showVideosLink) {
+      links += `\n	<a href="/videos"><span class="up-arrow">&uarr;</span>VIDEOS</a>`;
+    }
+    if (showPhotosLink) {
+      links += `\n	<a href="/photos"><span class="up-arrow">&uarr;</span>PHOTOS</a>`;
+    }
+    return `<header>${links}</header>`;
   }
 
   // Standard page header with HOME link and heading
