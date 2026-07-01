@@ -43,6 +43,10 @@ function getMediainfo(filePath) {
       width: parseInt(track.Width || "0", 10),
       height: parseInt(track.Height || "0", 10),
       format: track.Format || general.Format || "",
+      camera: [
+        general.Encoded_Hardware_CompanyName,
+        general.Encoded_Hardware_Model,
+      ].filter(Boolean).join(" ") || track.Model || track.Camera || track.Make || "",
     };
   } catch (err) {
     console.error(`  ⚠️  mediainfo failed for ${filePath}, using fallback`);
@@ -136,6 +140,7 @@ function processImage(filePath) {
   }
 
   console.log(`  Dimensions: ${dims.width}x${dims.height}`);
+  if (info.camera) console.log(`  Camera: ${info.camera}`);
 
   // Get date and generate filename
   const date = getDateForFilename(filePath);
@@ -146,6 +151,9 @@ function processImage(filePath) {
 
   console.log(`  Filename: ${filename}`);
   console.log(`  Rotation: ${rotation.toFixed(1)}°`);
+
+  // Ensure output directory exists
+  fs.mkdirSync(PHOTOS_DIR, { recursive: true });
 
   // Create temp directory
   const tmpDir = path.join("/tmp", `photo-ingest-${filename}`);
@@ -187,6 +195,7 @@ function processImage(filePath) {
 
     // Generate markdown
     const originalRel = `originals/${originalFilename}`;
+    const camera = info.camera || "";
     const mdContent = `---
 title: ${filename}
 date: ${parts.iso}
@@ -194,7 +203,7 @@ width: ${dims.width}
 height: ${dims.height}
 rotation: ${rotation.toFixed(1)}
 original: ${originalRel}
----
+${camera ? `camera: ${camera}\n` : ""}---
 
 `;
 
