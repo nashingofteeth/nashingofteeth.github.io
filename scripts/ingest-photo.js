@@ -118,7 +118,7 @@ function randomRotation() {
 
 function processImage(filePath) {
   const ext = path.extname(filePath).toLowerCase();
-  const supportedExts = [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".webp"];
+  const supportedExts = [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".webp", ".heif", ".heic"];
 
   if (!supportedExts.includes(ext)) {
     console.log(`  ⏭️  Skipping ${path.basename(filePath)} (unsupported format: ${ext})`);
