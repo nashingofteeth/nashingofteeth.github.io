@@ -22,10 +22,35 @@ function photoArticle(photo, showBookmark = true) {
       </picture>`;
 
   if (showBookmark) {
-    // Gallery mode — just the rotated thumbnail linking to the single page
+    // Gallery mode — image contained in a square frame. The offset pushes it
+    // away from center toward the blank space left by aspect ratio, up to the
+    // full blank width (image edge reaches the frame edge). object-position
+    // clamps the shift so it can't overrun the frame.
+    const w = Number(photo.width) || 0;
+    const h = Number(photo.height) || 0;
+    const magnitude = Math.abs(Number(photo.offset) || 0);
+    const sign = Math.sign(Number(photo.offset) || 0) || 1;
+
+    // Center by default; only offset on the axis that has blank space.
+    let posX = "center";
+    let posY = "center";
+
+    if (w > 0 && h > 0 && w !== h) {
+      const offset = `${sign > 0 ? "+" : "-"}${Math.min(magnitude, 5).toFixed(1)}px`;
+      if (w > h) {
+        // Landscape — blank on top/bottom, shift vertically
+        posY = `calc(50% ${offset})`;
+      } else {
+        // Portrait — blank on left/right, shift horizontally
+        posX = `calc(50% ${offset})`;
+      }
+    }
+
+    const vars = `--pos-x: ${posX}; --pos-y: ${posY};`;
+
     return `<article
 	class="photo-item"
-	style="--rotation: ${photo.rotation}deg;">
+	style="${vars}">
 	<a href="/photos/${photo.slug}/">
 		${imgHtml}
 	</a>
@@ -34,7 +59,7 @@ function photoArticle(photo, showBookmark = true) {
 
   // Single page mode — full layout with description, specs, download
   return `<article class="top-space photo-single">
-	<div class="photo-wrapper" style="--rotation: ${photo.rotation}deg;">
+	<div class="photo-wrapper">
 		${imgHtml}
 	</div>
 

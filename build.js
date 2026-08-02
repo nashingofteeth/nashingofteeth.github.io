@@ -146,7 +146,7 @@ function readPhotos() {
       width: data.width,
       height: data.height,
       camera: data.camera,
-      rotation: data.rotation || 0,
+      offset: data.offset || 0,
       original: data.original,
       plant: data.plant,
       content: html,
