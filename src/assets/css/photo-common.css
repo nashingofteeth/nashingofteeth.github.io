@@ -1,0 +1,19 @@
+body {
+  background-color: WhiteSmoke;
+  color: DimGray;
+}
+a {
+  color: DarkSlateGray;
+  text-shadow: DimGray 1px 0px;
+}
+a:active {
+  color: red;
+}
+.specs {
+  font-size: 0.9em;
+  border-left: 1px dashed DimGray;
+  padding-left: 10px;
+}
+.download {
+  font-size: 0.9em;
+}

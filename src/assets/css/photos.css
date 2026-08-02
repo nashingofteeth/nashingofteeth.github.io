@@ -1,14 +1,3 @@
-body {
-  background-color: WhiteSmoke;
-  color: DimGray;
-}
-a {
-  color: DarkSlateGray;
-  text-shadow: none;
-}
-a:active {
-  color: red;
-}
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
