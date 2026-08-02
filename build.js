@@ -187,7 +187,11 @@ async function build() {
   // Step 2b: Read photo files
   console.log("Reading photo files...");
   const photos = readPhotos();
-  console.log(`  ✓ Found ${photos.length} photos\n`);
+  ok(`Found ${photos.length} photos`);
+  if (photos.length === 0) {
+    warn("No photo files found");
+  }
+  console.log("");
 
   // Step 3: Generate pages
   console.log("Generating pages...");
@@ -195,6 +199,7 @@ async function build() {
   const pages = [
     { path: "index.html", render: () => homeTemplate() },
     { path: "videos/index.html", render: () => videosTemplate(videos) },
+    { path: "photos/index.html", render: () => photosTemplate(photos) },
     { path: "tools/index.html", render: () => toolsTemplate() },
     { path: "404.html", render: () => notFoundTemplate() },
   ];
@@ -207,22 +212,28 @@ async function build() {
     });
   }
 
-  const silentCount = pages.filter((p) => p.silent).length;
+  for (const photo of photos) {
+    pages.push({
+      path: `photos/${photo.slug}/index.html`,
+      render: () => photoSingleTemplate(photo),
+      silent: true,
+    });
+  }
+
+  const videoPages = videos.length;
+  const photoPages = photos.length;
   for (const page of pages) {
     writeHtml(page.path, page.render(), page.silent);
   }
-  if (silentCount > 0) {
-    ok(`${silentCount} video pages`);
+  const summaries = [];
+  if (videoPages > 0) {
+    summaries.push(`${videoPages} video pages`);
   }
-
-  // Photos page
-  const photosHtml = photosTemplate(photos);
-  writeHtml("photos/index.html", photosHtml);
-
-  // Individual photo pages
-  for (const photo of photos) {
-    const photoHtml = photoSingleTemplate(photo);
-    writeHtml(`photos/${photo.slug}/index.html`, photoHtml);
+  if (photoPages > 0) {
+    summaries.push(`${photoPages} photo pages`);
+  }
+  if (summaries.length > 0) {
+    ok(summaries.join(", "));
   }
 
   // Plants page
