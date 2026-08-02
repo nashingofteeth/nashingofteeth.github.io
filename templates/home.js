@@ -15,7 +15,8 @@ function home() {
 <nav>
     <p>
         <a href="videos">&#128249;&nbsp;videos</a>
-        <a href="photos">&#128444;&nbsp;photos</a>
+        <a href="photos">&#128247;&nbsp;photos</a>
+        <br/>
         <a href="plants">&#127793;&nbsp;plants</a>
         <a href="tools">&#128295;&nbsp;tools</a>
     </p>
@@ -25,7 +26,7 @@ function home() {
         <a href="${SOCIAL_LINKS.github}" title="github">gh</a>
         <a href="${SOCIAL_LINKS.letterboxd}" title="letterboxd">lb</a>
         <a href="${SOCIAL_LINKS.ryms}" title="rate your music">rym</a>
-        <a href="${SOCIAL_LINKS.instagram}" title="instagram">ig</a>
+        <a href="${SOCIAL_LINKS.instagram}" title="instagram 🤢">ig</a>
     </p>
 <p>&#128233; <strong>matthew at nash dot video</strong></p>
 </main>`;
