@@ -3,6 +3,7 @@ const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
 const { generatePlantList } = require("../src/assets/js/plants.js");
+const { formatDate } = require("./utils.js");
 const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function plants(plantData) {
@@ -10,12 +11,7 @@ function plants(plantData) {
   const combinedJs = loadJs("plants.js");
 
   // Format the generated date
-  const generatedDate = new Date(plantData.generated);
-  const formattedDate = generatedDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = formatDate(plantData.generated);
 
   const plantListHtml = `<div class="plant-list">
   <ul id="plant-tree">

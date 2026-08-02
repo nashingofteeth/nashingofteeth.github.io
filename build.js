@@ -84,69 +84,61 @@ function generatePage(relativePath, render) {
   writeHtml(relativePath, render());
 }
 
-// Read and parse all video markdown files
-function readVideos() {
-  const videos = [];
-  const files = fs.readdirSync(VIDEOS_DIR).filter((f) => f.endsWith(".md"));
-
-  for (const file of files) {
-    const filePath = path.join(VIDEOS_DIR, file);
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContent);
-
-    // Convert markdown to HTML
-    const html = marked(content);
-
-    // Extract filename without extension
-    const filename = file.replace(".md", "");
-
-    // Create URL slug with hyphens
-    const slug = filename.replace(/_/g, "-");
-
-    videos.push({
-      slug,
-      filename, // Keep original with underscores for file references
-      title: data.title,
-      date: data.date,
-      width: data.width,
-      height: data.height,
-      runtime: data.runtime,
-      frame_rate: data.frame_rate,
-      camera: data.camera,
-      margin_left: data.margin_left || 0,
-      youtube_id: data.youtube_id,
-      content: html,
-    });
+// Read and parse all markdown files in a directory, mapping each into an item.
+// Skips the directory when `optional` is true and it does not exist.
+function readCollection(dir, mapEntry, optional = false) {
+  if (optional && !fs.existsSync(dir)) {
+    return [];
   }
 
-  return videos;
+  const items = [];
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+
+  for (const file of files) {
+    const fileContent = fs.readFileSync(path.join(dir, file), "utf8");
+    const { data, content } = matter(fileContent);
+
+    // Extract filename without extension, create URL slug with hyphens
+    const filename = file.replace(".md", "");
+    const slug = filename.replace(/_/g, "-");
+
+    items.push(
+      mapEntry({
+        slug,
+        filename, // Original with underscores for file references
+        data,
+        content,
+        html: marked(content),
+      }),
+    );
+  }
+
+  return items;
+}
+
+// Read and parse all video markdown files
+function readVideos() {
+  return readCollection(VIDEOS_DIR, ({ slug, filename, data, html }) => ({
+    slug,
+    filename,
+    title: data.title,
+    date: data.date,
+    width: data.width,
+    height: data.height,
+    runtime: data.runtime,
+    frame_rate: data.frame_rate,
+    camera: data.camera,
+    margin_left: data.margin_left || 0,
+    youtube_id: data.youtube_id,
+    content: html,
+  }));
 }
 
 // Read and parse all photo markdown files
 function readPhotos() {
-  const photos = [];
-
-  if (!fs.existsSync(PHOTOS_DIR)) {
-    return photos;
-  }
-
-  const files = fs.readdirSync(PHOTOS_DIR).filter((f) => f.endsWith(".md"));
-
-  for (const file of files) {
-    const filePath = path.join(PHOTOS_DIR, file);
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const { data, content } = matter(fileContent);
-
-    // Convert markdown to HTML
-    const html = marked(content);
-
-    // Extract filename without extension
-    const filename = file.replace(".md", "");
-
-    // Create URL slug with hyphens
-    const slug = filename.replace(/_/g, "-");
-
-    photos.push({
+  return readCollection(
+    PHOTOS_DIR,
+    ({ slug, filename, data, html }) => ({
       slug,
       filename,
       title: data.title,
@@ -158,10 +150,9 @@ function readPhotos() {
       original: data.original,
       plant: data.plant,
       content: html,
-    });
-  }
-
-  return photos;
+    }),
+    true, // photos dir is optional
+  );
 }
 
 // Main build function
