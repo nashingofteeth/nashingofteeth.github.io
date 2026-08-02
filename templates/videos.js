@@ -3,6 +3,7 @@ const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
 const videoArticle = require("./partials/video-article.js");
+const { sortNewestFirst } = require("./utils.js");
 const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function videos(videoCollection) {
@@ -10,9 +11,7 @@ function videos(videoCollection) {
   const combinedJs = loadJs("videos.js");
 
   // Sort videos newest first
-  const sortedVideos = [...videoCollection].sort(
-    (a, b) => new Date(b.date) - new Date(a.date),
-  );
+  const sortedVideos = sortNewestFirst(videoCollection);
 
   const videosHtml = sortedVideos
     .map((video, index) => {

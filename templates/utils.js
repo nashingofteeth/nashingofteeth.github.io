@@ -1,25 +1,25 @@
 // Utility functions for templates
 
-function escapeHtml(text) {
-  const map = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;",
-  };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
+function sortNewestFirst(collection) {
+  return [...collection].sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
+}
+
+// Parse a Date object, an ISO timestamp, or a bare YYYY-MM-DD string.
+// Bare dates parse as UTC to avoid timezone shifts.
+function parseDate(dateInput) {
+  if (dateInput instanceof Date) {
+    return dateInput;
+  }
+  const isBareDate = /^\d{4}-\d{2}-\d{2}$/.test(dateInput);
+  return isBareDate
+    ? new Date(dateInput + "T00:00:00Z")
+    : new Date(dateInput);
 }
 
 function formatDate(dateInput) {
-  // Handle both Date objects and strings
-  let date;
-  if (dateInput instanceof Date) {
-    date = dateInput;
-  } else {
-    // Parse as UTC to avoid timezone issues with YYYY-MM-DD format
-    date = new Date(dateInput + "T00:00:00Z");
-  }
+  const date = parseDate(dateInput);
   const months = [
     "January",
     "February",
@@ -38,14 +38,7 @@ function formatDate(dateInput) {
 }
 
 function htmlDateString(dateInput) {
-  // Handle both Date objects and strings
-  let date;
-  if (dateInput instanceof Date) {
-    date = dateInput;
-  } else {
-    // Parse as UTC to avoid timezone issues with YYYY-MM-DD format
-    date = new Date(dateInput + "T00:00:00Z");
-  }
+  const date = parseDate(dateInput);
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, "0");
   const day = String(date.getUTCDate()).padStart(2, "0");
@@ -53,7 +46,7 @@ function htmlDateString(dateInput) {
 }
 
 module.exports = {
-  escapeHtml,
+  sortNewestFirst,
   formatDate,
   htmlDateString,
 };

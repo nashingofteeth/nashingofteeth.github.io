@@ -2,15 +2,14 @@ const base = require("./base.js");
 const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const photoArticle = require("./partials/photo-article.js");
+const { sortNewestFirst } = require("./utils.js");
 const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function photos(photoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "photos.css");
 
   // Sort photos newest first
-  const sortedPhotos = [...photoCollection].sort(
-    (a, b) => new Date(b.date) - new Date(a.date),
-  );
+  const sortedPhotos = sortNewestFirst(photoCollection);
 
   const photosHtml = sortedPhotos
     .map((photo) => photoArticle(photo, true))
