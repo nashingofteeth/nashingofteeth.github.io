@@ -1,0 +1,10 @@
+User-agent: meta-externalagent
+User-agent: facebookexternalhit
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: Discordbot
+User-agent: Pinterest
+Disallow: /
+
+User-agent: *
+Allow: /
