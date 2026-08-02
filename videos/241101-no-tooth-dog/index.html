@@ -72,9 +72,6 @@ a {
 a:active {
   color: red;
 }
-header a {
-  margin-right: 20px;
-}
 @media only screen and (max-width: 768px) {
   article {
     padding-left: 0 !important;
@@ -119,7 +116,24 @@ header a {
 .download {
   font-size: 0.9em;
 }
-</style>
+.download .download-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: blue;
+  text-shadow: blue 1px 0px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.download .download-btn:active {
+  color: red;
+}
+
+header a {
+  margin-right: 20px;
+}</style>
 	</head>
 	<body>
 		<div class="page-wrapper">
@@ -190,7 +204,21 @@ header a {
       data-goatcounter="https://nashingofteeth.goatcounter.com/count" 
       async src="//gc.zgo.at/count.js"
     ></script>
-    <script>const links = document.querySelectorAll(".container a");
+    <script>const MEDIA_BASE = "https://f004.backblazeb2.com/file/nash-potato/";
+const TRANSCODES_PATH = "videos/transcodes/";
+
+function playerSrc(filename, ext) {
+  return `${MEDIA_BASE}${TRANSCODES_PATH}${filename}.${ext}`;
+}
+
+function downloadUrl(filename, type) {
+  if (type === "lossy") {
+    return `${MEDIA_BASE}${TRANSCODES_PATH}${filename}.mp4`;
+  }
+  return `${MEDIA_BASE}videos/${filename}.mov`;
+}
+
+const links = document.querySelectorAll(".container a");
 
 for (const link of links) {
   link.addEventListener("click", function (e) {
@@ -214,6 +242,7 @@ for (const link of links) {
       this.parentElement.replaceChild(iframe, this);
     } else {
       // Regular video handling for cloud-hosted videos
+      const filename = this.getAttribute("data-filename");
       const video = document.createElement("video");
       const videoMp4Src = document.createElement("source");
       const videoWebMSrc = document.createElement("source");
@@ -233,8 +262,8 @@ for (const link of links) {
       videoMp4Src.setAttribute("type", "video/mp4");
       videoWebMSrc.setAttribute("type", "video/webm");
 
-      videoMp4Src.setAttribute("src", this.getAttribute("href"));
-      videoWebMSrc.setAttribute("src", this.getAttribute("data-webm"));
+      videoMp4Src.setAttribute("src", playerSrc(filename, "mp4"));
+      videoWebMSrc.setAttribute("src", playerSrc(filename, "webm"));
 
       video.appendChild(videoWebMSrc);
       video.appendChild(videoMp4Src);
@@ -243,7 +272,26 @@ for (const link of links) {
     }
   });
 }
-</script>
+
+const downloadLinks = document.querySelectorAll(".download .download-btn");
+
+for (const downloadLink of downloadLinks) {
+  downloadLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    const filename = this.getAttribute("data-filename");
+    const type = this.getAttribute("data-download");
+
+    // Open in a new tab via a click-generated anchor. window.open() gets
+    // blocked by popup blockers; this reliably triggers the download.
+    const anchor = document.createElement("a");
+    anchor.href = downloadUrl(filename, type);
+    anchor.target = "_blank";
+    anchor.rel = "noopener";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  });
+}</script>
 	
   </body>
 </html>
