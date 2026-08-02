@@ -1,5 +1,5 @@
-const MEDIA_BASE = "https://f004.backblazeb2.com/file/nash-potato/";
-const TRANSCODES_PATH = "videos/transcodes/";
+const MEDIA_BASE = "%%BASE_URL%%";
+const TRANSCODES_PATH = "%%TRANSCODES_PATH%%";
 
 function playerSrc(filename, ext) {
   return `${MEDIA_BASE}${TRANSCODES_PATH}${filename}.${ext}`;
@@ -74,6 +74,15 @@ for (const downloadLink of downloadLinks) {
     e.preventDefault();
     const filename = this.getAttribute("data-filename");
     const type = this.getAttribute("data-download");
-    window.open(downloadUrl(filename, type), "_blank", "noopener");
+
+    // Open in a new tab via a click-generated anchor. window.open() gets
+    // blocked by popup blockers; this reliably triggers the download.
+    const anchor = document.createElement("a");
+    anchor.href = downloadUrl(filename, type);
+    anchor.target = "_blank";
+    anchor.rel = "noopener";
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
   });
 }

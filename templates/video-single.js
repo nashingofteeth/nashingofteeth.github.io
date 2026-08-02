@@ -7,7 +7,7 @@ const videoArticle = require("./partials/video-article.js");
 const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function videoSingle(video) {
-  const combinedCss = loadCss("base.css", "page.css", "video-single.css");
+  const combinedCss = loadCss("base.css", "page.css", "video-common.css", "video-single.css");
   const combinedJs = loadJs("videos.js");
 
   const pageContent = `<div class="page-wrapper">
