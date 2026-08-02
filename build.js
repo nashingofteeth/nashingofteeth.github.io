@@ -54,14 +54,31 @@ function copyDir(src, dest) {
 }
 
 // Utility: Write HTML file
-function writeHtml(relativePath, content) {
+function writeHtml(relativePath, content, silent = false) {
   const fullPath = path.join(DIST_DIR, relativePath);
   const dir = path.dirname(fullPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
   fs.writeFileSync(fullPath, content);
-  console.log(`  ✓ ${relativePath}`);
+  if (!silent) {
+    ok(relativePath);
+  }
+}
+
+// Utility: Log a successful step
+function ok(msg) {
+  console.log(`  ✓ ${msg}`);
+}
+
+// Utility: Log a skipped/failed step
+function warn(msg) {
+  console.log(`  ⚠️  ${msg}`);
+}
+
+// Utility: Render a page and write it to dist
+function generatePage(relativePath, render) {
+  writeHtml(relativePath, render());
 }
 
 // Read and parse all video markdown files
@@ -110,52 +127,57 @@ async function build() {
   console.log("Cleaning dist/...");
   removeDir(DIST_DIR);
   fs.mkdirSync(DIST_DIR);
-  console.log("  ✓ dist/ cleaned\n");
+  ok("dist/ cleaned");
+  console.log("");
 
   // Step 2: Read video files
   console.log("Reading video files...");
   const videos = readVideos();
-  console.log(`  ✓ Found ${videos.length} videos\n`);
+  ok(`Found ${videos.length} videos`);
+  if (videos.length === 0) {
+    warn("No video files found");
+  }
+  console.log("");
 
   // Step 3: Generate pages
   console.log("Generating pages...");
 
-  // Homepage
-  const homeHtml = homeTemplate();
-  writeHtml("index.html", homeHtml);
+  const pages = [
+    { path: "index.html", render: () => homeTemplate() },
+    { path: "videos/index.html", render: () => videosTemplate(videos) },
+    { path: "tools/index.html", render: () => toolsTemplate() },
+    { path: "404.html", render: () => notFoundTemplate() },
+  ];
 
-  // Videos page
-  const videosHtml = videosTemplate(videos);
-  writeHtml("videos/index.html", videosHtml);
-
-  // Individual video pages
   for (const video of videos) {
-    const videoHtml = videoSingleTemplate(video);
-    writeHtml(`videos/${video.slug}/index.html`, videoHtml);
+    pages.push({
+      path: `videos/${video.slug}/index.html`,
+      render: () => videoSingleTemplate(video),
+      silent: true,
+    });
+  }
+
+  const silentCount = pages.filter((p) => p.silent).length;
+  for (const page of pages) {
+    writeHtml(page.path, page.render(), page.silent);
+  }
+  if (silentCount > 0) {
+    ok(`${silentCount} video pages`);
   }
 
   // Plants page
   try {
     const plantData = require("./src/_data/plant-data.json");
-    const plantsHtml = plantsTemplate(plantData);
-    writeHtml("plants/index.html", plantsHtml);
+    generatePage("plants/index.html", () => plantsTemplate(plantData));
     // Copy plant data JSON so the client-side search feature can fetch it
     fs.copyFileSync(
       "./src/_data/plant-data.json",
       path.join(DIST_DIR, "plants", "plant-data.json"),
     );
-    console.log("  ✓ plant-data.json → dist/plants/");
+    ok("plant-data.json → dist/plants/");
   } catch (error) {
-    console.log("  ⚠️  plant-data.json not found, skipping plants page");
+    warn("plant-data.json not found, skipping plants page");
   }
-
-  // Tools page
-  const toolsHtml = toolsTemplate();
-  writeHtml("tools/index.html", toolsHtml);
-
-  // 404 page
-  const notFoundHtml = notFoundTemplate();
-  writeHtml("404.html", notFoundHtml);
 
   console.log("");
 
@@ -164,24 +186,18 @@ async function build() {
 
   if (fs.existsSync(PUBLIC_DIR)) {
     copyDir(PUBLIC_DIR, DIST_DIR);
-    console.log("  ✓ public/ → dist/");
+    ok("public/ → dist/");
+  } else {
+    warn("public/ not found, skipping");
   }
 
   // Copy tools directory contents to dist root
   const toolsDir = "tools";
   if (fs.existsSync(toolsDir)) {
-    const toolFiles = fs.readdirSync(toolsDir, { withFileTypes: true });
-    for (const entry of toolFiles) {
-      const srcPath = path.join(toolsDir, entry.name);
-      const destPath = path.join(DIST_DIR, entry.name);
-
-      if (entry.isDirectory()) {
-        copyDir(srcPath, destPath);
-      } else {
-        fs.copyFileSync(srcPath, destPath);
-      }
-    }
-    console.log("  ✓ tools/ → dist/");
+    copyDir(toolsDir, DIST_DIR);
+    ok("tools/ → dist/");
+  } else {
+    warn("tools/ not found, skipping");
   }
 
   console.log("\n✨ Build complete! Output in dist/\n");
