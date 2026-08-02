@@ -12,7 +12,7 @@ const ROTATION_RANGE = 8; // -8 to +8 degrees
 
 function showUsage() {
   console.log(`
-Usage: node scripts/ingest-photo.js <image1> [image2] [image3] ...
+Usage: potato-add <image1> [image2] [image3] ...
 
 Ingest one or more photos into the potato website.
 
@@ -23,9 +23,9 @@ Each image will be:
   4. Markdown file generated in src/photos/
 
 Examples:
-  node scripts/ingest-photo.js ~/photos/garden.jpg
-  node scripts/ingest-photo.js ~/photos/*.jpg
-  node scripts/ingest-photo.js ~/photos/rose.jpg ~/photos/fern.jpg
+  potato-add ~/photos/garden.jpg
+  potato-add ~/photos/*.jpg
+  potato-add ~/photos/rose.jpg ~/photos/fern.jpg
 `);
 }
 
