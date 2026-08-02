@@ -1,4 +1,4 @@
-const { BASE_URL, PHOTOS_PATH } = require("./constants.js");
+const { BASE_URL, PHOTOS_PATH, ORIGINALS_SUBDIR } = require("./constants.js");
 const { formatDate, htmlDateString } = require("../utils.js");
 
 /**
@@ -77,7 +77,7 @@ function photoArticle(photo, showBookmark = true) {
 		</p>
 
 		<p class="download">
-			<a href="${BASE_URL}${PHOTOS_PATH}${photo.original}">download original</a>
+			<a href="${BASE_URL}${PHOTOS_PATH}${ORIGINALS_SUBDIR}${photo.original}">download original</a>
 		</p>
 	</div>
 

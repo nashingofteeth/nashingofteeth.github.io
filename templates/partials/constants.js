@@ -19,6 +19,7 @@ const TRANSCODES_PATH = "videos/transcodes/";
 const POTATO_URL = "https://potato.cheap/";
 
 const PHOTOS_PATH = "photos/";
+const ORIGINALS_SUBDIR = "originals/";
 
 module.exports = {
   BASE_URL,
@@ -27,4 +28,5 @@ module.exports = {
   TRANSCODES_PATH,
   POTATO_URL,
   PHOTOS_PATH,
+  ORIGINALS_SUBDIR,
 };
