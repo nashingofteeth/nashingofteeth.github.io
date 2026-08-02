@@ -23,7 +23,7 @@ function photos(photoCollection) {
 ${photosHtml}
 </section>`;
 
-  const pageContent = page(mainContent, "&#128247;&nbsp;PHOTOS");
+  const pageContent = page(mainContent, { heading: "&#128247;&nbsp;PHOTOS" });
   return base(
     pageContent,
     `photos${SITE_TITLE_SUFFIX}`,

@@ -18,7 +18,7 @@ function tools() {
 	<p><a href="/charPerms">word permuter</a></p>
 </article>`;
 
-  const pageContent = page(mainContent, "&#129520;&nbsp;TOOLS");
+  const pageContent = page(mainContent, { heading: "&#129520;&nbsp;TOOLS" });
   return base(pageContent, `tools${SITE_TITLE_SUFFIX}`, null, combinedCss);
 }
 

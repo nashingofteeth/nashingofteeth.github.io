@@ -7,8 +7,8 @@ const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 function photoSingle(photo) {
   const combinedCss = loadCss("base.css", "page.css", "photo-single.css");
 
-  const pageContent = page(photoArticle(photo, false), null, {
-    showPhotos: true,
+  const pageContent = page(photoArticle(photo, false), {
+    nav: [{ label: "PHOTOS", href: "/photos" }],
   });
 
   return base(

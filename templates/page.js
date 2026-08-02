@@ -1,9 +1,13 @@
 const header = require("./partials/header.js");
 const footer = require("./partials/footer.js");
 
-function page(content, heading, { showVideos = false, showPhotos = false } = {}) {
+const HOME_LINK = { label: "HOME", href: "/" };
+
+function page(content, { heading = null, nav = [] } = {}) {
+  const fullNav = [HOME_LINK, ...nav];
+
   return `<div class="page-wrapper">
-${header(heading, showVideos, showPhotos)}
+${header(heading, fullNav)}
 
 <main>
 ${content}
