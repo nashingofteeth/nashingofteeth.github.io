@@ -36,13 +36,13 @@ function photoArticle(photo, showBookmark = true) {
     let posY = "center";
 
     if (w > 0 && h > 0 && w !== h) {
-      const offset = `${sign > 0 ? "+" : "-"}${Math.min(magnitude, 5).toFixed(1)}px`;
+      const shift = (sign * magnitude).toFixed(1);
       if (w > h) {
         // Landscape — blank on top/bottom, shift vertically
-        posY = `calc(50% ${offset})`;
+        posY = `calc(50% + ${shift}px)`;
       } else {
         // Portrait — blank on left/right, shift horizontally
-        posX = `calc(50% ${offset})`;
+        posX = `calc(50% + ${shift}px)`;
       }
     }
 

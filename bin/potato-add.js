@@ -10,7 +10,9 @@ const PHOTOS_DIR = path.join(__dirname, "..", "src", "photos");
 const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
 const MAX_DIMENSION = 1200;
 const JPEG_QUALITY = 85;
-const OFFSET_RANGE = 5; // max offset in px from frame center
+const OFFSET_RANGE = 30; // max offset in px from frame center — large enough
+// to be visually significant on a ~200px grid cell, often pushing the image
+// nearly flush with the frame edge depending on aspect ratio.
 
 function showUsage() {
   console.log(`
