@@ -1,4 +1,3 @@
-const { BASE_URL, TRANSCODES_PATH } = require("./constants.js");
 const { formatDate, htmlDateString } = require("../utils.js");
 const videoThumbnail = require("./video-thumbnail.js");
 const downloadLinks = require("./download-links.js");
@@ -33,8 +32,8 @@ function videoArticle(video, isFirst = false, showBookmark = true) {
           video.youtube_id
             ? `href="https://www.youtube.com/watch?v=${video.youtube_id}"
 				    data-youtube-id="${video.youtube_id}"`
-            : `href="${BASE_URL}${TRANSCODES_PATH}${video.filename}.mp4"
-					data-webm="${BASE_URL}${TRANSCODES_PATH}${video.filename}.webm"`
+            : `href="/videos/${video.slug}/"
+					data-filename="${video.filename}"`
         }>
 				${thumbnailHtml}
             </a>

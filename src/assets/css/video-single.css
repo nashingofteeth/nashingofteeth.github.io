@@ -56,3 +56,22 @@ header a {
 .download {
   font-size: 0.9em;
 }
+.download .download-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: monospace;
+  font-size: inherit;
+  color: blue;
+  text-shadow: blue 1px 0px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.download .download-btn:hover,
+.download .download-btn:focus-visible {
+  color: navy;
+}
+.download .download-btn:active {
+  color: red;
+}
