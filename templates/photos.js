@@ -6,7 +6,7 @@ const { sortNewestFirst } = require("./utils.js");
 const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function photos(photoCollection) {
-  const combinedCss = loadCss("base.css", "page.css", "photos.css");
+  const combinedCss = loadCss("base.css", "page.css", "photo-common.css", "photos.css");
 
   // Sort photos newest first
   const sortedPhotos = sortNewestFirst(photoCollection);
