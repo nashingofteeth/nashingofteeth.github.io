@@ -19,7 +19,7 @@ function photos(photoCollection) {
 	<p>Photography by me.</p>
 </section>
 
-<section class="photo-grid">
+<section class="photo-grid top-space">
 ${photosHtml}
 </section>`;
 

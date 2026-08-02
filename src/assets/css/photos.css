@@ -2,7 +2,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 10px;
-  padding: 20px;
+}
+.photo-grid.top-space {
+  margin-top: 50px;
 }
 .photo-item {
   aspect-ratio: 1 / 1;

@@ -1,6 +1,9 @@
 header a {
   margin-right: 20px;
 }
+.top-space.photo-single {
+  margin-top: 50px;
+}
 .photo-wrapper {
   display: flex;
   align-items: center;
