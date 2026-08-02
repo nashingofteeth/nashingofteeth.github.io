@@ -8,7 +8,7 @@ const PHOTOS_DIR = path.join(__dirname, "..", "src", "photos");
 const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
 const MAX_DIMENSION = 1200;
 const JPEG_QUALITY = 85;
-const ROTATION_RANGE = 8; // -8 to +8 degrees
+const OFFSET_RANGE = 5; // max offset in px from frame center
 
 function showUsage() {
   console.log(`
