@@ -12,16 +12,13 @@ main {
   color: skyblue;
   position: absolute;
   top: 110px;
-  left: 349.5px;
+  left: 475px;
 }
 h1 {
   letter-spacing: 1.5px;
   line-height: 1.4;
   text-transform: uppercase;
   font-weight: normal;
-}
-h1 em {
-  letter-spacing: 0px;
 }
 a {
   color: skyblue;

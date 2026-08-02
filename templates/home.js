@@ -10,7 +10,7 @@ function home() {
     <img fetchpriority="high" src="img/me.jpg" alt="me" />
 </picture>
 <main>
-<h1>matthew nash <em><sup>video&nbsp;artist</sup></em></h1>
+<h1>matthew nash</h1>
 <p>&#127758; <strong>portland, oregon</strong></p>
 <nav>
     <p>
