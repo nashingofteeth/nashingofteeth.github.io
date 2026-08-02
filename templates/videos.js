@@ -31,7 +31,7 @@ ${videosHtml}
     Earlier work can be found <a href="http://youtube.com/hewnash" target="_blank">here</a> and <a href="http://youtube.com/hollowocean" target="_blank">here</a>.
 </section>`;
 
-  const pageContent = page(mainContent, "&#128249;&nbsp;VIDEOS");
+  const pageContent = page(mainContent, { heading: "&#128249;&nbsp;VIDEOS" });
   return base(
     pageContent,
     `videos${SITE_TITLE_SUFFIX}`,

@@ -37,7 +37,7 @@ ${plantListHtml}
   Last updated: ${formattedDate}
 </section>`;
 
-  const pageContent = page(mainContent, "&#127793;&nbsp;PLANTS");
+  const pageContent = page(mainContent, { heading: "&#127793;&nbsp;PLANTS" });
   return base(
     pageContent,
     `plants${SITE_TITLE_SUFFIX}`,

@@ -9,8 +9,8 @@ function videoSingle(video) {
   const combinedCss = loadCss("base.css", "page.css", "video-common.css", "video-single.css");
   const combinedJs = loadJs("videos.js");
 
-  const pageContent = page(videoArticle(video, true, false), null, {
-    showVideos: true,
+  const pageContent = page(videoArticle(video, true, false), {
+    nav: [{ label: "VIDEOS", href: "/videos" }],
   });
 
   return base(
