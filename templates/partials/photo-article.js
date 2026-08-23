@@ -21,35 +21,46 @@ function photoArticle(photo, showBookmark = true) {
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
 
+  // Sage-green placeholder tint, varied in lightness by the photo's offset so
+  // each grid tile gets a subtly different shade. Hue/sat fixed for cohesion.
+  const offset = Number(photo.offset) || 0;
+  const lightness = (54 + (offset / 30) * 14).toFixed(1);
+  const bgTint = `hsl(98, 30%, ${lightness}%)`;
+  const w = Number(photo.width) || 0;
+  const h = Number(photo.height) || 0;
+  const ratio = w > 0 && h > 0 ? `${w} / ${h}` : "1 / 1";
+  const ratioNum = w > 0 && h > 0 ? (w / h).toFixed(4) : "1";
+  const orientation = w > h ? "landscape" : h > w ? "portrait" : "square";
+
   if (showBookmark) {
     // Gallery mode — image contained in a square frame. The offset pushes it
     // away from center toward the blank space left by aspect ratio, up to the
     // full blank width (image edge reaches the frame edge). object-position
     // clamps the shift so it can't overrun the frame.
-    const w = Number(photo.width) || 0;
-    const h = Number(photo.height) || 0;
     const magnitude = Math.abs(Number(photo.offset) || 0);
     const sign = Math.sign(Number(photo.offset) || 0) || 1;
 
-    // Center by default; only offset on the axis that has blank space.
-    let posX = "center";
-    let posY = "center";
+    // Center by default; only offset on the axis that has blank space. Emitted
+    // as px translate values so the centered image — and its tinted backdrop —
+    // shift together.
+    let posX = "0px";
+    let posY = "0px";
 
     if (w > 0 && h > 0 && w !== h) {
       const shift = (sign * magnitude).toFixed(1);
       if (w > h) {
         // Landscape — blank on top/bottom, shift vertically
-        posY = `calc(50% + ${shift}px)`;
+        posY = `${shift}px`;
       } else {
         // Portrait — blank on left/right, shift horizontally
-        posX = `calc(50% + ${shift}px)`;
+        posX = `${shift}px`;
       }
     }
 
-    const vars = `--pos-x: ${posX}; --pos-y: ${posY};`;
+    const vars = `--pos-x: ${posX}; --pos-y: ${posY}; --bg-tint: ${bgTint}; --ratio: ${ratio}; --ratio-num: ${ratioNum};`;
 
     return `<article
-	class="photo-item"
+	class="photo-item is-${orientation}"
 	style="${vars}">
 	<a href="/photos/${photo.slug}/">
 		${imgHtml}
