@@ -1,17 +1,17 @@
 body {
-  background-color: WhiteSmoke;
-  color: DimGray;
+  background-color: Cornsilk;
+  color: #4A5D23;
 }
 a {
-  color: DarkSlateGray;
-  text-shadow: DimGray 1px 0px;
+  color: #C1440E;
+  text-shadow: #C1440E 1px 0px;
 }
 a:active {
   color: red;
 }
 .specs {
   font-size: 0.9em;
-  border-left: 1px dashed DimGray;
+  border-left: 1px dashed #4A5D23;
   padding-left: 10px;
 }
 .download {
