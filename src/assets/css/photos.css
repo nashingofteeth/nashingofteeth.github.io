@@ -21,18 +21,6 @@
   display: block;
   max-width: 100%;
   max-height: 100%;
-  aspect-ratio: var(--ratio, 1 / 1);
-  background-color: var(--bg-tint, #87A96B);
-  transform: translate(var(--pos-x, 0px), var(--pos-y, 0px));
-}
-.photo-item.is-landscape picture,
-.photo-item.is-square picture {
-  width: 100%;
-  height: auto;
-}
-.photo-item.is-portrait picture {
-  width: auto;
-  height: 100%;
 }
 .photo-item img {
   display: block;

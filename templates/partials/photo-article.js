@@ -12,15 +12,6 @@ function photoArticle(photo, showBookmark = true) {
     ? `&nbsp;<a href="/photos/${photo.slug}/" class="bookmark" aria-label="Go to photo page" title="Go to photo page">&#128279;</a>`
     : "";
 
-  const imgHtml = `<picture>
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
-        <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
-          alt="${photo.title}"
-          loading="${showBookmark ? "lazy" : "eager"}"
-          width="${photo.width}" height="${photo.height}" />
-      </picture>`;
-
   // Sage-green placeholder tint, varied in lightness by the photo's offset so
   // each grid tile gets a subtly different shade. Hue/sat fixed for cohesion.
   const offset = Number(photo.offset) || 0;
@@ -29,39 +20,36 @@ function photoArticle(photo, showBookmark = true) {
   const w = Number(photo.width) || 0;
   const h = Number(photo.height) || 0;
   const ratio = w > 0 && h > 0 ? `${w} / ${h}` : "1 / 1";
-  const ratioNum = w > 0 && h > 0 ? (w / h).toFixed(4) : "1";
   const orientation = w > h ? "landscape" : h > w ? "portrait" : "square";
 
   if (showBookmark) {
-    // Gallery mode — image contained in a square frame. The offset pushes it
-    // away from center toward the blank space left by aspect ratio, up to the
-    // full blank width (image edge reaches the frame edge). object-position
-    // clamps the shift so it can't overrun the frame.
+    // Gallery mode — resolve everything at build time: the <picture> gets an
+    // inline aspect-ratio, background, transform and explicit width/height so
+    // the front end only does layout, no variable resolution.
     const magnitude = Math.abs(Number(photo.offset) || 0);
     const sign = Math.sign(Number(photo.offset) || 0) || 1;
-
-    // Center by default; only offset on the axis that has blank space. Emitted
-    // as px translate values so the centered image — and its tinted backdrop —
-    // shift together.
     let posX = "0px";
     let posY = "0px";
-
     if (w > 0 && h > 0 && w !== h) {
       const shift = (sign * magnitude).toFixed(1);
       if (w > h) {
-        // Landscape — blank on top/bottom, shift vertically
         posY = `${shift}px`;
       } else {
-        // Portrait — blank on left/right, shift horizontally
         posX = `${shift}px`;
       }
     }
+    const pictureWidth = orientation === "portrait" ? "auto" : "100%";
+    const pictureHeight = orientation === "portrait" ? "100%" : "auto";
+    const imgHtml = `<picture style="aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight};">
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <img
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          alt="${photo.title}"
+          loading="lazy"
+          width="${photo.width}" height="${photo.height}" />
+      </picture>`;
 
-    const vars = `--pos-x: ${posX}; --pos-y: ${posY}; --bg-tint: ${bgTint}; --ratio: ${ratio}; --ratio-num: ${ratioNum};`;
-
-    return `<article
-	class="photo-item is-${orientation}"
-	style="${vars}">
+    return `<article class="photo-item is-${orientation}">
 	<a href="/photos/${photo.slug}/">
 		${imgHtml}
 	</a>
@@ -102,16 +90,25 @@ function photoArticle(photo, showBookmark = true) {
     leftEdge = `${leftPct.toFixed(2)}%`;
   }
 
-  return `<article class="top-space photo-single is-${orientation}" style="--left-edge: ${leftEdge}; --media-width: ${mediaWidth.toFixed(2)}%; --media-padding-top: ${mediaPaddingTop.toFixed(2)}%; --bg-tint: ${bgTint};">
+  const imgHtmlSingle = `<picture>
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <img
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          alt="${photo.title}"
+          loading="eager"
+          width="${photo.width}" height="${photo.height}" />
+      </picture>`;
+
+  return `<article class="top-space photo-single is-${orientation}">
 	<div class="photo-container">
-		<div class="photo-frame">
-			<div class="photo-media">
-				${imgHtml}
+		<div class="photo-frame" style="width: ${mediaWidth.toFixed(2)}%; padding-top: ${mediaPaddingTop.toFixed(2)}%; margin-left: ${leftEdge};">
+			<div class="photo-media" style="background-color: ${bgTint};">
+				${imgHtmlSingle}
 			</div>
 		</div>
 	</div>
 
-	<div class="content">
+	<div class="content" style="padding-left: ${leftEdge};">
 
 		<h2>${photo.title}${bookmarkLink}</h2>
 

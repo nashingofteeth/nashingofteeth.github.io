@@ -17,14 +17,10 @@ header a {
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  width: var(--media-width, 100%);
-  padding-top: var(--media-padding-top, 75%);
-  margin-left: var(--left-edge, 0);
 }
 .photo-media {
   position: absolute;
   inset: 0;
-  background-color: var(--bg-tint, #87A96B);
   overflow: hidden;
 }
 .photo-media picture,
@@ -37,18 +33,15 @@ header a {
   object-fit: cover;
   color: transparent;
 }
-.photo-single .content {
-  padding-left: var(--left-edge, 0);
-}
 @media only screen and (max-width: 768px) {
   .top-space.photo-single {
     width: 70% !important;
   }
   .photo-frame {
-    margin-left: 0;
+    margin-left: 0 !important;
   }
   .photo-single .content {
-    padding-left: 0;
+    padding-left: 0 !important;
   }
 }
 @media only screen and (max-width: 576px) {
