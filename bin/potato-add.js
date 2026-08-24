@@ -4,15 +4,15 @@ const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
-const { ORIGINALS_SUBDIR } = require("../templates/partials/constants.js");
+const {
+  ORIGINALS_SUBDIR,
+  PHOTO_OFFSET_RANGE,
+} = require("../templates/partials/constants.js");
 
 const PHOTOS_DIR = path.join(__dirname, "..", "src", "photos");
 const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
 const MAX_DIMENSION = 1200;
 const JPEG_QUALITY = 85;
-const OFFSET_RANGE = 30; // max offset in px from frame center — large enough
-// to be visually significant on a ~200px grid cell, often pushing the image
-// nearly flush with the frame edge depending on aspect ratio.
 
 function showUsage() {
   console.log(`
@@ -124,7 +124,7 @@ function formatDateParts(date) {
 }
 
 function randomOffset() {
-  return (Math.random() * 2 - 1) * OFFSET_RANGE;
+  return Math.round((Math.random() * 2 - 1) * PHOTO_OFFSET_RANGE);
 }
 
 // The set of original file basenames already recorded in src/photos/ markdown.
@@ -187,7 +187,7 @@ function processImage(filePath) {
   const offset = randomOffset();
 
   console.log(`  Filename: ${filename}`);
-  console.log(`  Offset: ${offset.toFixed(1)}px`);
+  console.log(`  Offset: ${offset}`);
 
   // Ensure output directory exists
   fs.mkdirSync(PHOTOS_DIR, { recursive: true });
@@ -238,7 +238,7 @@ title: ${filename}
 date: ${parts.iso}
 width: ${dims.width}
 height: ${dims.height}
-offset: ${offset.toFixed(1)}
+offset: ${offset}
 original: ${originalRel}
 ${camera ? `camera: ${camera}\n` : ""}---
 

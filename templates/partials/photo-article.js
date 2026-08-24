@@ -1,4 +1,12 @@
-const { BASE_URL, PHOTOS_PATH, ORIGINALS_SUBDIR } = require("./constants.js");
+const {
+  BASE_URL,
+  PHOTOS_PATH,
+  ORIGINALS_SUBDIR,
+  PHOTO_OFFSET_RANGE,
+  MAX_GALLERY_SHIFT_PX,
+  PHOTO_TINT_BASE_LIGHTNESS,
+  PHOTO_TINT_RANGE,
+} = require("./constants.js");
 const { formatDate, htmlDateString } = require("../utils.js");
 
 /**
@@ -14,8 +22,12 @@ function photoArticle(photo, showBookmark = true) {
 
   // Sage-green placeholder tint, varied in lightness by the photo's offset so
   // each grid tile gets a subtly different shade. Hue/sat fixed for cohesion.
+  // Stored range is -100…+100; see constants.js.
   const offset = Number(photo.offset) || 0;
-  const lightness = (54 + (offset / 30) * 14).toFixed(1);
+  const lightness = (
+    PHOTO_TINT_BASE_LIGHTNESS +
+    (offset / PHOTO_OFFSET_RANGE) * PHOTO_TINT_RANGE
+  ).toFixed(1);
   const bgTint = `hsl(98, 30%, ${lightness}%)`;
   const w = Number(photo.width) || 0;
   const h = Number(photo.height) || 0;
@@ -25,17 +37,19 @@ function photoArticle(photo, showBookmark = true) {
   if (showBookmark) {
     // Gallery mode — resolve everything at build time: the <picture> gets an
     // inline aspect-ratio, background, transform and explicit width/height so
-    // the front end only does layout, no variable resolution.
-    const magnitude = Math.abs(Number(photo.offset) || 0);
-    const sign = Math.sign(Number(photo.offset) || 0) || 1;
+    // the front end only does layout, no variable resolution. Offset -100…+100
+    // maps to ±MAX_GALLERY_SHIFT_PX px.
     let posX = "0px";
     let posY = "0px";
     if (w > 0 && h > 0 && w !== h) {
-      const shift = (sign * magnitude).toFixed(1);
+      const shiftPx = (
+        (offset / PHOTO_OFFSET_RANGE) *
+        MAX_GALLERY_SHIFT_PX
+      ).toFixed(1);
       if (w > h) {
-        posY = `${shift}px`;
+        posY = `${shiftPx}px`;
       } else {
-        posX = `${shift}px`;
+        posX = `${shiftPx}px`;
       }
     }
     const pictureWidth = orientation === "portrait" ? "auto" : "100%";
@@ -68,7 +82,7 @@ function photoArticle(photo, showBookmark = true) {
   // and stays visible if it fails to load — mirroring video's `.media`.
   const Rb = 4 / 3;
   const Ri = w > 0 && h > 0 ? w / h : 1;
-  const offFrac = Math.min(1, Math.abs(offset) / 30);
+  const offFrac = Math.min(1, Math.abs(offset) / PHOTO_OFFSET_RANGE);
 
   // Frame width, as a % of the outer box's width. Images narrower than the
   // box (Ri < Rb) are fit by height (75% = the box's own height, since the
@@ -82,11 +96,13 @@ function photoArticle(photo, showBookmark = true) {
 
   // Left edge of the frame, as a % of the outer box's width. blankFrac is the
   // horizontal blank left over when the frame is narrower than the box;
-  // offFrac slides that left edge from centered (50% of the blank) rightward.
+  // offFrac + sign slide that left edge from centered (50% of the blank)
+  // left (−100) or right (+100).
   let leftEdge = "0%";
   if (Ri < Rb) {
     const blankFrac = 1 - mediaWidth / 100;
-    const leftPct = blankFrac * (50 + offFrac * 50);
+    const sign = Math.sign(offset);
+    const leftPct = blankFrac * (50 + sign * offFrac * 50);
     leftEdge = `${leftPct.toFixed(2)}%`;
   }
 

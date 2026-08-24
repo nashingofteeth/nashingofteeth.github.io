@@ -21,6 +21,14 @@ const POTATO_URL = "https://potato.cheap/";
 const PHOTOS_PATH = "photos/";
 const ORIGINALS_SUBDIR = "originals/";
 
+// Photo offset: stored as -100…+100 (percent of max travel). Gallery maps to
+// ±MAX_GALLERY_SHIFT_PX px; single maps |offset|/OFFSET_RANGE → fraction of
+// blank; green tint lightness = BASE_LIGHTNESS + offset/OFFSET_RANGE * TINT_RANGE.
+const PHOTO_OFFSET_RANGE = 100;
+const MAX_GALLERY_SHIFT_PX = 30;
+const PHOTO_TINT_BASE_LIGHTNESS = 54;
+const PHOTO_TINT_RANGE = 14;
+
 module.exports = {
   BASE_URL,
   SITE_TITLE_SUFFIX,
@@ -29,4 +37,8 @@ module.exports = {
   POTATO_URL,
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
+  PHOTO_OFFSET_RANGE,
+  MAX_GALLERY_SHIFT_PX,
+  PHOTO_TINT_BASE_LIGHTNESS,
+  PHOTO_TINT_RANGE,
 };
