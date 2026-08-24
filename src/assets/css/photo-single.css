@@ -47,22 +47,20 @@ header a {
 .photo-nav {
   margin-top: 10px;
   display: flex;
-  gap: 20px;
   align-items: center;
   font-size: 0.9em;
 }
-@supports not (gap: 10px) {
-  .photo-nav > * + * {
-    margin-left: 20px;
-  }
+.photo-nav > * {
+  margin-right: 38px;
+}
+.photo-nav .up-arrow--right {
+  margin-left: 3px;
+  margin-right: 0;
 }
 .photo-nav .disabled {
   opacity: 0.4;
   pointer-events: none;
-}
-.photo-nav-hint {
-  opacity: 0.5;
-  font-size: 0.85em;
+  margin-right: 43px;
 }
 @media only screen and (max-width: 768px) {
   .top-space.photo-single {

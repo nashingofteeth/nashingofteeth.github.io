@@ -12,13 +12,13 @@ function photoSingle(photo, prevPhoto = null, nextPhoto = null) {
   const navHtml = `<nav class="photo-nav" aria-label="Photo navigation">
 		${
       prevPhoto
-        ? `<a href="/photos/${prevPhoto.slug}/" class="photo-nav-prev" rel="prev">← prev <span class="photo-nav-hint">(k)</span></a>`
-        : `<span class="photo-nav-prev disabled" aria-hidden="true">← prev <span class="photo-nav-hint">(k)</span></span>`
+        ? `<a href="/photos/${prevPhoto.slug}/" class="photo-nav-prev" rel="prev" title="Previous (K)"><span class="up-arrow">&larr;</span>PREV</a>`
+        : `<span class="photo-nav-prev disabled" aria-hidden="true"><span class="up-arrow">&larr;</span>PREV</span>`
     }
 		${
       nextPhoto
-        ? `<a href="/photos/${nextPhoto.slug}/" class="photo-nav-next" rel="next">next → <span class="photo-nav-hint">(j)</span></a>`
-        : `<span class="photo-nav-next disabled" aria-hidden="true">next → <span class="photo-nav-hint">(j)</span></span>`
+        ? `<a href="/photos/${nextPhoto.slug}/" class="photo-nav-next" rel="next" title="Next (J)">NEXT<span class="up-arrow up-arrow--right">&rarr;</span></a>`
+        : `<span class="photo-nav-next disabled" aria-hidden="true">NEXT<span class="up-arrow up-arrow--right">&rarr;</span></span>`
     }
 	</nav>`;
 
