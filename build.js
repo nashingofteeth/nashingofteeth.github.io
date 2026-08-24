@@ -14,6 +14,7 @@ const photoSingleTemplate = require("./templates/photo-single.js");
 const plantsTemplate = require("./templates/plants.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
+const { sortNewestFirst } = require("./templates/utils.js");
 
 // Configuration
 const SRC_DIR = "src";
@@ -203,10 +204,14 @@ async function build() {
     });
   }
 
-  for (const photo of photos) {
+  const sortedPhotos = sortNewestFirst(photos);
+  for (let i = 0; i < sortedPhotos.length; i++) {
+    const photo = sortedPhotos[i];
+    const prevPhoto = i > 0 ? sortedPhotos[i - 1] : null;
+    const nextPhoto = i < sortedPhotos.length - 1 ? sortedPhotos[i + 1] : null;
     pages.push({
       path: `photos/${photo.slug}/index.html`,
-      render: () => photoSingleTemplate(photo),
+      render: () => photoSingleTemplate(photo, prevPhoto, nextPhoto),
       silent: true,
     });
   }
