@@ -126,8 +126,6 @@ function photoArticle(photo, showBookmark = true) {
 
 	<div class="content" style="padding-left: ${leftEdge};">
 
-		<h2>${photo.title}${bookmarkLink}</h2>
-
 		${photo.content}
 
 		<p class="specs">
@@ -138,6 +136,7 @@ function photoArticle(photo, showBookmark = true) {
 		</p>
 
 		<p class="download">
+			<span aria-label="Download">&#128190;</span>
 			<a href="${BASE_URL}${PHOTOS_PATH}${ORIGINALS_SUBDIR}${photo.original}">download original</a>
 		</p>
 	</div>
