@@ -68,8 +68,20 @@ header a {
   .top-space.photo-single {
     width: 70% !important;
   }
+  .photo-container,
   .photo-frame {
+    aspect-ratio: auto !important;
+    height: auto !important;
+    padding-top: 0 !important;
+  }
+  .photo-frame,
+  .photo-media {
+    position: static !important;
+  }
+  .photo-frame {
+    width: 100% !important;
     margin-left: 0 !important;
+    transform: none !important;
   }
   .photo-single .content {
     padding-left: 0 !important;
