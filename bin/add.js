@@ -16,7 +16,7 @@ const JPEG_QUALITY = 85;
 
 function showUsage() {
   console.log(`
-Usage: potato-add <image1> [image2] [image3] ... [--clean] [--dry-run]
+Usage: add <image1> [image2] [image3] ... [--clean] [--dry-run]
 
 Ingest one or more photos into the potato website.
 
@@ -32,11 +32,11 @@ Options:
   --dry-run   With --clean, show what would be removed without deleting.
 
 Examples:
-  potato-add ~/photos/garden.jpg
-  potato-add ~/photos/*.jpg
-  potato-add ~/photos/rose.jpg ~/photos/fern.jpg
-  potato-add --clean          # remove orphans from remote
-  potato-add --clean --dry-run
+  add ~/photos/garden.jpg
+  add ~/photos/*.jpg
+  add ~/photos/rose.jpg ~/photos/fern.jpg
+  add --clean          # remove orphans from remote
+  add --clean --dry-run
 `);
 }
 

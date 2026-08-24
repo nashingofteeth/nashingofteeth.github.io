@@ -3,12 +3,13 @@
   "version": "2.0.0",
   "description": "Custom static site generator for nash.video",
   "bin": {
-    "potato-add": "bin/potato-add.js"
+    "add": "bin/add.js"
   },
   "scripts": {
     "build": "node build.js",
     "start": "concurrently \"npm run watch\" \"http-server dist -c-1\"",
-    "watch": "node --watch-path=./src --watch-path=./templates --watch-path=./public --watch-path=./tools --watch-preserve-output build.js"
+    "watch": "node --watch-path=./src --watch-path=./templates --watch-path=./public --watch-path=./tools --watch-preserve-output build.js",
+    "ingest": "node bin/add.js"
   },
   "repository": {
     "type": "git",
