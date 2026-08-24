@@ -21,6 +21,12 @@ const POTATO_URL = "https://potato.cheap/";
 const PHOTOS_PATH = "photos/";
 const ORIGINALS_SUBDIR = "originals/";
 
+// Desktop thumbnail variant for the photos gallery grid. Gallery tiles are
+// ~200-300px, so a 400px cap (≈1-2x DPR) is plenty; mobile uses the full
+// 1200px viewing file. Thumbs live beside full files, named `${name}-thumb`.
+const THUMB_MAX_DIMENSION = 400;
+const THUMB_SUFFIX = "-thumb";
+
 // Photo offset: stored as -100…+100 (percent of max travel). Gallery maps to
 // ±MAX_GALLERY_SHIFT_PX px; single maps |offset|/OFFSET_RANGE → fraction of
 // blank; green tint lightness = BASE_LIGHTNESS + offset/OFFSET_RANGE * TINT_RANGE.
@@ -37,6 +43,8 @@ module.exports = {
   POTATO_URL,
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
+  THUMB_MAX_DIMENSION,
+  THUMB_SUFFIX,
   PHOTO_OFFSET_RANGE,
   MAX_GALLERY_SHIFT_PX,
   PHOTO_TINT_BASE_LIGHTNESS,
