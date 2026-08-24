@@ -12,6 +12,13 @@ header a {
   background-color: transparent;
   overflow: hidden;
 }
+@supports not (aspect-ratio: 1 / 1) {
+  .photo-container {
+    aspect-ratio: auto;
+    height: 0;
+    padding-top: 75%;
+  }
+}
 .photo-frame {
   position: absolute;
   top: 50%;
@@ -21,6 +28,10 @@ header a {
 .photo-media {
   position: absolute;
   inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
 }
 .photo-media picture,
@@ -39,6 +50,11 @@ header a {
   gap: 20px;
   align-items: center;
   font-size: 0.9em;
+}
+@supports not (gap: 10px) {
+  .photo-nav > * + * {
+    margin-left: 20px;
+  }
 }
 .photo-nav .disabled {
   opacity: 0.4;

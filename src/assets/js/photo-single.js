@@ -15,7 +15,7 @@
       return;
     }
 
-    const key = e.key.toLowerCase();
+    const key = (e.key || String.fromCharCode(e.keyCode || 0)).toLowerCase();
 
     if (key === "j") {
       const next = document.querySelector(".photo-nav-next[href]");
