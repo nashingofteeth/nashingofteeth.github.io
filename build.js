@@ -38,6 +38,228 @@ function removeDir(dirPath) {
   }
 }
 
+// --- Image metadata stripping (privacy) ---
+
+const STRIPPABLE_IMAGE_EXTS = new Set([
+  ".jpg",
+  ".jpeg",
+  ".png",
+  ".webp",
+]);
+
+function isStrippableImage(filePath) {
+  return STRIPPABLE_IMAGE_EXTS.has(path.extname(filePath).toLowerCase());
+}
+
+function stripJpegMetadata(buffer) {
+  if (buffer.length < 2 || buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+    return buffer;
+  }
+
+  // Markers that carry sensitive metadata and should be dropped.
+  // APP1 (0xe1): EXIF/XMP, APP12 (0xec): e.g. Ducky, APP13 (0xed): IPTC/Photoshop, COM (0xfe).
+  const stripMarkers = new Set([0xe1, 0xec, 0xed, 0xfe]);
+  const chunks = [];
+  chunks.push(buffer.subarray(0, 2)); // SOI
+
+  let pos = 2;
+  while (pos < buffer.length) {
+    if (buffer[pos] !== 0xff) {
+      // Not a marker — should not happen before SOS; copy rest and break.
+      chunks.push(buffer.subarray(pos));
+      break;
+    }
+
+    // Skip padding 0xff bytes
+    while (pos < buffer.length && buffer[pos] === 0xff) {
+      pos++;
+    }
+    if (pos >= buffer.length) {
+      break;
+    }
+
+    const marker = buffer[pos];
+    pos++;
+
+    // Standalone markers without length
+    if (marker === 0xd8 || marker === 0xd9) {
+      // SOI / EOI
+      chunks.push(Buffer.from([0xff, marker]));
+      if (marker === 0xd9) {
+        break;
+      }
+      continue;
+    }
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) {
+      // TEM and RSTn
+      chunks.push(Buffer.from([0xff, marker]));
+      continue;
+    }
+
+    if (pos + 1 >= buffer.length) {
+      break;
+    }
+    const len = buffer.readUInt16BE(pos);
+    if (len < 2 || pos + len > buffer.length) {
+      // Malformed segment — copy rest verbatim
+      chunks.push(Buffer.from([0xff, marker]));
+      chunks.push(buffer.subarray(pos));
+      break;
+    }
+
+    const segment = buffer.subarray(pos - 2, pos + len); // includes FF xx + len + payload
+    const payloadStart = pos + 2;
+
+    if (marker === 0xda) {
+      // SOS — header plus entropy-coded scan data until EOI; copy verbatim and stop parsing.
+      chunks.push(segment);
+      const scanData = buffer.subarray(payloadStart + (len - 2));
+      if (scanData.length > 0) {
+        chunks.push(scanData);
+      }
+      break;
+    }
+
+    if (!stripMarkers.has(marker)) {
+      chunks.push(segment);
+    }
+    // else: drop the segment (strip metadata)
+
+    pos += len;
+  }
+
+  return Buffer.concat(chunks);
+}
+
+function stripPngMetadata(buffer) {
+  const PNG_SIG = Buffer.from([
+    0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+  ]);
+  if (buffer.length < 8 || !buffer.subarray(0, 8).equals(PNG_SIG)) {
+    return buffer;
+  }
+
+  // Ancillary chunks that may contain sensitive or non-essential metadata.
+  const stripTypes = new Set(["tEXt", "zTXt", "iTXt", "eXIf", "tIME"]);
+  const out = [PNG_SIG];
+  let pos = 8;
+
+  while (pos + 8 <= buffer.length) {
+    const len = buffer.readUInt32BE(pos);
+    const type = buffer.toString("ascii", pos + 4, pos + 8);
+    const chunkEnd = pos + 12 + len; // len + type + data + crc
+    if (chunkEnd > buffer.length) {
+      break;
+    }
+    const chunk = buffer.subarray(pos, chunkEnd);
+    if (!stripTypes.has(type)) {
+      out.push(chunk);
+    }
+    pos = chunkEnd;
+    if (type === "IEND") {
+      break;
+    }
+  }
+
+  // If we stripped something, reassemble; otherwise return original to avoid needless copy.
+  if (out.length === 1) {
+    return buffer;
+  }
+  // Append any trailing bytes (should not exist in valid PNG)
+  if (pos < buffer.length) {
+    out.push(buffer.subarray(pos));
+  }
+  return Buffer.concat(out);
+}
+
+function stripWebpMetadata(buffer) {
+  if (
+    buffer.length < 12 ||
+    buffer.toString("ascii", 0, 4) !== "RIFF" ||
+    buffer.toString("ascii", 8, 12) !== "WEBP"
+  ) {
+    return buffer;
+  }
+
+  const stripFourCC = new Set(["EXIF", "XMP "]);
+  const chunks = [];
+  let pos = 12;
+  let keptSize = 0;
+
+  while (pos + 8 <= buffer.length) {
+    const fourCC = buffer.toString("ascii", pos, pos + 4);
+    const size = buffer.readUInt32LE(pos + 4);
+    const headerLen = 8;
+    const paddedSize = size + (size % 2);
+    const chunkEnd = pos + headerLen + paddedSize;
+    if (chunkEnd > buffer.length) {
+      break;
+    }
+    if (!stripFourCC.has(fourCC)) {
+      const chunk = buffer.subarray(pos, pos + headerLen + size + (size % 2 === 1 ? 1 : 0));
+      // Use exact chunk including padding byte if present, but track payload size for RIFF length
+      // For kept chunks, we need header + payload + padding
+      const stored = buffer.subarray(pos, chunkEnd);
+      chunks.push(stored);
+      keptSize += stored.length;
+    }
+    pos = chunkEnd;
+  }
+
+  if (chunks.length === 0 && pos === 12) {
+    return buffer;
+  }
+  // If nothing was stripped, return original
+  const originalKeptSize = buffer.length - 12;
+  if (keptSize === originalKeptSize) {
+    return buffer;
+  }
+
+  const riffSize = 4 + keptSize; // "WEBP" (4) + chunks
+  const header = Buffer.alloc(12);
+  header.write("RIFF", 0);
+  header.writeUInt32LE(riffSize, 4);
+  header.write("WEBP", 8);
+  return Buffer.concat([header, ...chunks]);
+}
+
+function stripImageMetadata(buffer, ext) {
+  switch (ext.toLowerCase()) {
+    case ".jpg":
+    case ".jpeg":
+      return stripJpegMetadata(buffer);
+    case ".png":
+      return stripPngMetadata(buffer);
+    case ".webp":
+      return stripWebpMetadata(buffer);
+    default:
+      return buffer;
+  }
+}
+
+function copyFileStripMetadata(srcPath, destPath) {
+  if (!isStrippableImage(srcPath)) {
+    fs.copyFileSync(srcPath, destPath);
+    return { stripped: false };
+  }
+
+  try {
+    const input = fs.readFileSync(srcPath);
+    const ext = path.extname(srcPath);
+    const stripped = stripImageMetadata(input, ext);
+    if (stripped.length !== input.length || !stripped.equals(input)) {
+      fs.writeFileSync(destPath, stripped);
+      return { stripped: true, saved: input.length - stripped.length };
+    }
+    fs.writeFileSync(destPath, stripped);
+    return { stripped: false };
+  } catch (_err) {
+    // Fallback to plain copy on any failure
+    fs.copyFileSync(srcPath, destPath);
+    return { stripped: false };
+  }
+}
+
 // Utility: Recursively copy directory
 function copyDir(src, dest) {
   if (!fs.existsSync(dest)) {
@@ -52,7 +274,12 @@ function copyDir(src, dest) {
     if (entry.isDirectory()) {
       copyDir(srcPath, destPath);
     } else {
-      fs.copyFileSync(srcPath, destPath);
+      const result = copyFileStripMetadata(srcPath, destPath);
+      if (result.stripped) {
+        ok(
+          `${path.relative(DIST_DIR, destPath)} (stripped ${result.saved} bytes metadata)`,
+        );
+      }
     }
   }
 }

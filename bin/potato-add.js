@@ -202,14 +202,14 @@ function processImage(filePath) {
   try {
     // Convert to viewing JPEG
     execSync(
-      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -quality ${JPEG_QUALITY} "${viewingJpg}"`,
+      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing JPEG created`);
 
     // Convert to viewing WebP
     execSync(
-      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> "${viewingWebp}"`,
+      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing WebP created`);
