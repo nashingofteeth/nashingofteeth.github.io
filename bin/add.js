@@ -31,8 +31,7 @@ Each image will be:
 Options:
   --clean     Remove remote files that have no matching markdown file in
               src/photos/ (both viewing jpg/webp and originals).
-  --backfill  Generate missing -thumb variants for existing photos.
-  --dry-run   With --clean/--backfill, show what would change without doing it.
+  --dry-run   With --clean, show what would be removed without deleting.
 
 Examples:
   add ~/photos/garden.jpg
@@ -281,81 +280,6 @@ ${camera ? `camera: ${camera}\n` : ""}---
   }
 }
 
-// --- Backfill thumbnails ---
-// Generate the `-thumb` variant for every local photo whose remote full file
-// exists but remote thumb is missing (e.g. photos added before thumbs existed).
-// Fetches the 1200px viewing JPEG from Backblaze, resizes to THUMB_MAX_DIMENSION
-// with -strip, and uploads jpg + webp. Idempotent: skips photos that already
-// have a remote thumb.
-function backfillThumbs({ dryRun = false } = {}) {
-  console.log(`\n🖼️  Backfilling thumbnails in ${BACKBLAZE_REMOTE}...`);
-
-  const remoteFiles = listRemoteFiles();
-  const remoteSet = new Set(remoteFiles);
-  const localNames = localPhotoNames();
-
-  let needed = 0;
-  let skipped = 0;
-  let failed = 0;
-
-  for (const name of localNames) {
-    const thumbJpg = `${name}${THUMB_SUFFIX}.jpg`;
-    const thumbWebp = `${name}${THUMB_SUFFIX}.webp`;
-
-    if (remoteSet.has(thumbJpg) || remoteSet.has(thumbWebp)) {
-      skipped++;
-      continue;
-    }
-
-    const fullJpg = `${name}.jpg`;
-    if (!remoteSet.has(fullJpg)) {
-      console.error(`  ⚠️  Skipping ${name} (no remote ${fullJpg} to source from)`);
-      failed++;
-      continue;
-    }
-
-    needed++;
-    console.log(`  🔧 ${name}: generating ${THUMB_SUFFIX} (${THUMB_MAX_DIMENSION}px)`);
-
-    if (dryRun) {
-      continue;
-    }
-
-    const tmpDir = path.join("/tmp", `photo-thumb-${name}`);
-    fs.mkdirSync(tmpDir, { recursive: true });
-    const srcJpg = path.join(tmpDir, fullJpg);
-    const outJpg = path.join(tmpDir, thumbJpg);
-    const outWebp = path.join(tmpDir, thumbWebp);
-
-    try {
-      execSync(`rclone copyto ${BACKBLAZE_REMOTE}/${fullJpg} "${srcJpg}"`, {
-        stdio: "pipe",
-      });
-      execSync(
-        `magick "${srcJpg}" -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${outJpg}"`,
-        { stdio: "pipe" },
-      );
-      execSync(
-        `magick "${srcJpg}" -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${outWebp}"`,
-        { stdio: "pipe" },
-      );
-      execSync(`rclone copy "${outJpg}" ${BACKBLAZE_REMOTE}/`, { stdio: "pipe" });
-      execSync(`rclone copy "${outWebp}" ${BACKBLAZE_REMOTE}/`, { stdio: "pipe" });
-      console.log(`  ✓ Uploaded ${thumbJpg} + ${thumbWebp}`);
-    } catch (err) {
-      console.error(`  ❌ Failed for ${name}: ${err.message}`);
-      failed++;
-    } finally {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
-    }
-  }
-
-  console.log(
-    `  Backfill complete: ${needed} generated, ${skipped} already present` +
-      (failed ? `, ${failed} failed` : ""),
-  );
-}
-
 // --- Clean up orphans ---
 
 // List all files on the remote (relative paths, e.g. "X.jpg", "originals/Y.jpg")
@@ -499,13 +423,6 @@ if (args.includes("--help") || args.includes("-h")) {
 if (args.includes("--clean")) {
   const dryRun = args.includes("--dry-run");
   cleanRemote({ dryRun });
-  process.exit(0);
-}
-
-// Backfill-only mode: generate missing thumbnails for existing photos
-if (args.includes("--backfill")) {
-  const dryRun = args.includes("--dry-run");
-  backfillThumbs({ dryRun });
   process.exit(0);
 }
 
