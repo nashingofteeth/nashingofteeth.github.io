@@ -79,6 +79,32 @@ function getImageDimensions(filePath) {
   }
 }
 
+// Read dimensions AFTER applying EXIF orientation. Phones store raw sensor
+// w/h plus an Orientation tag; a portrait shot reads e.g. 3264x2448 with
+// Orientation 6 but displays as 2448x3264. We report the displayed size so
+// the gallery/single-page layout matches the (auto-oriented) baked pixels.
+function getOrientedDimensions(filePath) {
+  try {
+    const output = execSync(
+      `magick identify -format "%w %h %[EXIF:Orientation]" "${filePath}"`,
+      { encoding: "utf8" },
+    ).trim();
+    const parts = output.split(/\s+/);
+    let w = parseInt(parts[0], 10);
+    let h = parseInt(parts[1], 10);
+    const orient = parseInt(parts[2], 10);
+    if ([5, 6, 7, 8].includes(orient) && w > 0 && h > 0) {
+      [w, h] = [h, w]; // swap for 90°/270° rotations
+    }
+    if (w > 0 && h > 0) {
+      return { width: w, height: h, orientation: orient || 0 };
+    }
+    return { width: 0, height: 0, orientation: 0 };
+  } catch (err) {
+    return { width: 0, height: 0, orientation: 0 };
+  }
+}
+
 function getDateFromMediainfo(filePath) {
   try {
     const output = execSync(
@@ -168,10 +194,13 @@ function processImage(filePath) {
 
   // Get metadata
   const info = getMediainfo(filePath);
-  const dims =
-    info.width > 0 && info.height > 0
-      ? info
-      : getImageDimensions(filePath);
+  // Use oriented dimensions (EXIF rotation applied) for layout/width/height.
+  const dims = getOrientedDimensions(filePath);
+  if (dims.width === 0 || dims.height === 0) {
+    const fb = getImageDimensions(filePath);
+    dims.width = fb.width;
+    dims.height = fb.height;
+  }
 
   if (dims.width === 0 || dims.height === 0) {
     console.error(`  ❌ Could not read dimensions for ${filePath}`);
@@ -204,27 +233,28 @@ function processImage(filePath) {
   const thumbWebp = path.join(tmpDir, `${filename}${THUMB_SUFFIX}.webp`);
 
   try {
-    // Convert to viewing JPEG
+    // Convert to viewing JPEG (-auto-orient first so pixels are upright,
+    // then resize, then strip the now-redundant EXIF orientation tag)
     execSync(
-      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
+      `magick "${filePath}" -auto-orient -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing JPEG created`);
 
     // Convert to viewing WebP
     execSync(
-      `magick "${filePath}" -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
+      `magick "${filePath}" -auto-orient -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing WebP created`);
 
     // Convert to desktop thumbnail variant
     execSync(
-      `magick "${filePath}" -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${thumbJpg}"`,
+      `magick "${filePath}" -auto-orient -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${thumbJpg}"`,
       { stdio: "pipe" },
     );
     execSync(
-      `magick "${filePath}" -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${thumbWebp}"`,
+      `magick "${filePath}" -auto-orient -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${thumbWebp}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px) created`);
@@ -281,7 +311,6 @@ ${camera ? `camera: ${camera}\n` : ""}---
 }
 
 // --- Clean up orphans ---
-
 // List all files on the remote (relative paths, e.g. "X.jpg", "originals/Y.jpg")
 function listRemoteFiles() {
   try {
