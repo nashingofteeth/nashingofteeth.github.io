@@ -6,15 +6,19 @@ const { execSync } = require("child_process");
 
 const {
   ORIGINALS_SUBDIR,
+  FULL_MAX_DIMENSION,
+  FULL_SUFFIX,
   THUMB_MAX_DIMENSION,
   THUMB_SUFFIX,
+  FULL_JPEG_QUALITY,
+  THUMB_JPEG_QUALITY,
+  FULL_WEBP_QUALITY,
+  THUMB_WEBP_QUALITY,
   PHOTO_OFFSET_RANGE,
 } = require("../templates/partials/constants.js");
 
 const PHOTOS_DIR = path.join(__dirname, "..", "src", "photos");
 const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
-const MAX_DIMENSION = 1200;
-const JPEG_QUALITY = 85;
 
 function showUsage() {
   console.log(`
@@ -24,14 +28,15 @@ Ingest one or more photos into the potato website.
 
 Each image will be:
   1. Metadata extracted via mediainfo
-  2. Converted to viewing JPEG and WebP
-  3. Uploaded to Backblaze
-  4. Markdown file generated in src/photos/
+  2. Converted to full (${FULL_MAX_DIMENSION}px, suffix "${FULL_SUFFIX}") JPEG and WebP
+  3. Converted to thumbnail (${THUMB_MAX_DIMENSION}px, suffix "${THUMB_SUFFIX}") JPEG and WebP
+  4. Uploaded to Backblaze
+  5. Markdown file generated in src/photos/
 
 Options:
-  --clean     Remove remote files that have no matching markdown file in
-              src/photos/ (both viewing jpg/webp and originals).
-  --dry-run   With --clean, show what would be removed without deleting.
+  --clean          Remove remote files that have no matching markdown file in
+                   src/photos/ (full/thumb jpg/webp and originals).
+  --dry-run        With --clean, show what would be removed without deleting.
 
 Examples:
   add ~/photos/garden.jpg
@@ -294,46 +299,44 @@ function processImage(filePath) {
   const tmpDir = path.join("/tmp", `photo-ingest-${filename}`);
   fs.mkdirSync(tmpDir, { recursive: true });
 
-  const viewingJpg = path.join(tmpDir, `${filename}.jpg`);
-  const viewingWebp = path.join(tmpDir, `${filename}.webp`);
+  const fullJpg = path.join(tmpDir, `${filename}${FULL_SUFFIX}.jpg`);
+  const fullWebp = path.join(tmpDir, `${filename}${FULL_SUFFIX}.webp`);
   const thumbJpg = path.join(tmpDir, `${filename}${THUMB_SUFFIX}.jpg`);
   const thumbWebp = path.join(tmpDir, `${filename}${THUMB_SUFFIX}.webp`);
 
   try {
-    // Convert to viewing JPEG (-auto-orient first so pixels are upright,
+    // Convert to full JPEG (-auto-orient first so pixels are upright,
     // then resize, then strip the now-redundant EXIF orientation tag).
-    // For HEIF, -auto-orient alone ignores the container irot, so we
-    // compute explicit args that include -rotate when needed.
     const autoOrientArgs = getMagickAutoOrientArgs(filePath);
     execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${FULL_MAX_DIMENSION}x${FULL_MAX_DIMENSION}\\> -strip -quality ${FULL_JPEG_QUALITY} "${fullJpg}"`,
       { stdio: "pipe" },
     );
-    console.log(`  ✓ Viewing JPEG created`);
+    console.log(`  ✓ Full JPEG (${FULL_MAX_DIMENSION}px, q${FULL_JPEG_QUALITY}) created`);
 
-    // Convert to viewing WebP
+    // Convert to full WebP (magick delegate uses libwebp internally; corresponds to cwebp -q)
     execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${FULL_MAX_DIMENSION}x${FULL_MAX_DIMENSION}\\> -strip -quality ${FULL_WEBP_QUALITY} "${fullWebp}"`,
       { stdio: "pipe" },
     );
-    console.log(`  ✓ Viewing WebP created`);
+    console.log(`  ✓ Full WebP (${FULL_MAX_DIMENSION}px, q${FULL_WEBP_QUALITY}) created`);
 
     // Convert to desktop thumbnail variant
     execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${thumbJpg}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${THUMB_JPEG_QUALITY} "${thumbJpg}"`,
       { stdio: "pipe" },
     );
     execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${thumbWebp}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${THUMB_WEBP_QUALITY} "${thumbWebp}"`,
       { stdio: "pipe" },
     );
-    console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px) created`);
+    console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px, jpg q${THUMB_JPEG_QUALITY} / webp q${THUMB_WEBP_QUALITY}) created`);
 
-    // Upload viewing files
-    execSync(`rclone copy "${viewingJpg}" ${BACKBLAZE_REMOTE}/`, {
+    // Upload full + thumb files
+    execSync(`rclone copy "${fullJpg}" ${BACKBLAZE_REMOTE}/`, {
       stdio: "pipe",
     });
-    execSync(`rclone copy "${viewingWebp}" ${BACKBLAZE_REMOTE}/`, {
+    execSync(`rclone copy "${fullWebp}" ${BACKBLAZE_REMOTE}/`, {
       stdio: "pipe",
     });
     execSync(`rclone copy "${thumbJpg}" ${BACKBLAZE_REMOTE}/`, {
@@ -342,7 +345,7 @@ function processImage(filePath) {
     execSync(`rclone copy "${thumbWebp}" ${BACKBLAZE_REMOTE}/`, {
       stdio: "pipe",
     });
-    console.log(`  ✓ Uploaded viewing + thumbnail files to Backblaze`);
+    console.log(`  ✓ Uploaded full + thumbnail files to Backblaze`);
 
     // Upload original — lossless strip of all sensitive metadata.
     // Uses a whitelist: wipe everything then restore only camera/lens/exposure
@@ -472,10 +475,17 @@ function cleanRemote({ dryRun = false } = {}) {
       // Inside originals/ — match against the frontmatter "original" field
       belongsToLocal = localOriginalsSet.has(rel);
     } else {
-      // Root viewing file — match against markdown basenames. Thumbnails use a
-      // "-thumb" suffix; strip it before matching so they're treated as part
-      // of the same photo (never flagged as orphans on their own).
-      const match = base.match(/^(.*?)(?:-thumb)?\.(jpg|webp)$/);
+      // Root viewing file — match against markdown basenames. Thumb uses
+      // "-thumb" suffix; bare file is the full variant. Strip suffix before
+      // matching so thumb is never flagged as orphan alone.
+      const suffixes = [THUMB_SUFFIX, FULL_SUFFIX]
+        .filter(Boolean)
+        .map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("|");
+      const variantRx = suffixes
+        ? new RegExp(`^(.*?)(?:${suffixes})?\\.(jpg|webp)$`)
+        : /^(.*?)\.(jpg|webp)$/;
+      const match = base.match(variantRx);
       belongsToLocal = match
         ? localNames.has(match[1])
         : true; // unknown root file, keep it
@@ -486,11 +496,10 @@ function cleanRemote({ dryRun = false } = {}) {
     }
   }
 
-  // When a full viewing file is orphaned (markdown deleted), its `-thumb`
-  // variant must go too. The include glob below already expands
-  // "NAME.jpg" -> "NAME*" which matches both NAME.jpg and NAME-thumb.jpg, so
-  // no extra handling is needed here — just make sure we never list a thumb as
-  // its own orphan (handled by the suffix-stripping match above).
+  // When a photo is orphaned (markdown deleted), its thumb variant must go
+  // too. The include glob below expands "NAME.jpg" -> "NAME*" which matches
+  // bare and -thumb, so no extra handling needed — just ensure thumb is never
+  // listed as its own orphan (handled by suffix-stripping above).
 
   // Dedupe
   const uniqueOrphans = [...new Set(orphans)];
