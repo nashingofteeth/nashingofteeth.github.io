@@ -34,6 +34,10 @@ function photoArticle(photo, showBookmark = true) {
   const h = Number(photo.height) || 0;
   const ratio = w > 0 && h > 0 ? `${w} / ${h}` : "1 / 1";
   const orientation = w > h ? "landscape" : h > w ? "portrait" : "square";
+  const plantList = photo.plant ? [].concat(photo.plant).filter(Boolean) : [];
+  const altText = plantList.length
+    ? plantList.join(", ").replace(/"/g, "&quot;")
+    : String(photo.title).replace(/"/g, "&quot;");
 
   if (showBookmark) {
     // Gallery mode — resolve everything at build time: the <picture> gets an
@@ -64,7 +68,7 @@ function photoArticle(photo, showBookmark = true) {
         <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
         <img
           src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
-          alt="${photo.title}"
+          alt="${altText}"
           loading="lazy"
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
@@ -116,7 +120,7 @@ function photoArticle(photo, showBookmark = true) {
         <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
         <img
           src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
-          alt="${photo.title}"
+          alt="${altText}"
           loading="eager"
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
@@ -135,10 +139,9 @@ function photoArticle(photo, showBookmark = true) {
 		${photo.content}
 
 		<p class="specs">
-			<strong>RESOLUTION: </strong>${photo.width}&nbsp;x&nbsp;${photo.height}px
+			${plantList.length ? `<strong>PLANT: </strong>${plantList.map((p) => `<a href="/plants/?q=${encodeURIComponent(p)}">${p}</a>`).join(", ")}<br>` : ""}<strong>DATE: </strong><time datetime="${htmlDateString(photo.date)}">${formatDate(photo.date)}</time>
 			${photo.camera ? `<br><strong>CAMERA: </strong>${photo.camera}` : ""}
-			<br><strong>DATE: </strong><time datetime="${htmlDateString(photo.date)}">${formatDate(photo.date)}</time>
-			${photo.plant ? `<br><strong>PLANT: </strong><a href="/plants/?q=${encodeURIComponent(photo.plant)}">${photo.plant}</a>` : ""}
+			<br><strong>RESOLUTION: </strong>${photo.width}&nbsp;x&nbsp;${photo.height}px
 		</p>
 
 		<p class="download">

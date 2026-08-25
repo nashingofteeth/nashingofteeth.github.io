@@ -366,19 +366,34 @@ function readVideos() {
 function readPhotos() {
   return readCollection(
     PHOTOS_DIR,
-    ({ slug, filename, data, html }) => ({
-      slug,
-      filename,
-      title: data.title,
-      date: data.date,
-      width: data.width,
-      height: data.height,
-      camera: data.camera,
-      offset: data.offset || 0,
-      original: data.original,
-      plant: data.plant,
-      content: html,
-    }),
+    ({ slug, filename, data, html }) => {
+      let plant;
+      const rawPlant = data.plant;
+      if (Array.isArray(rawPlant)) {
+        const filtered = rawPlant.map((p) => String(p).trim()).filter(Boolean);
+        plant = filtered.length ? filtered : undefined;
+      } else if (typeof rawPlant === "string") {
+        const trimmed = rawPlant.trim();
+        plant = trimmed || undefined;
+      } else if (rawPlant != null) {
+        const trimmed = String(rawPlant).trim();
+        plant = trimmed || undefined;
+      }
+
+      return {
+        slug,
+        filename,
+        title: data.title,
+        date: data.date,
+        width: data.width,
+        height: data.height,
+        camera: data.camera,
+        offset: data.offset || 0,
+        original: data.original,
+        plant,
+        content: html,
+      };
+    },
     true, // photos dir is optional
   );
 }

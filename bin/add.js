@@ -21,7 +21,7 @@ const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
 
 function showUsage() {
   console.log(`
-Usage: add <image1> [image2] [image3] ... [--clean] [--dry-run]
+Usage: add <image1> [image2] [image3] ... [--clean] [--dry-run] [--plant "Taxon"]
 
 Ingest one or more photos into the potato website.
 
@@ -36,11 +36,17 @@ Options:
   --clean          Remove remote files that have no matching markdown file in
                    src/photos/ (full/thumb jpg/webp and originals).
   --dry-run        With --clean, show what would be removed without deleting.
+  --plant "Taxon"  Plant taxon for the photo (repeatable or comma-separated).
+                   Stored as front matter \`plant:\` and linked to /plants/?q=.
+                   Also used as alt text.
 
 Examples:
   add ~/photos/garden.jpg
   add ~/photos/*.jpg
   add ~/photos/rose.jpg ~/photos/fern.jpg
+  add ~/photos/rose.jpg --plant "Quercus rubra"
+  add ~/photos/rose.jpg --plant "Quercus rubra" --plant "Acer saccharum"
+  add ~/photos/rose.jpg --plant "Quercus rubra, Acer saccharum"
   add --clean          # remove orphans from remote
   add --clean --dry-run
 `);
@@ -246,7 +252,7 @@ function existingOriginals() {
   return seen;
 }
 
-function processImage(filePath) {
+function processImage(filePath, opts = {}) {
   const ext = path.extname(filePath).toLowerCase();
   const supportedExts = [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".webp", ".heif", ".heic"];
 
@@ -377,6 +383,17 @@ function processImage(filePath) {
     // Generate markdown
     const originalRel = originalFilename;
     const camera = info.camera || "";
+    const plantList = Array.isArray(opts.plant)
+      ? opts.plant.map((p) => String(p).trim()).filter(Boolean)
+      : opts.plant
+        ? [String(opts.plant).trim()].filter(Boolean)
+        : [];
+    let plantFrontmatter = "";
+    if (plantList.length === 1) {
+      plantFrontmatter = `plant: ${JSON.stringify(plantList[0])}\n`;
+    } else if (plantList.length > 1) {
+      plantFrontmatter = `plant: [${plantList.map((p) => JSON.stringify(p)).join(", ")}]\n`;
+    }
     const mdContent = `---
 title: ${filename}
 date: ${parts.iso}
@@ -384,7 +401,7 @@ width: ${dims.width}
 height: ${dims.height}
 offset: ${offset}
 original: ${originalRel}
-${camera ? `camera: ${camera}\n` : ""}---
+${camera ? `camera: ${camera}\n` : ""}${plantFrontmatter}---
 
 `;
 
@@ -535,23 +552,63 @@ function cleanRemote({ dryRun = false } = {}) {
 
 // --- Main ---
 
-const args = process.argv.slice(2);
+const rawArgs = process.argv.slice(2);
 
-if (args.includes("--help") || args.includes("-h")) {
+if (rawArgs.includes("--help") || rawArgs.includes("-h")) {
   showUsage();
   process.exit(0);
 }
 
 // Clean-only mode: don't require any image paths
-if (args.includes("--clean")) {
-  const dryRun = args.includes("--dry-run");
+if (rawArgs.includes("--clean")) {
+  const dryRun = rawArgs.includes("--dry-run");
   cleanRemote({ dryRun });
   process.exit(0);
+}
+
+// Parse --plant flags (repeatable, comma-separated) and collect image paths
+const plantList = [];
+const args = [];
+for (let i = 0; i < rawArgs.length; i++) {
+  const arg = rawArgs[i];
+  if (arg === "--plant") {
+    const val = rawArgs[++i];
+    if (!val || val.startsWith("--")) {
+      console.error(`  ❌ --plant requires a value`);
+      process.exit(1);
+    }
+    for (const part of val.split(",")) {
+      const trimmed = part.trim();
+      if (trimmed) {
+        plantList.push(trimmed);
+      }
+    }
+  } else if (arg.startsWith("--plant=")) {
+    const val = arg.slice("--plant=".length);
+    for (const part of val.split(",")) {
+      const trimmed = part.trim();
+      if (trimmed) {
+        plantList.push(trimmed);
+      }
+    }
+  } else if (arg === "--dry-run") {
+    // handled with --clean only; ignore otherwise
+    continue;
+  } else if (arg.startsWith("--")) {
+    console.error(`  ❌ Unknown option: ${arg}`);
+    process.exit(1);
+  } else {
+    args.push(arg);
+  }
 }
 
 if (args.length === 0) {
   showUsage();
   process.exit(1);
+}
+
+if (plantList.length) {
+  console.log(`  🌱 Plant: ${plantList.join(", ")}`);
 }
 
 console.log(`\n🗂️  Ingesting ${args.length} photo(s)...\n`);
@@ -567,7 +624,7 @@ for (const arg of args) {
     failCount++;
     continue;
   }
-  const result = processImage(resolved);
+  const result = processImage(resolved, { plant: plantList });
   if (result === "skipped") {
     skipCount++;
   } else if (result) {
