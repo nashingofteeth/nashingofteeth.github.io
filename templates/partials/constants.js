@@ -25,7 +25,6 @@ const ORIGINALS_SUBDIR = "originals/";
 // (single page + mobile gallery fallback). Capped at 1200px long edge; lives
 // as bare `${name}.jpg/.webp` beside thumb `${name}-thumb`.
 const FULL_MAX_DIMENSION = 1200;
-const FULL_SUFFIX = "";
 
 // Desktop thumbnail variant for the photos gallery grid. Gallery tiles are
 // ~200-300px, so a 400px cap (≈1-2x DPR) is plenty; mobile falls back to
@@ -61,7 +60,6 @@ module.exports = {
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
   FULL_MAX_DIMENSION,
-  FULL_SUFFIX,
   THUMB_MAX_DIMENSION,
   THUMB_SUFFIX,
   FULL_JPEG_QUALITY,

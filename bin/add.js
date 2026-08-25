@@ -7,7 +7,6 @@ const { execSync } = require("child_process");
 const {
   ORIGINALS_SUBDIR,
   FULL_MAX_DIMENSION,
-  FULL_SUFFIX,
   THUMB_MAX_DIMENSION,
   THUMB_SUFFIX,
   FULL_JPEG_QUALITY,
@@ -28,7 +27,7 @@ Ingest one or more photos into the potato website.
 
 Each image will be:
   1. Metadata extracted via mediainfo
-  2. Converted to full (${FULL_MAX_DIMENSION}px, suffix "${FULL_SUFFIX}") JPEG and WebP
+  2. Converted to full (${FULL_MAX_DIMENSION}px) JPEG and WebP
   3. Converted to thumbnail (${THUMB_MAX_DIMENSION}px, suffix "${THUMB_SUFFIX}") JPEG and WebP
   4. Uploaded to Backblaze
   5. Markdown file generated in src/photos/
@@ -299,8 +298,8 @@ function processImage(filePath) {
   const tmpDir = path.join("/tmp", `photo-ingest-${filename}`);
   fs.mkdirSync(tmpDir, { recursive: true });
 
-  const fullJpg = path.join(tmpDir, `${filename}${FULL_SUFFIX}.jpg`);
-  const fullWebp = path.join(tmpDir, `${filename}${FULL_SUFFIX}.webp`);
+  const fullJpg = path.join(tmpDir, `${filename}.jpg`);
+  const fullWebp = path.join(tmpDir, `${filename}.webp`);
   const thumbJpg = path.join(tmpDir, `${filename}${THUMB_SUFFIX}.jpg`);
   const thumbWebp = path.join(tmpDir, `${filename}${THUMB_SUFFIX}.webp`);
 
@@ -478,13 +477,8 @@ function cleanRemote({ dryRun = false } = {}) {
       // Root viewing file — match against markdown basenames. Thumb uses
       // "-thumb" suffix; bare file is the full variant. Strip suffix before
       // matching so thumb is never flagged as orphan alone.
-      const suffixes = [THUMB_SUFFIX, FULL_SUFFIX]
-        .filter(Boolean)
-        .map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-        .join("|");
-      const variantRx = suffixes
-        ? new RegExp(`^(.*?)(?:${suffixes})?\\.(jpg|webp)$`)
-        : /^(.*?)\.(jpg|webp)$/;
+      const thumbEsc = THUMB_SUFFIX.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const variantRx = new RegExp(`^(.*?)(?:${thumbEsc})?\\.(jpg|webp)$`);
       const match = base.match(variantRx);
       belongsToLocal = match
         ? localNames.has(match[1])

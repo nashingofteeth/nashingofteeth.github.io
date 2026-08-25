@@ -2,7 +2,6 @@ const {
   BASE_URL,
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
-  FULL_SUFFIX,
   THUMB_SUFFIX,
   PHOTO_OFFSET_RANGE,
   MAX_GALLERY_SHIFT_PX,
@@ -62,9 +61,9 @@ function photoArticle(photo, showBookmark = true) {
     const imgHtml = `<picture style="aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight};">
         <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.webp" type="image/webp" />
         <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.jpg" type="image/jpeg" />
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.webp" type="image/webp" />
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.jpg"
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
           alt="${photo.title}"
           loading="lazy"
           width="${photo.width}" height="${photo.height}" />
@@ -114,9 +113,9 @@ function photoArticle(photo, showBookmark = true) {
   }
 
   const imgHtmlSingle = `<picture>
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.webp" type="image/webp" />
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.jpg"
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
           alt="${photo.title}"
           loading="eager"
           width="${photo.width}" height="${photo.height}" />
