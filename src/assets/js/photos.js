@@ -1,8 +1,7 @@
 // ---------------------------------------------------------------------------
 // getSearchableText — builds searchable string from any photo spec. Used at
 // build time (Node.js) and at runtime by the search feature.
-// Specs covered: plant, date (raw + formatted variants), camera, resolution,
-// title/slug/filename.
+// Specs covered: plant, date (raw + formatted variants), camera.
 // ---------------------------------------------------------------------------
 function parseDate(dateInput) {
   if (dateInput instanceof Date) {
@@ -60,21 +59,6 @@ function getSearchableText(photo) {
   }
   if (photo.camera) {
     parts.push(String(photo.camera));
-  }
-  if (photo.width && photo.height) {
-    parts.push(`${photo.width} x ${photo.height}`);
-    parts.push(`${photo.width}x${photo.height}`);
-    parts.push(String(photo.width));
-    parts.push(String(photo.height));
-  }
-  if (photo.title) {
-    parts.push(String(photo.title));
-  }
-  if (photo.slug) {
-    parts.push(String(photo.slug));
-  }
-  if (photo.filename) {
-    parts.push(String(photo.filename));
   }
   return parts.filter(Boolean).join(" | ");
 }

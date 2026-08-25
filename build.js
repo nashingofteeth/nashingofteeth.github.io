@@ -495,11 +495,7 @@ async function build() {
       totalPhotos: photos.length,
       photos: photos.map((p) => ({
         slug: p.slug,
-        filename: p.filename,
-        title: p.title,
         date: p.date,
-        width: p.width,
-        height: p.height,
         camera: p.camera,
         plant: p.plant,
       })),
