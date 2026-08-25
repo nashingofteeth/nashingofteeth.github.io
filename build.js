@@ -14,7 +14,7 @@ const photoSingleTemplate = require("./templates/photo-single.js");
 const plantsTemplate = require("./templates/plants.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
-const { sortNewestFirst, htmlDateString } = require("./templates/utils.js");
+const { sortNewestFirst, htmlDateString, getPhotoSearchFields } = require("./templates/utils.js");
 
 // Configuration
 const SRC_DIR = "src";
@@ -586,14 +586,14 @@ async function build() {
 
   // Photo data JSON for client-side search (matches any spec)
   try {
+    // Sort newest-first to match the grid's DOM order, so query-scoped prev/next
+    // on single pages follows the same ordering the user saw in the grid.
     const photoData = {
       generated: new Date().toISOString(),
       totalPhotos: photos.length,
-      photos: photos.map((p) => ({
+      photos: sortNewestFirst(photos).map((p) => ({
         slug: p.slug,
-        date: p.date,
-        camera: p.camera,
-        plant: p.plant,
+        ...getPhotoSearchFields(p),
       })),
     };
     const photoDataPath = path.join(DIST_DIR, "photos", "photo-data.json");

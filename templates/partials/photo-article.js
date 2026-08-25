@@ -8,7 +8,7 @@ const {
   PHOTO_TINT_BASE_LIGHTNESS,
   PHOTO_TINT_RANGE,
 } = require("./constants.js");
-const { formatDate, htmlDateString } = require("../utils.js");
+const { formatDate, htmlDateString, getPhotoSearchFields } = require("../utils.js");
 
 /**
  * Generate photo article HTML for gallery or single page
@@ -73,7 +73,9 @@ function photoArticle(photo, showBookmark = true) {
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
 
-    return `<article class="photo-item is-${orientation}" data-slug="${photo.slug}">
+    const searchFields = getPhotoSearchFields(photo);
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+    return `<article class="photo-item is-${orientation}" data-slug="${photo.slug}" data-search="${esc(searchFields.search)}" data-y="${searchFields.y}" data-m="${searchFields.m}" data-d="${searchFields.d}">
 	<a href="/photos/${photo.slug}/">
 		${imgHtml}
 	</a>

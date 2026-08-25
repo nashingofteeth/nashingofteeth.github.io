@@ -7,7 +7,8 @@ const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function photoSingle(photo, prevPhoto = null, nextPhoto = null) {
   const combinedCss = loadCss("base.css", "page.css", "photo-common.css", "photo-single.css");
-  const combinedJs = loadJs("photo-single.js");
+  // photos.js provides the shared filterByQuery (top-level) for query-scoped nav
+  const combinedJs = loadJs("photos.js", "photo-single.js");
 
   const navHtml = `<nav class="photo-nav" aria-label="Photo navigation">
 		${
