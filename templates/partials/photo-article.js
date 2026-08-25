@@ -2,6 +2,7 @@ const {
   BASE_URL,
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
+  FULL_SUFFIX,
   THUMB_SUFFIX,
   PHOTO_OFFSET_RANGE,
   MAX_GALLERY_SHIFT_PX,
@@ -56,14 +57,14 @@ function photoArticle(photo, showBookmark = true) {
     const pictureWidth = orientation === "portrait" ? "auto" : "100%";
     const pictureHeight = orientation === "portrait" ? "100%" : "auto";
     // Desktop (≥577px) loads the small thumbnail variant; mobile keeps the
-    // full-size viewing file (full screen width). Sources are ordered
+    // full-size display file (full screen width). Sources are ordered
     // desktop-specific first, then generic full sources as fallback.
     const imgHtml = `<picture style="aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight};">
         <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.webp" type="image/webp" />
         <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.jpg" type="image/jpeg" />
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.webp" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.jpg"
           alt="${photo.title}"
           loading="lazy"
           width="${photo.width}" height="${photo.height}" />
@@ -113,9 +114,9 @@ function photoArticle(photo, showBookmark = true) {
   }
 
   const imgHtmlSingle = `<picture>
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.webp" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}${FULL_SUFFIX}.jpg"
           alt="${photo.title}"
           loading="eager"
           width="${photo.width}" height="${photo.height}" />
