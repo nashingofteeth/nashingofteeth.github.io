@@ -369,6 +369,21 @@ function filterByQuery(items, query) {
   }
 
   document.addEventListener("keydown", digitKeyNav);
+
+  // Esc clears the search (and its URL) even when the input isn't focused.
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) {
+      return;
+    }
+    if (!searchInput.value.trim()) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.value = "";
+    updateUrl("");
+    performSearch("");
+    searchInput.blur();
+  });
 }());
 
 // ---------------------------------------------------------------------------
