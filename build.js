@@ -546,25 +546,41 @@ async function build() {
 
     // Annotate taxa that have at least one photo (matched by name or alias)
     // so the plants tree can link each to a /photos/?q= search of that taxon.
+    // When exactly one photo matches a node, link straight to that photo's page
+    // instead of the (single-result) search query.
     const photoTaxa = new Set();
+    const photoSlugsByTaxon = new Map();
     for (const p of photos) {
       if (p.plant) {
         for (const taxon of [].concat(p.plant)) {
           const key = String(taxon).trim().toLowerCase();
-          if (key) photoTaxa.add(key);
+          if (!key) continue;
+          photoTaxa.add(key);
+          if (!photoSlugsByTaxon.has(key)) {
+            photoSlugsByTaxon.set(key, new Set());
+          }
+          photoSlugsByTaxon.get(key).add(p.slug);
         }
       }
     }
     const annotateTaxa = (nodes) => {
       for (const node of nodes || []) {
-        if (node.name && photoTaxa.has(String(node.name).trim().toLowerCase())) {
-          node.hasPhoto = true;
-        }
+        const nodeSlugs = new Set();
+        const collectKey = (key) => {
+          if (!key) return;
+          const normalized = String(key).trim().toLowerCase();
+          if (photoTaxa.has(normalized)) {
+            photoSlugsByTaxon.get(normalized).forEach((s) => nodeSlugs.add(s));
+          }
+        };
+        collectKey(node.name);
         if (node.file && Array.isArray(node.file.aliases)) {
-          for (const alias of node.file.aliases) {
-            if (alias && photoTaxa.has(String(alias).trim().toLowerCase())) {
-              node.hasPhoto = true;
-            }
+          for (const alias of node.file.aliases) collectKey(alias);
+        }
+        if (nodeSlugs.size > 0) {
+          node.hasPhoto = true;
+          if (nodeSlugs.size === 1) {
+            node.photoSlug = [...nodeSlugs][0];
           }
         }
         if (node.children) annotateTaxa(node.children);

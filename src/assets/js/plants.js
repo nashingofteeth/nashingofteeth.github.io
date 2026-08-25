@@ -20,7 +20,7 @@ function generatePlantList(taxonomy, level = 0) {
     // Build node label
     let content = "";
     const photoLink = node.hasPhoto
-      ? ` <span class="plant-photo-link" data-href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
       : "";
     if (node.file) {
       const aliases = node.file.aliases;
@@ -53,6 +53,13 @@ function generatePlantList(taxonomy, level = 0) {
   }
 
   return html;
+}
+
+// photoHref — link directly to the single matching photo page when exactly one
+// photo exists for a taxon; otherwise fall back to the query-scoped search.
+function photoHref(node) {
+  if (node.photoSlug) return `/photos/${node.photoSlug}/`;
+  return `/photos/?q=${encodeURIComponent(node.name)}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -217,7 +224,7 @@ function upgradeSearchLinks(container) {
       content = `<span class="muted">${displayName}</span>`;
     }
     const photoLink = node.hasPhoto
-      ? ` <span class="plant-photo-link" data-href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
       : "";
     content += photoLink;
 
