@@ -392,7 +392,7 @@ function processImage(filePath, opts = {}) {
     if (plantList.length === 1) {
       plantFrontmatter = `plant: ${JSON.stringify(plantList[0])}\n`;
     } else if (plantList.length > 1) {
-      plantFrontmatter = `plant: [${plantList.map((p) => JSON.stringify(p)).join(", ")}]\n`;
+      plantFrontmatter = `plant: ${plantList.join(", ")}\n`;
     }
     const mdContent = `---
 title: ${filename}

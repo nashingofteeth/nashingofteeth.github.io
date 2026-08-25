@@ -369,15 +369,12 @@ function readPhotos() {
     ({ slug, filename, data, html }) => {
       let plant;
       const rawPlant = data.plant;
-      if (Array.isArray(rawPlant)) {
-        const filtered = rawPlant.map((p) => String(p).trim()).filter(Boolean);
+      if (rawPlant != null) {
+        const values = Array.isArray(rawPlant) ? rawPlant : String(rawPlant).split(",");
+        const filtered = values
+          .map((p) => String(p).trim())
+          .filter(Boolean);
         plant = filtered.length ? filtered : undefined;
-      } else if (typeof rawPlant === "string") {
-        const trimmed = rawPlant.trim();
-        plant = trimmed || undefined;
-      } else if (rawPlant != null) {
-        const trimmed = String(rawPlant).trim();
-        plant = trimmed || undefined;
       }
 
       return {
