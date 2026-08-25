@@ -24,6 +24,17 @@
     .filter(Boolean)
     .pop() || "";
 
+  // Honor an active query in the header "PHOTOS" link so returning to the grid
+  // keeps the same filtered set the user came from.
+  function scopeHeaderPhotosLink() {
+    if (!query.trim()) return;
+    const link = document.querySelector('header a[href="/photos"]');
+    if (link) {
+      link.href = `/photos/?q=${encodeURIComponent(query.trim())}`;
+    }
+  }
+  scopeHeaderPhotosLink();
+
   // Query-scoped prev/next slugs, computed from /photos/photo-data.json once a
   // query is present. J/K and the visible nav both use this so keyboard
   // navigation stays within the filtered set (not the chronological fallback).
@@ -156,6 +167,14 @@
       const href = navHref("prev");
       if (href) {
         window.location.href = href;
+      }
+    } else if (key === "escape") {
+      // Esc returns to the grid: to the same filtered set when a query is
+      // active, otherwise one step back in history.
+      if (query.trim()) {
+        window.location.href = `/photos/?q=${encodeURIComponent(query.trim())}`;
+      } else {
+        window.history.back();
       }
     }
   });
