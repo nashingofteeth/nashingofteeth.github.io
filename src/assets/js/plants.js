@@ -20,7 +20,7 @@ function generatePlantList(taxonomy, level = 0) {
     // Build node label
     let content = "";
     const photoLink = node.hasPhoto
-      ? ` <a class="plant-photo-link" href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</a>`
+      ? ` <span class="plant-photo-link" data-href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
       : "";
     if (node.file) {
       const aliases = node.file.aliases;
@@ -101,6 +101,25 @@ function expandAll() {
 }
 
 // ---------------------------------------------------------------------------
+// upgradeSearchLinks — promote search-placeholder <span data-href> to real
+// links. Search links are baked as spans so they don't appear (or navigate)
+// when JS is disabled; this runs once JS is available.
+// ---------------------------------------------------------------------------
+function upgradeSearchLinks(container) {
+  const root = container || document;
+  root.querySelectorAll("span[data-href]").forEach((el) => {
+    const a = document.createElement("a");
+    a.href = el.getAttribute("data-href");
+    if (el.hasAttribute("title")) {
+      a.setAttribute("title", el.getAttribute("title"));
+    }
+    a.className = el.className;
+    a.innerHTML = el.innerHTML;
+    el.replaceWith(a);
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
 //   1. Running in a browser (document exists)
 //   2. #plant-search input is in the DOM
@@ -110,6 +129,9 @@ function expandAll() {
 (function () {
   if (typeof document === "undefined") return;
   const searchInput = document.getElementById("plant-search");
+
+  // Upgrade the static tree's search links (works even if the fetch fails).
+  upgradeSearchLinks(document);
   if (!searchInput) return;
 
   let plantData = null;
@@ -195,7 +217,7 @@ function expandAll() {
       content = `<span class="muted">${displayName}</span>`;
     }
     const photoLink = node.hasPhoto
-      ? ` <a class="plant-photo-link" href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</a>`
+      ? ` <span class="plant-photo-link" data-href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
       : "";
     content += photoLink;
 
@@ -257,6 +279,7 @@ function expandAll() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     treeEl.innerHTML = html;
+    upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
   }
 

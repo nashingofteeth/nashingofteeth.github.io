@@ -94,7 +94,8 @@
   cursor: not-allowed;
 }
 
-#photo-no-results {
+#photo-no-results,
+.no-js-note {
   margin-top: 20px;
   color: #8a7d6b;
 }

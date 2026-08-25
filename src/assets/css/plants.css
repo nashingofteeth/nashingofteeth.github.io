@@ -134,6 +134,10 @@ a:active {
   font-size: 0.8em;
 }
 
+.no-js-note {
+  margin-top: 20px;
+}
+
 @media (max-width: 576px) {
   .plant-list {
     font-size: 0.8em;

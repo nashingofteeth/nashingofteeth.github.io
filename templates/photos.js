@@ -21,9 +21,13 @@ function photos(photoCollection) {
 	<p>Photography by me.</p>
 </section>
 
-<div class="photo-search-container">
+	<div class="photo-search-container">
 	<input type="search" id="photo-search" disabled placeholder="🏗️ Loading search…" autocomplete="off">
-</div>
+	</div>
+<noscript>
+	<style>#photo-search{display:none}</style>
+	<p class="muted no-js-note">Search requires JavaScript — showing all photos.</p>
+</noscript>
 
 <div id="photo-no-results" hidden class="muted">No results.</div>
 

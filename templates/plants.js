@@ -30,6 +30,10 @@ function plants(plantData) {
     <button onclick="expandAll()">expand all</button>
   </div>
 </div>
+<noscript>
+  <style>#plant-search,.plant-controls,.plant-photo-link{display:none}</style>
+  <p class="muted no-js-note">Search requires JavaScript — the full list is shown.</p>
+</noscript>
 
 ${plantListHtml}
 

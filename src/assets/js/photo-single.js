@@ -1,4 +1,22 @@
 (function () {
+  // Promote search-placeholder <span data-href> to real links. Search links are
+  // baked as spans so they don't appear (or navigate) when JS is disabled.
+  function upgradeSearchLinks(container) {
+    const root = container || document;
+    root.querySelectorAll("span[data-href]").forEach((el) => {
+      const a = document.createElement("a");
+      a.href = el.getAttribute("data-href");
+      if (el.hasAttribute("title")) {
+        a.setAttribute("title", el.getAttribute("title"));
+      }
+      a.className = el.className;
+      a.innerHTML = el.innerHTML;
+      el.replaceWith(a);
+    });
+  }
+
+  upgradeSearchLinks(document);
+
   // When the page is reached via a grid/photos search query (?q=...), scope the
   // prev/next nav to the matching photo set instead of the full chronological
   // order. Requires /photos/photo-data.json and the shared filterByQuery from
