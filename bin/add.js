@@ -344,12 +344,33 @@ function processImage(filePath) {
     });
     console.log(`  ✓ Uploaded viewing + thumbnail files to Backblaze`);
 
-    // Upload original
+    // Upload original — lossless strip of all sensitive metadata.
+    // Uses a whitelist: wipe everything then restore only camera/lens/exposure
+    // and Orientation/dimensions. This reliably removes GPS, OwnerName,
+    // serial numbers and thumbnails that a blacklist leaves in raw makernotes
+    // padding. Camera is kept because it's already public on page.
     const originalFilename = path.basename(filePath);
-    execSync(`rclone copy "${filePath}" ${BACKBLAZE_REMOTE}/originals/`, {
+    const stagedOriginal = path.join(tmpDir, originalFilename);
+    fs.copyFileSync(filePath, stagedOriginal);
+    try {
+      execSync(
+        `exiftool -overwrite_original -all= -tagsFromFile @ ` +
+          `-Make -Model -LensMake -LensModel -LensSpecification ` +
+          `-FocalLength -FocalLengthIn35mmFormat -FNumber -ApertureValue ` +
+          `-ExposureTime -ShutterSpeedValue -ISO -ExposureCompensation ` +
+          `-Flash -WhiteBalance -MeteringMode -ExposureProgram -ColorSpace ` +
+          `-DateTimeOriginal -CreateDate ` +
+          `-Orientation -ExifImageWidth -ExifImageHeight -ImageWidth -ImageHeight ` +
+          `"${stagedOriginal}"`,
+        { stdio: "pipe" },
+      );
+    } catch (err) {
+      console.warn(`  ⚠️  exiftool strip failed (${err.message}), uploading original as-is`);
+    }
+    execSync(`rclone copy "${stagedOriginal}" ${BACKBLAZE_REMOTE}/originals/`, {
       stdio: "pipe",
     });
-    console.log(`  ✓ Uploaded original to Backblaze`);
+    console.log(`  ✓ Uploaded original (stripped) to Backblaze`);
 
     // Generate markdown
     const originalRel = originalFilename;
