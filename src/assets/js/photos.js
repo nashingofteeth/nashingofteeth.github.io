@@ -269,6 +269,39 @@ function filterByQuery(items, query) {
     performSearch(query);
   });
 
+  // Enter on a populated search navigates to the first matching photo — works
+  // whether or not the search input is focused (when it is, let the input's own
+  // default handling apply via the same event; this just also covers other
+  // focus targets).
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key !== "Enter" ||
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
+      !searchInput.value.trim()
+    ) {
+      return;
+    }
+    const target = e.target;
+    if (
+      target &&
+      target !== searchInput &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+    const first = numberedItem(1);
+    const link = first && first.querySelector("a[href]");
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.getAttribute("href");
+    }
+  });
+
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
 
