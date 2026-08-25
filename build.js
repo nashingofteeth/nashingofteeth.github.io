@@ -434,16 +434,10 @@ async function build() {
     const collect = (nodes) => {
       for (const node of nodes || []) {
         if (node.name) validPlantSet.add(String(node.name).trim().toLowerCase());
-        if (node.file && Array.isArray(node.file.aliases)) {
-          for (const a of node.file.aliases) {
-            if (a) validPlantSet.add(String(a).trim().toLowerCase());
-          }
-        }
         if (node.children) collect(node.children);
       }
     };
     collect(plantData.taxonomy);
-    // Also add file-less nodes' names already added; aliases cover common names
   } catch (_e) {
     // plant-data missing — no plant links
   }
@@ -544,10 +538,10 @@ async function build() {
   try {
     const plantData = require("./src/_data/plant-data.json");
 
-    // Annotate taxa that have at least one photo (matched by name or alias)
-    // so the plants tree can link each to a /photos/?q= search of that taxon.
-    // When exactly one photo matches a node, link straight to that photo's page
-    // instead of the (single-result) search query.
+    // Annotate taxa that have at least one photo (matched by taxon name only,
+    // not common-name aliases) so the plants tree can link each to a
+    // /photos/?q= search of that taxon. When exactly one photo matches a
+    // node, link straight to that photo's page instead of the search query.
     const photoTaxa = new Set();
     const photoSlugsByTaxon = new Map();
     for (const p of photos) {
@@ -565,22 +559,14 @@ async function build() {
     }
     const annotateTaxa = (nodes) => {
       for (const node of nodes || []) {
-        const nodeSlugs = new Set();
-        const collectKey = (key) => {
-          if (!key) return;
-          const normalized = String(key).trim().toLowerCase();
+        if (node.name) {
+          const normalized = String(node.name).trim().toLowerCase();
           if (photoTaxa.has(normalized)) {
-            photoSlugsByTaxon.get(normalized).forEach((s) => nodeSlugs.add(s));
-          }
-        };
-        collectKey(node.name);
-        if (node.file && Array.isArray(node.file.aliases)) {
-          for (const alias of node.file.aliases) collectKey(alias);
-        }
-        if (nodeSlugs.size > 0) {
-          node.hasPhoto = true;
-          if (nodeSlugs.size === 1) {
-            node.photoSlug = [...nodeSlugs][0];
+            const slugs = photoSlugsByTaxon.get(normalized);
+            node.hasPhoto = true;
+            if (slugs.size === 1) {
+              node.photoSlug = [...slugs][0];
+            }
           }
         }
         if (node.children) annotateTaxa(node.children);
