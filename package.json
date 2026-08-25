@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Custom static site generator for nash.video",
   "bin": {
-    "add": "bin/add.js"
+    "potato-add": "bin/add.js"
   },
   "scripts": {
     "build": "node build.js",
