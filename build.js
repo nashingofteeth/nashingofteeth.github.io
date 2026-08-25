@@ -488,6 +488,30 @@ async function build() {
     warn("plant-data.json not found, skipping plants page");
   }
 
+  // Photo data JSON for client-side search (matches any spec)
+  try {
+    const photoData = {
+      generated: new Date().toISOString(),
+      totalPhotos: photos.length,
+      photos: photos.map((p) => ({
+        slug: p.slug,
+        filename: p.filename,
+        title: p.title,
+        date: p.date,
+        width: p.width,
+        height: p.height,
+        camera: p.camera,
+        plant: p.plant,
+      })),
+    };
+    const photoDataPath = path.join(DIST_DIR, "photos", "photo-data.json");
+    fs.mkdirSync(path.dirname(photoDataPath), { recursive: true });
+    fs.writeFileSync(photoDataPath, JSON.stringify(photoData));
+    ok("photo-data.json → dist/photos/");
+  } catch (error) {
+    warn("failed to write photo-data.json: " + error.message);
+  }
+
   console.log("");
 
   // Step 4: Copy static assets

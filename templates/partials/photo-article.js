@@ -73,7 +73,7 @@ function photoArticle(photo, showBookmark = true) {
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
 
-    return `<article class="photo-item is-${orientation}">
+    return `<article class="photo-item is-${orientation}" data-slug="${photo.slug}">
 	<a href="/photos/${photo.slug}/">
 		${imgHtml}
 	</a>

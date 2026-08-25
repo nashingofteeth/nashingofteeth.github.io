@@ -67,3 +67,38 @@
     }
   }
 }
+
+.photo-search-container {
+  margin-top: 40px;
+}
+
+#photo-search {
+  font-family: inherit;
+  font-size: 1em;
+  color: #4A5D23;
+  background: Cornsilk;
+  border: 1px solid #C1440E;
+  padding: 4px 8px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+#photo-search:focus {
+  border-color: #4A5D23;
+}
+
+#photo-search:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#photo-no-results {
+  margin-top: 20px;
+  color: #8a7d6b;
+}
+
+.photo-item[hidden] {
+  display: none !important;
+}
