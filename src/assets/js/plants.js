@@ -107,24 +107,8 @@ function expandAll() {
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
 }
 
-// ---------------------------------------------------------------------------
-// upgradeSearchLinks — promote search-placeholder <span data-href> to real
-// links. Search links are baked as spans so they don't appear (or navigate)
-// when JS is disabled; this runs once JS is available.
-// ---------------------------------------------------------------------------
-function upgradeSearchLinks(container) {
-  const root = container || document;
-  root.querySelectorAll("span[data-href]").forEach((el) => {
-    const a = document.createElement("a");
-    a.href = el.getAttribute("data-href");
-    if (el.hasAttribute("title")) {
-      a.setAttribute("title", el.getAttribute("title"));
-    }
-    a.className = el.className;
-    a.innerHTML = el.innerHTML;
-    el.replaceWith(a);
-  });
-}
+// upgradeSearchLinks / updateUrl / bindSearchInput come from search-utils.js
+// (loaded first; see templates/plants.js for the load order).
 
 // ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
@@ -300,32 +284,8 @@ function upgradeSearchLinks(container) {
       plantData = data;
       buildIndex(plantData.taxonomy);
 
-      // Restore search from URL on initial load
-      const params = new URLSearchParams(window.location.search);
-      const initialQuery = params.get("q") || "";
-      if (initialQuery) {
-        searchInput.value = initialQuery;
-        performSearch(initialQuery);
-      }
-
-      let debounceTimer = null;
-
-      searchInput.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value;
-          updateUrl(query);
-          performSearch(query);
-        }, 500);
-      });
-
-      // Handle back/forward browser navigation
-      window.addEventListener("popstate", () => {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get("q") || "";
-        searchInput.value = query;
-        performSearch(query);
-      });
+      // Restore query from URL, debounce input, handle popstate (search-utils.js)
+      bindSearchInput(searchInput, performSearch);
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
@@ -333,17 +293,6 @@ function upgradeSearchLinks(container) {
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
-
-  // Update URL with search query (pushState for back/forward support)
-  function updateUrl(query) {
-    const url = new URL(window.location);
-    if (query.trim()) {
-      url.search = "q=" + encodeURIComponent(query.trim());
-    } else {
-      url.search = "";
-    }
-    history.pushState({}, "", url);
-  }
 
   // Perform search and render results
   function performSearch(query) {

@@ -439,37 +439,32 @@ async function build() {
     // plant-data missing — no plant links
   }
 
-  const plantCounts = new Map();
-  const dateCounts = new Map();
-  const cameraCounts = new Map();
-  for (const p of photos) {
-    if (p.plant) {
-      for (const taxon of [].concat(p.plant)) {
-        const key = String(taxon).trim();
-        if (key) plantCounts.set(key, (plantCounts.get(key) || 0) + 1);
+  // Which spec values are shared (appear in >1 photo), used for single-page
+  // linking. keyFn returns the spec keys for a photo.
+  const countShared = (keyFn) => {
+    const counts = new Map();
+    for (const p of photos) {
+      for (const k of keyFn(p)) {
+        if (k) counts.set(k, (counts.get(k) || 0) + 1);
       }
     }
-    if (p.date) {
-      try {
-        const dKey = htmlDateString(p.date);
-        dateCounts.set(dKey, (dateCounts.get(dKey) || 0) + 1);
-      } catch (_e) {
-        // ignore invalid dates
-      }
-    }
-    if (p.camera) {
-      const cKey = String(p.camera).trim();
-      if (cKey) cameraCounts.set(cKey, (cameraCounts.get(cKey) || 0) + 1);
-    }
-  }
-  const sharedPlantSet = new Set(
-    [...plantCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+    return new Set(
+      [...counts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+    );
+  };
+  const sharedPlantSet = countShared((p) =>
+    p.plant ? [].concat(p.plant).map((t) => String(t).trim()) : [],
   );
-  const sharedDateSet = new Set(
-    [...dateCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
-  );
-  const sharedCameraSet = new Set(
-    [...cameraCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+  const sharedDateSet = countShared((p) => {
+    if (!p.date) return [];
+    try {
+      return [htmlDateString(p.date)];
+    } catch (_e) {
+      return [];
+    }
+  });
+  const sharedCameraSet = countShared((p) =>
+    p.camera ? [String(p.camera).trim()] : [],
   );
   for (const p of photos) {
     p._validPlantSet = validPlantSet;

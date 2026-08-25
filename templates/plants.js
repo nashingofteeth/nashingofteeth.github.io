@@ -8,7 +8,7 @@ const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function plants(plantData) {
   const combinedCss = loadCss("base.css", "page.css", "plants.css");
-  const combinedJs = loadJs("plants.js");
+  const combinedJs = loadJs("search-utils.js", "plants.js");
 
   // Format the generated date
   const formattedDate = formatDate(plantData.generated);

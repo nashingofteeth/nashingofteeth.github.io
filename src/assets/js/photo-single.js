@@ -1,24 +1,10 @@
 (function () {
-  // Promote search-placeholder <span data-href> to real links. Search links are
-  // baked as spans so they don't appear (or navigate) when JS is disabled.
-  function upgradeSearchLinks(container) {
-    const root = container || document;
-    root.querySelectorAll("span[data-href]").forEach((el) => {
-      const a = document.createElement("a");
-      a.href = el.getAttribute("data-href");
-      if (el.hasAttribute("title")) {
-        a.setAttribute("title", el.getAttribute("title"));
-      }
-      a.className = el.className;
-      a.innerHTML = el.innerHTML;
-      el.replaceWith(a);
-    });
-  }
+  // upgradeSearchLinks / isEditableTarget come from search-utils.js (loaded
+  // first; see templates/photo-single.js for the load order).
 
   upgradeSearchLinks(document);
 
-  const params = new URLSearchParams(window.location.search);
-  const query = params.get("q") || "";
+  const query = queryFromUrl();
   const currentSlug = window.location.pathname
     .split("/")
     .filter(Boolean)
@@ -145,14 +131,7 @@
       return;
     }
 
-    const target = e.target;
-    if (
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.tagName === "SELECT" ||
-        target.isContentEditable)
-    ) {
+    if (isEditableTarget(e.target)) {
       return;
     }
 
@@ -169,13 +148,10 @@
         window.location.href = href;
       }
     } else if (key === "escape") {
-      // Esc returns to the grid: to the same filtered set when a query is
-      // active, otherwise one step back in history.
-      if (query.trim()) {
-        window.location.href = `/photos/?q=${encodeURIComponent(query.trim())}`;
-      } else {
-        window.history.back();
-      }
+      // Esc returns to the grid, honoring an active filter when present.
+      window.location.href = query.trim()
+        ? `/photos/?q=${encodeURIComponent(query.trim())}`
+        : "/photos/";
     }
   });
 

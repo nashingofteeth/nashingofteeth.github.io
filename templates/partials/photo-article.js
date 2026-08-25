@@ -8,7 +8,7 @@ const {
   PHOTO_TINT_BASE_LIGHTNESS,
   PHOTO_TINT_RANGE,
 } = require("./constants.js");
-const { formatDate, htmlDateString, getPhotoSearchFields } = require("../utils.js");
+const { formatDate, htmlDateString, getPhotoSearchFields, photoAsset, bookmarkLink } = require("../utils.js");
 
 /**
  * Generate photo article HTML for gallery or single page
@@ -17,8 +17,8 @@ const { formatDate, htmlDateString, getPhotoSearchFields } = require("../utils.j
  * @returns {string} Photo article HTML
  */
 function photoArticle(photo, showBookmark = true) {
-  const bookmarkLink = showBookmark
-    ? `&nbsp;<a href="/photos/${photo.slug}/" class="bookmark" aria-label="Go to photo page" title="Go to photo page">&#128279;</a>`
+  const bookmark = showBookmark
+    ? bookmarkLink(photo.slug, "photo")
     : "";
 
   // Sage-green placeholder tint, varied in lightness by the photo's offset so
@@ -63,11 +63,11 @@ function photoArticle(photo, showBookmark = true) {
     // full-size display file (full screen width). Sources are ordered
     // desktop-specific first, then generic full sources as fallback.
     const imgHtml = `<picture style="aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight};">
-        <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.webp" type="image/webp" />
-        <source media="(min-width: 577px)" srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}${THUMB_SUFFIX}.jpg" type="image/jpeg" />
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "webp")}" type="image/webp" />
+        <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "jpg")}" type="image/jpeg" />
+        <source srcset="${photoAsset(photo, "", "webp")}" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          src="${photoAsset(photo, "", "jpg")}"
           alt="${altText}"
           loading="lazy"
           width="${photo.width}" height="${photo.height}" />
@@ -119,9 +119,9 @@ function photoArticle(photo, showBookmark = true) {
   }
 
   const imgHtmlSingle = `<picture>
-        <source srcset="${BASE_URL}${PHOTOS_PATH}${photo.filename}.webp" type="image/webp" />
+        <source srcset="${photoAsset(photo, "", "webp")}" type="image/webp" />
         <img
-          src="${BASE_URL}${PHOTOS_PATH}${photo.filename}.jpg"
+          src="${photoAsset(photo, "", "jpg")}"
           alt="${altText}"
           loading="eager"
           width="${photo.width}" height="${photo.height}" />

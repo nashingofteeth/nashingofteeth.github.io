@@ -1,5 +1,23 @@
 // Utility functions for templates
 
+const { BASE_URL, PHOTOS_PATH } = require("./partials/constants.js");
+
+// Shared month names, in order, for date formatting.
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 function sortNewestFirst(collection) {
   return [...collection].sort(
     (a, b) => new Date(b.date) - new Date(a.date),
@@ -20,21 +38,7 @@ function parseDate(dateInput) {
 
 function formatDate(dateInput) {
   const date = parseDate(dateInput);
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return `${months[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
 function htmlDateString(dateInput) {
@@ -100,9 +104,25 @@ function getPhotoSearchFields(photo) {
   };
 }
 
+// Absolute URL for a photo variant on the CDN, e.g. the full jpg, the thumb
+// webp, or an original. variant is the file suffix (e.g. "-thumb"), ext the
+// image extension (default "jpg"). Centralizes the repeated asset-path
+// construction used by the photo article partial.
+function photoAsset(photo, variant = "", ext = "jpg") {
+  return `${BASE_URL}${PHOTOS_PATH}${photo.filename}${variant}.${ext}`;
+}
+
+// The bookmark link that appears next to a title, pointing to the item's own
+// page. type is "photo" or "video"; yields /photos/ or /videos/ respectively.
+function bookmarkLink(slug, type) {
+  return `&nbsp;<a href="/${type}s/${slug}/" class="bookmark" aria-label="Go to ${type} page" title="Go to ${type} page">&#128279;</a>`;
+}
+
 module.exports = {
   sortNewestFirst,
   formatDate,
   htmlDateString,
   getPhotoSearchFields,
+  photoAsset,
+  bookmarkLink,
 };

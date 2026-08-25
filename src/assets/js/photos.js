@@ -1,10 +1,34 @@
 // ---------------------------------------------------------------------------
+// Depends on search-utils.js (loaded first): updateUrl, isEditableTarget,
+// bindSearchInput. See templates/photos.js for the load order.
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
 // tryParseDateQuery — interprets a user-typed date query into year/month/day
 // components (with hasYear/hasMonth/hasDay flags) so it can be matched against
 // build-time photo date ints. This is the one part of search that must run in
 // the browser, since it reads live input. All date parsing/formatting of the
 // photos themselves happens at build time (see templates/utils.js).
 // ---------------------------------------------------------------------------
+
+// Single source for month names; long and short forms are derived from it so
+// the two lists can't drift.
+const MONTH_NAMES = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+const MONTH_SHORT = MONTH_NAMES.map((m) => m.slice(0, 3));
+
 function tryParseDateQuery(query) {
   const q = query.trim();
   if (!q) return null;
@@ -17,37 +41,9 @@ function tryParseDateQuery(query) {
     return { year: Number(q), hasYear: true, hasMonth: false, hasDay: false, raw: q };
   }
 
-  const monthNamesLong = [
-    "january",
-    "february",
-    "march",
-    "april",
-    "may",
-    "june",
-    "july",
-    "august",
-    "september",
-    "october",
-    "november",
-    "december",
-  ];
-  const monthNamesShort = [
-    "jan",
-    "feb",
-    "mar",
-    "apr",
-    "may",
-    "jun",
-    "jul",
-    "aug",
-    "sep",
-    "oct",
-    "nov",
-    "dec",
-  ];
   const lower = q.toLowerCase().trim();
   for (let i = 0; i < 12; i++) {
-    if (lower === monthNamesLong[i] || lower === monthNamesShort[i]) {
+    if (lower === MONTH_NAMES[i] || lower === MONTH_SHORT[i]) {
       return { month: i + 1, hasYear: false, hasMonth: true, hasDay: false, raw: q };
     }
   }
@@ -56,7 +52,7 @@ function tryParseDateQuery(query) {
   const monthYear = q.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{4})$/i);
   if (monthYear) {
     const name = monthYear[1].toLowerCase();
-    const idx = monthNamesShort.findIndex((m) => name.startsWith(m));
+    const idx = MONTH_SHORT.findIndex((m) => name.startsWith(m));
     if (idx !== -1) {
       return { year: Number(monthYear[2]), month: idx + 1, hasYear: true, hasMonth: true, hasDay: false, raw: q };
     }
@@ -190,16 +186,6 @@ function filterByQuery(items, query) {
     return matchSet.size ? matchSet : null;
   }
 
-  function updateUrl(query) {
-    const url = new URL(window.location);
-    if (query.trim()) {
-      url.search = "q=" + encodeURIComponent(query.trim());
-    } else {
-      url.search = "";
-    }
-    history.pushState({}, "", url);
-  }
-
   // Update each photo item's link so a filtered grid click carries the query
   // to the single page, enabling query-scoped prev/next there.
   function setPhotoLinks(query) {
@@ -244,56 +230,28 @@ function filterByQuery(items, query) {
     setPhotoLinks(q);
   }
 
-  // Restore search from URL on initial load
-  const params = new URLSearchParams(window.location.search);
-  const initialQuery = params.get("q") || "";
-  if (initialQuery) {
-    searchInput.value = initialQuery;
-    performSearch(initialQuery);
-  }
-
-  let debounceTimer = null;
-  searchInput.addEventListener("input", () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(() => {
-      const query = searchInput.value;
-      updateUrl(query);
-      performSearch(query);
-    }, 500);
-  });
-
-  window.addEventListener("popstate", () => {
-    const params = new URLSearchParams(window.location.search);
-    const query = params.get("q") || "";
-    searchInput.value = query;
-    performSearch(query);
-  });
+  // Restore query from URL, debounce input, handle popstate (search-utils.js).
+  bindSearchInput(searchInput, performSearch);
 
   // Enter on a populated search navigates to the first matching photo — works
   // whether or not the search input is focused (when it is, let the input's own
   // default handling apply via the same event; this just also covers other
   // focus targets).
   document.addEventListener("keydown", (e) => {
-    if (
-      e.key !== "Enter" ||
-      e.ctrlKey ||
-      e.metaKey ||
-      e.altKey ||
-      !searchInput.value.trim()
-    ) {
+    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) {
       return;
     }
-    const target = e.target;
-    if (
-      target &&
-      target !== searchInput &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.tagName === "SELECT" ||
-        target.isContentEditable)
-    ) {
+    const q = searchInput.value.trim();
+    if (!q) {
       return;
     }
+    // Allow Enter when the search input itself is focused (it has no default
+    // submit), but ignore other text-editing fields.
+    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
+      return;
+    }
+    // Apply the filter now so Enter works even before the 500ms debounce fires.
+    performSearch(searchInput.value);
     const first = numberedItem(1);
     const link = first && first.querySelector("a[href]");
     if (link) {
@@ -312,17 +270,8 @@ function filterByQuery(items, query) {
       e.metaKey ||
       e.altKey ||
       e.key !== "/" ||
-      document.activeElement === searchInput
-    ) {
-      return;
-    }
-    const target = e.target;
-    if (
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.tagName === "SELECT" ||
-        target.isContentEditable)
+      document.activeElement === searchInput ||
+      isEditableTarget(e.target)
     ) {
       return;
     }
@@ -346,14 +295,7 @@ function filterByQuery(items, query) {
     if (e.ctrlKey || e.metaKey || e.altKey || document.activeElement === searchInput) {
       return;
     }
-    const target = e.target;
-    if (
-      target &&
-      (target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.tagName === "SELECT" ||
-        target.isContentEditable)
-    ) {
+    if (isEditableTarget(e.target)) {
       return;
     }
     const digit = parseInt(e.key, 10);

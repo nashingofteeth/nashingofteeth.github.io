@@ -52,29 +52,44 @@ Examples:
 `);
 }
 
-function getMediainfo(filePath) {
+// mediainfo --Output=JSON result for a file, fetched once and cached so the
+// several metadata helpers (dimensions, camera, date, rotation) share one
+// shell-out instead of each invoking mediainfo themselves.
+const mediainfoCache = new Map();
+function mediainfoJson(filePath) {
+  if (mediainfoCache.has(filePath)) {
+    return mediainfoCache.get(filePath);
+  }
   try {
     const output = execSync(`mediainfo --Output=JSON "${filePath}"`, {
       encoding: "utf8",
     });
     const data = JSON.parse(output);
-    const track = data.media.track.find((t) => t["@type"] === "Image") || {};
-    const general =
-      data.media.track.find((t) => t["@type"] === "General") || {};
-
-    return {
-      width: parseInt(track.Width || "0", 10),
-      height: parseInt(track.Height || "0", 10),
-      format: track.Format || general.Format || "",
-      camera: [
-        general.Encoded_Hardware_CompanyName,
-        general.Encoded_Hardware_Model,
-      ].filter(Boolean).join(" ") || track.Model || track.Camera || track.Make || "",
-    };
+    mediainfoCache.set(filePath, data);
+    return data;
   } catch (err) {
     console.error(`  ⚠️  mediainfo failed for ${filePath}, using fallback`);
-    return { width: 0, height: 0, format: "" };
+    mediainfoCache.set(filePath, null);
+    return null;
   }
+}
+
+function getMediainfo(filePath) {
+  const data = mediainfoJson(filePath);
+  if (!data) return { width: 0, height: 0, format: "" };
+  const tracks = (data.media && data.media.track) || [];
+  const track = tracks.find((t) => t["@type"] === "Image") || {};
+  const general = tracks.find((t) => t["@type"] === "General") || {};
+
+  return {
+    width: parseInt(track.Width || "0", 10),
+    height: parseInt(track.Height || "0", 10),
+    format: track.Format || general.Format || "",
+    camera: [
+      general.Encoded_Hardware_CompanyName,
+      general.Encoded_Hardware_Model,
+    ].filter(Boolean).join(" ") || track.Model || track.Camera || track.Make || "",
+  };
 }
 
 function getImageDimensions(filePath) {
@@ -144,12 +159,9 @@ function getHeifRotationAngle(filePath) {
   } catch (_err) {
     // ignore
   }
-  try {
-    const output = execSync(`mediainfo --Output=JSON "${filePath}"`, {
-      encoding: "utf8",
-    });
-    const data = JSON.parse(output);
-    for (const track of data.media.track || []) {
+  const data = mediainfoJson(filePath);
+  if (data) {
+    for (const track of (data.media && data.media.track) || []) {
       if (track["@type"] === "Image" && track.extra && track.extra.Rotation) {
         const rotStr = track.extra.Rotation;
         const first = rotStr.split("/")[0].trim();
@@ -168,8 +180,6 @@ function getHeifRotationAngle(filePath) {
         }
       }
     }
-  } catch (_err) {
-    // ignore
   }
   return 0;
 }
@@ -183,32 +193,44 @@ function getMagickAutoOrientArgs(filePath) {
 }
 
 function getDateFromMediainfo(filePath) {
-  try {
-    const output = execSync(
-      `mediainfo --Output=JSON "${filePath}"`,
-      { encoding: "utf8" },
-    );
-    const data = JSON.parse(output);
-    const general =
-      data.media.track.find((t) => t["@type"] === "General") || {};
+  const data = mediainfoJson(filePath);
+  if (!data) return null;
+  const tracks = (data.media && data.media.track) || [];
+  const general = tracks.find((t) => t["@type"] === "General") || {};
 
-    // Try various date fields
-    const dateStr =
-      general.Encoded_Date ||
-      general.Recorded_Date ||
-      general.File_Modified_Date ||
-      "";
+  // Try various date fields
+  const dateStr =
+    general.Encoded_Date ||
+    general.Recorded_Date ||
+    general.File_Modified_Date ||
+    "";
 
-    if (dateStr) {
-      // MediaInfo dates often like "UTC 2025-06-24 14:30:00" or "2025-06-24T14:30:00.000Z"
-      const cleaned = dateStr.replace("UTC ", "").replace(" ", "T");
-      const d = new Date(cleaned);
-      if (!isNaN(d.getTime())) return d;
-    }
-  } catch (err) {
-    // ignore
+  if (dateStr) {
+    // MediaInfo dates often like "UTC 2025-06-24 14:30:00" or "2025-06-24T14:30:00.000Z"
+    const cleaned = dateStr.replace("UTC ", "").replace(" ", "T");
+    const d = new Date(cleaned);
+    if (!isNaN(d.getTime())) return d;
   }
   return null;
+}
+
+// Convert one input to a single variant (full/thumb jpg/webp): auto-orient
+// first so pixels are upright, resize to a max dimension, strip metadata, and
+// write at the given quality. Centralizes the four near-identical magick calls.
+function convertVariant(srcPath, autoOrientArgs, maxDim, quality, outPath) {
+  execSync(
+    `magick "${srcPath}" ${autoOrientArgs} -resize ${maxDim}x${maxDim}\\> -strip -quality ${quality} "${outPath}"`,
+    { stdio: "pipe" },
+  );
+}
+
+// Upload one file to the Backblaze remote, optionally under a subdirectory
+// (e.g. "originals"). Centralizes the repeated rclone copy calls.
+function rcloneCopy(localPath, remoteDir = "") {
+  const dest = remoteDir
+    ? `${BACKBLAZE_REMOTE}/${remoteDir}/`
+    : `${BACKBLAZE_REMOTE}/`;
+  execSync(`rclone copy "${localPath}" ${dest}`, { stdio: "pipe" });
 }
 
 function getDateForFilename(filePath) {
@@ -232,12 +254,13 @@ function randomOffset() {
   return Math.round((Math.random() * 2 - 1) * PHOTO_OFFSET_RANGE);
 }
 
-// The set of original file basenames already recorded in src/photos/ markdown.
-// Used to skip re-ingesting a photo that was already added.
-function existingOriginals() {
-  const seen = new Set();
+// The raw `original:` values recorded in src/photos/ frontmatter. Shared by the
+// existing-original check (basenames) and the remote-clean matcher (paths under
+// originals/).
+function originalValues() {
+  const values = new Set();
   if (!fs.existsSync(PHOTOS_DIR)) {
-    return seen;
+    return values;
   }
   for (const file of fs.readdirSync(PHOTOS_DIR)) {
     if (!file.endsWith(".md")) {
@@ -246,10 +269,16 @@ function existingOriginals() {
     const content = fs.readFileSync(path.join(PHOTOS_DIR, file), "utf8");
     const m = content.match(/^original:\s*(.+)$/m);
     if (m) {
-      seen.add(path.basename(m[1].trim()));
+      values.add(m[1].trim());
     }
   }
-  return seen;
+  return values;
+}
+
+// The set of original file basenames already recorded in src/photos/ markdown.
+// Used to skip re-ingesting a photo that was already added.
+function existingOriginals() {
+  return new Set([...originalValues()].map((v) => path.basename(v)));
 }
 
 function processImage(filePath, opts = {}) {
@@ -313,43 +342,23 @@ function processImage(filePath, opts = {}) {
     // Convert to full JPEG (-auto-orient first so pixels are upright,
     // then resize, then strip the now-redundant EXIF orientation tag).
     const autoOrientArgs = getMagickAutoOrientArgs(filePath);
-    execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${FULL_MAX_DIMENSION}x${FULL_MAX_DIMENSION}\\> -strip -quality ${FULL_JPEG_QUALITY} "${fullJpg}"`,
-      { stdio: "pipe" },
-    );
+    convertVariant(filePath, autoOrientArgs, FULL_MAX_DIMENSION, FULL_JPEG_QUALITY, fullJpg);
     console.log(`  ✓ Full JPEG (${FULL_MAX_DIMENSION}px, q${FULL_JPEG_QUALITY}) created`);
 
     // Convert to full WebP (magick delegate uses libwebp internally; corresponds to cwebp -q)
-    execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${FULL_MAX_DIMENSION}x${FULL_MAX_DIMENSION}\\> -strip -quality ${FULL_WEBP_QUALITY} "${fullWebp}"`,
-      { stdio: "pipe" },
-    );
+    convertVariant(filePath, autoOrientArgs, FULL_MAX_DIMENSION, FULL_WEBP_QUALITY, fullWebp);
     console.log(`  ✓ Full WebP (${FULL_MAX_DIMENSION}px, q${FULL_WEBP_QUALITY}) created`);
 
     // Convert to desktop thumbnail variant
-    execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${THUMB_JPEG_QUALITY} "${thumbJpg}"`,
-      { stdio: "pipe" },
-    );
-    execSync(
-      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${THUMB_WEBP_QUALITY} "${thumbWebp}"`,
-      { stdio: "pipe" },
-    );
+    convertVariant(filePath, autoOrientArgs, THUMB_MAX_DIMENSION, THUMB_JPEG_QUALITY, thumbJpg);
+    convertVariant(filePath, autoOrientArgs, THUMB_MAX_DIMENSION, THUMB_WEBP_QUALITY, thumbWebp);
     console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px, jpg q${THUMB_JPEG_QUALITY} / webp q${THUMB_WEBP_QUALITY}) created`);
 
     // Upload full + thumb files
-    execSync(`rclone copy "${fullJpg}" ${BACKBLAZE_REMOTE}/`, {
-      stdio: "pipe",
-    });
-    execSync(`rclone copy "${fullWebp}" ${BACKBLAZE_REMOTE}/`, {
-      stdio: "pipe",
-    });
-    execSync(`rclone copy "${thumbJpg}" ${BACKBLAZE_REMOTE}/`, {
-      stdio: "pipe",
-    });
-    execSync(`rclone copy "${thumbWebp}" ${BACKBLAZE_REMOTE}/`, {
-      stdio: "pipe",
-    });
+    rcloneCopy(fullJpg);
+    rcloneCopy(fullWebp);
+    rcloneCopy(thumbJpg);
+    rcloneCopy(thumbWebp);
     console.log(`  ✓ Uploaded full + thumbnail files to Backblaze`);
 
     // Upload original — lossless strip of all sensitive metadata.
@@ -375,9 +384,7 @@ function processImage(filePath, opts = {}) {
     } catch (err) {
       console.warn(`  ⚠️  exiftool strip failed (${err.message}), uploading original as-is`);
     }
-    execSync(`rclone copy "${stagedOriginal}" ${BACKBLAZE_REMOTE}/originals/`, {
-      stdio: "pipe",
-    });
+    rcloneCopy(stagedOriginal, ORIGINALS_SUBDIR);
     console.log(`  ✓ Uploaded original (stripped) to Backblaze`);
 
     // Generate markdown
@@ -447,23 +454,12 @@ function localPhotoNames() {
 }
 
 // The set of original file paths (e.g. "originals/foo.jpg") referenced by any
-// local markdown frontmatter.
+// local markdown frontmatter. Frontmatter stores just the filename; remote
+// files live under originals/.
 function localOriginals() {
-  if (!fs.existsSync(PHOTOS_DIR)) {
-    return new Set();
-  }
   const originals = new Set();
-  for (const file of fs.readdirSync(PHOTOS_DIR)) {
-    if (!file.endsWith(".md")) {
-      continue;
-    }
-    const content = fs.readFileSync(path.join(PHOTOS_DIR, file), "utf8");
-    const m = content.match(/^original:\s*(.+)$/m);
-    if (m) {
-      // Frontmatter stores just the filename; remote files live under originals/
-      const name = m[1].trim();
-      originals.add(`${ORIGINALS_SUBDIR}${name}`);
-    }
+  for (const v of originalValues()) {
+    originals.add(`${ORIGINALS_SUBDIR}${v}`);
   }
   return originals;
 }

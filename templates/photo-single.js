@@ -1,14 +1,12 @@
-const base = require("./base.js");
-const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
+const singlePage = require("./partials/single-page.js");
 const photoArticle = require("./partials/photo-article.js");
-const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function photoSingle(photo, prevPhoto = null, nextPhoto = null) {
   const combinedCss = loadCss("base.css", "page.css", "photo-common.css", "photo-single.css");
   // photos.js provides the shared filterByQuery (top-level) for query-scoped nav
-  const combinedJs = loadJs("photos.js", "photo-single.js");
+  const combinedJs = loadJs("search-utils.js", "photos.js", "photo-single.js");
 
   const navHtml = `<nav class="photo-nav" aria-label="Photo navigation">
 		${
@@ -24,17 +22,13 @@ function photoSingle(photo, prevPhoto = null, nextPhoto = null) {
 	</nav>`;
 
   const articleHtml = photoArticle(photo, false);
-  const pageContent = page(`${navHtml}\n${articleHtml}`, {
+  return singlePage({
+    title: photo.title,
+    articleHtml: `${navHtml}\n${articleHtml}`,
     nav: [{ label: "PHOTOS", href: "/photos" }],
+    css: combinedCss,
+    js: combinedJs,
   });
-
-  return base(
-    pageContent,
-    `${photo.title}${SITE_TITLE_SUFFIX}`,
-    null,
-    combinedCss,
-    combinedJs,
-  );
 }
 
 module.exports = photoSingle;
