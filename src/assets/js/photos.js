@@ -271,6 +271,32 @@ function filterByQuery(items, query) {
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
+
+  // "/" focuses the search bar (matching common gallery/reader conventions).
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
+      e.key !== "/" ||
+      document.activeElement === searchInput
+    ) {
+      return;
+    }
+    const target = e.target;
+    if (
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  });
 }());
 
 // ---------------------------------------------------------------------------
