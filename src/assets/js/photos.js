@@ -297,6 +297,45 @@ function filterByQuery(items, query) {
     searchInput.focus();
     searchInput.select();
   });
+
+  // "1"–"9" navigates to the nth visible photo in the current (filtered) grid.
+  function numberedItem(n) {
+    const visible = [];
+    for (const el of grid.querySelectorAll(".photo-item")) {
+      if (!el.hidden) {
+        visible.push(el);
+      }
+    }
+    return visible[n - 1] || null;
+  }
+
+  function digitKeyNav(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || document.activeElement === searchInput) {
+      return;
+    }
+    const target = e.target;
+    if (
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable)
+    ) {
+      return;
+    }
+    const digit = parseInt(e.key, 10);
+    if (!Number.isInteger(digit) || digit < 1 || digit > 9) {
+      return;
+    }
+    const item = numberedItem(digit);
+    const link = item && item.querySelector("a[href]");
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.getAttribute("href");
+    }
+  }
+
+  document.addEventListener("keydown", digitKeyNav);
 }());
 
 // ---------------------------------------------------------------------------
