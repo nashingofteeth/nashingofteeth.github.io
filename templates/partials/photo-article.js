@@ -139,8 +139,31 @@ function photoArticle(photo, showBookmark = true) {
 		${photo.content}
 
 		<p class="specs">
-			${plantList.length ? `<strong>PLANT: </strong>${plantList.map((p) => `<a href="/plants/?q=${encodeURIComponent(p)}">${p}</a>`).join(", ")}<br>` : ""}<strong>DATE: </strong><time datetime="${htmlDateString(photo.date)}">${formatDate(photo.date)}</time>
-			${photo.camera ? `<br><strong>CAMERA: </strong>${photo.camera}` : ""}
+			${(() => {
+        if (!plantList.length) return "";
+        const plantHtml = plantList
+          .map((p) => {
+            const isValid =
+              photo._validPlantSet &&
+              photo._validPlantSet.has(String(p).trim().toLowerCase());
+            return isValid
+              ? `<a href="/plants/?q=${encodeURIComponent(p)}">${p}</a>`
+              : p;
+          })
+          .join(", ");
+        return `<strong>PLANT: </strong>${plantHtml}<br>`;
+      })()}<strong>DATE: </strong>${(() => {
+        const formatted = formatDate(photo.date);
+        const key = htmlDateString(photo.date);
+        return photo._isDateShared
+          ? `<a href="/photos/?q=${encodeURIComponent(key)}"><time datetime="${key}">${formatted}</time></a>`
+          : `<time datetime="${key}">${formatted}</time>`;
+      })()}
+			${photo.camera
+        ? photo._isCameraShared
+          ? `<br><strong>CAMERA: </strong><a href="/photos/?q=${encodeURIComponent(photo.camera)}">${photo.camera}</a>`
+          : `<br><strong>CAMERA: </strong>${photo.camera}`
+        : ""}
 			<br><strong>RESOLUTION: </strong>${photo.width}&nbsp;x&nbsp;${photo.height}px
 		</p>
 

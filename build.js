@@ -14,7 +14,7 @@ const photoSingleTemplate = require("./templates/photo-single.js");
 const plantsTemplate = require("./templates/plants.js");
 const toolsTemplate = require("./templates/tools.js");
 const notFoundTemplate = require("./templates/404.js");
-const { sortNewestFirst } = require("./templates/utils.js");
+const { sortNewestFirst, htmlDateString } = require("./templates/utils.js");
 
 // Configuration
 const SRC_DIR = "src";
@@ -425,6 +425,72 @@ async function build() {
   if (photos.length === 0) {
     warn("No photo files found");
   }
+
+  // Determine which spec values are shared (appear in >1 photo) for single-page linking
+  // Plant: always link to plant page if taxon exists in plant data (regardless of shared)
+  const validPlantSet = new Set();
+  try {
+    const plantData = require("./src/_data/plant-data.json");
+    const collect = (nodes) => {
+      for (const node of nodes || []) {
+        if (node.name) validPlantSet.add(String(node.name).trim().toLowerCase());
+        if (node.file && Array.isArray(node.file.aliases)) {
+          for (const a of node.file.aliases) {
+            if (a) validPlantSet.add(String(a).trim().toLowerCase());
+          }
+        }
+        if (node.children) collect(node.children);
+      }
+    };
+    collect(plantData.taxonomy);
+    // Also add file-less nodes' names already added; aliases cover common names
+  } catch (_e) {
+    // plant-data missing — no plant links
+  }
+
+  const plantCounts = new Map();
+  const dateCounts = new Map();
+  const cameraCounts = new Map();
+  for (const p of photos) {
+    if (p.plant) {
+      for (const taxon of [].concat(p.plant)) {
+        const key = String(taxon).trim();
+        if (key) plantCounts.set(key, (plantCounts.get(key) || 0) + 1);
+      }
+    }
+    if (p.date) {
+      try {
+        const dKey = htmlDateString(p.date);
+        dateCounts.set(dKey, (dateCounts.get(dKey) || 0) + 1);
+      } catch (_e) {
+        // ignore invalid dates
+      }
+    }
+    if (p.camera) {
+      const cKey = String(p.camera).trim();
+      if (cKey) cameraCounts.set(cKey, (cameraCounts.get(cKey) || 0) + 1);
+    }
+  }
+  const sharedPlantSet = new Set(
+    [...plantCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+  );
+  const sharedDateSet = new Set(
+    [...dateCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+  );
+  const sharedCameraSet = new Set(
+    [...cameraCounts.entries()].filter(([, c]) => c > 1).map(([k]) => k),
+  );
+  for (const p of photos) {
+    p._validPlantSet = validPlantSet;
+    p._sharedPlantSet = sharedPlantSet;
+    try {
+      p._isDateShared = p.date ? sharedDateSet.has(htmlDateString(p.date)) : false;
+    } catch (_e) {
+      p._isDateShared = false;
+    }
+    p._isCameraShared = p.camera ? sharedCameraSet.has(String(p.camera).trim()) : false;
+  }
+
   console.log("");
 
   // Step 3: Generate pages
