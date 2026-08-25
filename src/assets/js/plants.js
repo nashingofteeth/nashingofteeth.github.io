@@ -19,6 +19,9 @@ function generatePlantList(taxonomy, level = 0) {
 
     // Build node label
     let content = "";
+    const photoLink = node.hasPhoto
+      ? ` <a class="plant-photo-link" href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</a>`
+      : "";
     if (node.file) {
       const aliases = node.file.aliases;
       const aliasText = aliases && aliases.length
@@ -32,6 +35,7 @@ function generatePlantList(taxonomy, level = 0) {
     } else {
       content = `<span class="muted">${node.name}</span>`;
     }
+    content += photoLink;
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
@@ -190,6 +194,10 @@ function expandAll() {
     } else {
       content = `<span class="muted">${displayName}</span>`;
     }
+    const photoLink = node.hasPhoto
+      ? ` <a class="plant-photo-link" href="/photos/?q=${encodeURIComponent(node.name)}" title="View photos of ${node.name}">&#128444;&#65039;</a>`
+      : "";
+    content += photoLink;
 
     return `<li${cls}${onclick}>${content}</li>\n`;
   }

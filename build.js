@@ -543,13 +543,43 @@ async function build() {
   // Plants page
   try {
     const plantData = require("./src/_data/plant-data.json");
+
+    // Annotate taxa that have at least one photo (matched by name or alias)
+    // so the plants tree can link each to a /photos/?q= search of that taxon.
+    const photoTaxa = new Set();
+    for (const p of photos) {
+      if (p.plant) {
+        for (const taxon of [].concat(p.plant)) {
+          const key = String(taxon).trim().toLowerCase();
+          if (key) photoTaxa.add(key);
+        }
+      }
+    }
+    const annotateTaxa = (nodes) => {
+      for (const node of nodes || []) {
+        if (node.name && photoTaxa.has(String(node.name).trim().toLowerCase())) {
+          node.hasPhoto = true;
+        }
+        if (node.file && Array.isArray(node.file.aliases)) {
+          for (const alias of node.file.aliases) {
+            if (alias && photoTaxa.has(String(alias).trim().toLowerCase())) {
+              node.hasPhoto = true;
+            }
+          }
+        }
+        if (node.children) annotateTaxa(node.children);
+      }
+    };
+    annotateTaxa(plantData.taxonomy);
+
     generatePage("plants/index.html", () => plantsTemplate(plantData));
-    // Copy plant data JSON so the client-side search feature can fetch it
-    fs.copyFileSync(
-      "./src/_data/plant-data.json",
+    // Write annotated JSON so client-side search re-renders consistently
+    fs.mkdirSync(path.join(DIST_DIR, "plants"), { recursive: true });
+    fs.writeFileSync(
       path.join(DIST_DIR, "plants", "plant-data.json"),
+      JSON.stringify(plantData),
     );
-    ok("plant-data.json → dist/plants/");
+    ok("plant-data.json → dist/plants/ (photo annotations)");
   } catch (error) {
     warn("plant-data.json not found, skipping plants page");
   }
