@@ -11,30 +11,27 @@
 // photos themselves happens at build time (see templates/utils.js).
 // ---------------------------------------------------------------------------
 
-// Single source for month names; long and short forms are derived from it so
-// the two lists can't drift.
-const MONTH_NAMES = [
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-];
-const MONTH_SHORT = MONTH_NAMES.map((m) => m.slice(0, 3));
+// Month names and abbreviations are derived from the locale formatter rather
+// than hardcoded, so the long/short forms can't drift and there's no month
+// list to keep in sync. Forcing "en-US" makes the output locale-independent.
+const MONTH_SHORT = Array.from({ length: 12 }, (_, i) =>
+  new Date(Date.UTC(2000, i, 1))
+    .toLocaleString("en-US", { month: "short", timeZone: "UTC" })
+    .toLowerCase(),
+);
+const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
+  new Date(Date.UTC(2000, i, 1))
+    .toLocaleString("en-US", { month: "long", timeZone: "UTC" })
+    .toLowerCase(),
+);
+const MONTH_ALT = MONTH_SHORT.join("|");
 
 function tryParseDateQuery(query) {
   const q = query.trim();
   if (!q) return null;
 
   const hasYear = /\b\d{4}\b/.test(q);
-  const hasMonthName = /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i.test(q);
+  const hasMonthName = new RegExp(MONTH_ALT, "i").test(q);
   const hasSlash = /[\/\-\.]/.test(q);
 
   if (/^\d{4}$/.test(q)) {
@@ -49,7 +46,7 @@ function tryParseDateQuery(query) {
   }
 
   // Month name + year (e.g. "August 2026", "Aug 2026")
-  const monthYear = q.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+(\d{4})$/i);
+  const monthYear = q.match(new RegExp(`^(${MONTH_ALT})[a-z]*\\s+(\\d{4})$`, "i"));
   if (monthYear) {
     const name = monthYear[1].toLowerCase();
     const idx = MONTH_SHORT.findIndex((m) => name.startsWith(m));
@@ -69,7 +66,7 @@ function tryParseDateQuery(query) {
       if (hasMonthName) {
         const dayCandidates = (q.match(/\b\d{1,2}\b/g) || []).filter((n) => n.length <= 2 && Number(n) >= 1 && Number(n) <= 31);
         hasDay = dayCandidates.length > 0;
-        if (q.match(/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\s+\d{4}$/i)) hasDay = false;
+        if (q.match(new RegExp(`^(${MONTH_ALT})[a-z]*\\s+\\d{4}$`, "i"))) hasDay = false;
       } else if (hasSlash) {
         hasDay = (q.match(/\d+/g) || []).length >= 3;
       }

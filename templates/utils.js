@@ -2,22 +2,6 @@
 
 const { BASE_URL, PHOTOS_PATH } = require("./partials/constants.js");
 
-// Shared month names, in order, for date formatting.
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 function sortNewestFirst(collection) {
   return [...collection].sort(
     (a, b) => new Date(b.date) - new Date(a.date),
@@ -38,7 +22,11 @@ function parseDate(dateInput) {
 
 function formatDate(dateInput) {
   const date = parseDate(dateInput);
-  return `${MONTHS[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  // Month name derived from the locale formatter (not a hardcoded list), forced
+  // to UTC so a month index can't shift across timezones.
+  const month = new Date(Date.UTC(2000, date.getUTCMonth(), 1))
+    .toLocaleString("en-US", { month: "long", timeZone: "UTC" });
+  return `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
 function htmlDateString(dateInput) {
