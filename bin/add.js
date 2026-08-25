@@ -93,7 +93,17 @@ function getOrientedDimensions(filePath) {
     let w = parseInt(parts[0], 10);
     let h = parseInt(parts[1], 10);
     const orient = parseInt(parts[2], 10);
-    if ([5, 6, 7, 8].includes(orient) && w > 0 && h > 0) {
+    const ext = path.extname(filePath).toLowerCase();
+    // HEIF/HEIC from iPhone often carries both EXIF orientation and
+    // container irot that disagree with how the image is actually intended
+    // to be displayed. Empirically for 20241112_172127.heif the raw
+    // 3024x4032 is already upright (portrait) and should NOT be swapped
+    // despite EXIF:Orientation=6 and irot=270. Treat HEIF as already
+    // oriented and use raw dimensions to avoid the double-swap that
+    // previously produced a landscape markdown for a portrait image.
+    if (ext === ".heif" || ext === ".heic") {
+      // Use raw dimensions as-is for HEIF
+    } else if ([5, 6, 7, 8].includes(orient) && w > 0 && h > 0) {
       [w, h] = [h, w]; // swap for 90°/270° rotations
     }
     if (w > 0 && h > 0) {
@@ -103,6 +113,63 @@ function getOrientedDimensions(filePath) {
   } catch (err) {
     return { width: 0, height: 0, orientation: 0 };
   }
+}
+
+function getHeifRotationAngle(filePath) {
+  // Returns clockwise rotation degrees needed to display the HEIF upright,
+  // or 0 if none. Prefers heif-info's `angle (ccw)` transform; falls back
+  // to mediainfo's Rotation field.
+  try {
+    const info = execSync(`heif-info "${filePath}" 2>&1`, {
+      encoding: "utf8",
+    });
+    const m = info.match(/angle \(ccw\):\s*(-?\d+)/i);
+    if (m) {
+      const ccw = parseInt(m[1], 10);
+      if (!isNaN(ccw) && ccw !== 0) {
+        const cw = (360 - ((ccw % 360) + 360) % 360) % 360;
+        return cw;
+      }
+    }
+  } catch (_err) {
+    // ignore
+  }
+  try {
+    const output = execSync(`mediainfo --Output=JSON "${filePath}"`, {
+      encoding: "utf8",
+    });
+    const data = JSON.parse(output);
+    for (const track of data.media.track || []) {
+      if (track["@type"] === "Image" && track.extra && track.extra.Rotation) {
+        const rotStr = track.extra.Rotation;
+        const first = rotStr.split("/")[0].trim();
+        const deg = parseInt(first, 10);
+        if (!isNaN(deg) && deg !== 0) {
+          // mediainfo reports e.g. "-270" meaning 270 CCW / 90 CW
+          const cw = (360 - ((deg % 360) + 360) % 360) % 360;
+          if (cw === 90 || cw === 180 || cw === 270) {
+            return cw;
+          }
+          // deg itself may already be CW; normalise
+          const norm = ((deg % 360) + 360) % 360;
+          if (norm === 90 || norm === 180 || norm === 270) {
+            return norm;
+          }
+        }
+      }
+    }
+  } catch (_err) {
+    // ignore
+  }
+  return 0;
+}
+
+function getMagickAutoOrientArgs(filePath) {
+  // `magick -auto-orient` handles JPEG EXIF correctly. For HEIF the raw
+  // 3024x4032 from iPhone is already upright (see 241112092127) and
+  // applying the EXIF:Orientation=6 / irot=270 would incorrectly
+  // produce a landscape image, so we leave HEIF as-is.
+  return "-auto-orient";
 }
 
 function getDateFromMediainfo(filePath) {
@@ -234,27 +301,30 @@ function processImage(filePath) {
 
   try {
     // Convert to viewing JPEG (-auto-orient first so pixels are upright,
-    // then resize, then strip the now-redundant EXIF orientation tag)
+    // then resize, then strip the now-redundant EXIF orientation tag).
+    // For HEIF, -auto-orient alone ignores the container irot, so we
+    // compute explicit args that include -rotate when needed.
+    const autoOrientArgs = getMagickAutoOrientArgs(filePath);
     execSync(
-      `magick "${filePath}" -auto-orient -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${viewingJpg}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing JPEG created`);
 
     // Convert to viewing WebP
     execSync(
-      `magick "${filePath}" -auto-orient -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${MAX_DIMENSION}x${MAX_DIMENSION}\\> -strip "${viewingWebp}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Viewing WebP created`);
 
     // Convert to desktop thumbnail variant
     execSync(
-      `magick "${filePath}" -auto-orient -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${thumbJpg}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip -quality ${JPEG_QUALITY} "${thumbJpg}"`,
       { stdio: "pipe" },
     );
     execSync(
-      `magick "${filePath}" -auto-orient -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${thumbWebp}"`,
+      `magick "${filePath}" ${autoOrientArgs} -resize ${THUMB_MAX_DIMENSION}x${THUMB_MAX_DIMENSION}\\> -strip "${thumbWebp}"`,
       { stdio: "pipe" },
     );
     console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px) created`);
