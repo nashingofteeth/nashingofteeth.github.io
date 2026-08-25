@@ -1,6 +1,7 @@
 // ---------------------------------------------------------------------------
 // Depends on search-utils.js (loaded first): updateUrl, isEditableTarget,
 // bindSearchInput. See templates/photos.js for the load order.
+// Also depends on month-utils.js for MONTH_NAMES_LOWER, MONTH_SHORT, MONTH_ALT.
 // ---------------------------------------------------------------------------
 
 // ---------------------------------------------------------------------------
@@ -10,21 +11,6 @@
 // the browser, since it reads live input. All date parsing/formatting of the
 // photos themselves happens at build time (see templates/utils.js).
 // ---------------------------------------------------------------------------
-
-// Month names and abbreviations are derived from the locale formatter rather
-// than hardcoded, so the long/short forms can't drift and there's no month
-// list to keep in sync. Forcing "en-US" makes the output locale-independent.
-const MONTH_SHORT = Array.from({ length: 12 }, (_, i) =>
-  new Date(Date.UTC(2000, i, 1))
-    .toLocaleString("en-US", { month: "short", timeZone: "UTC" })
-    .toLowerCase(),
-);
-const MONTH_NAMES = Array.from({ length: 12 }, (_, i) =>
-  new Date(Date.UTC(2000, i, 1))
-    .toLocaleString("en-US", { month: "long", timeZone: "UTC" })
-    .toLowerCase(),
-);
-const MONTH_ALT = MONTH_SHORT.join("|");
 
 function tryParseDateQuery(query) {
   const q = query.trim();
@@ -40,7 +26,7 @@ function tryParseDateQuery(query) {
 
   const lower = q.toLowerCase().trim();
   for (let i = 0; i < 12; i++) {
-    if (lower === MONTH_NAMES[i] || lower === MONTH_SHORT[i]) {
+    if (lower === MONTH_NAMES_LOWER[i] || lower === MONTH_SHORT[i]) {
       return { month: i + 1, hasYear: false, hasMonth: true, hasDay: false, raw: q };
     }
   }

@@ -1,6 +1,7 @@
 // Utility functions for templates
 
 const { BASE_URL, PHOTOS_PATH } = require("./partials/constants.js");
+const { MONTH_NAMES } = require("../src/assets/js/month-utils.js");
 
 function sortNewestFirst(collection) {
   return [...collection].sort(
@@ -22,11 +23,7 @@ function parseDate(dateInput) {
 
 function formatDate(dateInput) {
   const date = parseDate(dateInput);
-  // Month name derived from the locale formatter (not a hardcoded list), forced
-  // to UTC so a month index can't shift across timezones.
-  const month = new Date(Date.UTC(2000, date.getUTCMonth(), 1))
-    .toLocaleString("en-US", { month: "long", timeZone: "UTC" });
-  return `${month} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  return `${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
 }
 
 function htmlDateString(dateInput) {

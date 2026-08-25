@@ -8,7 +8,7 @@ const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function photos(photoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "photo-common.css", "photos.css");
-  const combinedJs = loadJs("search-utils.js", "photos.js");
+  const combinedJs = loadJs("month-utils.js", "search-utils.js", "photos.js");
 
   // Sort photos newest first
   const sortedPhotos = sortNewestFirst(photoCollection);

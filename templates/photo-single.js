@@ -6,7 +6,7 @@ const photoArticle = require("./partials/photo-article.js");
 function photoSingle(photo, prevPhoto = null, nextPhoto = null) {
   const combinedCss = loadCss("base.css", "page.css", "photo-common.css", "photo-single.css");
   // photos.js provides the shared filterByQuery (top-level) for query-scoped nav
-  const combinedJs = loadJs("search-utils.js", "photos.js", "photo-single.js");
+  const combinedJs = loadJs("month-utils.js", "search-utils.js", "photos.js", "photo-single.js");
 
   const navHtml = `<nav class="photo-nav" aria-label="Photo navigation">
 		${
