@@ -263,13 +263,76 @@ function expandAll() {
     return k || name.toLowerCase();
   }
 
+  function escapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function hasWholeWord(text, q) {
+    if (!text || !q) return false;
+    return new RegExp(`\\b${escapeRegExp(q)}\\b`, "i").test(text);
+  }
+
+  function hasPrefixWord(text, q) {
+    if (!text || !q) return false;
+    // token starts with q (e.g. roseus → rose, rosemary → rose)
+    const tokens = text.toLowerCase().split(/[^a-z0-9]+/);
+    const lq = q.toLowerCase();
+    return tokens.some((t) => t.startsWith(lq) && t !== lq);
+  }
+
+  // Broad relevance tiers:
+  //  4 - name token exactly equals query (Rosa → rose? no, but Rosa → rosa)
+  //  3 - alias string exactly equals query (Rosa alias "rose" == "rose")
+  //  2 - alias token exactly equals query (Gypsy's rose)
+  //  1 - name/alias token starts with query (roseus, rosemary)
+  //  0 - substring inside token (Petroselinum, squarrose)
+  // -1 - not a match (ancestor)
+  function nodeQuality(node, q) {
+    const lq = q.toLowerCase();
+    // 4: name token exact
+    if (hasWholeWord(node.name, q)) return 4;
+    // 3: alias exact string
+    if (node.file?.aliases?.some((a) => a.toLowerCase() === lq)) return 3;
+    // 2: alias token exact
+    if (node.file?.aliases?.some((a) => hasWholeWord(a, q))) return 2;
+    // 1: prefix
+    if (hasPrefixWord(node.name, q)) return 1;
+    if (node.file?.aliases?.some((a) => hasPrefixWord(a, q))) return 1;
+    if (nodeMatches(node, q)) return 0;
+    return -1;
+  }
+
+  const MAX_QUALITY = 4;
+
+  // Best quality in subtree (for sorting ancestor branches by their best
+  // descendant). Memoized per render to avoid repeated recursion.
+  function bestQuality(node, q, matchSet, ancestorSet, memo) {
+    if (memo.has(node)) return memo.get(node);
+    let best = nodeQuality(node, q);
+    if (best < MAX_QUALITY && (ancestorSet.has(node) || matchSet.has(node))) {
+      for (const child of node.children || []) {
+        if (!matchSet.has(child) && !ancestorSet.has(child)) continue;
+        best = Math.max(best, bestQuality(child, q, matchSet, ancestorSet, memo));
+        if (best === MAX_QUALITY) break;
+      }
+    }
+    memo.set(node, best);
+    return best;
+  }
+
   function renderPrunedTree(nodes, matchSet, ancestorSet, q) {
     let html = "";
+    const memo = new Map();
 
-    // Descending alphabetical in DOM → ascending visually after column-reverse.
-    const sortedNodes = [...nodes].sort((a, b) =>
-      sortKey(b.name).localeCompare(sortKey(a.name)),
-    );
+    // Descending in DOM → ascending/desired visual after column-reverse.
+    // Primary: whole-word matches (2) surface first visually => low first in DOM.
+    // Secondary: alphabetical descending in DOM → ascending visually.
+    const sortedNodes = [...nodes].sort((a, b) => {
+      const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
+      const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
+      if (qa !== qb) return qa - qb;
+      return sortKey(b.name).localeCompare(sortKey(a.name));
+    });
 
     for (const node of sortedNodes) {
       const isMatch = matchSet.has(node);
@@ -301,7 +364,12 @@ function expandAll() {
         // Ancestor node: show only the children that lead toward matches
         const relevantChildren = children
           .filter((c) => matchSet.has(c) || ancestorSet.has(c))
-          .sort((a, b) => sortKey(b.name).localeCompare(sortKey(a.name)));
+          .sort((a, b) => {
+            const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
+            const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
+            if (qa !== qb) return qa - qb;
+            return sortKey(b.name).localeCompare(sortKey(a.name));
+          });
         const hasChildren = relevantChildren.length > 0;
 
         html += nodeLabelHtml(node, "", "", hasChildren, false);
