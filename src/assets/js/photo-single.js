@@ -4,6 +4,23 @@
 
   upgradeSearchLinks(document);
 
+  // Keyboard hints — applied only here (never baked at build time) since the
+  // P/D/C/Esc shortcuts only work once JS runs.
+  const plantLink = document.querySelector(
+    '.specs a.search-link[href^="/plants/"]',
+  );
+  if (plantLink) plantLink.setAttribute("title", "View plant (P)");
+  const dateLink = document.querySelector(
+    '.specs a.search-link[href^="/photos/"] time',
+  );
+  if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
+  const cameraLink = Array.from(
+    document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+  ).find((a) => !a.querySelector("time"));
+  if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
+  const photosLink = document.querySelector('header a[href^="/photos"]');
+  if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
+
   const query = queryFromUrl();
   const currentSlug = window.location.pathname
     .split("/")
@@ -84,11 +101,20 @@
     if (slug) {
       const href = `/photos/${slug}/?q=${encodeURIComponent(queryStr.trim())}`;
       const rel = isPrev ? "prev" : "next";
-      const title = isPrev ? "Previous (K)" : "Next (J)";
-      return `<a href="${href}" class="${cls}" rel="${rel}" title="${title}">${label}</a>`;
+      return `<a href="${href}" class="${cls}" rel="${rel}">${label}</a>`;
     }
     return `<span class="${cls} disabled" aria-hidden="true">${label}</span>`;
   }
+
+  // Prev/next titles are applied here (never baked at build time) since J/K
+  // only work once JS runs.
+  function applyNavTitles() {
+    const prev = document.querySelector(".photo-nav-prev[href]");
+    const next = document.querySelector(".photo-nav-next[href]");
+    if (prev) prev.setAttribute("title", "Previous (K)");
+    if (next) next.setAttribute("title", "Next (J)");
+  }
+  applyNavTitles();
 
   function applyScopedNav(scoped, queryStr) {
     const nav = document.querySelector(".photo-nav");
@@ -124,6 +150,7 @@
       tmp.innerHTML = nextNextHtml;
       nextEl.replaceWith(tmp.firstElementChild);
     }
+    applyNavTitles();
   }
 
   document.addEventListener("keydown", (e) => {

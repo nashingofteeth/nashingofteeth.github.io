@@ -184,6 +184,23 @@ function filterByQuery(items, query) {
     }
   }
 
+  // Number hints follow the current (possibly filtered) visible set: the first
+  // 9 visible items get their digit keybind, items past 9 (or hidden) get none.
+  function updateNumberHints() {
+    let n = 0;
+    for (const el of grid.querySelectorAll(".photo-item")) {
+      if (el.hidden) continue;
+      n++;
+      const link = el.querySelector("a");
+      if (!link) continue;
+      if (n <= 9) {
+        link.setAttribute("title", `Open photo (${n})`);
+      } else {
+        link.removeAttribute("title");
+      }
+    }
+  }
+
   function performSearch(query) {
     const q = query.trim();
     if (!q) {
@@ -193,28 +210,33 @@ function filterByQuery(items, query) {
       if (noResults) noResults.hidden = true;
       grid.removeAttribute("data-search-active");
       setPhotoLinks("");
-      return;
-    }
-    const result = runSearch(q);
-    if (!result) {
-      for (const el of grid.querySelectorAll(".photo-item")) {
-        el.hidden = true;
-      }
-      if (noResults) noResults.hidden = false;
-      grid.setAttribute("data-search-active", "");
     } else {
-      for (const el of grid.querySelectorAll(".photo-item")) {
-        const slug = el.getAttribute("data-slug");
-        el.hidden = !result.has(slug);
+      const result = runSearch(q);
+      if (!result) {
+        for (const el of grid.querySelectorAll(".photo-item")) {
+          el.hidden = true;
+        }
+        if (noResults) noResults.hidden = false;
+        grid.setAttribute("data-search-active", "");
+      } else {
+        for (const el of grid.querySelectorAll(".photo-item")) {
+          const slug = el.getAttribute("data-slug");
+          el.hidden = !result.has(slug);
+        }
+        if (noResults) noResults.hidden = true;
+        grid.setAttribute("data-search-active", "");
       }
-      if (noResults) noResults.hidden = true;
-      grid.setAttribute("data-search-active", "");
+      setPhotoLinks(q);
     }
-    setPhotoLinks(q);
+    updateNumberHints();
   }
 
   // Restore query from URL, debounce input, handle popstate (search-utils.js).
   bindSearchInput(searchInput, performSearch);
+
+  // Number hints need to render on first load even with no query (bindSearchInput
+  // only runs perform on init when a query is present).
+  updateNumberHints();
 
   // Enter on a populated search navigates to the first matching photo — works
   // whether or not the search input is focused (when it is, let the input's own
@@ -245,6 +267,7 @@ function filterByQuery(items, query) {
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
+  searchInput.setAttribute("title", "Search (/)");
 
   // "/" focuses the search bar (matching common gallery/reader conventions).
   document.addEventListener("keydown", (e) => {
