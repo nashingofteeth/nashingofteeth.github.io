@@ -141,6 +141,14 @@ a:active {
   display: none;
 }
 
+/* During search: reverse vertical order so deepest (lowest-level) matches
+   appear at the top, with shared matching ancestors collapsed into a single
+   node below (deduped per level via the pruned tree). */
+.plant-list[data-search-active] ul:not(.collapsed) {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .muted {
   color: #80a080;
 }

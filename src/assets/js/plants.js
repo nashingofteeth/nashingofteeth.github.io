@@ -250,10 +250,28 @@ function expandAll() {
   }
 
   // Render the pruned search-result tree (merged ancestor chains)
+  // During search the tree is visually inverted via CSS column-reverse
+  // (deepest matches at top). To keep alphabetical order top-to-bottom
+  // visually, we sort DOM descending so the flex reversal yields ascending.
+  function sortKey(name) {
+    // Sort by epithet for species/hybrids (e.g. "Magnolia × soulangeana"
+    // → "soulangeana") so hybrids collate sensibly; fall back to full name.
+    const k = name
+      .toLowerCase()
+      .replace(/^[a-z]+\s+×?\s*/i, "")
+      .trim();
+    return k || name.toLowerCase();
+  }
+
   function renderPrunedTree(nodes, matchSet, ancestorSet, q) {
     let html = "";
 
-    for (const node of nodes) {
+    // Descending alphabetical in DOM → ascending visually after column-reverse.
+    const sortedNodes = [...nodes].sort((a, b) =>
+      sortKey(b.name).localeCompare(sortKey(a.name)),
+    );
+
+    for (const node of sortedNodes) {
       const isMatch = matchSet.has(node);
       const isAncestor = ancestorSet.has(node);
 
@@ -281,9 +299,9 @@ function expandAll() {
         }
       } else {
         // Ancestor node: show only the children that lead toward matches
-        const relevantChildren = children.filter(
-          (c) => matchSet.has(c) || ancestorSet.has(c),
-        );
+        const relevantChildren = children
+          .filter((c) => matchSet.has(c) || ancestorSet.has(c))
+          .sort((a, b) => sortKey(b.name).localeCompare(sortKey(a.name)));
         const hasChildren = relevantChildren.length > 0;
 
         html += nodeLabelHtml(node, "", "", hasChildren, false);
@@ -329,6 +347,12 @@ function expandAll() {
     });
 
   // Perform search and render results
+  // Uses the pruned (merged) tree so shared matching ancestors are deduped
+  // per level — only one Magnolia / Magnoliaceae / Magnoliales node no matter
+  // how many leaf matches descend from it. Combined with the
+  // [data-search-active] column-reverse CSS, the pruned chain is visually
+  // inverted so lowest-level matches (e.g. Magnolia acuminata) appear at the
+  // top and the shared matching chain appears once below.
   function performSearch(query) {
     if (!query.trim()) {
       renderTree(generatePlantList(plantData.taxonomy, 0), false);
