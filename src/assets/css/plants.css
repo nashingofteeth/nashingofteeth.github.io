@@ -104,9 +104,9 @@ a:active {
   -webkit-tap-highlight-color: transparent;
 }
 
+.plant-list .toggle:focus,
 .plant-list .toggle:focus-visible {
-  outline: 1px solid #00c400;
-  outline-offset: 1px;
+  outline: none;
 }
 
 .plant-list .toggle::before {
