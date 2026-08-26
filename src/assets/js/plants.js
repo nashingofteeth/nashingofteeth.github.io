@@ -409,10 +409,115 @@ function expandAll() {
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
+      searchInput.setAttribute("title", "Search —\n/ focus · Esc clear · Enter open first");
+      updateNumberHints();
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
+
+  // -----------------------------------------------------------------------
+  // Keybinds — mirrors photos.js approach (/, 1-9, Enter, Esc)
+  // -----------------------------------------------------------------------
+  function visibleMatches() {
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) return [];
+    const all = Array.from(treeEl.querySelectorAll("li.search-match"));
+    // Filter out matches hidden inside a collapsed subtree
+    const visible = all.filter((li) => {
+      let parent = li.parentElement;
+      while (parent && parent !== treeEl) {
+        if (parent.tagName === "UL" && parent.classList.contains("collapsed")) return false;
+        parent = parent.parentElement;
+      }
+      return true;
+    });
+    // Tree is visually inverted via column-reverse per UL, so DOM order is
+    // reverse of visual top-to-bottom. Reversing the flat list approximates
+    // visual order (high-relevance first).
+    return visible.reverse();
+  }
+
+  function numberedMatch(n) {
+    const v = visibleMatches();
+    return v[n - 1] || null;
+  }
+
+  function updateNumberHints() {
+    const v = visibleMatches();
+    // Clear previous titles
+    document.querySelectorAll("#plant-tree li.search-match a").forEach((a) => {
+      const t = a.getAttribute("title") || "";
+      if (/^Open \(/.test(t)) a.removeAttribute("title");
+    });
+    v.forEach((li, idx) => {
+      if (idx >= 9) return;
+      const link = li.querySelector("a[href]");
+      if (!link) return;
+      link.setAttribute("title", `Open (${idx + 1})`);
+    });
+  }
+
+  // "/" focuses search
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
+      e.key !== "/" ||
+      document.activeElement === searchInput ||
+      isEditableTarget(e.target)
+    ) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  });
+
+  // Enter → open first visible match (applies pending query first)
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+    const q = searchInput.value.trim();
+    if (!q) return;
+    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
+    performSearch(searchInput.value);
+    const first = numberedMatch(1);
+    const link = first && first.querySelector("a[href]");
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.getAttribute("href");
+    }
+  });
+
+  function digitKeyNav(e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || document.activeElement === searchInput) return;
+    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+    if (isEditableTarget(e.target)) return;
+    const digit = parseInt(e.key, 10);
+    if (!Number.isInteger(digit) || digit < 1 || digit > 9) return;
+    const item = numberedMatch(digit);
+    const link = item && item.querySelector("a[href]");
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.getAttribute("href");
+    }
+  }
+
+  document.addEventListener("keydown", digitKeyNav);
+
+  // Esc clears search
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!searchInput.value.trim()) return;
+    e.preventDefault();
+    searchInput.value = "";
+    updateUrl("");
+    performSearch("");
+    updateNumberHints();
+    searchInput.blur();
+  });
 
   // Perform search and render results
   // Uses the pruned (merged) tree so shared matching ancestors are deduped
@@ -440,6 +545,7 @@ function expandAll() {
         );
       }
     }
+    updateNumberHints();
   }
 }());
 
