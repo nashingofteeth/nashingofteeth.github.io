@@ -1,6 +1,6 @@
 // Utility functions for templates
 
-const { BASE_URL, PHOTOS_PATH } = require("./partials/constants.js");
+const { BASE_URL, PHOTOS_PATH, PHOTO_TIME_ZONE } = require("./partials/constants.js");
 const { MONTH_NAMES } = require("../src/assets/js/month-utils.js");
 
 function sortNewestFirst(collection) {
@@ -9,33 +9,41 @@ function sortNewestFirst(collection) {
   );
 }
 
-// Parse a Date object, an ISO timestamp, or a bare YYYY-MM-DD string.
-// Bare dates parse as UTC to avoid timezone shifts.
-function parseDate(dateInput) {
-  if (dateInput instanceof Date) {
-    return dateInput;
+// Extract a photo's {y, m, d, hh, min, ss} zoned as PHOTO_TIME_ZONE, so
+// rendering is independent of the build machine's timezone. Bare dates are
+// literal calendar dates (no re-zoning).
+const BARE_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const pad = (n) => String(n).padStart(2, "0");
+
+const ZONED_FMT = new Intl.DateTimeFormat("en-CA", {
+  timeZone: PHOTO_TIME_ZONE,
+  year: "numeric", month: "2-digit", day: "2-digit",
+  hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
+});
+
+function getDateParts(dateInput) {
+  if (typeof dateInput === "string" && BARE_DATE_RE.test(dateInput)) {
+    const [y, m, d] = dateInput.split("-").map(Number);
+    return { y, m, d, hh: 0, min: 0, ss: 0 };
   }
-  const isBareDate = /^\d{4}-\d{2}-\d{2}$/.test(dateInput);
-  return isBareDate
-    ? new Date(dateInput + "T00:00:00Z")
-    : new Date(dateInput);
+  const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+  const [, y, m, d, hh, min, ss] =
+    ZONED_FMT.format(date).match(/(\d{4})-(\d{2})-(\d{2})[,\s]+(\d{2}):(\d{2}):(\d{2})/) || [];
+  return { y: +y, m: +m, d: +d, hh: hh === "24" ? 0 : +hh, min: +min, ss: +ss };
 }
 
 function formatDate(dateInput) {
-  const date = parseDate(dateInput);
-  return `${MONTH_NAMES[date.getUTCMonth()]} ${date.getUTCDate()}, ${date.getUTCFullYear()}`;
+  const { y, m, d } = getDateParts(dateInput);
+  return `${MONTH_NAMES[m - 1]} ${d}, ${y}`;
 }
 
 function htmlDateString(dateInput) {
-  const date = parseDate(dateInput);
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-  const day = String(date.getUTCDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const { y, m, d } = getDateParts(dateInput);
+  return `${y}-${pad(m)}-${pad(d)}`;
 }
 
 // Build-time search fields for a photo. Produces a lowercase haystack (plant,
-// date variants, camera) and the UTC year/month/day ints so the client only
+// date variants, camera) and the zoned year/month/day ints so the client only
 // does substring/integer matching — no date parsing in the browser bundle.
 function getPhotoSearchFields(photo) {
   const parts = [];
@@ -46,12 +54,15 @@ function getPhotoSearchFields(photo) {
     }
   }
   if (photo.date) {
-    // gray-matter parses date: into a Date object; normalize to the ISO UTC
-    // string (equivalent to what a JSON round-trip used to yield) so the
-    // haystack isn't machine-localized.
+    // gray-matter parses date: into a Date object. Push a machine-readable
+    // timestamp built from the LOCAL components (matching the displayed date)
+    // so a free-text query like "2026-08-19" doesn't surface a photo whose
+    // true-UTC instant falls on that day but whose local capture date is the
+    // 18th.
     let rawDate;
     try {
-      rawDate = parseDate(photo.date).toISOString();
+      const p = getDateParts(photo.date);
+      rawDate = `${p.y}-${pad(p.m)}-${pad(p.d)}T${pad(p.hh)}:${pad(p.min)}:${pad(p.ss)}.000Z`;
     } catch (_e) {
       rawDate = String(photo.date);
     }
@@ -71,12 +82,10 @@ function getPhotoSearchFields(photo) {
   let m = 0;
   let d = 0;
   try {
-    const date = parseDate(photo.date);
-    if (!isNaN(date)) {
-      y = date.getUTCFullYear();
-      m = date.getUTCMonth() + 1;
-      d = date.getUTCDate();
-    }
+    const p = getDateParts(photo.date);
+    y = p.y;
+    m = p.m;
+    d = p.d;
   } catch (_e) {
     // ignore invalid dates
   }

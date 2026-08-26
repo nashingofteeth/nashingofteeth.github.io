@@ -21,6 +21,13 @@ const POTATO_URL = "https://potato.cheap/";
 const PHOTOS_PATH = "photos/";
 const ORIGINALS_SUBDIR = "originals/";
 
+// The timezone photos are captured in. Used (via Intl) to derive a photo's
+// local calendar date from its UTC timestamp so rendering is independent of the
+// build machine's timezone. America/Los_Angeles is PST (UTC-8) / PDT (UTC-7),
+// so DST is handled automatically — a fixed -8 or -7 offset would be wrong for
+// roughly half the year's photos.
+const PHOTO_TIME_ZONE = "America/Los_Angeles";
+
 // Standard display ("full") variant — the size loaded when not using thumb
 // (single page + mobile gallery fallback). Capped at 1200px long edge; lives
 // as bare `${name}.jpg/.webp` beside thumb `${name}-thumb`.
@@ -59,6 +66,7 @@ module.exports = {
   POTATO_URL,
   PHOTOS_PATH,
   ORIGINALS_SUBDIR,
+  PHOTO_TIME_ZONE,
   FULL_MAX_DIMENSION,
   THUMB_MAX_DIMENSION,
   THUMB_SUFFIX,
