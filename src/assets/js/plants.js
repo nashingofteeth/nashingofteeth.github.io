@@ -463,15 +463,20 @@ function expandAll() {
     }
   });
 
-  // Esc clears search
+  // Esc clears search — keep focus if it was on the input
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) return;
     if (!searchInput.value.trim()) return;
     e.preventDefault();
+    const keepFocus = document.activeElement === searchInput;
     searchInput.value = "";
     updateUrl("");
     performSearch("");
-    searchInput.blur();
+    if (keepFocus) {
+      searchInput.focus();
+    } else {
+      searchInput.blur();
+    }
   });
 
   // Perform search and render results
