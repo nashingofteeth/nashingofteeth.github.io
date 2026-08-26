@@ -97,14 +97,24 @@ a:active {
   cursor: pointer;
   position: absolute;
   left: -4px;
+  width: 2ch;
+  text-align: left;
   color: #5a8a5a;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.plant-list .toggle:focus-visible {
+  outline: 1px solid #00c400;
+  outline-offset: 1px;
 }
 
 .plant-list .toggle::before {
   content: "▼";
 }
 
-.plant-list .toggle:hover::before {
+.plant-list .toggle:hover::before,
+.plant-list .toggle:focus-visible::before {
   color: #00c400;
 }
 

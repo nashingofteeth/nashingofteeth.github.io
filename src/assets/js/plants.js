@@ -39,7 +39,7 @@ function generatePlantList(taxonomy, level = 0) {
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
-      html += `${indent}<li class="has-children">${toggleHandle()}${content}</li>\n`;
+      html += `${indent}<li class="has-children">${toggleHandle(false)}${content}</li>\n`;
     } else {
       html += `${indent}<li>${content}</li>\n`;
     }
@@ -63,16 +63,18 @@ function photoHref(node) {
 }
 
 // ---------------------------------------------------------------------------
-// toggleNode — collapse / expand handler (onclick, degrades without JS)
+// toggleNode — collapse / expand handler (event-delegated, see bindToggle)
 // ---------------------------------------------------------------------------
-// toggleHandle — isolated clickable affordance (▼/▶), so only the marker
-// collapses/expands the node instead of the whole note.
-function toggleHandle() {
-  return `<span class="toggle" onclick="toggleNode(this)"></span>`;
+// toggleHandle — isolated, keyboard-accessible affordance (▼/▶) so only the
+// marker collapses/expands the node instead of the whole list entry.
+function toggleHandle(collapsed = false) {
+  return `<span class="toggle" role="button" tabindex="0" aria-expanded="${!collapsed}" aria-label="Toggle subtree"></span>`;
 }
 
 function toggleNode(toggle) {
+  if (!toggle) return;
   const li = toggle.closest("li");
+  if (!li) return;
 
   const childUls = [];
   let el = li.nextElementSibling;
@@ -86,8 +88,34 @@ function toggleNode(toggle) {
     const collapsed = li.classList.contains("collapsed");
     childUls.forEach((ul) => ul.classList.toggle("collapsed", !collapsed));
     li.classList.toggle("collapsed", !collapsed);
+    toggle.setAttribute("aria-expanded", String(collapsed));
   }
 }
+
+// bindToggle — delegated click + keyboard handling on the plant tree. Lives on
+// a stable ancestor so it survives the search re-render of #plant-tree's
+// innerHTML. De-inlines the handler (no onclick attributes in markup).
+function bindToggle() {
+  if (typeof document === "undefined") return;
+  const list = document.querySelector(".plant-list");
+  if (!list) return;
+
+  list.addEventListener("click", (e) => {
+    const toggle = e.target.closest(".toggle");
+    if (!toggle || !list.contains(toggle)) return;
+    toggleNode(toggle);
+  });
+
+  list.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " " && e.key !== "Spacebar") return;
+    const toggle = e.target.closest(".toggle");
+    if (!toggle || !list.contains(toggle)) return;
+    e.preventDefault();
+    toggleNode(toggle);
+  });
+}
+
+bindToggle();
 
 // ---------------------------------------------------------------------------
 // collapseAll / expandAll — collapse or expand every toggleable node at once
@@ -197,7 +225,7 @@ function expandAll() {
       startCollapsed && "collapsed",
     ].filter(Boolean);
     const cls = classes.length ? ` class="${classes.join(" ")}"` : "";
-    const toggle = hasChildren ? toggleHandle() : "";
+    const toggle = hasChildren ? toggleHandle(startCollapsed) : "";
 
     const aliases = node.file?.aliases;
     const aliasText = aliases?.length
