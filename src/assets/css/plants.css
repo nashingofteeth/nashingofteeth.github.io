@@ -89,20 +89,26 @@ a:active {
   color: #5a8a5a;
 }
 
-.plant-list li.has-children {
-  cursor: pointer;
+.plant-list li.has-children::before {
+  content: "";
 }
 
-.plant-list li.has-children::before {
-  content: "▼";
+.plant-list .toggle {
+  cursor: pointer;
+  position: absolute;
+  left: -4px;
   color: #5a8a5a;
 }
 
-.plant-list li.has-children:hover::before {
+.plant-list .toggle::before {
+  content: "▼";
+}
+
+.plant-list .toggle:hover::before {
   color: #00c400;
 }
 
-.plant-list li.has-children.collapsed::before {
+.plant-list li.has-children.collapsed .toggle::before {
   content: "▶";
 }
 
@@ -157,6 +163,10 @@ a:active {
   }
 
   .plant-list li::before {
+    left: -3px;
+  }
+
+  .plant-list .toggle {
     left: -3px;
   }
 }

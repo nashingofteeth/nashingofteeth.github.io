@@ -39,7 +39,7 @@ function generatePlantList(taxonomy, level = 0) {
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
-      html += `${indent}<li class="has-children" onclick="toggleNode(this, event)">${content}</li>\n`;
+      html += `${indent}<li class="has-children">${toggleHandle()}${content}</li>\n`;
     } else {
       html += `${indent}<li>${content}</li>\n`;
     }
@@ -65,8 +65,14 @@ function photoHref(node) {
 // ---------------------------------------------------------------------------
 // toggleNode — collapse / expand handler (onclick, degrades without JS)
 // ---------------------------------------------------------------------------
-function toggleNode(li, event) {
-  if (event && event.target.tagName === "A") return;
+// toggleHandle — isolated clickable affordance (▼/▶), so only the marker
+// collapses/expands the node instead of the whole note.
+function toggleHandle() {
+  return `<span class="toggle" onclick="toggleNode(this)"></span>`;
+}
+
+function toggleNode(toggle) {
+  const li = toggle.closest("li");
 
   const childUls = [];
   let el = li.nextElementSibling;
@@ -191,7 +197,7 @@ function expandAll() {
       startCollapsed && "collapsed",
     ].filter(Boolean);
     const cls = classes.length ? ` class="${classes.join(" ")}"` : "";
-    const onclick = hasChildren ? ` onclick="toggleNode(this, event)"` : "";
+    const toggle = hasChildren ? toggleHandle() : "";
 
     const aliases = node.file?.aliases;
     const aliasText = aliases?.length
@@ -212,7 +218,7 @@ function expandAll() {
       : "";
     content += photoLink;
 
-    return `<li${cls}${onclick}>${content}</li>\n`;
+    return `<li${cls}>${toggle}${content}</li>\n`;
   }
 
   // Render the pruned search-result tree (merged ancestor chains)
