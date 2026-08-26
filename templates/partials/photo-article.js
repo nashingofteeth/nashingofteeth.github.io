@@ -62,7 +62,7 @@ function photoArticle(photo, showBookmark = true) {
     // Desktop (≥577px) loads the small thumbnail variant; mobile keeps the
     // full-size display file (full screen width). Sources are ordered
     // desktop-specific first, then generic full sources as fallback.
-    const imgHtml = `<picture style="aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight};">
+    const imgHtml = `<picture style="box-sizing: border-box; overflow: hidden; aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight}; border: 1px solid #C1440E;">
         <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "webp")}" type="image/webp" />
         <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "jpg")}" type="image/jpeg" />
         <source srcset="${photoAsset(photo, "", "webp")}" type="image/webp" />
@@ -130,7 +130,7 @@ function photoArticle(photo, showBookmark = true) {
   return `<article class="top-space photo-single is-${orientation}">
 	<div class="photo-container">
 		<div class="photo-frame" style="width: ${mediaWidth.toFixed(2)}%; padding-top: ${mediaPaddingTop.toFixed(2)}%; margin-left: ${leftEdge};">
-			<div class="photo-media" style="background-color: ${bgTint};">
+			<div class="photo-media" style="box-sizing: border-box; overflow: hidden; background-color: ${bgTint}; border: 1px solid #C1440E;">
 				${imgHtmlSingle}
 			</div>
 		</div>
