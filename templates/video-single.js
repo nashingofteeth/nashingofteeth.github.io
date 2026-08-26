@@ -1,32 +1,19 @@
-const base = require("./base.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
-const header = require("./partials/header.js");
-const footer = require("./partials/footer.js");
+const singlePage = require("./partials/single-page.js");
 const videoArticle = require("./partials/video-article.js");
-const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function videoSingle(video) {
   const combinedCss = loadCss("base.css", "page.css", "video-common.css", "video-single.css");
   const combinedJs = loadJs("videos.js");
 
-  const pageContent = `<div class="page-wrapper">
-${header(null, true)}
-
-<main>
-${videoArticle(video, true, false)}
-</main>
-
-${footer()}
-</div>`;
-
-  return base(
-    pageContent,
-    `${video.title}${SITE_TITLE_SUFFIX}`,
-    null,
-    combinedCss,
-    combinedJs,
-  );
+  return singlePage({
+    title: video.title,
+    articleHtml: videoArticle(video, true, false),
+    nav: [{ label: "VIDEOS", href: "/videos" }],
+    css: combinedCss,
+    js: combinedJs,
+  });
 }
 
 module.exports = videoSingle;

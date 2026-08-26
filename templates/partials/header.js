@@ -1,22 +1,19 @@
 /**
  * Generate header HTML
- * @param {string|null} heading - Page heading text (null for video-single style)
- * @param {boolean} showVideosLink - Whether to show VIDEOS link (for video-single pages)
+ * @param {string|null} heading - Page heading text (null to omit)
+ * @param {Array<{label: string, href: string}>} nav - Section links
  * @returns {string} Header HTML
  */
-function header(heading = null, showVideosLink = false) {
-  if (showVideosLink) {
-    // Video-single style header with both HOME and VIDEOS links
-    return `<header>
-	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
-	<a href="/videos"><span class="up-arrow">&uarr;</span>VIDEOS</a>
-</header>`;
-  }
-
-  // Standard page header with HOME link and heading
+function header(heading, nav) {
+  const links = nav
+    .map(
+      (link) =>
+        `	<a href="${link.href}"><span class="up-arrow">&uarr;</span>${link.label}</a>`,
+    )
+    .join("\n");
+  const headingHtml = heading ? `\n	<h1>${heading}</h1>` : "";
   return `<header>
-	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
-	<h1>${heading}</h1>
+${links}${headingHtml}
 </header>`;
 }
 

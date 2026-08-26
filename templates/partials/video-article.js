@@ -1,4 +1,4 @@
-const { formatDate, htmlDateString } = require("../utils.js");
+const { formatDate, htmlDateString, bookmarkLink } = require("../utils.js");
 const videoThumbnail = require("./video-thumbnail.js");
 const downloadLinks = require("./download-links.js");
 
@@ -16,8 +16,8 @@ function videoArticle(video, isFirst = false, showBookmark = true) {
 
   const thumbnailHtml = videoThumbnail(video, isFirst);
   const downloadLinksHtml = downloadLinks(video);
-  const bookmarkLink = showBookmark
-    ? `&nbsp;<a href="/videos/${video.slug}/" class="bookmark" aria-label="Go to video page" title="Go to video page">&#128279;</a>`
+  const bookmark = showBookmark
+    ? bookmarkLink(video.slug, "video")
     : "";
 
   return `<article
@@ -42,7 +42,7 @@ function videoArticle(video, isFirst = false, showBookmark = true) {
 
 	<div class="content">
 
-		<h2>${video.title}${bookmarkLink}</h2>
+		<h2>${video.title}${bookmark}</h2>
 
 		${video.content}
 

@@ -3,19 +3,15 @@ const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
 const loadJs = require("./partials/js-loader.js");
 const { generatePlantList } = require("../src/assets/js/plants.js");
+const { formatDate } = require("./utils.js");
 const { SITE_TITLE_SUFFIX } = require("./partials/constants.js");
 
 function plants(plantData) {
   const combinedCss = loadCss("base.css", "page.css", "plants.css");
-  const combinedJs = loadJs("plants.js");
+  const combinedJs = loadJs("search-utils.js", "plants.js");
 
   // Format the generated date
-  const generatedDate = new Date(plantData.generated);
-  const formattedDate = generatedDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = formatDate(plantData.generated);
 
   const plantListHtml = `<div class="plant-list">
   <ul id="plant-tree">
@@ -34,6 +30,10 @@ function plants(plantData) {
     <button onclick="expandAll()">expand all</button>
   </div>
 </div>
+<noscript>
+  <style>#plant-search,.plant-controls,.plant-photo-link{display:none}</style>
+  <p class="muted no-js-note">Search requires JavaScript — the full list is shown.</p>
+</noscript>
 
 ${plantListHtml}
 
@@ -41,7 +41,7 @@ ${plantListHtml}
   Last updated: ${formattedDate}
 </section>`;
 
-  const pageContent = page(mainContent, "&#127793;&nbsp;PLANTS");
+  const pageContent = page(mainContent, { heading: "&#127793;&nbsp;PLANTS" });
   return base(
     pageContent,
     `plants${SITE_TITLE_SUFFIX}`,

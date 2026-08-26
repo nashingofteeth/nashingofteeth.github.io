@@ -1,11 +1,11 @@
 body {
-  background-color: AntiqueWhite;
-  color: Maroon;
+  background-color: #E6E9EF;
+  color: #6E1C1C;
 }
 a {
-  color: SaddleBrown;
-  text-shadow: Red 0.8px 0px;
+  color: #A12B1E;
+  text-shadow: #C83A2A 0.8px 0px;
 }
 a:active {
-  color: Red;
+  color: #E53935;
 }

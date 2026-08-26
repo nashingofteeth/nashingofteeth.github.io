@@ -10,7 +10,7 @@ function tools() {
 	<p><a href="${SOCIAL_LINKS.sequitur}">video sequencer</a></p>
 	<p><a href="/ratio">aspect ratio calculator</a></p>
 	<p><a href="/mt">metric clock</a></p>
-	<p><a href="http://nash.video/bolus-calculator">bolus calculator</a></p>
+	<p><a href="http://nash.video/bolus-calculator">bolus calculator</a> (inactive)</p>
 	<p><a href="/color">random color</a></p>
 	<p><a href="/randBet">random number between</a></p>
 	<p><a href="/unicode">ascii -> unicode</a></p>
@@ -18,7 +18,7 @@ function tools() {
 	<p><a href="/charPerms">word permuter</a></p>
 </article>`;
 
-  const pageContent = page(mainContent, "&#129520;&nbsp;TOOLS");
+  const pageContent = page(mainContent, { heading: "&#129520;&nbsp;TOOLS" });
   return base(pageContent, `tools${SITE_TITLE_SUFFIX}`, null, combinedCss);
 }
 

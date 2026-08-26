@@ -110,6 +110,12 @@ a:active {
   font-size: 0.8em;
 }
 
+.plant-list .plant-photo-link {
+  text-shadow: none;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
 .plant-list mark {
   background-color: DarkSeaGreen;
   color: inherit;
@@ -126,6 +132,10 @@ a:active {
 .last-updated {
   margin-top: 20px;
   font-size: 0.8em;
+}
+
+.no-js-note {
+  margin-top: 20px;
 }
 
 @media (max-width: 576px) {

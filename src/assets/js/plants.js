@@ -19,6 +19,9 @@ function generatePlantList(taxonomy, level = 0) {
 
     // Build node label
     let content = "";
+    const photoLink = node.hasPhoto
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      : "";
     if (node.file) {
       const aliases = node.file.aliases;
       const aliasText = aliases && aliases.length
@@ -32,6 +35,7 @@ function generatePlantList(taxonomy, level = 0) {
     } else {
       content = `<span class="muted">${node.name}</span>`;
     }
+    content += photoLink;
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
@@ -49,6 +53,13 @@ function generatePlantList(taxonomy, level = 0) {
   }
 
   return html;
+}
+
+// photoHref — link directly to the single matching photo page when exactly one
+// photo exists for a taxon; otherwise fall back to the query-scoped search.
+function photoHref(node) {
+  if (node.photoSlug) return `/photos/${node.photoSlug}/`;
+  return `/photos/?q=${encodeURIComponent(node.name)}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -96,6 +107,9 @@ function expandAll() {
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
 }
 
+// upgradeSearchLinks / updateUrl / bindSearchInput come from search-utils.js
+// (loaded first; see templates/plants.js for the load order).
+
 // ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
 //   1. Running in a browser (document exists)
@@ -106,6 +120,9 @@ function expandAll() {
 (function () {
   if (typeof document === "undefined") return;
   const searchInput = document.getElementById("plant-search");
+
+  // Upgrade the static tree's search links (works even if the fetch fails).
+  upgradeSearchLinks(document);
   if (!searchInput) return;
 
   let plantData = null;
@@ -190,6 +207,10 @@ function expandAll() {
     } else {
       content = `<span class="muted">${displayName}</span>`;
     }
+    const photoLink = node.hasPhoto
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      : "";
+    content += photoLink;
 
     return `<li${cls}${onclick}>${content}</li>\n`;
   }
@@ -249,6 +270,7 @@ function expandAll() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     treeEl.innerHTML = html;
+    upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
   }
 
@@ -262,32 +284,8 @@ function expandAll() {
       plantData = data;
       buildIndex(plantData.taxonomy);
 
-      // Restore search from URL on initial load
-      const params = new URLSearchParams(window.location.search);
-      const initialQuery = params.get("q") || "";
-      if (initialQuery) {
-        searchInput.value = initialQuery;
-        performSearch(initialQuery);
-      }
-
-      let debounceTimer = null;
-
-      searchInput.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value;
-          updateUrl(query);
-          performSearch(query);
-        }, 500);
-      });
-
-      // Handle back/forward browser navigation
-      window.addEventListener("popstate", () => {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get("q") || "";
-        searchInput.value = query;
-        performSearch(query);
-      });
+      // Restore query from URL, debounce input, handle popstate (search-utils.js)
+      bindSearchInput(searchInput, performSearch);
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
@@ -295,17 +293,6 @@ function expandAll() {
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
-
-  // Update URL with search query (pushState for back/forward support)
-  function updateUrl(query) {
-    const url = new URL(window.location);
-    if (query.trim()) {
-      url.search = "q=" + encodeURIComponent(query.trim());
-    } else {
-      url.search = "";
-    }
-    history.pushState({}, "", url);
-  }
 
   // Perform search and render results
   function performSearch(query) {
