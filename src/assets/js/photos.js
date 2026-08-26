@@ -267,7 +267,10 @@ function filterByQuery(items, query) {
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
-  searchInput.setAttribute("title", "Search (/)");
+  searchInput.setAttribute(
+    "title",
+    "Search —\n/ focus · Esc clear · Enter open first",
+  );
 
   // "/" focuses the search bar (matching common gallery/reader conventions).
   document.addEventListener("keydown", (e) => {
