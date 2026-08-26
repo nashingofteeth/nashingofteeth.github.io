@@ -497,6 +497,8 @@ function expandAll() {
     if (isEditableTarget(e.target)) return;
     const digit = parseInt(e.key, 10);
     if (!Number.isInteger(digit) || digit < 1 || digit > 9) return;
+    // Apply pending query before debounce, like Enter does
+    if (searchInput.value.trim()) performSearch(searchInput.value);
     const item = numberedMatch(digit);
     const link = item && item.querySelector("a[href]");
     if (link) {
