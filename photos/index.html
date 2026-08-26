@@ -4410,10 +4410,15 @@ function filterByQuery(items, query) {
       return;
     }
     e.preventDefault();
+    const keepFocus = document.activeElement === searchInput;
     searchInput.value = "";
     updateUrl("");
     performSearch("");
-    searchInput.blur();
+    if (keepFocus) {
+      searchInput.focus();
+    } else {
+      searchInput.blur();
+    }
   });
 }());
 
