@@ -20,6 +20,9 @@
   if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
   const photosLink = document.querySelector('header a[href^="/photos"]');
   if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
+  const originalLink = document.querySelector(".download a");
+  if (originalLink)
+    originalLink.setAttribute("title", "Download original (O)");
 
   const query = queryFromUrl();
   const currentSlug = window.location.pathname
@@ -194,6 +197,11 @@
       ).find((a) => !a.querySelector("time"));
       if (cameraLink) {
         window.location.href = cameraLink.href;
+      }
+    } else if (key === "o") {
+      const originalLink = document.querySelector(".download a");
+      if (originalLink) {
+        window.location.href = originalLink.href;
       }
     } else if (key === "escape") {
       // Esc returns to the grid, honoring an active filter when present.
