@@ -147,6 +147,27 @@
       if (href) {
         window.location.href = href;
       }
+    } else if (key === "p") {
+      const plantLink = document.querySelector(
+        '.specs a.search-link[href^="/plants/"]',
+      );
+      if (plantLink) {
+        window.location.href = plantLink.href;
+      }
+    } else if (key === "d") {
+      const dateLink = document.querySelector(
+        '.specs a.search-link[href^="/photos/"] time',
+      )?.closest("a");
+      if (dateLink) {
+        window.location.href = dateLink.href;
+      }
+    } else if (key === "c") {
+      const cameraLink = Array.from(
+        document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+      ).find((a) => !a.querySelector("time"));
+      if (cameraLink) {
+        window.location.href = cameraLink.href;
+      }
     } else if (key === "escape") {
       // Esc returns to the grid, honoring an active filter when present.
       window.location.href = query.trim()

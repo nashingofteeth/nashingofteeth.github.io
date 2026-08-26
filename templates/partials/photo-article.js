@@ -149,7 +149,7 @@ function photoArticle(photo, showBookmark = true) {
               photo._validPlantSet &&
               photo._validPlantSet.has(String(p).trim().toLowerCase());
             return isValid
-              ? `<span class="search-link" data-href="/plants/?q=${encodeURIComponent(p)}">${p}</span>`
+              ? `<span class="search-link" data-href="/plants/?q=${encodeURIComponent(p)}" title="View plant (P)">${p}</span>`
               : p;
           })
           .join(", ");
@@ -158,12 +158,12 @@ function photoArticle(photo, showBookmark = true) {
         const formatted = formatDate(photo.date);
         const key = htmlDateString(photo.date);
         return photo._isDateShared
-          ? `<span class="search-link" data-href="/photos/?q=${encodeURIComponent(key)}"><time datetime="${key}">${formatted}</time></span>`
+          ? `<span class="search-link" data-href="/photos/?q=${encodeURIComponent(key)}" title="View date (D)"><time datetime="${key}">${formatted}</time></span>`
           : `<time datetime="${key}">${formatted}</time>`;
       })()}
 			${photo.camera
         ? photo._isCameraShared
-          ? `<br><strong>CAMERA: </strong><span class="search-link" data-href="/photos/?q=${encodeURIComponent(photo.camera)}">${photo.camera}</span>`
+          ? `<br><strong>CAMERA: </strong><span class="search-link" data-href="/photos/?q=${encodeURIComponent(photo.camera)}" title="View camera (C)">${photo.camera}</span>`
           : `<br><strong>CAMERA: </strong>${photo.camera}`
         : ""}
 			<br><strong>RESOLUTION: </strong>${photo.width}&nbsp;x&nbsp;${photo.height}px
