@@ -173,6 +173,12 @@ a:active {
   font-size: 0.8em;
 }
 
+.plant-list .plant-photo-link {
+  text-shadow: none;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
 .plant-list mark {
   background-color: DarkSeaGreen;
   color: inherit;
@@ -189,6 +195,10 @@ a:active {
 .last-updated {
   margin-top: 20px;
   font-size: 0.8em;
+}
+
+.no-js-note {
+  margin-top: 20px;
 }
 
 @media (max-width: 576px) {
@@ -234,6 +244,10 @@ a:active {
     <button onclick="expandAll()">expand all</button>
   </div>
 </div>
+<noscript>
+  <style>#plant-search,.plant-controls,.plant-photo-link{display:none}</style>
+  <p class="muted no-js-note">Search requires JavaScript — the full list is shown.</p>
+</noscript>
 
 <div class="plant-list">
   <ul id="plant-tree">
@@ -4084,7 +4098,107 @@ a:active {
       data-goatcounter="https://nashingofteeth.goatcounter.com/count" 
       async src="//gc.zgo.at/count.js"
     ></script>
-    <script>// ---------------------------------------------------------------------------
+    <script>// Shared client-side helpers for the site's search features (photos, plants,
+// photo single page). All functions are runtime-safe: they only touch the DOM
+// when a document is present. The UMD guard at the bottom lets tests or other
+// build-time code require() this file without a browser.
+
+// Promote search-placeholder <span data-href> to real links. Search links are
+// baked as spans so they don't appear (or navigate) when JS is disabled; this
+// runs once JS is available.
+function upgradeSearchLinks(container) {
+  const root = container || document;
+  root.querySelectorAll("span[data-href]").forEach((el) => {
+    const a = document.createElement("a");
+    a.href = el.getAttribute("data-href");
+    if (el.hasAttribute("title")) {
+      a.setAttribute("title", el.getAttribute("title"));
+    }
+    a.className = el.className;
+    a.innerHTML = el.innerHTML;
+    el.replaceWith(a);
+  });
+}
+
+// True when the keydown target is a text-editing control, in which case global
+// hotkeys (/, 1-9, Enter, J/K) should not fire.
+function isEditableTarget(target) {
+  return (
+    target &&
+    (target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT" ||
+      target.isContentEditable)
+  );
+}
+
+// A search should not trigger on an editable target, with modifier keys pressed.
+function isEditableOrModified(e) {
+  return (
+    e.ctrlKey ||
+    e.metaKey ||
+    e.altKey ||
+    isEditableTarget(e.target)
+  );
+}
+
+// Push a ?q= query (or strip it) onto the URL without reloading, so the filter
+// is shareable and survives back/forward navigation.
+function updateUrl(query) {
+  const url = new URL(window.location);
+  if (query.trim()) {
+    url.search = "q=" + encodeURIComponent(query.trim());
+  } else {
+    url.search = "";
+  }
+  history.pushState({}, "", url);
+}
+
+// Read the current ?q= query from the URL, or "" when absent.
+function queryFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("q") || "";
+}
+
+// Wire up the standard search scaffolding shared by every search page:
+// restoring an initial query, a debounced input handler, and popstate. Returns
+// a perform(query) caller that applies the URL/restore semantics.
+function bindSearchInput(input, perform) {
+  const initialQuery = queryFromUrl();
+  if (initialQuery) {
+    input.value = initialQuery;
+    perform(initialQuery);
+  }
+
+  let debounceTimer = null;
+  input.addEventListener("input", () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = input.value;
+      updateUrl(query);
+      perform(query);
+    }, 500);
+  });
+
+  window.addEventListener("popstate", () => {
+    const query = queryFromUrl();
+    input.value = query;
+    perform(query);
+  });
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    upgradeSearchLinks,
+    isEditableTarget,
+    isEditableOrModified,
+    updateUrl,
+    queryFromUrl,
+    bindSearchInput,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // generatePlantList — shared renderer used at build time (Node.js) and at
 // runtime by the search feature. Pure function: data in, HTML string out.
 //
@@ -4105,6 +4219,9 @@ function generatePlantList(taxonomy, level = 0) {
 
     // Build node label
     let content = "";
+    const photoLink = node.hasPhoto
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      : "";
     if (node.file) {
       const aliases = node.file.aliases;
       const aliasText = aliases && aliases.length
@@ -4118,6 +4235,7 @@ function generatePlantList(taxonomy, level = 0) {
     } else {
       content = `<span class="muted">${node.name}</span>`;
     }
+    content += photoLink;
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
@@ -4135,6 +4253,13 @@ function generatePlantList(taxonomy, level = 0) {
   }
 
   return html;
+}
+
+// photoHref — link directly to the single matching photo page when exactly one
+// photo exists for a taxon; otherwise fall back to the query-scoped search.
+function photoHref(node) {
+  if (node.photoSlug) return `/photos/${node.photoSlug}/`;
+  return `/photos/?q=${encodeURIComponent(node.name)}`;
 }
 
 // ---------------------------------------------------------------------------
@@ -4182,6 +4307,9 @@ function expandAll() {
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
 }
 
+// upgradeSearchLinks / updateUrl / bindSearchInput come from search-utils.js
+// (loaded first; see templates/plants.js for the load order).
+
 // ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
 //   1. Running in a browser (document exists)
@@ -4192,6 +4320,9 @@ function expandAll() {
 (function () {
   if (typeof document === "undefined") return;
   const searchInput = document.getElementById("plant-search");
+
+  // Upgrade the static tree's search links (works even if the fetch fails).
+  upgradeSearchLinks(document);
   if (!searchInput) return;
 
   let plantData = null;
@@ -4276,6 +4407,10 @@ function expandAll() {
     } else {
       content = `<span class="muted">${displayName}</span>`;
     }
+    const photoLink = node.hasPhoto
+      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+      : "";
+    content += photoLink;
 
     return `<li${cls}${onclick}>${content}</li>\n`;
   }
@@ -4335,6 +4470,7 @@ function expandAll() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     treeEl.innerHTML = html;
+    upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
   }
 
@@ -4348,32 +4484,8 @@ function expandAll() {
       plantData = data;
       buildIndex(plantData.taxonomy);
 
-      // Restore search from URL on initial load
-      const params = new URLSearchParams(window.location.search);
-      const initialQuery = params.get("q") || "";
-      if (initialQuery) {
-        searchInput.value = initialQuery;
-        performSearch(initialQuery);
-      }
-
-      let debounceTimer = null;
-
-      searchInput.addEventListener("input", () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-          const query = searchInput.value;
-          updateUrl(query);
-          performSearch(query);
-        }, 500);
-      });
-
-      // Handle back/forward browser navigation
-      window.addEventListener("popstate", () => {
-        const params = new URLSearchParams(window.location.search);
-        const query = params.get("q") || "";
-        searchInput.value = query;
-        performSearch(query);
-      });
+      // Restore query from URL, debounce input, handle popstate (search-utils.js)
+      bindSearchInput(searchInput, performSearch);
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
@@ -4381,17 +4493,6 @@ function expandAll() {
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
-
-  // Update URL with search query (pushState for back/forward support)
-  function updateUrl(query) {
-    const url = new URL(window.location);
-    if (query.trim()) {
-      url.search = "q=" + encodeURIComponent(query.trim());
-    } else {
-      url.search = "";
-    }
-    history.pushState({}, "", url);
-  }
 
   // Perform search and render results
   function performSearch(query) {
