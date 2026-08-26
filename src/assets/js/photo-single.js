@@ -24,6 +24,12 @@
   if (originalLink)
     originalLink.setAttribute("title", "Download original (O)");
 
+  // Swipe state — horizontal swipe anywhere on the page navigates prev/next,
+  // mirroring the J/K keybinds via the shared navHref resolver.
+  let touchStartX = null;
+  let touchStartY = null;
+  let touchCount = 0;
+
   const query = queryFromUrl();
   const currentSlug = window.location.pathname
     .split("/")
@@ -155,6 +161,35 @@
     }
     applyNavTitles();
   }
+
+  function navigateBySwipe(deltaX, deltaY) {
+    if (isEditableTarget(document.activeElement)) return;
+    if (Math.abs(deltaY) >= Math.abs(deltaX)) return; // vertical — page scroll
+    if (Math.abs(deltaX) < 40) return; // accidental tap/drag
+    const href = deltaX < 0 ? navHref("next") : navHref("prev");
+    if (href) {
+      window.location.href = href;
+    }
+  }
+
+  document.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    if (!t) return;
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+    touchCount = e.touches.length;
+  });
+
+  document.addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0];
+    if (!t) return;
+    if (touchCount === 1 && touchStartX !== null && touchStartY !== null) {
+      navigateBySwipe(t.clientX - touchStartX, t.clientY - touchStartY);
+    }
+    touchStartX = null;
+    touchStartY = null;
+    touchCount = 0;
+  });
 
   document.addEventListener("keydown", (e) => {
     if (e.ctrlKey || e.metaKey || e.altKey) {
