@@ -167,9 +167,9 @@ a:active {
   -webkit-tap-highlight-color: transparent;
 }
 
+.plant-list .toggle:focus,
 .plant-list .toggle:focus-visible {
-  outline: 1px solid #00c400;
-  outline-offset: 1px;
+  outline: none;
 }
 
 .plant-list .toggle::before {
@@ -202,6 +202,14 @@ a:active {
 
 .plant-list ul.collapsed {
   display: none;
+}
+
+/* During search: reverse vertical order so deepest (lowest-level) matches
+   appear at the top, with shared matching ancestors collapsed into a single
+   node below (deduped per level via the pruned tree). */
+.plant-list[data-search-active] ul:not(.collapsed) {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .muted {
@@ -4470,10 +4478,91 @@ function expandAll() {
   }
 
   // Render the pruned search-result tree (merged ancestor chains)
+  // During search the tree is visually inverted via CSS column-reverse
+  // (deepest matches at top). To keep alphabetical order top-to-bottom
+  // visually, we sort DOM descending so the flex reversal yields ascending.
+  function sortKey(name) {
+    // Sort by epithet for species/hybrids (e.g. "Magnolia × soulangeana"
+    // → "soulangeana") so hybrids collate sensibly; fall back to full name.
+    const k = name
+      .toLowerCase()
+      .replace(/^[a-z]+\s+×?\s*/i, "")
+      .trim();
+    return k || name.toLowerCase();
+  }
+
+  function escapeRegExp(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function hasWholeWord(text, q) {
+    if (!text || !q) return false;
+    return new RegExp(`\\b${escapeRegExp(q)}\\b`, "i").test(text);
+  }
+
+  function hasPrefixWord(text, q) {
+    if (!text || !q) return false;
+    // token starts with q (e.g. roseus → rose, rosemary → rose)
+    const tokens = text.toLowerCase().split(/[^a-z0-9]+/);
+    const lq = q.toLowerCase();
+    return tokens.some((t) => t.startsWith(lq) && t !== lq);
+  }
+
+  // Broad relevance tiers:
+  //  4 - name token exactly equals query (Rosa → rose? no, but Rosa → rosa)
+  //  3 - alias string exactly equals query (Rosa alias "rose" == "rose")
+  //  2 - alias token exactly equals query (Gypsy's rose)
+  //  1 - name/alias token starts with query (roseus, rosemary)
+  //  0 - substring inside token (Petroselinum, squarrose)
+  // -1 - not a match (ancestor)
+  function nodeQuality(node, q) {
+    const lq = q.toLowerCase();
+    // 4: name token exact
+    if (hasWholeWord(node.name, q)) return 4;
+    // 3: alias exact string
+    if (node.file?.aliases?.some((a) => a.toLowerCase() === lq)) return 3;
+    // 2: alias token exact
+    if (node.file?.aliases?.some((a) => hasWholeWord(a, q))) return 2;
+    // 1: prefix
+    if (hasPrefixWord(node.name, q)) return 1;
+    if (node.file?.aliases?.some((a) => hasPrefixWord(a, q))) return 1;
+    if (nodeMatches(node, q)) return 0;
+    return -1;
+  }
+
+  const MAX_QUALITY = 4;
+
+  // Best quality in subtree (for sorting ancestor branches by their best
+  // descendant). Memoized per render to avoid repeated recursion.
+  function bestQuality(node, q, matchSet, ancestorSet, memo) {
+    if (memo.has(node)) return memo.get(node);
+    let best = nodeQuality(node, q);
+    if (best < MAX_QUALITY && (ancestorSet.has(node) || matchSet.has(node))) {
+      for (const child of node.children || []) {
+        if (!matchSet.has(child) && !ancestorSet.has(child)) continue;
+        best = Math.max(best, bestQuality(child, q, matchSet, ancestorSet, memo));
+        if (best === MAX_QUALITY) break;
+      }
+    }
+    memo.set(node, best);
+    return best;
+  }
+
   function renderPrunedTree(nodes, matchSet, ancestorSet, q) {
     let html = "";
+    const memo = new Map();
 
-    for (const node of nodes) {
+    // Descending in DOM → ascending/desired visual after column-reverse.
+    // Primary: whole-word matches (2) surface first visually => low first in DOM.
+    // Secondary: alphabetical descending in DOM → ascending visually.
+    const sortedNodes = [...nodes].sort((a, b) => {
+      const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
+      const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
+      if (qa !== qb) return qa - qb;
+      return sortKey(b.name).localeCompare(sortKey(a.name));
+    });
+
+    for (const node of sortedNodes) {
       const isMatch = matchSet.has(node);
       const isAncestor = ancestorSet.has(node);
 
@@ -4501,9 +4590,14 @@ function expandAll() {
         }
       } else {
         // Ancestor node: show only the children that lead toward matches
-        const relevantChildren = children.filter(
-          (c) => matchSet.has(c) || ancestorSet.has(c),
-        );
+        const relevantChildren = children
+          .filter((c) => matchSet.has(c) || ancestorSet.has(c))
+          .sort((a, b) => {
+            const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
+            const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
+            if (qa !== qb) return qa - qb;
+            return sortKey(b.name).localeCompare(sortKey(a.name));
+          });
         const hasChildren = relevantChildren.length > 0;
 
         html += nodeLabelHtml(node, "", "", hasChildren, false);
@@ -4543,12 +4637,78 @@ function expandAll() {
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
+      searchInput.setAttribute("title", "Search —\n/ focus · Esc clear · Enter open first");
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
     });
 
+  // -----------------------------------------------------------------------
+  // Keybinds — mirrors photos.js approach (/, Enter, Esc) — 1-9 removed
+  // -----------------------------------------------------------------------
+  // "/" focuses search
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.ctrlKey ||
+      e.metaKey ||
+      e.altKey ||
+      e.key !== "/" ||
+      document.activeElement === searchInput ||
+      isEditableTarget(e.target)
+    ) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  });
+
+  // Enter → open first visible match (applies pending query first)
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+    const q = searchInput.value.trim();
+    if (!q) return;
+    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
+    performSearch(searchInput.value);
+    // Find first visible search-match (respecting collapsed subtrees and
+    // column-reverse visual inversion)
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) return;
+    const all = Array.from(treeEl.querySelectorAll("li.search-match")).filter((li) => {
+      let parent = li.parentElement;
+      while (parent && parent !== treeEl) {
+        if (parent.tagName === "UL" && parent.classList.contains("collapsed")) return false;
+        parent = parent.parentElement;
+      }
+      return true;
+    });
+    const first = all.reverse()[0];
+    const link = first && first.querySelector("a[href]");
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.getAttribute("href");
+    }
+  });
+
+  // Esc clears search
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (!searchInput.value.trim()) return;
+    e.preventDefault();
+    searchInput.value = "";
+    updateUrl("");
+    performSearch("");
+    searchInput.blur();
+  });
+
   // Perform search and render results
+  // Uses the pruned (merged) tree so shared matching ancestors are deduped
+  // per level — only one Magnolia / Magnoliaceae / Magnoliales node no matter
+  // how many leaf matches descend from it. Combined with the
+  // [data-search-active] column-reverse CSS, the pruned chain is visually
+  // inverted so lowest-level matches (e.g. Magnolia acuminata) appear at the
+  // top and the shared matching chain appears once below.
   function performSearch(query) {
     if (!query.trim()) {
       renderTree(generatePlantList(plantData.taxonomy, 0), false);
