@@ -18,7 +18,7 @@ function photos(photoCollection) {
     .join("\n");
 
   const mainContent = `<section class="description">
-	<p>Photography by me.</p>
+	<p>(mostly plants)</p>
 </section>
 
 	<div class="photo-search-container">
