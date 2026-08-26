@@ -607,6 +607,10 @@ if (plantList.length) {
   console.log(`  🌱 Plant: ${plantList.join(", ")}`);
 }
 
+// Clean the remote of orphans once before ingesting, regardless of how many
+// photos are being added in this run.
+cleanRemote();
+
 console.log(`\n🗂️  Ingesting ${args.length} photo(s)...\n`);
 
 let successCount = 0;
