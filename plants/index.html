@@ -212,6 +212,13 @@ a:active {
   flex-direction: column-reverse;
 }
 
+/* When the list is reversed (search mode), flip the expanded toggle glyph to
+   its "up" equivalent so expand/collapse semantics read correctly. The
+   collapsed glyph (▶) stays the same regardless of mode. */
+.plant-list[data-search-active] .toggle::before {
+  content: "▲";
+}
+
 .muted {
   color: #80a080;
 }
