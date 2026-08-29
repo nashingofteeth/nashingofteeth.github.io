@@ -21,7 +21,7 @@ const BACKBLAZE_REMOTE = "backblaze:nash-potato/photos";
 
 function showUsage() {
   console.log(`
-Usage: add <image1> [image2] [image3] ... [--clean] [--dry-run] [--plant "Taxon"]
+Usage: add <image1> [image2] [image3] ... [--clean] [--dry-run] [-p, --plant Taxon] [--keep]
 
 Ingest one or more photos into the potato website.
 
@@ -36,9 +36,10 @@ Options:
   --clean          Remove remote files that have no matching markdown file in
                     src/photos/ (full/thumb jpg/webp and originals).
   --dry-run        With --clean, show what would be removed without deleting.
-  --plant "Taxon"  Plant taxon for the photo (repeatable or comma-separated).
-                    Stored as front matter \`plant:\` and linked to /plants/?q=.
-                    Also used as alt text.
+  -p, --plant Taxon  Plant taxon for the photo. No quotes needed around names
+                    with spaces (e.g. -p Quercus rubra). Repeatable or
+                    comma-separated for several. Stored as front matter
+                    \`plant:\` and linked to /plants/?q=. Also used as alt text.
   --keep           Keep the original source file after ingesting (default is
                     to delete it once uploaded and the markdown is written).
 
@@ -46,9 +47,9 @@ Examples:
   add ~/photos/garden.jpg
   add ~/photos/*.jpg
   add ~/photos/rose.jpg ~/photos/fern.jpg
-  add ~/photos/rose.jpg --plant "Quercus rubra"
-  add ~/photos/rose.jpg --plant "Quercus rubra" --plant "Acer saccharum"
-  add ~/photos/rose.jpg --plant "Quercus rubra, Acer saccharum"
+  add ~/photos/rose.jpg --plant Quercus rubra
+  add ~/photos/rose.jpg --plant Quercus rubra --plant Acer saccharum
+  add ~/photos/rose.jpg --plant Quercus rubra, Acer saccharum
   add --clean          # remove orphans from remote
   add --clean --dry-run
 `);
@@ -582,12 +583,21 @@ const args = [];
 let keepSource = false;
 for (let i = 0; i < rawArgs.length; i++) {
   const arg = rawArgs[i];
-  if (arg === "--plant") {
-    const val = rawArgs[++i];
-    if (!val || val.startsWith("--")) {
+  if (arg === "--plant" || arg === "-p") {
+    // Greedily consume this and all following non-flag tokens as the plant
+    // value, so a name with spaces needs no shell quotes:
+    //   add img.jpg --plant Quercus rubra
+    // Stops at the next --option (allowing repeated --plant) or end of args.
+    if (i + 1 >= rawArgs.length || rawArgs[i + 1].startsWith("-")) {
       console.error(`  ❌ --plant requires a value`);
       process.exit(1);
     }
+    const parts = [];
+    while (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith("-")) {
+      i++;
+      parts.push(rawArgs[i]);
+    }
+    const val = parts.join(" ");
     for (const part of val.split(",")) {
       const trimmed = part.trim();
       if (trimmed) {
