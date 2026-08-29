@@ -604,7 +604,7 @@ if (args.length === 0) {
 }
 
 if (plantList.length) {
-  console.log(`  🌱 Plant: ${plantList.join(", ")}`);
+  console.log(`🌱 Plant: ${plantList.join(", ")}`);
 }
 
 // Clean the remote of orphans once before ingesting, regardless of how many
