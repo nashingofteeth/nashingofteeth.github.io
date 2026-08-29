@@ -34,11 +34,13 @@ Each image will be:
 
 Options:
   --clean          Remove remote files that have no matching markdown file in
-                   src/photos/ (full/thumb jpg/webp and originals).
+                    src/photos/ (full/thumb jpg/webp and originals).
   --dry-run        With --clean, show what would be removed without deleting.
   --plant "Taxon"  Plant taxon for the photo (repeatable or comma-separated).
-                   Stored as front matter \`plant:\` and linked to /plants/?q=.
-                   Also used as alt text.
+                    Stored as front matter \`plant:\` and linked to /plants/?q=.
+                    Also used as alt text.
+  --keep           Keep the original source file after ingesting (default is
+                    to delete it once uploaded and the markdown is written).
 
 Examples:
   add ~/photos/garden.jpg
@@ -282,6 +284,7 @@ function existingOriginals() {
 }
 
 function processImage(filePath, opts = {}) {
+  const removeSource = opts.remove !== false;
   const ext = path.extname(filePath).toLowerCase();
   const supportedExts = [".jpg", ".jpeg", ".png", ".tiff", ".tif", ".bmp", ".webp", ".heif", ".heic"];
 
@@ -415,6 +418,17 @@ ${camera ? `camera: ${camera}\n` : ""}${plantFrontmatter}---
     const mdPath = path.join(PHOTOS_DIR, `${filename}.md`);
     fs.writeFileSync(mdPath, mdContent);
     console.log(`  ✓ Generated: src/photos/${filename}.md`);
+
+    // Remove the original source file now that it has been ingested and
+    // uploaded (default behavior; pass --keep to preserve it).
+    if (removeSource) {
+      try {
+        fs.rmSync(filePath, { force: true });
+        console.log(`  🗑️ Removed source: ${filePath}`);
+      } catch (err) {
+        console.warn(`  ⚠️ Could not remove source ${filePath}: ${err.message}`);
+      }
+    }
 
     // Cleanup temp
     fs.rmSync(tmpDir, { recursive: true, force: true });
@@ -565,6 +579,7 @@ if (rawArgs.includes("--clean")) {
 // Parse --plant flags (repeatable, comma-separated) and collect image paths
 const plantList = [];
 const args = [];
+let keepSource = false;
 for (let i = 0; i < rawArgs.length; i++) {
   const arg = rawArgs[i];
   if (arg === "--plant") {
@@ -590,6 +605,9 @@ for (let i = 0; i < rawArgs.length; i++) {
   } else if (arg === "--dry-run") {
     // handled with --clean only; ignore otherwise
     continue;
+  } else if (arg === "--keep") {
+    keepSource = true;
+    continue;
   } else if (arg.startsWith("--")) {
     console.error(`  ❌ Unknown option: ${arg}`);
     process.exit(1);
@@ -611,7 +629,7 @@ if (plantList.length) {
 // photos are being added in this run.
 cleanRemote();
 
-console.log(`\n🗂️  Ingesting ${args.length} photo(s)...\n`);
+console.log(`\n🗂️ Ingesting ${args.length} photo(s)...\n`);
 
 let successCount = 0;
 let failCount = 0;
@@ -624,7 +642,7 @@ for (const arg of args) {
     failCount++;
     continue;
   }
-  const result = processImage(resolved, { plant: plantList });
+  const result = processImage(resolved, { plant: plantList, remove: !keepSource });
   if (result === "skipped") {
     skipCount++;
   } else if (result) {
