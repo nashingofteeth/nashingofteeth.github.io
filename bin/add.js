@@ -397,7 +397,7 @@ function processImage(filePath, opts = {}) {
         : [];
     let plantFrontmatter = "";
     if (plantList.length === 1) {
-      plantFrontmatter = `plant: ${JSON.stringify(plantList[0])}\n`;
+      plantFrontmatter = `plant: ${plantList[0]}\n`;
     } else if (plantList.length > 1) {
       plantFrontmatter = `plant: ${plantList.join(", ")}\n`;
     }
