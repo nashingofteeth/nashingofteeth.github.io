@@ -27,8 +27,8 @@ Ingest one or more photos into the potato website.
 
 Each image will be:
   1. Metadata extracted via mediainfo
-  2. Converted to full (${FULL_MAX_DIMENSION}px) JPEG and WebP
-  3. Converted to thumbnail (${THUMB_MAX_DIMENSION}px, suffix "${THUMB_SUFFIX}") JPEG and WebP
+  2. Converted to full (${FULL_MAX_DIMENSION}px height) JPEG and WebP
+  3. Converted to thumbnail (${THUMB_MAX_DIMENSION}px height, suffix "${THUMB_SUFFIX}") JPEG and WebP
   4. Uploaded to Backblaze
   5. Markdown file generated in src/photos/
 
@@ -218,11 +218,12 @@ function getDateFromMediainfo(filePath) {
 }
 
 // Convert one input to a single variant (full/thumb jpg/webp): auto-orient
-// first so pixels are upright, resize to a max dimension, strip metadata, and
-// write at the given quality. Centralizes the four near-identical magick calls.
-function convertVariant(srcPath, autoOrientArgs, maxDim, quality, outPath) {
+// first so pixels are upright, resize to a max height (width scales to
+// preserve aspect), strip metadata, and write at the given quality.
+// Centralizes the four near-identical magick calls.
+function convertVariant(srcPath, autoOrientArgs, maxHeight, quality, outPath) {
   execSync(
-    `magick "${srcPath}" ${autoOrientArgs} -resize ${maxDim}x${maxDim}\\> -strip -quality ${quality} "${outPath}"`,
+    `magick "${srcPath}" ${autoOrientArgs} -resize x${maxHeight}\\> -strip -quality ${quality} "${outPath}"`,
     { stdio: "pipe" },
   );
 }
@@ -347,16 +348,16 @@ function processImage(filePath, opts = {}) {
     // then resize, then strip the now-redundant EXIF orientation tag).
     const autoOrientArgs = getMagickAutoOrientArgs(filePath);
     convertVariant(filePath, autoOrientArgs, FULL_MAX_DIMENSION, FULL_JPEG_QUALITY, fullJpg);
-    console.log(`  ✓ Full JPEG (${FULL_MAX_DIMENSION}px, q${FULL_JPEG_QUALITY}) created`);
+    console.log(`  ✓ Full JPEG (${FULL_MAX_DIMENSION}px height, q${FULL_JPEG_QUALITY}) created`);
 
     // Convert to full WebP (magick delegate uses libwebp internally; corresponds to cwebp -q)
     convertVariant(filePath, autoOrientArgs, FULL_MAX_DIMENSION, FULL_WEBP_QUALITY, fullWebp);
-    console.log(`  ✓ Full WebP (${FULL_MAX_DIMENSION}px, q${FULL_WEBP_QUALITY}) created`);
+    console.log(`  ✓ Full WebP (${FULL_MAX_DIMENSION}px height, q${FULL_WEBP_QUALITY}) created`);
 
     // Convert to desktop thumbnail variant
     convertVariant(filePath, autoOrientArgs, THUMB_MAX_DIMENSION, THUMB_JPEG_QUALITY, thumbJpg);
     convertVariant(filePath, autoOrientArgs, THUMB_MAX_DIMENSION, THUMB_WEBP_QUALITY, thumbWebp);
-    console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px, jpg q${THUMB_JPEG_QUALITY} / webp q${THUMB_WEBP_QUALITY}) created`);
+    console.log(`  ✓ Thumbnail (${THUMB_MAX_DIMENSION}px height, jpg q${THUMB_JPEG_QUALITY} / webp q${THUMB_WEBP_QUALITY}) created`);
 
     // Upload full + thumb files
     rcloneCopy(fullJpg);

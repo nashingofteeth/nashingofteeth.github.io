@@ -29,17 +29,20 @@ const ORIGINALS_SUBDIR = "originals/";
 const PHOTO_TIME_ZONE = "America/Los_Angeles";
 
 // Standard display ("full") variant — the size loaded when not using thumb
-// (single page + mobile gallery fallback). Capped at 1200px long edge; lives
-// as bare `${name}.jpg/.webp` beside thumb `${name}-thumb`.
-const FULL_MAX_DIMENSION = 1200;
+// (single page + mobile gallery fallback). Height-capped at 800px
+// (magick `x800>`, width scales to preserve aspect); lives as bare
+// `${name}.jpg/.webp` beside thumb `${name}-thumb`.
+const FULL_MAX_DIMENSION = 800;
 
-// Desktop thumbnail variant for the photos gallery grid. Gallery tiles are
-// ~200-300px, so a 400px cap (≈1-2x DPR) is plenty; mobile falls back to
-// the full variant. Thumbs live beside full files, named `${name}-thumb`.
-const THUMB_MAX_DIMENSION = 400;
+// Desktop thumbnail variant for the photos gallery grid. Height-capped at
+// 200px (magick `x200>`); mobile falls back to the full variant. Thumbs live
+// beside full files, named `${name}-thumb`.
+const THUMB_MAX_DIMENSION = 200;
 const THUMB_SUFFIX = "-thumb";
 
-// Qualities chosen by sweep on 3 high-res originals (1200px full + 400px thumb, SSIM vs size):
+// Qualities chosen by sweep on 3 high-res originals (measured at 1200px full +
+// 400px thumb, SSIM vs size; kept as-is after the move to 800px/200px heights
+// since resizing alone already cuts bytes with no quality regression):
 //  - FULL jpg 82: 240KB avg, ssim 0.956 (vs 85: 267KB 0.96, +11% size for +0.004 ssim)
 //  - FULL webp 75: 130KB avg, ssim 0.944 (vs 78: 149KB 0.950, +14% size)
 //  - THUMB jpg 75: 30KB avg, ssim 0.946 (knee vs 70: 27KB 0.941)
