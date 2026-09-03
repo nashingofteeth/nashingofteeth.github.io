@@ -14,6 +14,7 @@ function videoThumbnail(video, isFirst = false) {
     return `<img
         fetchpriority="${fetchpriority}"
         loading="${loading}"
+        decoding="async"
         src="https://img.youtube.com/vi/${video.youtube_id}/maxresdefault.jpg"
         alt="${video.title} video cover" />`;
   }
@@ -23,6 +24,7 @@ function videoThumbnail(video, isFirst = false) {
         <img
           fetchpriority="${fetchpriority}"
           loading="${loading}"
+          decoding="async"
           src="${BASE_URL}videos/thumbnails/${video.filename}.jpg"
           alt="${video.title} video cover" />
       </picture>`;

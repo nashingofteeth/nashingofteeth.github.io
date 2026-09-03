@@ -6,8 +6,8 @@ function home() {
   const combinedCss = loadCss("base.css", "home.css");
 
   const content = `<picture>
-    <source srcset="img/me.webp" type="image/webp" />
-    <img fetchpriority="high" src="img/me.jpg" alt="me" />
+    <source srcset="/img/me.webp" type="image/webp" />
+    <img fetchpriority="high" loading="eager" decoding="async" src="/img/me.jpg" alt="me" width="480" height="640" />
 </picture>
 <main>
 <h1>matthew nash</h1>

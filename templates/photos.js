@@ -14,7 +14,10 @@ function photos(photoCollection) {
   const sortedPhotos = sortNewestFirst(photoCollection);
 
   const photosHtml = sortedPhotos
-    .map((photo) => photoArticle(photo, true))
+    .map((photo, index) => {
+      const isFirst = index === 0;
+      return photoArticle(photo, true, isFirst);
+    })
     .join("\n");
 
   const mainContent = `<section class="description">

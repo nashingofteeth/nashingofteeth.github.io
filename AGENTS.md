@@ -9,7 +9,7 @@
 - **`margin_left` offset** applies to both gallery and individual video pages (same `video-article` partial).
 - **`plants.js` is dual-use**: required at build time by `templates/plants.js`, also inlined for client-side search. UMD guard (`module.exports`) at bottom.
 - **Video order**: reverse chronological by `date` field (newest first).
-- **First video** in gallery gets `fetchpriority="high"`, rest get `loading="lazy"`.
+- **First video/photo** in gallery gets `fetchpriority="high"` + `loading="eager"`, rest get `loading="lazy"`. Single video/photo pages always use `fetchpriority="high"` + `loading="eager"`.
 - **Code style**: double quotes, trailing commas everywhere, always-parenthesized arrow params.
 
 ## Build

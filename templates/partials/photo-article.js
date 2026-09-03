@@ -14,9 +14,10 @@ const { formatDate, htmlDateString, getPhotoSearchFields, photoAsset, bookmarkLi
  * Generate photo article HTML for gallery or single page
  * @param {Object} photo - Photo object with all metadata
  * @param {boolean} showBookmark - Whether to show link to individual photo page
+ * @param {boolean} isFirst - Whether this is the first photo in the gallery (for fetchpriority)
  * @returns {string} Photo article HTML
  */
-function photoArticle(photo, showBookmark = true) {
+function photoArticle(photo, showBookmark = true, isFirst = false) {
   const bookmark = showBookmark
     ? bookmarkLink(photo.slug, "photo")
     : "";
@@ -62,6 +63,8 @@ function photoArticle(photo, showBookmark = true) {
     // Desktop (≥577px) loads the small thumbnail variant; mobile keeps the
     // full-size display file (full screen width). Sources are ordered
     // desktop-specific first, then generic full sources as fallback.
+    const fetchpriority = isFirst ? "high" : "auto";
+    const loading = isFirst ? "eager" : "lazy";
     const imgHtml = `<picture style="box-sizing: border-box; overflow: hidden; aspect-ratio: ${ratio}; background-color: ${bgTint}; transform: translate(${posX}, ${posY}); width: ${pictureWidth}; height: ${pictureHeight}; border: 1px solid #C1440E;">
         <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "webp")}" type="image/webp" />
         <source media="(min-width: 577px)" srcset="${photoAsset(photo, THUMB_SUFFIX, "jpg")}" type="image/jpeg" />
@@ -69,7 +72,9 @@ function photoArticle(photo, showBookmark = true) {
         <img
           src="${photoAsset(photo, "", "jpg")}"
           alt="${altText}"
-          loading="lazy"
+          fetchpriority="${fetchpriority}"
+          loading="${loading}"
+          decoding="async"
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
 
@@ -123,7 +128,9 @@ function photoArticle(photo, showBookmark = true) {
         <img
           src="${photoAsset(photo, "", "jpg")}"
           alt="${altText}"
+          fetchpriority="high"
           loading="eager"
+          decoding="async"
           width="${photo.width}" height="${photo.height}" />
       </picture>`;
 
