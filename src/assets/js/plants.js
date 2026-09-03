@@ -392,6 +392,7 @@ function expandAll() {
     treeEl.innerHTML = html;
     upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
+    updatePhotoHint();
   }
 
   // Fetch JSON, build index, wire up the search input
@@ -436,17 +437,12 @@ function expandAll() {
   });
 
   // Enter → open first visible match (applies pending query first)
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
-    const q = searchInput.value.trim();
-    if (!q) return;
-    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
-    performSearch(searchInput.value);
-    // Find first visible search-match (respecting collapsed subtrees and
-    // column-reverse visual inversion)
+  // p → open first visible match's photo link (same tab)
+  function visibleMatchesInVisualOrder() {
     const treeEl = document.getElementById("plant-tree");
-    if (!treeEl) return;
+    if (!treeEl) return [];
+    // Filter out matches hidden inside collapsed subtrees, then reverse to
+    // compensate for the column-reverse visual inversion during search.
     const all = Array.from(treeEl.querySelectorAll("li.search-match")).filter((li) => {
       let parent = li.parentElement;
       while (parent && parent !== treeEl) {
@@ -455,11 +451,81 @@ function expandAll() {
       }
       return true;
     });
-    const first = all.reverse()[0];
+    return all.reverse();
+  }
+
+  // p hint — mark the photo link that `p` would open (first visible match
+  // with a photo) with a " (p)" title suffix, mirroring photos.js number
+  // hints. Only applies during search; static tree keeps plain titles.
+  function updatePhotoHint() {
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) return;
+    if (!treeEl.closest(".plant-list")?.hasAttribute("data-search-active")) return;
+    let firstPhoto = null;
+    for (const match of visibleMatchesInVisualOrder()) {
+      const photoLink = match.querySelector("a.plant-photo-link[href]");
+      if (photoLink) {
+        firstPhoto = photoLink;
+        break;
+      }
+    }
+    treeEl.querySelectorAll("a.plant-photo-link[href]").forEach((a) => {
+      const current = a.getAttribute("title") || "";
+      const base = current.replace(/\s\(p\)$/, "");
+      if (a === firstPhoto) {
+        a.setAttribute("title", base ? `${base} (p)` : "Open photo (p)");
+      } else if (current !== base) {
+        a.setAttribute("title", base);
+      }
+    });
+  }
+
+  // Keep the hint in sync when collapse/expand toggles change visibility
+  // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
+  // Filtered to class changes so title updates don't re-trigger.
+  if (typeof MutationObserver !== "undefined") {
+    const hintTreeEl = document.getElementById("plant-tree");
+    if (hintTreeEl) {
+      const observer = new MutationObserver(() => updatePhotoHint());
+      observer.observe(hintTreeEl, { attributes: true, subtree: true, attributeFilter: ["class"] });
+    }
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+    const q = searchInput.value.trim();
+    if (!q) return;
+    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
+    performSearch(searchInput.value);
+    const first = visibleMatchesInVisualOrder()[0];
     const link = first && first.querySelector("a[href]");
     if (link) {
       e.preventDefault();
       window.location.href = link.getAttribute("href");
+    }
+  });
+
+  // p → open first visible match's photo (applies pending query first).
+  // Only fires outside the search input / editable targets so typing "p"
+  // never navigates away. Skips matches without a photo.
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "p" && e.key !== "P") return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+    if (document.activeElement === searchInput) return;
+    if (isEditableTarget(e.target)) return;
+    const q = searchInput.value.trim();
+    if (!q) return;
+    performSearch(searchInput.value);
+    const matches = visibleMatchesInVisualOrder();
+    for (const match of matches) {
+      const photoLink = match.querySelector("a.plant-photo-link[href]");
+      if (photoLink) {
+        e.preventDefault();
+        window.location.href = photoLink.getAttribute("href");
+        return;
+      }
     }
   });
 
