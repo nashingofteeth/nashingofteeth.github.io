@@ -1,8 +1,42 @@
 // ---------------------------------------------------------------------------
-// generatePlantList — shared renderer used at build time (Node.js) and at
-// runtime by the search feature. Pure function: data in, HTML string out.
+// Shared node helpers — used at build time (Node.js) and at runtime.
+// Pure functions: data in, HTML string out.
 //
 // Node shape: { name, file: { wikipedia?, aliases? } | null, children?: [] }
+// ---------------------------------------------------------------------------
+// A single child that itself has children warrants a toggle
+function hasToggleableChildren(children) {
+  if (children.length > 1) return true;
+  return children.length === 1 && (children[0].children || []).length > 0;
+}
+
+// Build a node's inner HTML (wiki link, aliases, photo link). formatText
+// maps over name + aliases (identity for static, highlightMatch for search).
+function buildNodeContent(node, formatText) {
+  const fmt = formatText || ((s) => s);
+  const photoLink = node.hasPhoto
+    ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+    : "";
+  let content = "";
+  if (node.file) {
+    const aliases = node.file.aliases;
+    const aliasText = aliases && aliases.length
+      ? ` <span class="aliases">(${aliases.map((a) => fmt(a)).join(", ")})</span>`
+      : "";
+    if (node.file.wikipedia) {
+      content = `<a href="${node.file.wikipedia}" target="_blank">${fmt(node.name)}</a>${aliasText}`;
+    } else {
+      content = fmt(node.name) + aliasText;
+    }
+  } else {
+    content = `<span class="muted">${fmt(node.name)}</span>`;
+  }
+  return content + photoLink;
+}
+
+// ---------------------------------------------------------------------------
+// generatePlantList — shared renderer used at build time (Node.js) and at
+// runtime by the search feature. Pure function: data in, HTML string out.
 // ---------------------------------------------------------------------------
 function generatePlantList(taxonomy, level = 0) {
   let html = "";
@@ -10,32 +44,10 @@ function generatePlantList(taxonomy, level = 0) {
 
   for (const node of taxonomy) {
     const children = node.children || [];
-    let hasMultipleChildren = children.length > 1;
-
-    // A single child that itself has children warrants a toggle
-    if (children.length === 1 && (children[0].children || []).length > 0) {
-      hasMultipleChildren = true;
-    }
+    const hasMultipleChildren = hasToggleableChildren(children);
 
     // Build node label
-    let content = "";
-    const photoLink = node.hasPhoto
-      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
-      : "";
-    if (node.file) {
-      const aliases = node.file.aliases;
-      const aliasText = aliases && aliases.length
-        ? ` <span class="aliases">(${aliases.join(", ")})</span>`
-        : "";
-      if (node.file.wikipedia) {
-        content = `<a href="${node.file.wikipedia}" target="_blank">${node.name}</a>${aliasText}`;
-      } else {
-        content = node.name + aliasText;
-      }
-    } else {
-      content = `<span class="muted">${node.name}</span>`;
-    }
-    content += photoLink;
+    const content = buildNodeContent(node);
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
@@ -71,32 +83,39 @@ function toggleHandle(collapsed = false) {
   return `<span class="toggle" role="button" tabindex="0" aria-expanded="${!collapsed}" aria-label="Toggle subtree"></span>`;
 }
 
+// Sibling ULs may sit on either side of the LI: static tree and
+// generatePlantList() emit LI-then-UL, while search rendering emits
+// UL-then-LI so DOM order matches visual order (deepest matches on top).
+function siblingUls(li) {
+  const uls = [];
+  const scan = (start, next) => {
+    let el = start;
+    while (el) {
+      if (el.tagName === "LI") break;
+      if (el.tagName === "UL") uls.push(el);
+      el = next(el);
+    }
+  };
+  scan(li.nextElementSibling, (el) => el.nextElementSibling);
+  scan(li.previousElementSibling, (el) => el.previousElementSibling);
+  return uls;
+}
+
+function setCollapsed(li, uls, collapsed) {
+  uls.forEach((ul) => ul.classList.toggle("collapsed", collapsed));
+  li.classList.toggle("collapsed", collapsed);
+}
+
 function toggleNode(toggle) {
   if (!toggle) return;
   const li = toggle.closest("li");
   if (!li) return;
 
-  // Sibling ULs may sit on either side of the LI: static tree and
-  // generatePlantList() emit LI-then-UL, while search rendering emits
-  // UL-then-LI so DOM order matches visual order (deepest matches on top).
-  const childUls = [];
-  let el = li.nextElementSibling;
-  while (el) {
-    if (el.tagName === "LI") break;
-    if (el.tagName === "UL") childUls.push(el);
-    el = el.nextElementSibling;
-  }
-  el = li.previousElementSibling;
-  while (el) {
-    if (el.tagName === "LI") break;
-    if (el.tagName === "UL") childUls.push(el);
-    el = el.previousElementSibling;
-  }
+  const childUls = siblingUls(li);
 
   if (childUls.length > 0) {
     const collapsed = li.classList.contains("collapsed");
-    childUls.forEach((ul) => ul.classList.toggle("collapsed", !collapsed));
-    li.classList.toggle("collapsed", !collapsed);
+    setCollapsed(li, childUls, !collapsed);
     toggle.setAttribute("aria-expanded", String(collapsed));
   }
 }
@@ -133,17 +152,7 @@ function collapseAll() {
   const treeEl = document.getElementById("plant-tree");
   if (!treeEl) return;
   treeEl.querySelectorAll("li.has-children").forEach((li) => {
-    li.classList.add("collapsed");
-    const collect = (start, next) => {
-      let el = start;
-      while (el) {
-        if (el.tagName === "LI") break;
-        if (el.tagName === "UL") el.classList.add("collapsed");
-        el = next(el);
-      }
-    };
-    collect(li.nextElementSibling, (el) => el.nextElementSibling);
-    collect(li.previousElementSibling, (el) => el.previousElementSibling);
+    setCollapsed(li, siblingUls(li), true);
   });
 }
 
@@ -176,13 +185,20 @@ function expandAll() {
   // Flat index: every node paired with its ancestor chain
   const searchIndex = [];
 
-  function buildIndex(nodes, ancestors = []) {
-    for (const node of nodes) {
-      searchIndex.push({ node, ancestors });
-      if (node.children?.length) {
-        buildIndex(node.children, [...ancestors, node]);
+  function buildIndex(nodes) {
+    // Single shared path with push/pop instead of per-level array spreads.
+    const path = [];
+    const walk = (list) => {
+      for (const node of list) {
+        searchIndex.push({ node, ancestors: [...path] });
+        if (node.children?.length) {
+          path.push(node);
+          walk(node.children);
+          path.pop();
+        }
       }
-    }
+    };
+    walk(nodes);
   }
 
   function matches(value, q) {
@@ -239,25 +255,7 @@ function expandAll() {
     ].filter(Boolean);
     const cls = classes.length ? ` class="${classes.join(" ")}"` : "";
     const toggle = hasChildren ? toggleHandle(startCollapsed) : "";
-
-    const aliases = node.file?.aliases;
-    const aliasText = aliases?.length
-      ? ` <span class="aliases">(${aliases.map((a) => highlightMatch(a, q)).join(", ")})</span>`
-      : "";
-    const displayName = highlightMatch(node.name, q);
-
-    let content;
-    if (node.file?.wikipedia) {
-      content = `<a href="${node.file.wikipedia}" target="_blank">${displayName}</a>${aliasText}`;
-    } else if (node.file) {
-      content = displayName + aliasText;
-    } else {
-      content = `<span class="muted">${displayName}</span>`;
-    }
-    const photoLink = node.hasPhoto
-      ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
-      : "";
-    content += photoLink;
+    const content = buildNodeContent(node, (s) => highlightMatch(s, q));
 
     return `<li${cls}>${toggle}${content}</li>\n`;
   }
@@ -301,11 +299,11 @@ function expandAll() {
   //  0 - substring inside token (Petroselinum, squarrose)
   // -1 - not a match (ancestor)
   function nodeQuality(node, q) {
-    const lq = q.toLowerCase();
+    // q arrives pre-lowercased (performSearch normalizes once).
     // 4: name token exact
     if (hasWholeWord(node.name, q)) return 4;
     // 3: alias exact string
-    if (node.file?.aliases?.some((a) => a.toLowerCase() === lq)) return 3;
+    if (node.file?.aliases?.some((a) => a.toLowerCase() === q)) return 3;
     // 2: alias token exact
     if (node.file?.aliases?.some((a) => hasWholeWord(a, q))) return 2;
     // 1: prefix
@@ -333,18 +331,35 @@ function expandAll() {
     return best;
   }
 
-  function renderPrunedTree(nodes, matchSet, ancestorSet, q) {
+  // Compare by best subtree quality (desc) then sort key (asc).
+  // qualityOf/keyOf are cached per render so sorting never recompiles
+  // regexes or re-lowercases inside the comparator.
+  function compareNodes(a, b, qualityOf, keyOf) {
+    const qa = qualityOf(a);
+    const qb = qualityOf(b);
+    if (qa !== qb) return qb - qa;
+    return keyOf(a).localeCompare(keyOf(b));
+  }
+
+  function renderPrunedTree(nodes, matchSet, ancestorSet, q, memo, sortKeys) {
     let html = "";
-    const memo = new Map();
+    // Hoisted across recursion (previously reset per level, defeating the
+    // memo): bestQuality results and sort keys computed once per node.
+    memo = memo || new Map();
+    sortKeys = sortKeys || new Map();
+    const keyOf = (node) => {
+      let k = sortKeys.get(node);
+      if (k === undefined) {
+        k = sortKey(node.name);
+        sortKeys.set(node, k);
+      }
+      return k;
+    };
+    const qualityOf = (node) => bestQuality(node, q, matchSet, ancestorSet, memo);
 
     // DOM order = visual order. Primary: best relevance first.
     // Secondary: alphabetical ascending.
-    const sortedNodes = [...nodes].sort((a, b) => {
-      const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
-      const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
-      if (qa !== qb) return qb - qa;
-      return sortKey(a.name).localeCompare(sortKey(b.name));
-    });
+    const sortedNodes = [...nodes].sort((a, b) => compareNodes(a, b, qualityOf, keyOf));
 
     for (const node of sortedNodes) {
       const isMatch = matchSet.has(node);
@@ -369,7 +384,7 @@ function expandAll() {
             // Collapsed: full subtree for exploration (sorted A-Z);
             // open: only matching content
             ? renderFullSubtreeAsc(children, 0)
-            : renderPrunedTree(children, matchSet, ancestorSet, q);
+            : renderPrunedTree(children, matchSet, ancestorSet, q, memo, sortKeys);
           // Children before parent so deepest matches sit on top.
           html += `<ul${shouldCollapse ? ' class="collapsed"' : ""}>\n${inner}</ul>\n${label}`;
         } else {
@@ -379,18 +394,13 @@ function expandAll() {
         // Ancestor node: show only the children that lead toward matches
         const relevantChildren = children
           .filter((c) => matchSet.has(c) || ancestorSet.has(c))
-          .sort((a, b) => {
-            const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
-            const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
-            if (qa !== qb) return qb - qa;
-            return sortKey(a.name).localeCompare(sortKey(b.name));
-          });
+          .sort((a, b) => compareNodes(a, b, qualityOf, keyOf));
         const hasChildren = relevantChildren.length > 0;
 
         const label = nodeLabelHtml(node, "", "", hasChildren, false);
 
         if (hasChildren) {
-          const inner = renderPrunedTree(relevantChildren, matchSet, ancestorSet, q);
+          const inner = renderPrunedTree(relevantChildren, matchSet, ancestorSet, q, memo, sortKeys);
           // Children before parent so deepest matches sit on top.
           html += `<ul>\n${inner}</ul>\n${label}`;
         } else {
@@ -408,35 +418,16 @@ function expandAll() {
   function renderFullSubtreeAsc(taxonomy, level = 0) {
     let html = "";
     const indent = "  ".repeat(level);
-    const sorted = [...taxonomy].sort((a, b) =>
-      sortKey(a.name).localeCompare(sortKey(b.name)),
-    );
+    // Decorated sort: keys computed once, not per comparison.
+    const sorted = taxonomy
+      .map((node) => ({ node, key: sortKey(node.name) }))
+      .sort((a, b) => a.key.localeCompare(b.key))
+      .map((e) => e.node);
 
     for (const node of sorted) {
       const children = node.children || [];
-      let hasMultipleChildren = children.length > 1;
-      if (children.length === 1 && (children[0].children || []).length > 0) {
-        hasMultipleChildren = true;
-      }
-
-      let content = "";
-      const photoLink = node.hasPhoto
-        ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
-        : "";
-      if (node.file) {
-        const aliases = node.file.aliases;
-        const aliasText = aliases && aliases.length
-          ? ` <span class="aliases">(${aliases.join(", ")})</span>`
-          : "";
-        if (node.file.wikipedia) {
-          content = `<a href="${node.file.wikipedia}" target="_blank">${node.name}</a>${aliasText}`;
-        } else {
-          content = node.name + aliasText;
-        }
-      } else {
-        content = `<span class="muted">${node.name}</span>`;
-      }
-      content += photoLink;
+      const hasMultipleChildren = hasToggleableChildren(children);
+      const content = buildNodeContent(node);
 
       const label = hasMultipleChildren
         ? `${indent}<li class="has-children">${toggleHandle(false)}${content}</li>\n`
@@ -511,14 +502,9 @@ function expandAll() {
     if (!treeEl) return [];
     // DOM order is visual order (search emits children before parents).
     // Filter out matches hidden inside collapsed subtrees.
-    return Array.from(treeEl.querySelectorAll("li.search-match")).filter((li) => {
-      let parent = li.parentElement;
-      while (parent && parent !== treeEl) {
-        if (parent.tagName === "UL" && parent.classList.contains("collapsed")) return false;
-        parent = parent.parentElement;
-      }
-      return true;
-    });
+    return Array.from(treeEl.querySelectorAll("li.search-match")).filter(
+      (li) => !li.closest("ul.collapsed"),
+    );
   }
 
   // p hint — mark the photo link that `p` would open (first visible match
