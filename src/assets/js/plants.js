@@ -76,12 +76,21 @@ function toggleNode(toggle) {
   const li = toggle.closest("li");
   if (!li) return;
 
+  // Sibling ULs may sit on either side of the LI: static tree and
+  // generatePlantList() emit LI-then-UL, while search rendering emits
+  // UL-then-LI so DOM order matches visual order (deepest matches on top).
   const childUls = [];
   let el = li.nextElementSibling;
   while (el) {
     if (el.tagName === "LI") break;
     if (el.tagName === "UL") childUls.push(el);
     el = el.nextElementSibling;
+  }
+  el = li.previousElementSibling;
+  while (el) {
+    if (el.tagName === "LI") break;
+    if (el.tagName === "UL") childUls.push(el);
+    el = el.previousElementSibling;
   }
 
   if (childUls.length > 0) {
@@ -125,12 +134,16 @@ function collapseAll() {
   if (!treeEl) return;
   treeEl.querySelectorAll("li.has-children").forEach((li) => {
     li.classList.add("collapsed");
-    let el = li.nextElementSibling;
-    while (el) {
-      if (el.tagName === "LI") break;
-      if (el.tagName === "UL") el.classList.add("collapsed");
-      el = el.nextElementSibling;
-    }
+    const collect = (start, next) => {
+      let el = start;
+      while (el) {
+        if (el.tagName === "LI") break;
+        if (el.tagName === "UL") el.classList.add("collapsed");
+        el = next(el);
+      }
+    };
+    collect(li.nextElementSibling, (el) => el.nextElementSibling);
+    collect(li.previousElementSibling, (el) => el.previousElementSibling);
   });
 }
 
@@ -249,10 +262,10 @@ function expandAll() {
     return `<li${cls}>${toggle}${content}</li>\n`;
   }
 
-  // Render the pruned search-result tree (merged ancestor chains)
-  // During search the tree is visually inverted via CSS column-reverse
-  // (deepest matches at top). To keep alphabetical order top-to-bottom
-  // visually, we sort DOM descending so the flex reversal yields ascending.
+  // Render the pruned search-result tree (merged ancestor chains).
+  // DOM order IS visual order: children are emitted before their parent so
+  // deepest matches appear at the top with shared ancestors below. Sorted
+  // ascending (best relevance first, then A-Z) — no CSS reversal involved.
   function sortKey(name) {
     // Sort by epithet for species/hybrids (e.g. "Magnolia × soulangeana"
     // → "soulangeana") so hybrids collate sensibly; fall back to full name.
@@ -324,14 +337,13 @@ function expandAll() {
     let html = "";
     const memo = new Map();
 
-    // Descending in DOM → ascending/desired visual after column-reverse.
-    // Primary: whole-word matches (2) surface first visually => low first in DOM.
-    // Secondary: alphabetical descending in DOM → ascending visually.
+    // DOM order = visual order. Primary: best relevance first.
+    // Secondary: alphabetical ascending.
     const sortedNodes = [...nodes].sort((a, b) => {
       const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
       const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
-      if (qa !== qb) return qa - qb;
-      return sortKey(b.name).localeCompare(sortKey(a.name));
+      if (qa !== qb) return qb - qa;
+      return sortKey(a.name).localeCompare(sortKey(b.name));
     });
 
     for (const node of sortedNodes) {
@@ -350,15 +362,18 @@ function expandAll() {
         const hasSubContent = children.length > 0;
         const shouldCollapse = hasSubContent && !hasMatchingChildren;
 
-        html += nodeLabelHtml(node, "search-match", q, hasSubContent, shouldCollapse);
+        const label = nodeLabelHtml(node, "search-match", q, hasSubContent, shouldCollapse);
 
         if (hasSubContent) {
-          html += `<ul${shouldCollapse ? ' class="collapsed"' : ""}>\n`;
-          // Collapsed: full subtree for exploration; open: only matching content
-          html += shouldCollapse
-            ? generatePlantList(children, 0)
+          const inner = shouldCollapse
+            // Collapsed: full subtree for exploration (sorted A-Z);
+            // open: only matching content
+            ? renderFullSubtreeAsc(children, 0)
             : renderPrunedTree(children, matchSet, ancestorSet, q);
-          html += "</ul>\n";
+          // Children before parent so deepest matches sit on top.
+          html += `<ul${shouldCollapse ? ' class="collapsed"' : ""}>\n${inner}</ul>\n${label}`;
+        } else {
+          html += label;
         }
       } else {
         // Ancestor node: show only the children that lead toward matches
@@ -367,18 +382,71 @@ function expandAll() {
           .sort((a, b) => {
             const qa = bestQuality(a, q, matchSet, ancestorSet, memo);
             const qb = bestQuality(b, q, matchSet, ancestorSet, memo);
-            if (qa !== qb) return qa - qb;
-            return sortKey(b.name).localeCompare(sortKey(a.name));
+            if (qa !== qb) return qb - qa;
+            return sortKey(a.name).localeCompare(sortKey(b.name));
           });
         const hasChildren = relevantChildren.length > 0;
 
-        html += nodeLabelHtml(node, "", "", hasChildren, false);
+        const label = nodeLabelHtml(node, "", "", hasChildren, false);
 
         if (hasChildren) {
-          html += "<ul>\n";
-          html += renderPrunedTree(relevantChildren, matchSet, ancestorSet, q);
-          html += "</ul>\n";
+          const inner = renderPrunedTree(relevantChildren, matchSet, ancestorSet, q);
+          // Children before parent so deepest matches sit on top.
+          html += `<ul>\n${inner}</ul>\n${label}`;
+        } else {
+          html += label;
         }
+      }
+    }
+
+    return html;
+  }
+
+  // Full-subtree renderer for the collapsed-for-exploration branch of search.
+  // Same node markup as generatePlantList() but sorted A-Z by sortKey and
+  // emitted children-before-parent so DOM order matches the rest of search.
+  function renderFullSubtreeAsc(taxonomy, level = 0) {
+    let html = "";
+    const indent = "  ".repeat(level);
+    const sorted = [...taxonomy].sort((a, b) =>
+      sortKey(a.name).localeCompare(sortKey(b.name)),
+    );
+
+    for (const node of sorted) {
+      const children = node.children || [];
+      let hasMultipleChildren = children.length > 1;
+      if (children.length === 1 && (children[0].children || []).length > 0) {
+        hasMultipleChildren = true;
+      }
+
+      let content = "";
+      const photoLink = node.hasPhoto
+        ? ` <span class="plant-photo-link" data-href="${photoHref(node)}" title="View photos of ${node.name}">&#128444;&#65039;</span>`
+        : "";
+      if (node.file) {
+        const aliases = node.file.aliases;
+        const aliasText = aliases && aliases.length
+          ? ` <span class="aliases">(${aliases.join(", ")})</span>`
+          : "";
+        if (node.file.wikipedia) {
+          content = `<a href="${node.file.wikipedia}" target="_blank">${node.name}</a>${aliasText}`;
+        } else {
+          content = node.name + aliasText;
+        }
+      } else {
+        content = `<span class="muted">${node.name}</span>`;
+      }
+      content += photoLink;
+
+      const label = hasMultipleChildren
+        ? `${indent}<li class="has-children">${toggleHandle(false)}${content}</li>\n`
+        : `${indent}<li>${content}</li>\n`;
+
+      if (children.length > 0) {
+        const inner = renderFullSubtreeAsc(children, level + 1);
+        html += `${indent}<ul>\n${inner}${indent}</ul>\n${label}`;
+      } else {
+        html += label;
       }
     }
 
@@ -441,9 +509,9 @@ function expandAll() {
   function visibleMatchesInVisualOrder() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return [];
-    // Filter out matches hidden inside collapsed subtrees, then reverse to
-    // compensate for the column-reverse visual inversion during search.
-    const all = Array.from(treeEl.querySelectorAll("li.search-match")).filter((li) => {
+    // DOM order is visual order (search emits children before parents).
+    // Filter out matches hidden inside collapsed subtrees.
+    return Array.from(treeEl.querySelectorAll("li.search-match")).filter((li) => {
       let parent = li.parentElement;
       while (parent && parent !== treeEl) {
         if (parent.tagName === "UL" && parent.classList.contains("collapsed")) return false;
@@ -451,7 +519,6 @@ function expandAll() {
       }
       return true;
     });
-    return all.reverse();
   }
 
   // p hint — mark the photo link that `p` would open (first visible match
@@ -548,9 +615,8 @@ function expandAll() {
   // Perform search and render results
   // Uses the pruned (merged) tree so shared matching ancestors are deduped
   // per level — only one Magnolia / Magnoliaceae / Magnoliales node no matter
-  // how many leaf matches descend from it. Combined with the
-  // [data-search-active] column-reverse CSS, the pruned chain is visually
-  // inverted so lowest-level matches (e.g. Magnolia acuminata) appear at the
+  // how many leaf matches descend from it. Children are emitted before their
+  // parent so lowest-level matches (e.g. Magnolia acuminata) appear at the
   // top and the shared matching chain appears once below.
   function performSearch(query) {
     if (!query.trim()) {

@@ -122,6 +122,13 @@ a:active {
   content: "▶";
 }
 
+/* During search children render above their parent (UL-before-LI in JS so
+   deepest matches sit on top), so the expanded glyph points up. The
+   collapsed glyph (▶) stays the same regardless of mode. */
+.plant-list[data-search-active] .toggle::before {
+  content: "▲";
+}
+
 .plant-list .aliases {
   font-size: 0.8em;
 }
@@ -139,21 +146,6 @@ a:active {
 
 .plant-list ul.collapsed {
   display: none;
-}
-
-/* During search: reverse vertical order so deepest (lowest-level) matches
-   appear at the top, with shared matching ancestors collapsed into a single
-   node below (deduped per level via the pruned tree). */
-.plant-list[data-search-active] ul:not(.collapsed) {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-/* When the list is reversed (search mode), flip the expanded toggle glyph to
-   its "up" equivalent so expand/collapse semantics read correctly. The
-   collapsed glyph (▶) stays the same regardless of mode. */
-.plant-list[data-search-active] .toggle::before {
-  content: "▲";
 }
 
 .muted {
