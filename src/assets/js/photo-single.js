@@ -243,7 +243,9 @@
   });
 
   onKey("escape", () => {
-    // Esc returns to the grid, honoring an active filter when present.
+    // Esc returns to the grid, honoring an active filter when present. Flag
+    // first so the grid restores scroll position on arrival.
+    flagEscReturn("/photos/");
     window.location.href = query.trim()
       ? `/photos/?q=${encodeURIComponent(query.trim())}`
       : "/photos/";

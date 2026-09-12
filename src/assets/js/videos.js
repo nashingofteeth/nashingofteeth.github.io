@@ -245,6 +245,11 @@ function isVideoSinglePage() {
   return /^\/videos\/[^/]+\/?$/.test(window.location.pathname || "/");
 }
 
+// Persist grid scroll at departure + restore on Esc returns from singles.
+if (isVideosGrid()) {
+  trackGridScroll();
+}
+
 // j/k snap to the previous/next video instead of the global half-viewport
 // scroll (keybinds.js carves the grid out for exactly this reason). Current
 // video is the last article whose top edge sits in the viewport's upper half

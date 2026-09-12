@@ -151,6 +151,9 @@ function filterByQuery(items, query) {
   const noResults = document.getElementById("photo-no-results");
   if (!grid) return;
 
+  // Persist scroll at departure + restore on Esc returns from single pages.
+  trackGridScroll();
+
   // Build a flat index from the precomputed data-* attributes.
   const searchIndex = [];
   for (const el of grid.querySelectorAll(".photo-item")) {

@@ -181,6 +181,79 @@ function bindDigitNav(getLinks, opts = {}) {
   return refresh;
 }
 
+// ---------------------------------------------------------------------------
+// Grid scroll memory for Esc returns. Esc-driven grid arrivals (single photo
+// page → /photos/, single video page → /videos/) are full navigations that
+// always land at top, so the return leg is bridged with per-tab one-shot
+// state: grid pages persist scrollY at departure (pagehide), Esc handlers
+// flag the return, and the grid load below consumes the flag once.
+// Browser back/forward/reload are untouched (scrollRestoration stays auto) —
+// restoration only ever fires on the Esc flag. Storage may throw (private
+// mode), in which case everything degrades to current top-landing behavior.
+// ---------------------------------------------------------------------------
+function sessGet(key) {
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch (_err) {
+    return null;
+  }
+}
+
+function sessSet(key, value) {
+  try {
+    window.sessionStorage.setItem(key, value);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function sessDel(key) {
+  try {
+    window.sessionStorage.removeItem(key);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function gridPath() {
+  return window.location.pathname || "/";
+}
+
+// Mark the next load of gridPath as an Esc return. Call immediately before
+// navigating there so the flag can't go stale.
+function flagEscReturn(gridPath) {
+  sessSet(`esc-return:${gridPath}`, "1");
+}
+
+// Track scroll for the current grid page: persist at departure, and consume
+// a pending Esc return (restore now via rAF, then re-apply on window load
+// only if the user hasn't scrolled meanwhile — late image layout shifts must
+// not yank a user who already moved). Call once per grid load; grids only.
+function trackGridScroll() {
+  if (typeof document === "undefined" || typeof window === "undefined") {
+    return;
+  }
+  const path = gridPath();
+  window.addEventListener("pagehide", () => {
+    sessSet(`grid-scroll:${path}`, String(window.scrollY || 0));
+  });
+  if (!sessGet(`esc-return:${path}`)) {
+    return;
+  }
+  sessDel(`esc-return:${path}`);
+  const y = Number(sessGet(`grid-scroll:${path}`)) || 0;
+  const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+  raf(() => {
+    window.scrollTo(0, y);
+    const settled = window.scrollY;
+    window.addEventListener("load", () => {
+      if (window.scrollY === settled) {
+        window.scrollTo(0, y);
+      }
+    });
+  });
+}
+
 if (typeof module !== "undefined") {
   module.exports = {
     isEditableTarget,
@@ -190,6 +263,8 @@ if (typeof module !== "undefined") {
     isInViewport,
     isFullyInViewport,
     bindDigitNav,
+    flagEscReturn,
+    trackGridScroll,
   };
 }
 
@@ -204,4 +279,6 @@ if (typeof globalThis !== "undefined") {
   globalThis.isInViewport = isInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
   globalThis.bindDigitNav = bindDigitNav;
+  globalThis.flagEscReturn = flagEscReturn;
+  globalThis.trackGridScroll = trackGridScroll;
 }

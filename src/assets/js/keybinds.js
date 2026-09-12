@@ -110,6 +110,11 @@
       const href = upHref();
       if (href) {
         e.preventDefault();
+        // Flag grid returns so the grid restores scroll position on arrival.
+        // Only /videos/ is a grid target here (photo singles own their Esc).
+        if (href === "/videos/") {
+          flagEscReturn(href);
+        }
         window.location.href = href;
       }
     },
