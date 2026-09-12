@@ -41,8 +41,11 @@ header {
 main {
   flex: 1;
 }
+:root {
+  --top-space: 100px;
+}
 .top-space {
-  margin-top: 100px;
+  margin-top: var(--top-space);
 }
 footer {
   margin-bottom: 20px;
@@ -71,6 +74,14 @@ a {
 }
 a:active {
   color: red;
+}
+/* Keep the article's top margin visible when j/k snaps to it — without this,
+   scrollIntoView() aligns the border box to the viewport top and the
+   .top-space margin scrolls out of sight. Shares --top-space with page.css
+   so the offset tracks the margin (fallback matches if the var is missing).
+   scroll-margin only affects scroll snapping; layout is untouched. */
+main article {
+  scroll-margin-top: var(--top-space, 100px);
 }
 @media only screen and (max-width: 768px) {
   article {
@@ -217,7 +228,292 @@ header a {
       data-goatcounter="https://nashingofteeth.goatcounter.com/count" 
       async src="//gc.zgo.at/count.js"
     ></script>
-    <script>const MEDIA_BASE = "https://f004.backblazeb2.com/file/nash-potato/";
+    <script>// Shared keybind helper — loaded first on every templated page (see
+// templates/*.js for the load order). Single place for the guards every
+// keydown handler needs: modifier keys, text-editing targets, and key
+// normalization. Page scripts (photos.js, photo-single.js, plants.js,
+// videos.js, home.js) and the global defaults (keybinds.js, loaded last)
+// register via onKey() instead of raw addEventListener("keydown").
+// Collection pages (photos, plants, tools) offer mouseless list nav via
+// bindDigitNav().
+//
+// Ordering contract: page-specific handlers are registered before the
+// global defaults (page assets come before keybinds.js in loadJs), so a
+// page handler that preventDefaults an Escape press (e.g. clearing a
+// non-empty search) runs first and the global up-nav skips via
+// e.defaultPrevented. Works at build time (require) and in the browser
+// (globals + UMD guard, mirroring month-utils.js).
+
+function isEditableTarget(target) {
+  return (
+    target &&
+    (target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT" ||
+      target.isContentEditable)
+  );
+}
+
+function hasModifier(e) {
+  return e.ctrlKey || e.metaKey || e.altKey;
+}
+
+// Normalize a key event to a lowercase match token: "Escape" → "escape",
+// " " / "Spacebar" → "space", "Esc" → "escape". Falls back to keyCode for
+// very old browsers (mirrors the photo-single.js fallback).
+function normalizeKey(e) {
+  const raw = (e.key || String.fromCharCode(e.keyCode || 0) || "").toLowerCase();
+  if (raw === " " || raw === "spacebar") {
+    return "space";
+  }
+  if (raw === "esc") {
+    return "escape";
+  }
+  return raw;
+}
+
+// Register a keydown handler with shared guards. keys is a single key or
+// an array of keys (post-normalization, e.g. "escape", "j", "/").
+// By default handlers are skipped inside text-editing targets and when a
+// modifier is held; pass { allowInEditable: true } for handlers like
+// Enter-to-open-first that explicitly manage the focused-input case.
+// No-ops without a document (build time). The handler owns
+// preventDefault + navigation.
+function onKey(keys, handler, opts = {}) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const wanted = Array.isArray(keys) ? keys : [keys];
+  const allowInEditable = Boolean(opts.allowInEditable);
+  document.addEventListener("keydown", (e) => {
+    if (hasModifier(e)) {
+      return;
+    }
+    if (!allowInEditable && isEditableTarget(e.target)) {
+      return;
+    }
+    if (!wanted.includes(normalizeKey(e))) {
+      return;
+    }
+    handler(e, normalizeKey(e));
+  });
+}
+
+// Partial-visibility test: any part of the element inside the viewport.
+// Zero-rect elements (display:none, e.g. collapsed plants subtrees) fail
+// the bottom check and self-exclude. Used for SPACE play/pause targeting,
+// where a mostly-visible player still counts.
+function isInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.bottom > 0 &&
+    rect.top < window.innerHeight &&
+    rect.right > 0 &&
+    rect.left < window.innerWidth
+  );
+}
+
+// Top-visibility test for nth-keybind candidates: the link's top edge must
+// be on screen (never scrolled past), while running below the fold is fine.
+// Horizontal containment still required. Zero-rect elements (display:none,
+// e.g. collapsed plants subtrees) fail the bottom check and self-exclude.
+function isFullyInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.right <= window.innerWidth &&
+    rect.bottom > 0
+  );
+}
+
+// Mouseless list nav: "1"–"9" opens the nth top-visible link from
+// getLinks(), a page-provided resolver returning candidate <a> elements in
+// priority (DOM) order. Links scrolled past the top never bind; running
+// below the fold is fine. Only ever targets the
+// types (download buttons, toggles, photo links) are never hijacked.
+// Hint titles "(n)" are managed here: originals are saved per link and
+// restored when the link leaves the set. Base title is the link's own title,
+// else its text (40 chars), else opts.label. Refreshes on scroll (passive,
+// rAF-throttled) + resize + load; returns refresh() for manual calls after
+// page re-renders (search). No-ops without a document (build time).
+function bindDigitNav(getLinks, opts = {}) {
+  if (typeof document === "undefined") {
+    return () => {};
+  }
+  const label = opts.label || "Open link";
+  const savedTitles = new WeakMap();
+  let hinted = [];
+
+  function baseTitle(link) {
+    const current = link.getAttribute("title") || "";
+    if (current && !/\(\d\)$/.test(current)) {
+      return current;
+    }
+    const text = ((link.textContent || "").trim().slice(0, 40));
+    return text || label;
+  }
+
+  function currentLinks() {
+    return getLinks().filter(isFullyInViewport).slice(0, 9);
+  }
+
+  function refresh() {
+    for (const link of hinted) {
+      if (savedTitles.has(link)) {
+        const original = savedTitles.get(link);
+        if (original) {
+          link.setAttribute("title", original);
+        } else {
+          link.removeAttribute("title");
+        }
+      }
+    }
+    hinted = currentLinks();
+    hinted.forEach((link, i) => {
+      if (!savedTitles.has(link)) {
+        savedTitles.set(link, link.getAttribute("title"));
+      }
+      link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
+    });
+  }
+
+  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], (e, key) => {
+    const links = currentLinks();
+    const link = links[Number(key) - 1];
+    if (link) {
+      e.preventDefault();
+      window.location.href = link.href;
+    }
+  });
+
+  let rafPending = false;
+  function scheduleRefresh() {
+    if (rafPending) {
+      return;
+    }
+    rafPending = true;
+    const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+    raf(() => {
+      rafPending = false;
+      refresh();
+    });
+  }
+  document.addEventListener("scroll", scheduleRefresh, { passive: true });
+  window.addEventListener("resize", scheduleRefresh);
+  refresh();
+  return refresh;
+}
+
+// ---------------------------------------------------------------------------
+// Grid scroll memory for Esc returns. Esc-driven grid arrivals (single photo
+// page → /photos/, single video page → /videos/) are full navigations that
+// always land at top, so the return leg is bridged with per-tab one-shot
+// state: grid pages persist scrollY at departure (pagehide), Esc handlers
+// flag the return, and the grid load below consumes the flag once.
+// Browser back/forward/reload are untouched (scrollRestoration stays auto) —
+// restoration only ever fires on the Esc flag. Storage may throw (private
+// mode), in which case everything degrades to current top-landing behavior.
+// ---------------------------------------------------------------------------
+function sessGet(key) {
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch (_err) {
+    return null;
+  }
+}
+
+function sessSet(key, value) {
+  try {
+    window.sessionStorage.setItem(key, value);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function sessDel(key) {
+  try {
+    window.sessionStorage.removeItem(key);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function gridPath() {
+  return window.location.pathname || "/";
+}
+
+// Mark the next load of gridPath as an Esc return. Call immediately before
+// navigating there so the flag can't go stale.
+function flagEscReturn(gridPath) {
+  sessSet(`esc-return:${gridPath}`, "1");
+}
+
+// Track scroll for the current grid page: persist at departure, and consume
+// a pending Esc return (restore now via rAF, then re-apply on window load
+// only if the user hasn't scrolled meanwhile — late image layout shifts must
+// not yank a user who already moved). Call once per grid load; grids only.
+function trackGridScroll() {
+  if (typeof document === "undefined" || typeof window === "undefined") {
+    return;
+  }
+  const path = gridPath();
+  window.addEventListener("pagehide", () => {
+    sessSet(`grid-scroll:${path}`, String(window.scrollY || 0));
+  });
+  if (!sessGet(`esc-return:${path}`)) {
+    return;
+  }
+  sessDel(`esc-return:${path}`);
+  const y = Number(sessGet(`grid-scroll:${path}`)) || 0;
+  const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+  raf(() => {
+    window.scrollTo(0, y);
+    const settled = window.scrollY;
+    window.addEventListener("load", () => {
+      if (window.scrollY === settled) {
+        window.scrollTo(0, y);
+      }
+    });
+  });
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    isEditableTarget,
+    hasModifier,
+    normalizeKey,
+    onKey,
+    isInViewport,
+    isFullyInViewport,
+    bindDigitNav,
+    flagEscReturn,
+    trackGridScroll,
+  };
+}
+
+// Expose as globals for concatenated browser scripts (loadJs joins files
+// into one classic script, so top-level declarations are already shared;
+// globalThis assignment mirrors month-utils.js for explicitness).
+if (typeof globalThis !== "undefined") {
+  globalThis.isEditableTarget = isEditableTarget;
+  globalThis.hasModifier = hasModifier;
+  globalThis.normalizeKey = normalizeKey;
+  globalThis.onKey = onKey;
+  globalThis.isInViewport = isInViewport;
+  globalThis.isFullyInViewport = isFullyInViewport;
+  globalThis.bindDigitNav = bindDigitNav;
+  globalThis.flagEscReturn = flagEscReturn;
+  globalThis.trackGridScroll = trackGridScroll;
+}
+
+const MEDIA_BASE = "https://f004.backblazeb2.com/file/nash-potato/";
 const TRANSCODES_PATH = "videos/transcodes/";
 
 function playerSrc(filename, ext) {
@@ -231,6 +527,134 @@ function downloadUrl(filename, type) {
   return `${MEDIA_BASE}videos/${filename}.mov`;
 }
 
+// ---------------------------------------------------------------------------
+// YouTube embed control. Iframes never fire DOM play events, so exclusive
+// playback needs YouTube's postMessage player protocol (requires enablejsapi
+// in the embed URL, added at creation below). Assumed state per embed —
+// creation defaults to playing (autoplay=1) — kept honest by onStateChange
+// subscriptions once each iframe reports ready.
+// ---------------------------------------------------------------------------
+const YT_ORIGIN = "https://www.youtube-nocookie.com";
+let ytCounter = 0;
+const ytPlayers = new Map(); // ytId -> { iframe, playing }
+
+function ytCommand(ytId, func, args = []) {
+  const entry = ytPlayers.get(ytId);
+  if (!entry) {
+    return;
+  }
+  entry.iframe.contentWindow.postMessage(
+    JSON.stringify({ event: "command", func, args, id: ytId }),
+    YT_ORIGIN,
+  );
+}
+
+function pauseAllNative(except) {
+  for (const v of document.querySelectorAll("video")) {
+    if (v !== except && !v.paused) {
+      v.pause();
+    }
+  }
+}
+
+function pauseOtherYouTube(exceptId) {
+  for (const [ytId, entry] of ytPlayers) {
+    if (ytId !== exceptId && entry.playing) {
+      entry.playing = false; // assume the command lands; events correct us
+      ytCommand(ytId, "pauseVideo");
+    }
+  }
+}
+
+// Explicit start/stop for tracked embeds. Starting takes over exclusivity
+// first (native players included); stopping is a lone command.
+function playYouTube(ytId) {
+  const entry = ytPlayers.get(ytId);
+  if (!entry) {
+    return;
+  }
+  pauseAllNative(null);
+  pauseOtherYouTube(ytId);
+  entry.playing = true;
+  ytCommand(ytId, "playVideo");
+}
+
+function pauseYouTube(ytId) {
+  const entry = ytPlayers.get(ytId);
+  if (!entry) {
+    return;
+  }
+  entry.playing = false;
+  ytCommand(ytId, "pauseVideo");
+}
+
+// Unified media predicates for SPACE: native state is exact, YouTube state
+// is tracked (unknown embeds count as stopped — creation always tracks, and
+// a stray playVideo to an already-playing embed is a harmless no-op).
+function ytIdOf(el) {
+  return el.getAttribute("data-yt-player");
+}
+
+function mediaPlaying(el) {
+  if (el.tagName === "VIDEO") {
+    return !el.paused;
+  }
+  const entry = ytPlayers.get(ytIdOf(el));
+  return entry ? entry.playing : false;
+}
+
+function playMedia(el) {
+  if (el.tagName === "VIDEO") {
+    el.play();
+  } else {
+    playYouTube(ytIdOf(el));
+  }
+}
+
+function pauseMedia(el) {
+  if (el.tagName === "VIDEO") {
+    el.pause();
+  } else {
+    pauseYouTube(ytIdOf(el));
+  }
+}
+
+// Inbound YouTube player events. Origin-checked + id-matched; anything else
+// (including malformed JSON) is ignored. A remote play reports straight into
+// the exclusivity invariant, so YouTube-native controls participate too.
+window.addEventListener("message", (e) => {
+  if (e.origin !== YT_ORIGIN) {
+    return;
+  }
+  let data = null;
+  try {
+    data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+  } catch (_err) {
+    return;
+  }
+  if (!data || data.id === undefined) {
+    return;
+  }
+  const entry = ytPlayers.get(data.id);
+  if (!entry) {
+    return;
+  }
+  if (data.event === "onReady") {
+    ytCommand(data.id, "addEventListener", ["onStateChange"]);
+  } else if (
+    data.event === "infoDelivery" &&
+    data.info &&
+    typeof data.info.playerState !== "undefined"
+  ) {
+    const playing = data.info.playerState === 1;
+    entry.playing = playing;
+    if (playing) {
+      pauseAllNative(null);
+      pauseOtherYouTube(data.id);
+    }
+  }
+});
+
 const links = document.querySelectorAll(".container a");
 
 for (const link of links) {
@@ -243,16 +667,32 @@ for (const link of links) {
     if (youtubeId) {
       // Create YouTube iframe
       const iframe = document.createElement("iframe");
+      const ytId = `yt-player-${++ytCounter}`;
 
-      // Set YouTube iframe attributes
-      iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&widget_referrer=https%3A%2F%2Fnash.video`);
+      // enablejsapi wires the postMessage player protocol (see ytPlayers
+      // above); origin is runtime-computed since embeds are same-origin-agnostic
+      iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&widget_referrer=https%3A%2F%2Fnash.video`);
+      iframe.setAttribute("id", ytId);
+      iframe.setAttribute("data-yt-player", ytId);
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute("allowfullscreen", "true");
       iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
       iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
 
+      // Track as playing (autoplay=1); the load handshake subscribes to state
+      // events from here on. A fresh autoplay embed takes over exclusivity now.
+      ytPlayers.set(ytId, { iframe, playing: true });
+      iframe.addEventListener("load", () => {
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: "listening", id: ytId }),
+          YT_ORIGIN,
+        );
+      });
+
       // Replace the link with the iframe
       this.parentElement.replaceChild(iframe, this);
+      pauseAllNative(null);
+      pauseOtherYouTube(ytId);
     } else {
       // Regular video handling for cloud-hosted videos
       const filename = this.getAttribute("data-filename");
@@ -304,7 +744,307 @@ for (const downloadLink of downloadLinks) {
     anchor.click();
     document.body.removeChild(anchor);
   });
-}</script>
+}
+
+// ---------------------------------------------------------------------------
+// Keybinds via onKey() (keybind-utils.js, loaded first). Grid-only behaviors
+// resolve to no-ops on single-video pages: the grid renders bookmark
+// permalinks (showBookmark) and multiple articles, the single page neither.
+// ---------------------------------------------------------------------------
+function isVideosGrid() {
+  const p = window.location.pathname || "/";
+  return p === "/videos/" || p === "/videos/index.html";
+}
+
+function isVideoSinglePage() {
+  return /^\/videos\/[^/]+\/?$/.test(window.location.pathname || "/");
+}
+
+// Persist grid scroll at departure + restore on Esc returns from singles.
+if (isVideosGrid()) {
+  trackGridScroll();
+}
+
+// j/k snap to the previous/next video instead of the global half-viewport
+// scroll (keybinds.js carves the grid out for exactly this reason). Current
+// video is the last article whose top edge sits in the viewport's upper half
+// (not <= 1: the scroll-margin-top offset leaves a snapped video ~100px down,
+// which must still count as current or j recomputes the same target forever).
+// j from the page top (description above the fold) lands the first video.
+if (isVideosGrid()) {
+  onKey(["j", "k"], (e, key) => {
+    const articles = Array.from(document.querySelectorAll("main article"));
+    if (!articles.length) {
+      return;
+    }
+    const cutoff = window.innerHeight / 2;
+    let idx = -1;
+    articles.forEach((article, i) => {
+      if (article.getBoundingClientRect().top < cutoff) {
+        idx = i;
+      }
+    });
+    const next = key === "j"
+      ? articles[Math.min(idx + 1, articles.length - 1)]
+      : articles[Math.max(idx - 1, 0)];
+    if (next) {
+      e.preventDefault();
+      // Navigating away stops playback — exclusivity means only the video
+      // being left can be playing, so pausing all is precisely scoped.
+      pauseAllNative(null);
+      pauseOtherYouTube(null);
+      next.scrollIntoView();
+    }
+  });
+
+  // Enter opens the first top-visible video permalink (same eligibility as
+  // digit hints: top edge on screen, below the fold is fine). Skipped on
+  // interactive targets so native keyboard activation (focused play/download
+  // links) is never hijacked.
+  onKey("enter", (e) => {
+    if (e.target && e.target.closest && e.target.closest("a, button")) {
+      return;
+    }
+    const first = Array.from(
+      document.querySelectorAll("main article a.bookmark[href]"),
+    ).find((link) => isFullyInViewport(link));
+    if (first) {
+      e.preventDefault();
+      window.location.href = first.href;
+    }
+  });
+}
+
+// Enter on a single-video page starts the video — never pauses. If the
+// in-page player already exists, play it when paused; otherwise activate the
+// play link, which swaps in the autoplaying player (native or YouTube embed).
+// Skipped on interactive targets so native keyboard activation (focused
+// play/download links) is never hijacked.
+if (isVideoSinglePage()) {
+  onKey("enter", (e) => {
+    if (e.target && e.target.closest && e.target.closest("a, button")) {
+      return;
+    }
+    const player = document.querySelector("video");
+    if (player) {
+      if (player.paused) {
+        e.preventDefault();
+        player.play();
+      }
+      return;
+    }
+    const playLink = document.querySelector(".container .media a[href]");
+    if (playLink) {
+      e.preventDefault();
+      playLink.click();
+    }
+  });
+}
+
+// Only one in-page player at a time, on every path — not just keybinds.
+// The play event doesn't bubble, so capture it at the document: whenever any
+// native <video> starts (click-created autoplay, native controls, SPACE
+// below), pause the rest — including tracked YouTube embeds, which never fire
+// DOM play events themselves. Pausing never re-fires play, so this can't loop.
+document.addEventListener(
+  "play",
+  (e) => {
+    pauseAllNative(e.target);
+    pauseOtherYouTube(null);
+  },
+  true,
+);
+
+// Space always controls the first top-visible video on grid + single pages,
+// regardless of focus (only text-editing targets and modifiers opt out via
+// the central onKey guard) and regardless of initialized-or-not: one combined
+// DOM-ordered pick across players and cover links (same eligibility as digit
+// hints). A picked player toggles; a picked cover starts (exclusivity pauses
+// anything playing elsewhere). preventDefault only when handling, so plain
+// spacebar-scroll still works with no video UI on screen.
+onKey("space", (e) => {
+  const candidate = Array.from(
+    document.querySelectorAll("video, iframe[data-yt-player], .container .media a[href]"),
+  ).find((el) => isFullyInViewport(el));
+  if (!candidate) {
+    return;
+  }
+  e.preventDefault();
+  if (candidate.tagName === "A") {
+    candidate.click();
+  } else if (mediaPlaying(candidate)) {
+    pauseMedia(candidate);
+  } else {
+    playMedia(candidate);
+  }
+});
+
+// f toggles fullscreen on the first top-visible video (same eligibility as
+// digit hints). Uninitialized covers initialize first: activating the play
+// link swaps in the player synchronously, so the fresh player in the same
+// article is fullscreened within the same keydown gesture. Native players
+// show their own controls fullscreened; YouTube iframes carry
+// allowfullscreen. Keybinds stay live while fullscreened, so f itself exits.
+onKey("f", (e) => {
+  if (document.fullscreenElement) {
+    e.preventDefault();
+    document.exitFullscreen();
+    return;
+  }
+  const candidate = Array.from(
+    document.querySelectorAll("video, iframe[data-yt-player], .container .media a[href]"),
+  ).find((el) => isFullyInViewport(el));
+  if (!candidate) {
+    return;
+  }
+  e.preventDefault();
+  if (candidate.tagName === "A") {
+    const media = candidate.parentElement; // .media survives the swap
+    candidate.click();
+    const player = media.querySelector("video, iframe");
+    if (player) {
+      player.requestFullscreen();
+    }
+  } else {
+    candidate.requestFullscreen();
+  }
+});
+// ---------------------------------------------------------------------------
+// keybinds.js — global (page-agnostic) keyboard shortcuts. Loaded last on
+// every templated page (see templates/*.js for the load order) so
+// page-specific handlers registered via onKey() run first. Guards
+// (modifiers, editable targets, key normalization) come from
+// keybind-utils.js (loaded first); this file owns only global behavior:
+//
+//   Escape → up (section parent, else home)
+//   j / k  → half-viewport scroll (except photo-single pages, which own j/k
+//            for prev/next nav in photo-single.js, and the videos grid, which
+//            owns j/k for prev/next video snap in videos.js)
+//   (Homepage shortcuts live in home.js, loaded only on /.)
+//
+// Coexists with page handlers:
+//   - photo-single.js owns Escape + j/k on /photos/<slug>/ (query-preserved
+//     grid return + scoped prev/next), so this file stays inert there.
+//   - videos.js owns j/k on /videos/ (prev/next video snap), so this file
+//     stays inert there (single-video pages keep the half-viewport scroll).
+//   - photos.js / plants.js own Escape when their search input has content
+//     (clear semantics: they clear + preventDefault, registered before this
+//     file so they run first on the same press). This file skips Escape when
+//     the press was already consumed (defaultPrevented) or the focused search
+//     still has content; an empty search (focused or not) navigates up.
+// ---------------------------------------------------------------------------
+(function () {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  function pathName() {
+    return window.location.pathname || "/";
+  }
+
+  function isPhotoSinglePage() {
+    return /^\/photos\/[^/]+\/?$/.test(pathName());
+  }
+
+  function isVideosGrid() {
+    const p = pathName();
+    return p === "/videos/" || p === "/videos/index.html";
+  }
+
+  // The grid search input the user is currently typing in, if any.
+  function activeSearchInput() {
+    const active = document.activeElement;
+    if (
+      active &&
+      (active.id === "photo-search" || active.id === "plant-search")
+    ) {
+      return active;
+    }
+    return null;
+  }
+
+  // Resolve the Escape "up" target. Null means no-op (home, or a page whose
+  // own script owns Escape).
+  function upHref() {
+    const p = pathName();
+    if (p === "/" || p === "/index.html") {
+      return null;
+    }
+    if (isPhotoSinglePage()) {
+      return null;
+    }
+    if (/^\/videos\/[^/]+\/?$/.test(p)) {
+      return "/videos/";
+    }
+    if (/^\/(videos|photos|plants|tools)\/?$/.test(p)) {
+      return "/";
+    }
+    return "/";
+  }
+
+  // Hint the header link that Escape actually targets, mirroring the
+  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js.
+  function applyEscHint() {
+    const href = upHref();
+    if (!href) {
+      return;
+    }
+    const link = document.querySelector(`header a[href="${href}"]`);
+    if (link && !/\(Esc\)/.test(link.getAttribute("title") || "")) {
+      const base = (link.getAttribute("title") || "").trim();
+      link.setAttribute("title", base ? `${base} (Esc)` : "Up (Esc)");
+    }
+  }
+  applyEscHint();
+
+  // Escape → up. allowInEditable because an empty focused search still
+  // navigates up; a focused search with content belongs to the page
+  // clear-handler (registered first), which preventDefaults the press.
+  onKey(
+    "escape",
+    (e) => {
+      // A grid clear-handler (photos.js / plants.js, registered first) clears
+      // a non-empty search and preventDefaults the same press — never navigate
+      // after that, or Esc-with-query would both clear and leave the page.
+      if (e.defaultPrevented) {
+        return;
+      }
+      const activeSearch = activeSearchInput();
+      // Fallback when this file ever runs before the clear-handler: a focused
+      // search that still has content belongs to the clearer, not to up-nav.
+      if (activeSearch && activeSearch.value.trim()) {
+        return;
+      }
+      if (!activeSearch && isEditableTarget(e.target)) {
+        return;
+      }
+      const href = upHref();
+      if (href) {
+        e.preventDefault();
+        // Flag grid returns so the grid restores scroll position on arrival.
+        // Only /videos/ is a grid target here (photo singles own their Esc).
+        if (href === "/videos/") {
+          flagEscReturn(href);
+        }
+        window.location.href = href;
+      }
+    },
+    { allowInEditable: true },
+  );
+
+  // Half-viewport scroll. Photo-single pages own j/k for prev/next, and the
+  // videos grid owns j/k for prev/next video snap (videos.js) — both stay
+  // inert here. Single-video pages keep the half-viewport scroll.
+  onKey(["j", "k"], (e, key) => {
+    if (isPhotoSinglePage() || isVideosGrid()) {
+      return;
+    }
+    const delta = Math.round(window.innerHeight / 2);
+    e.preventDefault();
+    window.scrollBy(0, key === "j" ? delta : -delta);
+  });
+}());
+</script>
 	
   </body>
 </html>
