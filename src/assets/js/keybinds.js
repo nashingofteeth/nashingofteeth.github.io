@@ -6,13 +6,16 @@
 // keybind-utils.js (loaded first); this file owns only global behavior:
 //
 //   Escape → up (section parent, else home)
-//   j / k  → half-viewport scroll (everywhere except photo-single pages,
-//            which own j/k for prev/next nav in photo-single.js)
+//   j / k  → half-viewport scroll (except photo-single pages, which own j/k
+//            for prev/next nav in photo-single.js, and the videos grid, which
+//            owns j/k for prev/next video snap in videos.js)
 //   (Homepage shortcuts live in home.js, loaded only on /.)
 //
 // Coexists with page handlers:
 //   - photo-single.js owns Escape + j/k on /photos/<slug>/ (query-preserved
 //     grid return + scoped prev/next), so this file stays inert there.
+//   - videos.js owns j/k on /videos/ (prev/next video snap), so this file
+//     stays inert there (single-video pages keep the half-viewport scroll).
 //   - photos.js / plants.js own Escape when their search input has content
 //     (clear semantics: they clear + preventDefault, registered before this
 //     file so they run first on the same press). This file skips Escape when
@@ -30,6 +33,11 @@
 
   function isPhotoSinglePage() {
     return /^\/photos\/[^/]+\/?$/.test(pathName());
+  }
+
+  function isVideosGrid() {
+    const p = pathName();
+    return p === "/videos/" || p === "/videos/index.html";
   }
 
   // The grid search input the user is currently typing in, if any.
@@ -108,9 +116,11 @@
     { allowInEditable: true },
   );
 
-  // Half-viewport scroll. Photo-single pages own j/k for prev/next.
+  // Half-viewport scroll. Photo-single pages own j/k for prev/next, and the
+  // videos grid owns j/k for prev/next video snap (videos.js) — both stay
+  // inert here. Single-video pages keep the half-viewport scroll.
   onKey(["j", "k"], (e, key) => {
-    if (isPhotoSinglePage()) {
+    if (isPhotoSinglePage() || isVideosGrid()) {
       return;
     }
     const delta = Math.round(window.innerHeight / 2);

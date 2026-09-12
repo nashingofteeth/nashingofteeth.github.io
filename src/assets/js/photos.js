@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// Depends on keybind-utils.js (loaded first): onKey + guards.
+// Depends on keybind-utils.js (loaded first): onKey + guards, bindDigitNav.
 // Depends on search-utils.js (loaded first): updateUrl, bindSearchInput,
 // bindSlashToFocus, bindEscapeToClear. See templates/photos.js for the load order.
 // Also depends on month-utils.js for MONTH_NAMES_LOWER, MONTH_SHORT, MONTH_ALT.
@@ -185,22 +185,24 @@ function filterByQuery(items, query) {
     }
   }
 
-  // Number hints follow the current (possibly filtered) visible set: the first
-  // 9 visible items get their digit keybind, items past 9 (or hidden) get none.
-  function updateNumberHints() {
-    let n = 0;
-    for (const el of grid.querySelectorAll(".photo-item")) {
-      if (el.hidden) continue;
-      n++;
-      const link = el.querySelector("a");
-      if (!link) continue;
-      if (n <= 9) {
-        link.setAttribute("title", `Open photo (${n})`);
-      } else {
-        link.removeAttribute("title");
+  // "1"–"9" opens the nth top-visible photo of the current (possibly
+  // filtered) grid. Viewport refresh happens on scroll/resize plus
+  // performSearch below. Declared before bindSearchInput so the initial
+  // query restore can already refresh hints (function-scoped const would
+  // otherwise hit TDZ). Enter below keeps using numberedItem (first match
+  // overall, regardless of viewport).
+  const refreshDigitNav = bindDigitNav(
+    () => {
+      const links = [];
+      for (const el of grid.querySelectorAll(".photo-item")) {
+        if (el.hidden) continue;
+        const link = el.querySelector("a[href]");
+        if (link) links.push(link);
       }
-    }
-  }
+      return links;
+    },
+    { label: "Open photo" },
+  );
 
   function performSearch(query) {
     const q = query.trim();
@@ -229,15 +231,11 @@ function filterByQuery(items, query) {
       }
       setPhotoLinks(q);
     }
-    updateNumberHints();
+    refreshDigitNav();
   }
 
   // Restore query from URL, debounce input, handle popstate (search-utils.js).
   bindSearchInput(searchInput, performSearch);
-
-  // Number hints need to render on first load even with no query (bindSearchInput
-  // only runs perform on init when a query is present).
-  updateNumberHints();
 
   // Enter on a populated search navigates to the first matching photo —
   // allowInEditable because the handler explicitly manages the focused-input
@@ -276,7 +274,8 @@ function filterByQuery(items, query) {
   // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
 
-  // "1"–"9" navigates to the nth visible photo in the current (filtered) grid.
+  // numberedItem resolves the nth visible photo for Enter above (first match
+  // overall); "1"–"9" is owned by refreshDigitNav (in-viewport grid links).
   function numberedItem(n) {
     const visible = [];
     for (const el of grid.querySelectorAll(".photo-item")) {
@@ -286,24 +285,6 @@ function filterByQuery(items, query) {
     }
     return visible[n - 1] || null;
   }
-
-  function digitKeyNav(e, key) {
-    if (document.activeElement === searchInput) {
-      return;
-    }
-    const digit = parseInt(key, 10);
-    if (!Number.isInteger(digit) || digit < 1 || digit > 9) {
-      return;
-    }
-    const item = numberedItem(digit);
-    const link = item && item.querySelector("a[href]");
-    if (link) {
-      e.preventDefault();
-      window.location.href = link.getAttribute("href");
-    }
-  }
-
-  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], digitKeyNav);
 
   // Esc clears the search (and its URL) even when the input isn't focused.
   // Shared binder also preventDefaults so the global up-nav skips this press.

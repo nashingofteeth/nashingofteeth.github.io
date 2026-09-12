@@ -9,6 +9,14 @@ a {
 a:active {
   color: red;
 }
+/* Keep the article's top margin visible when j/k snaps to it — without this,
+   scrollIntoView() aligns the border box to the viewport top and the
+   .top-space margin scrolls out of sight. Shares --top-space with page.css
+   so the offset tracks the margin (fallback matches if the var is missing).
+   scroll-margin only affects scroll snapping; layout is untouched. */
+main article {
+  scroll-margin-top: var(--top-space, 100px);
+}
 @media only screen and (max-width: 768px) {
   article {
     padding-left: 0 !important;

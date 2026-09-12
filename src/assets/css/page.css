@@ -15,8 +15,11 @@ header {
 main {
   flex: 1;
 }
+:root {
+  --top-space: 100px;
+}
 .top-space {
-  margin-top: 100px;
+  margin-top: var(--top-space);
 }
 footer {
   margin-bottom: 20px;

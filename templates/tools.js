@@ -6,7 +6,7 @@ const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function tools() {
   const combinedCss = loadCss("base.css", "page.css", "tools.css");
-  const combinedJs = loadJs("keybind-utils.js", "keybinds.js");
+  const combinedJs = loadJs("keybind-utils.js", "tools.js", "keybinds.js");
 
   const mainContent = `<article>
 	<p><a href="${SOCIAL_LINKS.sequitur}">video sequencer</a></p>

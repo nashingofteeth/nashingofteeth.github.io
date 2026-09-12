@@ -24,7 +24,7 @@ function buildNodeContent(node, formatText) {
       ? ` <span class="aliases">(${aliases.map((a) => fmt(a)).join(", ")})</span>`
       : "";
     if (node.file.wikipedia) {
-      content = `<a href="${node.file.wikipedia}" target="_blank">${fmt(node.name)}</a>${aliasText}`;
+      content = `<a class="plant-wiki-link" href="${node.file.wikipedia}" target="_blank">${fmt(node.name)}</a>${aliasText}`;
     } else {
       content = fmt(node.name) + aliasText;
     }
@@ -454,6 +454,7 @@ function expandAll() {
     upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
     updatePhotoHint();
+    refreshDigitNav();
   }
 
   // Fetch JSON, build index, wire up the search input
@@ -478,10 +479,17 @@ function expandAll() {
     });
 
   // -----------------------------------------------------------------------
-  // Keybinds via onKey() (keybind-utils.js, loaded first) — 1-9 removed
+  // Keybinds via onKey() (keybind-utils.js, loaded first)
   // -----------------------------------------------------------------------
   // "/" focuses search + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
+
+  // "1"–"9" opens the nth top-visible wikipedia link (taxa only — photo
+  // links and toggles never bind). Viewport refresh happens on scroll/resize
+  // plus the MutationObserver below (collapse/expand) and renderTree (search).
+  const refreshDigitNav = bindDigitNav(() =>
+    Array.from(document.querySelectorAll("#plant-tree a.plant-wiki-link[href]")),
+  );
 
   // Enter → open first visible match (applies pending query first)
   // p → open first visible match's photo link (same tab)
@@ -521,13 +529,16 @@ function expandAll() {
     });
   }
 
-  // Keep the hint in sync when collapse/expand toggles change visibility
+  // Keep the hints in sync when collapse/expand toggles change visibility
   // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
   // Filtered to class changes so title updates don't re-trigger.
   if (typeof MutationObserver !== "undefined") {
     const hintTreeEl = document.getElementById("plant-tree");
     if (hintTreeEl) {
-      const observer = new MutationObserver(() => updatePhotoHint());
+      const observer = new MutationObserver(() => {
+        updatePhotoHint();
+        refreshDigitNav();
+      });
       observer.observe(hintTreeEl, { attributes: true, subtree: true, attributeFilter: ["class"] });
     }
   }
