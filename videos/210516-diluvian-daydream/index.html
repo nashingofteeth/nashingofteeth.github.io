@@ -760,6 +760,14 @@ function isVideoSinglePage() {
   return /^\/videos\/[^/]+\/?$/.test(window.location.pathname || "/");
 }
 
+// First top-visible article (same eligibility as digit hints). ENTER + SPACE
+// both resolve through it so they always act on the same video.
+function firstTopVisibleArticle() {
+  return Array.from(document.querySelectorAll("main article")).find((a) =>
+    isFullyInViewport(a),
+  );
+}
+
 // Persist grid scroll at departure + restore on Esc returns from singles.
 if (isVideosGrid()) {
   trackGridScroll();
@@ -797,17 +805,15 @@ if (isVideosGrid()) {
     }
   });
 
-  // Enter opens the first top-visible video permalink (same eligibility as
-  // digit hints: top edge on screen, below the fold is fine). Skipped on
-  // interactive targets so native keyboard activation (focused play/download
-  // links) is never hijacked.
+  // Enter opens the permalink of the first top-visible article — the same
+  // video SPACE acts on. Skipped on interactive targets so native keyboard
+  // activation (focused play/download links) is never hijacked.
   onKey("enter", (e) => {
     if (e.target && e.target.closest && e.target.closest("a, button")) {
       return;
     }
-    const first = Array.from(
-      document.querySelectorAll("main article a.bookmark[href]"),
-    ).find((link) => isFullyInViewport(link));
+    const article = firstTopVisibleArticle();
+    const first = article && article.querySelector("a.bookmark[href]");
     if (first) {
       e.preventDefault();
       window.location.href = first.href;
@@ -855,33 +861,36 @@ document.addEventListener(
   true,
 );
 
-// Space always controls the first top-visible video on grid + single pages,
+// Space always controls the first top-visible article on grid + single pages,
 // regardless of focus (only text-editing targets and modifiers opt out via
-// the central onKey guard) and regardless of initialized-or-not: one combined
-// DOM-ordered pick across players and cover links (same eligibility as digit
-// hints). A picked player toggles; a picked cover starts (exclusivity pauses
+// the central onKey guard) — the same video ENTER acts on. A player in the
+// article toggles, otherwise its cover link starts (exclusivity pauses
 // anything playing elsewhere). preventDefault only when handling, so plain
 // spacebar-scroll still works with no video UI on screen.
 onKey("space", (e) => {
-  const candidate = Array.from(
-    document.querySelectorAll("video, iframe[data-yt-player], .container .media a[href]"),
-  ).find((el) => isFullyInViewport(el));
-  if (!candidate) {
+  const article = firstTopVisibleArticle();
+  if (!article) {
     return;
   }
   e.preventDefault();
-  if (candidate.tagName === "A") {
-    candidate.click();
-  } else if (mediaPlaying(candidate)) {
-    pauseMedia(candidate);
-  } else {
-    playMedia(candidate);
+  const player = article.querySelector("video, iframe[data-yt-player]");
+  if (player) {
+    if (mediaPlaying(player)) {
+      pauseMedia(player);
+    } else {
+      playMedia(player);
+    }
+    return;
+  }
+  const playLink = article.querySelector(".container .media a[href]");
+  if (playLink) {
+    playLink.click();
   }
 });
 
-// f toggles fullscreen on the first top-visible video (same eligibility as
-// digit hints). Uninitialized covers initialize first: activating the play
-// link swaps in the player synchronously, so the fresh player in the same
+// f toggles fullscreen on the first top-visible article — the same video
+// ENTER + SPACE act on. Uninitialized covers initialize first: activating the
+// play link swaps in the player synchronously, so the fresh player in the same
 // article is fullscreened within the same keydown gesture. Native players
 // show their own controls fullscreened; YouTube iframes carry
 // allowfullscreen. Keybinds stay live while fullscreened, so f itself exits.
@@ -891,24 +900,27 @@ onKey("f", (e) => {
     document.exitFullscreen();
     return;
   }
-  const candidate = Array.from(
-    document.querySelectorAll("video, iframe[data-yt-player], .container .media a[href]"),
-  ).find((el) => isFullyInViewport(el));
-  if (!candidate) {
+  const article = firstTopVisibleArticle();
+  if (!article) {
     return;
   }
   e.preventDefault();
-  if (candidate.tagName === "A") {
-    const media = candidate.parentElement; // .media survives the swap
-    candidate.click();
-    const player = media.querySelector("video, iframe");
-    if (player) {
-      player.requestFullscreen();
+  const player = article.querySelector("video, iframe[data-yt-player]");
+  if (player) {
+    player.requestFullscreen();
+    return;
+  }
+  const playLink = article.querySelector(".container .media a[href]");
+  if (playLink) {
+    const media = playLink.parentElement; // .media survives the swap
+    playLink.click();
+    const fresh = media.querySelector("video, iframe");
+    if (fresh) {
+      fresh.requestFullscreen();
     }
-  } else {
-    candidate.requestFullscreen();
   }
 });
+
 // ---------------------------------------------------------------------------
 // keybinds.js — global (page-agnostic) keyboard shortcuts. Loaded last on
 // every templated page (see templates/*.js for the load order) so
