@@ -5,7 +5,7 @@ const videoArticle = require("./partials/video-article.js");
 
 function videoSingle(video) {
   const combinedCss = loadCss("base.css", "page.css", "video-common.css", "video-single.css");
-  const combinedJs = loadJs("videos.js");
+  const combinedJs = loadJs("keybind-utils.js", "videos.js", "keybinds.js");
 
   return singlePage({
     title: video.title,

@@ -1,5 +1,6 @@
 (function () {
-  // upgradeSearchLinks / isEditableTarget come from search-utils.js (loaded
+  // Guards + onKey() come from keybind-utils.js (loaded first).
+  // upgradeSearchLinks / queryFromUrl come from search-utils.js (loaded
   // first; see templates/photo-single.js for the load order).
 
   upgradeSearchLinks(document);
@@ -191,59 +192,61 @@
     touchCount = 0;
   });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.ctrlKey || e.metaKey || e.altKey) {
-      return;
+  // Page-specific binds via onKey() (keybind-utils.js). Central guard skips
+  // modifiers + text-editing targets, matching the previous early returns.
+  onKey("j", (e) => {
+    const href = navHref("next");
+    if (href) {
+      window.location.href = href;
     }
+  });
 
-    if (isEditableTarget(e.target)) {
-      return;
+  onKey("k", (e) => {
+    const href = navHref("prev");
+    if (href) {
+      window.location.href = href;
     }
+  });
 
-    const key = (e.key || String.fromCharCode(e.keyCode || 0)).toLowerCase();
-
-    if (key === "j") {
-      const href = navHref("next");
-      if (href) {
-        window.location.href = href;
-      }
-    } else if (key === "k") {
-      const href = navHref("prev");
-      if (href) {
-        window.location.href = href;
-      }
-    } else if (key === "p") {
-      const plantLink = document.querySelector(
-        '.specs a.search-link[href^="/plants/"]',
-      );
-      if (plantLink) {
-        window.location.href = plantLink.href;
-      }
-    } else if (key === "d") {
-      const dateLink = document.querySelector(
-        '.specs a.search-link[href^="/photos/"] time',
-      )?.closest("a");
-      if (dateLink) {
-        window.location.href = dateLink.href;
-      }
-    } else if (key === "c") {
-      const cameraLink = Array.from(
-        document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
-      ).find((a) => !a.querySelector("time"));
-      if (cameraLink) {
-        window.location.href = cameraLink.href;
-      }
-    } else if (key === "o") {
-      const originalLink = document.querySelector(".download a");
-      if (originalLink) {
-        window.location.href = originalLink.href;
-      }
-    } else if (key === "escape") {
-      // Esc returns to the grid, honoring an active filter when present.
-      window.location.href = query.trim()
-        ? `/photos/?q=${encodeURIComponent(query.trim())}`
-        : "/photos/";
+  onKey("p", () => {
+    const plantLink = document.querySelector(
+      '.specs a.search-link[href^="/plants/"]',
+    );
+    if (plantLink) {
+      window.location.href = plantLink.href;
     }
+  });
+
+  onKey("d", () => {
+    const dateLink = document.querySelector(
+      '.specs a.search-link[href^="/photos/"] time',
+    )?.closest("a");
+    if (dateLink) {
+      window.location.href = dateLink.href;
+    }
+  });
+
+  onKey("c", () => {
+    const cameraLink = Array.from(
+      document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+    ).find((a) => !a.querySelector("time"));
+    if (cameraLink) {
+      window.location.href = cameraLink.href;
+    }
+  });
+
+  onKey("o", () => {
+    const originalLink = document.querySelector(".download a");
+    if (originalLink) {
+      window.location.href = originalLink.href;
+    }
+  });
+
+  onKey("escape", () => {
+    // Esc returns to the grid, honoring an active filter when present.
+    window.location.href = query.trim()
+      ? `/photos/?q=${encodeURIComponent(query.trim())}`
+      : "/photos/";
   });
 
   if (!query.trim()) return;

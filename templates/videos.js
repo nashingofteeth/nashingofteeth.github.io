@@ -8,7 +8,7 @@ const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function videos(videoCollection) {
   const combinedCss = loadCss("base.css", "page.css", "video-common.css");
-  const combinedJs = loadJs("videos.js");
+  const combinedJs = loadJs("keybind-utils.js", "videos.js", "keybinds.js");
 
   // Sort videos newest first
   const sortedVideos = sortNewestFirst(videoCollection);

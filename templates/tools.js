@@ -1,10 +1,12 @@
 const base = require("./base.js");
 const page = require("./page.js");
 const loadCss = require("./partials/css-loader.js");
+const loadJs = require("./partials/js-loader.js");
 const { SITE_TITLE_SUFFIX, SOCIAL_LINKS } = require("./partials/constants.js");
 
 function tools() {
   const combinedCss = loadCss("base.css", "page.css", "tools.css");
+  const combinedJs = loadJs("keybind-utils.js", "keybinds.js");
 
   const mainContent = `<article>
 	<p><a href="${SOCIAL_LINKS.sequitur}">video sequencer</a></p>
@@ -19,7 +21,7 @@ function tools() {
 </article>`;
 
   const pageContent = page(mainContent, { heading: "&#129520;&nbsp;TOOLS" });
-  return base(pageContent, `tools${SITE_TITLE_SUFFIX}`, null, combinedCss);
+  return base(pageContent, `tools${SITE_TITLE_SUFFIX}`, null, combinedCss, combinedJs);
 }
 
 module.exports = tools;

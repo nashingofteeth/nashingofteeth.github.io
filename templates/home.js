@@ -1,9 +1,11 @@
 const base = require("./base.js");
 const loadCss = require("./partials/css-loader.js");
+const loadJs = require("./partials/js-loader.js");
 const { SOCIAL_LINKS } = require("./partials/constants.js");
 
 function home() {
   const combinedCss = loadCss("base.css", "home.css");
+  const combinedJs = loadJs("keybind-utils.js", "home.js", "keybinds.js");
 
   const content = `<picture>
     <source srcset="/img/me.webp" type="image/webp" />
@@ -31,7 +33,7 @@ function home() {
 <p>&#128233; <strong>matthew at nash dot video</strong></p>
 </main>`;
 
-  return base(content, null, null, combinedCss);
+  return base(content, null, null, combinedCss, combinedJs);
 }
 
 module.exports = home;

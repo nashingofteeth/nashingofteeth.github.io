@@ -1,6 +1,7 @@
 // ---------------------------------------------------------------------------
-// Depends on search-utils.js (loaded first): updateUrl, isEditableTarget,
-// bindSearchInput. See templates/photos.js for the load order.
+// Depends on keybind-utils.js (loaded first): onKey + guards.
+// Depends on search-utils.js (loaded first): updateUrl, bindSearchInput,
+// bindSlashToFocus, bindEscapeToClear. See templates/photos.js for the load order.
 // Also depends on month-utils.js for MONTH_NAMES_LOWER, MONTH_SHORT, MONTH_ALT.
 // ---------------------------------------------------------------------------
 
@@ -238,32 +239,32 @@ function filterByQuery(items, query) {
   // only runs perform on init when a query is present).
   updateNumberHints();
 
-  // Enter on a populated search navigates to the first matching photo — works
-  // whether or not the search input is focused (when it is, let the input's own
-  // default handling apply via the same event; this just also covers other
-  // focus targets).
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) {
-      return;
-    }
-    const q = searchInput.value.trim();
-    if (!q) {
-      return;
-    }
-    // Allow Enter when the search input itself is focused (it has no default
-    // submit), but ignore other text-editing fields.
-    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
-      return;
-    }
-    // Apply the filter now so Enter works even before the 500ms debounce fires.
-    performSearch(searchInput.value);
-    const first = numberedItem(1);
-    const link = first && first.querySelector("a[href]");
-    if (link) {
-      e.preventDefault();
-      window.location.href = link.getAttribute("href");
-    }
-  });
+  // Enter on a populated search navigates to the first matching photo —
+  // allowInEditable because the handler explicitly manages the focused-input
+  // case below (other text-editing fields are still ignored).
+  onKey(
+    "enter",
+    (e) => {
+      const q = searchInput.value.trim();
+      if (!q) {
+        return;
+      }
+      // Allow Enter when the search input itself is focused (it has no default
+      // submit), but ignore other text-editing fields.
+      if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
+        return;
+      }
+      // Apply the filter now so Enter works even before the 500ms debounce fires.
+      performSearch(searchInput.value);
+      const first = numberedItem(1);
+      const link = first && first.querySelector("a[href]");
+      if (link) {
+        e.preventDefault();
+        window.location.href = link.getAttribute("href");
+      }
+    },
+    { allowInEditable: true },
+  );
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
@@ -272,22 +273,8 @@ function filterByQuery(items, query) {
     "Search —\n/ focus · Esc clear · Enter open first",
   );
 
-  // "/" focuses the search bar (matching common gallery/reader conventions).
-  document.addEventListener("keydown", (e) => {
-    if (
-      e.ctrlKey ||
-      e.metaKey ||
-      e.altKey ||
-      e.key !== "/" ||
-      document.activeElement === searchInput ||
-      isEditableTarget(e.target)
-    ) {
-      return;
-    }
-    e.preventDefault();
-    searchInput.focus();
-    searchInput.select();
-  });
+  // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
+  bindSlashToFocus(searchInput);
 
   // "1"–"9" navigates to the nth visible photo in the current (filtered) grid.
   function numberedItem(n) {
@@ -300,14 +287,11 @@ function filterByQuery(items, query) {
     return visible[n - 1] || null;
   }
 
-  function digitKeyNav(e) {
-    if (e.ctrlKey || e.metaKey || e.altKey || document.activeElement === searchInput) {
+  function digitKeyNav(e, key) {
+    if (document.activeElement === searchInput) {
       return;
     }
-    if (isEditableTarget(e.target)) {
-      return;
-    }
-    const digit = parseInt(e.key, 10);
+    const digit = parseInt(key, 10);
     if (!Number.isInteger(digit) || digit < 1 || digit > 9) {
       return;
     }
@@ -319,27 +303,11 @@ function filterByQuery(items, query) {
     }
   }
 
-  document.addEventListener("keydown", digitKeyNav);
+  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], digitKeyNav);
 
   // Esc clears the search (and its URL) even when the input isn't focused.
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) {
-      return;
-    }
-    if (!searchInput.value.trim()) {
-      return;
-    }
-    e.preventDefault();
-    const keepFocus = document.activeElement === searchInput;
-    searchInput.value = "";
-    updateUrl("");
-    performSearch("");
-    if (keepFocus) {
-      searchInput.focus();
-    } else {
-      searchInput.blur();
-    }
-  });
+  // Shared binder also preventDefaults so the global up-nav skips this press.
+  bindEscapeToClear(searchInput, performSearch);
 }());
 
 // ---------------------------------------------------------------------------

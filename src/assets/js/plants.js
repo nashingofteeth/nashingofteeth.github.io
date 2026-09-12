@@ -163,8 +163,10 @@ function expandAll() {
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
 }
 
-// upgradeSearchLinks / updateUrl / bindSearchInput come from search-utils.js
-// (loaded first; see templates/plants.js for the load order).
+// upgradeSearchLinks / updateUrl / bindSearchInput / bindSlashToFocus /
+// bindEscapeToClear come from search-utils.js (loaded first; see
+// templates/plants.js for the load order).
+// onKey + guards come from keybind-utils.js (loaded first).
 
 // ---------------------------------------------------------------------------
 // Search — progressive enhancement. Activates only when:
@@ -476,24 +478,10 @@ function expandAll() {
     });
 
   // -----------------------------------------------------------------------
-  // Keybinds — mirrors photos.js approach (/, Enter, Esc) — 1-9 removed
+  // Keybinds via onKey() (keybind-utils.js, loaded first) — 1-9 removed
   // -----------------------------------------------------------------------
-  // "/" focuses search
-  document.addEventListener("keydown", (e) => {
-    if (
-      e.ctrlKey ||
-      e.metaKey ||
-      e.altKey ||
-      e.key !== "/" ||
-      document.activeElement === searchInput ||
-      isEditableTarget(e.target)
-    ) {
-      return;
-    }
-    e.preventDefault();
-    searchInput.focus();
-    searchInput.select();
-  });
+  // "/" focuses search + Esc clears it (shared search-utils.js binders).
+  bindSlashToFocus(searchInput);
 
   // Enter → open first visible match (applies pending query first)
   // p → open first visible match's photo link (same tab)
@@ -544,30 +532,33 @@ function expandAll() {
     }
   }
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Enter" || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
-    const q = searchInput.value.trim();
-    if (!q) return;
-    if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
-    performSearch(searchInput.value);
-    const first = visibleMatchesInVisualOrder()[0];
-    const link = first && first.querySelector("a[href]");
-    if (link) {
-      e.preventDefault();
-      window.location.href = link.getAttribute("href");
-    }
-  });
+  // Enter → open first visible match (applies pending query first).
+  // allowInEditable because the handler explicitly manages the focused-input
+  // case below (other text-editing fields are still ignored).
+  onKey(
+    "enter",
+    (e) => {
+      if (e.target && e.target.closest && e.target.closest(".toggle")) return;
+      const q = searchInput.value.trim();
+      if (!q) return;
+      if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
+      performSearch(searchInput.value);
+      const first = visibleMatchesInVisualOrder()[0];
+      const link = first && first.querySelector("a[href]");
+      if (link) {
+        e.preventDefault();
+        window.location.href = link.getAttribute("href");
+      }
+    },
+    { allowInEditable: true },
+  );
 
   // p → open first visible match's photo (applies pending query first).
   // Only fires outside the search input / editable targets so typing "p"
-  // never navigates away. Skips matches without a photo.
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "p" && e.key !== "P") return;
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+  // never navigates away (central onKey guard). Skips matches without a photo.
+  onKey("p", (e) => {
     if (e.target && e.target.closest && e.target.closest(".toggle")) return;
     if (document.activeElement === searchInput) return;
-    if (isEditableTarget(e.target)) return;
     const q = searchInput.value.trim();
     if (!q) return;
     performSearch(searchInput.value);
@@ -582,21 +573,9 @@ function expandAll() {
     }
   });
 
-  // Esc clears search — keep focus if it was on the input
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape" || e.ctrlKey || e.metaKey || e.altKey) return;
-    if (!searchInput.value.trim()) return;
-    e.preventDefault();
-    const keepFocus = document.activeElement === searchInput;
-    searchInput.value = "";
-    updateUrl("");
-    performSearch("");
-    if (keepFocus) {
-      searchInput.focus();
-    } else {
-      searchInput.blur();
-    }
-  });
+  // Esc clears search — keep focus if it was on the input.
+  // Shared binder also preventDefaults so the global up-nav skips this press.
+  bindEscapeToClear(searchInput, performSearch);
 
   // Perform search and render results
   // Uses the pruned (merged) tree so shared matching ancestors are deduped

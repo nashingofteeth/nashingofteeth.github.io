@@ -20,28 +20,6 @@ function upgradeSearchLinks(container) {
   });
 }
 
-// True when the keydown target is a text-editing control, in which case global
-// hotkeys (/, 1-9, Enter, J/K) should not fire.
-function isEditableTarget(target) {
-  return (
-    target &&
-    (target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.tagName === "SELECT" ||
-      target.isContentEditable)
-  );
-}
-
-// A search should not trigger on an editable target, with modifier keys pressed.
-function isEditableOrModified(e) {
-  return (
-    e.ctrlKey ||
-    e.metaKey ||
-    e.altKey ||
-    isEditableTarget(e.target)
-  );
-}
-
 // Push a ?q= query (or strip it) onto the URL without reloading, so the filter
 // is shareable and survives back/forward navigation.
 function updateUrl(query) {
@@ -87,13 +65,54 @@ function bindSearchInput(input, perform) {
   });
 }
 
+// "/" focuses the given search input (matching common gallery/reader
+// conventions). No-op when already focused. Shared by photos.js + plants.js
+// (onKey comes from keybind-utils.js, loaded first; see templates/*.js).
+function bindSlashToFocus(searchInput) {
+  onKey("/", (e) => {
+    if (document.activeElement === searchInput) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  });
+}
+
+// Escape clears the given search: input value, ?q= URL, and rendered results,
+// preserving focus state. Shared by photos.js + plants.js.
+// LOAD-BEARING: this preventDefaults the press so the global up-nav in
+// keybinds.js (registered later, skips on defaultPrevented) does not fire on
+// the same press — Esc-with-query clears instead of navigating away.
+function bindEscapeToClear(searchInput, performSearch) {
+  onKey(
+    "escape",
+    (e) => {
+      if (!searchInput.value.trim()) {
+        return;
+      }
+      e.preventDefault();
+      const keepFocus = document.activeElement === searchInput;
+      searchInput.value = "";
+      updateUrl("");
+      performSearch("");
+      if (keepFocus) {
+        searchInput.focus();
+      } else {
+        searchInput.blur();
+      }
+    },
+    { allowInEditable: true },
+  );
+}
+
 if (typeof module !== "undefined") {
   module.exports = {
     upgradeSearchLinks,
-    isEditableTarget,
-    isEditableOrModified,
     updateUrl,
     queryFromUrl,
     bindSearchInput,
+    bindSlashToFocus,
+    bindEscapeToClear,
   };
 }
