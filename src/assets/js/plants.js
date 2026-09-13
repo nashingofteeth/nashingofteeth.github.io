@@ -618,7 +618,7 @@ applyCollapsedFromStorage();
     upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
     applyCollapsedFromStorage();
-    updatePhotoHint();
+    refreshPhotoHints();
     refreshDigitNav();
     refreshToggleHints();
   }
@@ -657,51 +657,95 @@ applyCollapsedFromStorage();
   // "/" focuses search + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
 
-  // "1"–"9" opens the nth top-visible wikipedia link (taxa only — photo
-  // links and toggles never bind). Viewport refresh happens on scroll/resize
-  // plus the MutationObserver below (collapse/expand) and renderTree (search).
-  const refreshDigitNav = bindDigitNav(() =>
-    Array.from(document.querySelectorAll("#plant-tree a.plant-wiki-link[href]")),
-  );
+  // p chord state for the nth-photo binds below (declared up here so the
+  // digit-nav reservation below can read it). held tracks a held p
+  // (simultaneous chord); armedUntil timestamps a tapped p (sequential
+  // chord, 800 ms window); timer fires the exact-match fallthrough when no
+  // digit follows. Mutated by the raw trackers further below.
+  const pChord = { held: false, armedUntil: 0, timer: 0 };
 
-  // p → open first visible match's photo link (same tab). Enter only
-  // applies the filter + blurs (digits pick the match); see below.
-  function visibleMatchesInVisualOrder() {
-    const treeEl = document.getElementById("plant-tree");
-    if (!treeEl) return [];
-    // DOM order is visual order (search emits children before parents).
-    // Filter out matches hidden inside collapsed subtrees.
-    return Array.from(treeEl.querySelectorAll("li.search-match")).filter(
-      (li) => !li.closest("ul.collapsed"),
-    );
+  function pChordActive() {
+    return pChord.held || Date.now() < pChord.armedUntil;
   }
 
-  // p hint — mark the photo link that `p` would open (first visible match
-  // with a photo) with a " (p)" title suffix, mirroring photos.js number
-  // hints. Only applies during search; static tree keeps plain titles.
-  // Skipped on touch devices — never advertise dead keys.
-  function updatePhotoHint() {
-    if (!KEYBINDS_ENABLED) return;
+  // "1"–"9" opens the nth top-visible wikipedia link (taxa only — photo
+  // links and toggles never bind). Suppressed while a p photo-chord is
+  // active so the digit never double-fires digit-nav plus photo nav.
+  // Viewport refresh happens on scroll/resize plus the MutationObserver
+  // below (collapse/expand) and renderTree (search).
+  const refreshDigitNav = bindDigitNav(
+    () =>
+      Array.from(document.querySelectorAll("#plant-tree a.plant-wiki-link[href]")),
+    { ignoreWhen: pChordActive },
+  );
+
+  // p chords open the nth visible photo link (same tab): hold p and tap
+  // 1–9, or tap p then 1–9 within the arm window. Enter only applies the
+  // filter + blurs (digits pick the photo); see below.
+
+  // Photo hints — mark the top-visible photo links with " (P1)"…" (P9)"
+  // title suffixes, mirroring the digit-nav "(n)" and toggle "(!)" hints:
+  // first-9 in-viewport only, so badges track the links the chords act on.
+  // Candidates are every photo link in the tree (matches and ancestors,
+  // query or no query) in DOM order, which equals visual order in both the
+  // static tree and search renders; links inside collapsed subtrees never
+  // contribute. Skipped on touch devices — never advertise dead keys.
+  function currentPhotoLinks() {
     const treeEl = document.getElementById("plant-tree");
-    if (!treeEl) return;
-    if (!treeEl.closest(".plant-list")?.hasAttribute("data-search-active")) return;
-    let firstPhoto = null;
-    for (const match of visibleMatchesInVisualOrder()) {
-      const photoLink = match.querySelector("a.plant-photo-link[href]");
-      if (photoLink) {
-        firstPhoto = photoLink;
+    if (!treeEl) {
+      return [];
+    }
+    const top = [];
+    for (const link of treeEl.querySelectorAll("a.plant-photo-link[href]")) {
+      if (top.length >= 9) {
         break;
       }
-    }
-    treeEl.querySelectorAll("a.plant-photo-link[href]").forEach((a) => {
-      const current = a.getAttribute("title") || "";
-      const base = current.replace(/\s\(p\)$/, "");
-      if (a === firstPhoto) {
-        a.setAttribute("title", base ? `${base} (p)` : "Open photo (p)");
-      } else if (current !== base) {
-        a.setAttribute("title", base);
+      if (link.closest("ul.collapsed")) {
+        continue;
       }
-    });
+      if (isFullyInViewport(link)) {
+        top.push(link);
+      }
+    }
+    return top;
+  }
+
+  const savedPhotoTitles = new WeakMap();
+  let hintedPhoto = [];
+
+  function refreshPhotoHints() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) {
+      return;
+    }
+    const next = currentPhotoLinks();
+    const same = next.length === hintedPhoto.length &&
+      next.every((link, i) => link === hintedPhoto[i]);
+    if (!same) {
+      for (const link of hintedPhoto) {
+        if (savedPhotoTitles.has(link)) {
+          const original = savedPhotoTitles.get(link);
+          if (original) {
+            link.setAttribute("title", original);
+          } else {
+            link.removeAttribute("title");
+          }
+        }
+      }
+      hintedPhoto = next;
+      hintedPhoto.forEach((link, i) => {
+        if (!savedPhotoTitles.has(link)) {
+          savedPhotoTitles.set(link, link.getAttribute("title"));
+        }
+        const current = link.getAttribute("title") || "";
+        const base = current.replace(/\s\(P\d\)$/, "") || "Open photo";
+        link.setAttribute("title", `${base} (P${i + 1})`);
+      });
+    }
+    notifyHintsChanged();
   }
 
   // -----------------------------------------------------------------------
@@ -822,23 +866,25 @@ applyCollapsedFromStorage();
   );
 
   if (KEYBINDS_ENABLED) {
-    let toggleHintsRaf = false;
-    const scheduleToggleHints = () => {
-      if (toggleHintsRaf) {
+    let treeHintsRaf = false;
+    const scheduleTreeHints = () => {
+      if (treeHintsRaf) {
         return;
       }
-      toggleHintsRaf = true;
+      treeHintsRaf = true;
       const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
       raf(() => {
-        toggleHintsRaf = false;
+        treeHintsRaf = false;
         refreshToggleHints();
+        refreshPhotoHints();
       });
     };
-    document.addEventListener("scroll", scheduleToggleHints, { passive: true });
-    window.addEventListener("resize", scheduleToggleHints);
+    document.addEventListener("scroll", scheduleTreeHints, { passive: true });
+    window.addEventListener("resize", scheduleTreeHints);
   }
   applyControlHints();
   refreshToggleHints();
+  refreshPhotoHints();
 
   // Keep the hints in sync when collapse/expand toggles change visibility
   // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
@@ -848,7 +894,7 @@ applyCollapsedFromStorage();
     const hintTreeEl = document.getElementById("plant-tree");
     if (hintTreeEl) {
       const observer = new MutationObserver(() => {
-        updatePhotoHint();
+        refreshPhotoHints();
         refreshDigitNav();
         refreshToggleHints();
       });
@@ -874,25 +920,121 @@ applyCollapsedFromStorage();
     { allowInEditable: true },
   );
 
-  // p → open first visible match's photo (applies pending query first).
-  // Only fires outside the search input / editable targets so typing "p"
-  // never navigates away (central onKey guard). Skips matches without a photo.
-  onKey("p", (e) => {
-    if (e.target && e.target.closest && e.target.closest(".toggle")) return;
-    if (document.activeElement === searchInput) return;
-    const q = searchInput.value.trim();
-    if (!q) return;
-    performSearch(searchInput.value);
-    const matches = visibleMatchesInVisualOrder();
-    for (const match of matches) {
-      const photoLink = match.querySelector("a.plant-photo-link[href]");
-      if (photoLink) {
-        e.preventDefault();
-        window.location.href = photoLink.getAttribute("href");
+  // p chord trackers for the nth-photo binds below. Raw listeners so both
+  // encodings are seen; the digit handler below still honors the central
+  // onKey guards. A tap with no following digit falls through to the exact
+  // match's photo once the arm window lapses (see exactPhotoNav).
+  if (KEYBINDS_ENABLED) {
+    document.addEventListener("keydown", (e) => {
+      if (e.repeat || hasModifier(e)) {
+        return;
+      }
+      if (normalizeKey(e) !== "p" || isEditableTarget(e.target)) {
+        return;
+      }
+      pChord.held = true;
+      pChord.armedUntil = Date.now() + 800;
+      if (pChord.timer) {
+        clearTimeout(pChord.timer);
+      }
+      pChord.timer = setTimeout(() => {
+        pChord.timer = 0;
+        exactPhotoNav();
+      }, 800);
+    });
+    document.addEventListener("keyup", (e) => {
+      if (normalizeKey(e) === "p") {
+        pChord.held = false;
+      }
+    });
+    window.addEventListener("blur", () => {
+      pChord.held = false;
+      pChord.armedUntil = 0;
+      if (pChord.timer) {
+        clearTimeout(pChord.timer);
+        pChord.timer = 0;
+      }
+    });
+  }
+
+  // Plain p (no digit within the arm window) opens the exact-match taxon's
+  // photo: the visible search match whose name equals the query, falling
+  // back to the first visible photo link (the old p behavior). No-op without
+  // a query, while typing, or with a toggle focused.
+  function exactPhotoNav() {
+    if (document.activeElement === searchInput) {
+      return;
+    }
+    if (document.activeElement && document.activeElement.closest &&
+      document.activeElement.closest(".toggle")) {
+      return;
+    }
+    const norm = searchInput.value.toLowerCase().trim();
+    if (!norm) {
+      return;
+    }
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) {
+      return;
+    }
+    let fallback = null;
+    for (const li of treeEl.querySelectorAll("li.search-match")) {
+      if (li.closest("ul.collapsed")) {
+        continue;
+      }
+      const link = li.querySelector("a.plant-photo-link[href]");
+      if (!link) {
+        continue;
+      }
+      if (!fallback) {
+        fallback = link;
+      }
+      const name = (
+        li.querySelector("a.plant-wiki-link, span.muted")?.textContent || ""
+      ).trim().toLowerCase();
+      if (name === norm) {
+        window.location.href = link.getAttribute("href");
         return;
       }
     }
-  });
+    if (fallback) {
+      window.location.href = fallback.getAttribute("href");
+    }
+  }
+
+  // p + 1–9 opens the nth top-visible match's photo (same tab): either held
+  // (simultaneous) or tapped-then-digit inside the arm window (sequential).
+  // Plain digits stay with digit-nav; Shift+digit stays with toggles, so a
+  // shifted press never lands here. Only fires outside the search input /
+  // editable targets so typing "p1" never navigates away (central onKey
+  // guard). Skips matches without a photo.
+  onKey(
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    (e, key) => {
+      if (e.shiftKey) {
+        return;
+      }
+      if (!pChordActive()) {
+        return;
+      }
+      if (e.target && e.target.closest && e.target.closest(".toggle")) {
+        return;
+      }
+      if (document.activeElement === searchInput) {
+        return;
+      }
+      const link = currentPhotoLinks()[Number(key) - 1];
+      if (link) {
+        e.preventDefault();
+        pChord.armedUntil = 0;
+        if (pChord.timer) {
+          clearTimeout(pChord.timer);
+          pChord.timer = 0;
+        }
+        window.location.href = link.getAttribute("href");
+      }
+    },
+  );
 
   // Esc clears search — keep focus if it was on the input.
   // Shared binder also preventDefaults so the global up-nav skips this press.
