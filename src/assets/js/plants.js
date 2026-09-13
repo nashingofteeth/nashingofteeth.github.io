@@ -557,6 +557,8 @@ applyCollapsedFromStorage(true);
   // Full-subtree renderer for the collapsed-for-exploration branch of search.
   // Same node markup as generatePlantList() but sorted A-Z by sortKey and
   // emitted children-before-parent so DOM order matches the rest of search.
+  // Toggleable descendants start collapsed: expanding the match reveals one
+  // level at a time instead of the whole subtree at once.
   function renderFullSubtreeAsc(taxonomy, level = 0, parentPath = "") {
     let html = "";
     const indent = "  ".repeat(level);
@@ -573,12 +575,12 @@ applyCollapsedFromStorage(true);
       const path = nodePath(parentPath, node.name);
 
       const label = hasMultipleChildren
-        ? `${indent}<li class="has-children" data-path="${escAttr(path)}">${toggleHandle(false)}${content}</li>\n`
+        ? `${indent}<li class="has-children collapsed" data-path="${escAttr(path)}">${toggleHandle(true)}${content}</li>\n`
         : `${indent}<li>${content}</li>\n`;
 
       if (children.length > 0) {
         const inner = renderFullSubtreeAsc(children, level + 1, path);
-        html += `${indent}<ul>\n${inner}${indent}</ul>\n${label}`;
+        html += `${indent}<ul${hasMultipleChildren ? ' class="collapsed"' : ""}>\n${inner}${indent}</ul>\n${label}`;
       } else {
         html += label;
       }
