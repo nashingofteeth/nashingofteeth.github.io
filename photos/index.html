@@ -23,6 +23,24 @@ a {
   letter-spacing: 1px;
   text-decoration: none;
 }
+/* ? keybind hint overlay (keybinds.js). Fixed + pointer-events none so it
+   never intercepts input; badges are absolutely positioned over links. */
+.keybind-hint-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+.keybind-hint-badge {
+  position: absolute;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  background-color: navy;
+  color: azure;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
 
 body {
   margin: 0;
@@ -5415,6 +5433,22 @@ function isFullyInViewport(el) {
   );
 }
 
+// Tell the ? overlay (keybinds.js, loaded last) to repaint its badges
+// from the fresh titles. Event-based so script load order doesn't matter;
+// a closed overlay ignores it and builds fresh on open anyway. Shared by
+// bindDigitNav below and by page scripts that retitle hints outside it
+// (videos.js re-hints after the play link swaps into a player).
+function notifyHintsChanged() {
+  if (typeof document === "undefined" || typeof CustomEvent === "undefined") {
+    return;
+  }
+  try {
+    document.dispatchEvent(new CustomEvent("keybind-hints:changed"));
+  } catch (_err) {
+    // ignore — overlay repaint is best-effort
+  }
+}
+
 // Mouseless list nav: "1"–"9" opens the nth top-visible link from
 // getLinks(), a page-provided resolver returning candidate <a> elements in
 // priority (DOM) order. Links scrolled past the top never bind; running
@@ -5445,30 +5479,60 @@ function bindDigitNav(getLinks, opts = {}) {
   }
 
   function currentLinks() {
-    return getLinks().filter(isFullyInViewport).slice(0, 9);
+    // Collect only the first 9 top-visible links: getBoundingClientRect()
+    // forces layout, so filter()+slice() would rect every link on the page
+    // (300+ photos) per scroll frame only to discard all but 9.
+    const top = [];
+    for (const link of getLinks()) {
+      if (top.length >= 9) {
+        break;
+      }
+      if (isFullyInViewport(link)) {
+        top.push(link);
+      }
+    }
+    return top;
   }
 
   function refresh() {
-    for (const link of hinted) {
-      if (savedTitles.has(link)) {
-        const original = savedTitles.get(link);
-        if (original) {
-          link.setAttribute("title", original);
-        } else {
-          link.removeAttribute("title");
+    const next = currentLinks();
+    // Small scrolls leave the top-9 set unchanged — skip the title restore
+    // + rewrite (pointless DOM writes) in that case. The changed event still
+    // fires below: sibling hints outside this set (plants "(p)") may have
+    // moved, and the overlay coalesces repeat repaints into one per frame.
+    const same = hinted.length === next.length &&
+      hinted.every((link, i) => link === next[i]);
+    if (!same) {
+      for (const link of hinted) {
+        if (savedTitles.has(link)) {
+          const original = savedTitles.get(link);
+          if (original) {
+            link.setAttribute("title", original);
+          } else {
+            link.removeAttribute("title");
+          }
         }
       }
+      hinted = next;
+      hinted.forEach((link, i) => {
+        if (!savedTitles.has(link)) {
+          savedTitles.set(link, link.getAttribute("title"));
+        }
+        link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
+      });
     }
-    hinted = currentLinks();
-    hinted.forEach((link, i) => {
-      if (!savedTitles.has(link)) {
-        savedTitles.set(link, link.getAttribute("title"));
-      }
-      link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
-    });
+    // Search re-renders (photos performSearch, plants renderTree) land here
+    // via the returned refresh() — repaint an open ? overlay so its badges
+    // never show stale numbers or hidden items.
+    notifyHintsChanged();
   }
 
   onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], (e, key) => {
+    // Shift+digit belongs to page-specific binds (plants toggles shift the
+    // nth subtree); plain digits only here so the two never double-fire.
+    if (e.shiftKey) {
+      return;
+    }
     const links = currentLinks();
     const link = links[Number(key) - 1];
     if (link) {
@@ -5606,6 +5670,7 @@ if (typeof module !== "undefined") {
     flagEscReturn,
     trackGridScroll,
     bindUpNavRestore,
+    notifyHintsChanged,
   };
 }
 
@@ -5624,6 +5689,7 @@ if (typeof globalThis !== "undefined") {
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
   globalThis.bindUpNavRestore = bindUpNavRestore;
+  globalThis.notifyHintsChanged = notifyHintsChanged;
 }
 
 // Month names and abbreviations derived from the locale formatter rather
@@ -5967,8 +6033,7 @@ function filterByQuery(items, query) {
   // filtered) grid. Viewport refresh happens on scroll/resize plus
   // performSearch below. Declared before bindSearchInput so the initial
   // query restore can already refresh hints (function-scoped const would
-  // otherwise hit TDZ). Enter below keeps using numberedItem (first match
-  // overall, regardless of viewport).
+  // otherwise hit TDZ).
   const refreshDigitNav = bindDigitNav(
     () => {
       const links = [];
@@ -6015,9 +6080,11 @@ function filterByQuery(items, query) {
   // Restore query from URL, debounce input, handle popstate (search-utils.js).
   bindSearchInput(searchInput, performSearch);
 
-  // Enter on a populated search navigates to the first matching photo —
-  // allowInEditable because the handler explicitly manages the focused-input
-  // case below (other text-editing fields are still ignored).
+  // Enter on a populated search applies the filter, then drops focus so
+  // "1"–"9" opens the nth visible photo (digits type into a focused input
+  // instead of navigating). allowInEditable because the handler explicitly
+  // manages the focused-input case below (other text-editing fields are
+  // still ignored).
   onKey(
     "enter",
     (e) => {
@@ -6032,40 +6099,25 @@ function filterByQuery(items, query) {
       }
       // Apply the filter now so Enter works even before the 500ms debounce fires.
       performSearch(searchInput.value);
-      const first = numberedItem(1);
-      const link = first && first.querySelector("a[href]");
-      if (link) {
-        e.preventDefault();
-        window.location.href = link.getAttribute("href");
-      }
+      e.preventDefault();
+      searchInput.blur();
     },
     { allowInEditable: true },
   );
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
-  // Keybind hints in the title only on keyboard devices.
+  // Keybind hints in the title only on keyboard devices. Trailing "( /)"
+  // group badges the focus key in the ? overlay (keybinds.js).
   searchInput.setAttribute(
     "title",
     KEYBINDS_ENABLED
-      ? "Search —\n/ focus · Esc clear · Enter open first"
+      ? "Search — clear (Esc) · apply + blur (Enter) · focus (/)"
       : "Search",
   );
 
   // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
-
-  // numberedItem resolves the nth visible photo for Enter above (first match
-  // overall); "1"–"9" is owned by refreshDigitNav (in-viewport grid links).
-  function numberedItem(n) {
-    const visible = [];
-    for (const el of grid.querySelectorAll(".photo-item")) {
-      if (!el.hidden) {
-        visible.push(el);
-      }
-    }
-    return visible[n - 1] || null;
-  }
 
   // Esc clears the search (and its URL) even when the input isn't focused.
   // Shared binder also preventDefaults so the global up-nav skips this press.
@@ -6217,6 +6269,162 @@ if (typeof module !== "undefined") {
     const delta = Math.round(window.innerHeight / 2);
     e.preventDefault();
     window.scrollBy(0, key === "j" ? delta : -delta);
+  });
+
+  // ? — toggle a minimal hint overlay. Badges are derived from the hint
+  // titles this site already maintains (a trailing "(x)" group, or several
+  // slash-separated keys like "(Space/F)"), so the overlay can never drift
+  // from the live bindings. Covers links, buttons, search inputs, plant
+  // toggles, and in-page players. ? again closes; Esc keeps its existing meaning (grid return /
+  // up-nav) and header links keep their "(Esc)" hint titles. Scroll, resize,
+  // and search re-renders share one rAF-throttled repaint while open
+  // (listeners attached only while open); search arrives via the
+  // keybind-hints:changed event dispatched by bindDigitNav's refresh().
+  // Mobile: onKey is inert there, and no "(x)" titles exist anyway.
+  let overlayEl = null;
+  let overlayScrollHandler = null;
+  let overlayResizeHandler = null;
+  let overlayHintsHandler = null;
+
+  function closeOverlay() {
+    if (!overlayEl) {
+      return;
+    }
+    overlayEl.remove();
+    overlayEl = null;
+    document.removeEventListener("scroll", overlayScrollHandler);
+    window.removeEventListener("resize", overlayResizeHandler);
+    document.removeEventListener("keybind-hints:changed", overlayHintsHandler);
+    overlayScrollHandler = null;
+    overlayResizeHandler = null;
+    overlayHintsHandler = null;
+  }
+
+  function badgeAnchor(el) {
+    // Image links (photo grid) badge the visible thumbnail, not the full
+    // link box: the <a> is a square flex cell while the picture inside is
+    // narrower (portrait) or shorter (landscape), so a cell-anchored badge
+    // lands detached in the grid gutter. In-page players (video grid/single
+    // after play starts) badge the player itself. Plant toggles badge to the
+    // LEFT of the marker: the handle is only 2ch wide at the line's left
+    // edge, so a right-side badge would sit on top of the taxa name. Text
+    // links, buttons, and inputs badge just outside top-right.
+    const img = el.querySelector ? el.querySelector("img") : null;
+    if (img) {
+      const imgRect = img.getBoundingClientRect();
+      if (imgRect.width > 0 && imgRect.height > 0) {
+        return { rect: imgRect, inside: true };
+      }
+    }
+    if (el.tagName === "VIDEO" || el.tagName === "IFRAME") {
+      return { rect: el.getBoundingClientRect(), inside: true };
+    }
+    if (el.classList && el.classList.contains("toggle")) {
+      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+    }
+    return { rect: el.getBoundingClientRect(), inside: false, side: "right" };
+  }
+
+  // Key tokens from a hint title. One element can advertise several keys in
+  // a single trailing group — "Play (Space/F)" badges SPACE + F, a search
+  // box ending "focus (/)" badges /, plant toggles ending "(!)" badge ! —
+  // so the tooltip stays compact while each key stays discoverable. Only
+  // the trailing group parses, so incidental parens elsewhere never badge.
+  function hintKeys(el) {
+    const match = (el.getAttribute("title") || "").match(/\(([-+!@#$%^&*()a-z0-9/]+(?:\/[-+!@#$%^&*()a-z0-9/]+)*)\)\s*$/i);
+    if (!match) {
+      return [];
+    }
+    // "/" is both a key and the multi-key separator — a group that is only
+    // "/" means the slash key itself, not an empty key list.
+    if (match[1] === "/") {
+      return ["/"];
+    }
+    return match[1].split("/");
+  }
+
+  function buildBadges() {
+    const hinted = document.querySelectorAll(
+      "a[title], button[title], input[title], .toggle[title], video[title], iframe[title]",
+    );
+    for (const el of Array.from(hinted)) {
+      const keys = hintKeys(el);
+      if (!keys.length || !isFullyInViewport(el)) {
+        continue;
+      }
+      const { rect, inside, side } = badgeAnchor(el);
+      keys.forEach((key, i) => {
+        const badge = document.createElement("span");
+        badge.className = "keybind-hint-badge";
+        // Single letters keep their case so (d) lossy and (D) lossless stay
+        // distinct; longer names uppercase (Esc → ESC) as before.
+        badge.textContent = key.length > 1 ? key.toUpperCase() : key;
+        overlayEl.appendChild(badge);
+        // Position after append so the badge's own box doesn't affect it.
+        // The overlay is position:fixed, so viewport-relative rect coords are
+        // used directly (no scroll offsets). Image/player badges sit inside
+        // the thumbnail's top-left corner (extras stack below); text badges
+        // sit just outside top-right; toggle badges hang left of the marker
+        // (translateX(-100%) right-aligns without measuring the badge, so
+        // the taxa name stays uncovered).
+        if (inside) {
+          badge.style.left = `${rect.left + 4}px`;
+          badge.style.top = `${rect.top + 4 + i * 22}px`;
+        } else if (side === "left") {
+          badge.style.left = `${rect.left - 2}px`;
+          badge.style.top = `${rect.top - 4 + i * 22}px`;
+          badge.style.transform = "translateX(-100%)";
+        } else {
+          badge.style.left = `${rect.right + 2}px`;
+          badge.style.top = `${rect.top - 4 + i * 22}px`;
+        }
+      });
+    }
+  }
+
+  function openOverlay() {
+    overlayEl = document.createElement("div");
+    overlayEl.className = "keybind-hint-overlay";
+    overlayEl.setAttribute("aria-hidden", "true");
+    document.body.appendChild(overlayEl);
+    let rafPending = false;
+    const scheduleRepaint = () => {
+      // One shared throttle for scroll, resize, and search-driven hint
+      // changes: a single scroll frame otherwise repaints twice (the scroll
+      // listener here plus bindDigitNav's refresh → keybind-hints:changed).
+      // The guard also covers ? closing between scheduling and the frame so
+      // a late event can't resurrect badges onto a closed overlay.
+      if (rafPending) {
+        return;
+      }
+      rafPending = true;
+      const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+      raf(() => {
+        rafPending = false;
+        if (!overlayEl) {
+          return;
+        }
+        overlayEl.innerHTML = "";
+        buildBadges();
+      });
+    };
+    overlayScrollHandler = scheduleRepaint;
+    overlayResizeHandler = scheduleRepaint;
+    // Search re-renders update digit-nav titles via bindDigitNav's refresh()
+    // (keybind-utils.js), which dispatches this event.
+    overlayHintsHandler = scheduleRepaint;
+    document.addEventListener("scroll", overlayScrollHandler, { passive: true });
+    window.addEventListener("resize", overlayResizeHandler);
+    document.addEventListener("keybind-hints:changed", overlayHintsHandler);
+    buildBadges();
+  }
+
+  onKey("?", () => {
+    if (overlayEl) {
+      closeOverlay();
+    } else {
+      openOverlay();
+    }
   });
 }());
 </script>
