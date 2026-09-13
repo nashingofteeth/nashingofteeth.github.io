@@ -167,6 +167,7 @@ for (const link of links) {
       // Track as playing (autoplay=1); the load handshake subscribes to state
       // events from here on. A fresh autoplay embed takes over exclusivity now.
       ytPlayers.set(ytId, { iframe, playing: true });
+      iframe.setAttribute("title", mediaTitle());
       iframe.addEventListener("load", () => {
         iframe.contentWindow.postMessage(
           JSON.stringify({ event: "listening", id: ytId }),
@@ -178,6 +179,7 @@ for (const link of links) {
       this.parentElement.replaceChild(iframe, this);
       pauseAllNative(null);
       pauseOtherYouTube(ytId);
+      repaintHints();
     } else {
       // Regular video handling for cloud-hosted videos
       const filename = this.getAttribute("data-filename");
@@ -205,8 +207,10 @@ for (const link of links) {
 
       video.appendChild(videoWebMSrc);
       video.appendChild(videoMp4Src);
+      video.setAttribute("title", mediaTitle());
 
       this.parentElement.replaceChild(video, this);
+      repaintHints();
     }
   });
 }
@@ -235,6 +239,10 @@ for (const downloadLink of downloadLinks) {
 // Keybinds via onKey() (keybind-utils.js, loaded first). Grid-only behaviors
 // resolve to no-ops on single-video pages: the grid renders bookmark
 // permalinks (showBookmark) and multiple articles, the single page neither.
+// Active-video binds (Enter permalink, Space play, F fullscreen, D
+// downloads) resolve through firstTopVisibleArticle(), falling back to the
+// lone article on single pages. Hint titles are runtime-only (never baked)
+// so touch devices never advertise dead keys; the ? overlay renders them.
 // ---------------------------------------------------------------------------
 function isVideosGrid() {
   const p = window.location.pathname || "/";
@@ -316,6 +324,16 @@ if (isVideoSinglePage()) {
   // same as Esc (flag-before-navigate). Click bookkeeping, not a keybind, so
   // it also runs on touch devices.
   bindUpNavRestore("/videos/");
+
+  // Esc returns to the grid (global keybinds.js up-nav + scroll restore).
+  // Hinted here because the baked header href ("/videos") misses that
+  // file's exact-href lookup ("/videos/"). Mirrors photo-single.js.
+  if (KEYBINDS_ENABLED) {
+    const videosLink = document.querySelector('header a[href^="/videos"]');
+    if (videosLink) {
+      videosLink.setAttribute("title", "View videos (Esc)");
+    }
+  }
 
   onKey("enter", (e) => {
     if (e.target && e.target.closest && e.target.closest("a, button")) {
@@ -410,3 +428,134 @@ onKey("f", (e) => {
     }
   }
 });
+
+// d downloads the active video — lossy (d) or lossless (Shift+D) — via the
+// article's download buttons (absent on YouTube videos, where this no-ops).
+// onKey normalizes to lowercase, so the Shift variant reads off the event.
+onKey("d", (e) => {
+  const article = activeVideoArticle();
+  if (!article) {
+    return;
+  }
+  const btn = article.querySelector(
+    `.download-btn[data-download="${e.shiftKey ? "lossless" : "lossy"}"]`,
+  );
+  if (btn) {
+    e.preventDefault();
+    btn.click();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Keybind hint titles for the ? overlay (keybinds.js): the permalink
+// bookmark (Enter), the media cover/player (Space + fullscreen), and the
+// download buttons (d lossy / D lossless) of the active video. Runtime-only
+// and touch-skipped, mirroring photo-single.js. Grid hints track the
+// top-visible article on scroll/resize; the single page has one article, so
+// its hints apply once (plus re-hinting after play swaps cover for player).
+// ---------------------------------------------------------------------------
+function mediaTitle() {
+  return isVideoSinglePage() ? "Play (Enter/Space/F)" : "Play (Space/F)";
+}
+
+function activeVideoArticle() {
+  if (isVideoSinglePage()) {
+    return document.querySelector("main article");
+  }
+  return firstTopVisibleArticle() || null;
+}
+
+const savedVideoHintTitles = new WeakMap();
+let hintedVideoEls = [];
+
+function hintVideoEl(el, title) {
+  if (!el) {
+    return;
+  }
+  if (!savedVideoHintTitles.has(el)) {
+    savedVideoHintTitles.set(el, el.getAttribute("title"));
+  }
+  el.setAttribute("title", title);
+  hintedVideoEls.push(el);
+}
+
+function refreshVideoHints() {
+  if (!KEYBINDS_ENABLED) {
+    return;
+  }
+  const article = activeVideoArticle();
+  const next = [];
+  if (article) {
+    if (isVideosGrid()) {
+      const bookmark = article.querySelector("a.bookmark[href]");
+      if (bookmark) {
+        next.push([bookmark, "Go to video page (Enter)"]);
+      }
+    }
+    const media = article.querySelector(".container .media a[href]") ||
+      article.querySelector("video, iframe[data-yt-player]");
+    if (media) {
+      next.push([media, mediaTitle()]);
+    }
+    const lossy = article.querySelector('.download-btn[data-download="lossy"]');
+    if (lossy) {
+      next.push([lossy, "Download lossy (d)"]);
+    }
+    const lossless = article.querySelector(
+      '.download-btn[data-download="lossless"]',
+    );
+    if (lossless) {
+      next.push([lossless, "Download lossless (D)"]);
+    }
+  }
+  // Same active set (the common scroll frame) — skip the restore + rewrite.
+  const same = next.length === hintedVideoEls.length &&
+    next.every(([el], i) => el === hintedVideoEls[i]);
+  if (same) {
+    return;
+  }
+  for (const el of hintedVideoEls) {
+    if (savedVideoHintTitles.has(el)) {
+      const original = savedVideoHintTitles.get(el);
+      if (original) {
+        el.setAttribute("title", original);
+      } else {
+        el.removeAttribute("title");
+      }
+    }
+  }
+  hintedVideoEls = [];
+  for (const [el, title] of next) {
+    hintVideoEl(el, title);
+  }
+}
+
+// Re-hint (covers cover→player swaps, which fire no scroll event) and ask
+// an open ? overlay to repaint. The shared notifier is typeof-guarded so a
+// standalone videos.js never throws if keybind-utils.js failed to load.
+function repaintHints() {
+  refreshVideoHints();
+  if (typeof notifyHintsChanged === "function") {
+    notifyHintsChanged();
+  }
+}
+
+if (KEYBINDS_ENABLED) {
+  let videoHintsRaf = false;
+  const scheduleVideoHints = () => {
+    if (videoHintsRaf) {
+      return;
+    }
+    videoHintsRaf = true;
+    const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+    raf(() => {
+      videoHintsRaf = false;
+      refreshVideoHints();
+    });
+  };
+  // Scroll/resize ordering vs the overlay's own listeners is safe: this
+  // file loads (and registers) before keybinds.js, so titles land first.
+  document.addEventListener("scroll", scheduleVideoHints, { passive: true });
+  window.addEventListener("resize", scheduleVideoHints);
+  refreshVideoHints();
+}
