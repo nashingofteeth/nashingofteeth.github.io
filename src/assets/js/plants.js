@@ -472,7 +472,13 @@ function expandAll() {
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
-      searchInput.setAttribute("title", "Search —\n/ focus · Esc clear · Enter open first");
+      // Keybind hints in the title only on keyboard devices.
+      searchInput.setAttribute(
+        "title",
+        KEYBINDS_ENABLED
+          ? "Search —\n/ focus · Esc clear · Enter open first"
+          : "Search",
+      );
     })
     .catch(() => {
       // Fetch failed — static tree unchanged, search stays disabled
@@ -506,7 +512,9 @@ function expandAll() {
   // p hint — mark the photo link that `p` would open (first visible match
   // with a photo) with a " (p)" title suffix, mirroring photos.js number
   // hints. Only applies during search; static tree keeps plain titles.
+  // Skipped on touch devices — never advertise dead keys.
   function updatePhotoHint() {
+    if (!KEYBINDS_ENABLED) return;
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     if (!treeEl.closest(".plant-list")?.hasAttribute("data-search-active")) return;
@@ -531,8 +539,9 @@ function expandAll() {
 
   // Keep the hints in sync when collapse/expand toggles change visibility
   // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
-  // Filtered to class changes so title updates don't re-trigger.
-  if (typeof MutationObserver !== "undefined") {
+  // Filtered to class changes so title updates don't re-trigger. Skipped
+  // entirely on touch devices — both jobs are keybind hints.
+  if (KEYBINDS_ENABLED && typeof MutationObserver !== "undefined") {
     const hintTreeEl = document.getElementById("plant-tree");
     if (hintTreeEl) {
       const observer = new MutationObserver(() => {

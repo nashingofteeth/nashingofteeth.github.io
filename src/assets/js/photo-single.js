@@ -6,24 +6,27 @@
   upgradeSearchLinks(document);
 
   // Keyboard hints — applied only here (never baked at build time) since the
-  // P/D/C/Esc shortcuts only work once JS runs.
-  const plantLink = document.querySelector(
-    '.specs a.search-link[href^="/plants/"]',
-  );
-  if (plantLink) plantLink.setAttribute("title", "View plant (P)");
-  const dateLink = document.querySelector(
-    '.specs a.search-link[href^="/photos/"] time',
-  );
-  if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
-  const cameraLink = Array.from(
-    document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
-  ).find((a) => !a.querySelector("time"));
-  if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
-  const photosLink = document.querySelector('header a[href^="/photos"]');
-  if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
-  const originalLink = document.querySelector(".download a");
-  if (originalLink)
-    originalLink.setAttribute("title", "Download original (O)");
+  // P/D/C/Esc shortcuts only work once JS runs. Skipped on touch devices —
+  // never advertise dead keys.
+  if (KEYBINDS_ENABLED) {
+    const plantLink = document.querySelector(
+      '.specs a.search-link[href^="/plants/"]',
+    );
+    if (plantLink) plantLink.setAttribute("title", "View plant (P)");
+    const dateLink = document.querySelector(
+      '.specs a.search-link[href^="/photos/"] time',
+    );
+    if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
+    const cameraLink = Array.from(
+      document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+    ).find((a) => !a.querySelector("time"));
+    if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
+    const photosLink = document.querySelector('header a[href^="/photos"]');
+    if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
+    const originalLink = document.querySelector(".download a");
+    if (originalLink)
+      originalLink.setAttribute("title", "Download original (O)");
+  }
 
   // Swipe state — horizontal swipe anywhere on the page navigates prev/next,
   // mirroring the J/K keybinds via the shared navHref resolver.
@@ -117,8 +120,12 @@
   }
 
   // Prev/next titles are applied here (never baked at build time) since J/K
-  // only work once JS runs.
+  // only work once JS runs. Skipped on touch devices — never advertise dead
+  // keys.
   function applyNavTitles() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const prev = document.querySelector(".photo-nav-prev[href]");
     const next = document.querySelector(".photo-nav-next[href]");
     if (prev) prev.setAttribute("title", "Previous (K)");

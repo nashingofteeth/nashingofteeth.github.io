@@ -55,7 +55,12 @@
   }
 
   // Homepage shortcut hints, applied at runtime like photo-single.js titles.
+  // Skipped on touch devices — never advertise dead keys (the whole file is
+  // then inert on mobile: zero listeners, zero DOM writes).
   function applyHomepageHints() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const labels = {
       v: "Videos",
       o: "Photos",

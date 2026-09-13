@@ -14,6 +14,17 @@
 // e.defaultPrevented. Works at build time (require) and in the browser
 // (globals + UMD guard, mirroring month-utils.js).
 
+// Keybinds are skipped on touch-first devices (phones/tablets): no physical
+// keyboard means every keybind + its scroll-driven hint bookkeeping is dead
+// weight. matchMedia pointer test (not ontouchstart) so touchscreen laptops
+// with a mouse primary keep binds. Evaluated once at load — docking a
+// keyboard mid-session needs a reload. Node/ancient browsers default to
+// enabled (safe, current behavior).
+const KEYBINDS_ENABLED =
+  typeof window === "undefined" ||
+  typeof window.matchMedia === "undefined" ||
+  !window.matchMedia("(pointer: coarse)").matches;
+
 function isEditableTarget(target) {
   return (
     target &&
@@ -50,7 +61,7 @@ function normalizeKey(e) {
 // No-ops without a document (build time). The handler owns
 // preventDefault + navigation.
 function onKey(keys, handler, opts = {}) {
-  if (typeof document === "undefined") {
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return;
   }
   const wanted = Array.isArray(keys) ? keys : [keys];
@@ -114,7 +125,9 @@ function isFullyInViewport(el) {
 // rAF-throttled) + resize + load; returns refresh() for manual calls after
 // page re-renders (search). No-ops without a document (build time).
 function bindDigitNav(getLinks, opts = {}) {
-  if (typeof document === "undefined") {
+  // Touch devices skip everything below: no binds, no scroll/resize
+  // listeners, no hint title writes.
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return () => {};
   }
   const label = opts.label || "Open link";
@@ -260,6 +273,7 @@ if (typeof module !== "undefined") {
     hasModifier,
     normalizeKey,
     onKey,
+    KEYBINDS_ENABLED,
     isInViewport,
     isFullyInViewport,
     bindDigitNav,
@@ -276,6 +290,7 @@ if (typeof globalThis !== "undefined") {
   globalThis.hasModifier = hasModifier;
   globalThis.normalizeKey = normalizeKey;
   globalThis.onKey = onKey;
+  globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
   globalThis.isInViewport = isInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
   globalThis.bindDigitNav = bindDigitNav;

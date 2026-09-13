@@ -72,8 +72,12 @@
   }
 
   // Hint the header link that Escape actually targets, mirroring the
-  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js.
+  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js. Skipped on
+  // touch devices — never advertise dead keys.
   function applyEscHint() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const href = upHref();
     if (!href) {
       return;

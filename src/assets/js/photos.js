@@ -269,9 +269,12 @@ function filterByQuery(items, query) {
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
+  // Keybind hints in the title only on keyboard devices.
   searchInput.setAttribute(
     "title",
-    "Search —\n/ focus · Esc clear · Enter open first",
+    KEYBINDS_ENABLED
+      ? "Search —\n/ focus · Esc clear · Enter open first"
+      : "Search",
   );
 
   // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
