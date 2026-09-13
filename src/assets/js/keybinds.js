@@ -141,7 +141,7 @@
   // titles this site already maintains (a trailing "(x)" group, or several
   // slash-separated keys like "(Space/F)"), so the overlay can never drift
   // from the live bindings. Covers links, buttons, search inputs, plant
-  // toggles, and in-page players. ? again closes; Esc keeps its existing meaning (grid return /
+  // toggles, plant taxa rows, and in-page players. ? again closes; Esc keeps its existing meaning (grid return /
   // up-nav) and header links keep their "(Esc)" hint titles. Scroll, resize,
   // and search re-renders share one rAF-throttled repaint while open
   // (listeners attached only while open); search arrives via the
@@ -174,7 +174,8 @@
     // after play starts) badge the player itself. Plant toggles badge to the
     // LEFT of the marker: the handle is only 2ch wide at the line's left
     // edge, so a right-side badge would sit on top of the taxa name. Text
-    // links, buttons, and inputs badge just outside top-right.
+    // links, buttons, inputs, and plant taxa rows badge just outside
+    // top-right.
     const img = el.querySelector ? el.querySelector("img") : null;
     if (img) {
       const imgRect = img.getBoundingClientRect();
@@ -186,6 +187,11 @@
       return { rect: el.getBoundingClientRect(), inside: true };
     }
     if (el.classList && el.classList.contains("toggle")) {
+      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+    }
+    // Taxa rows (li) badge LEFT of the item — the old toggle-hint slot —
+    // so right-side numbers never crowd the row's own links/badges.
+    if (el.tagName === "LI") {
       return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
     }
     return { rect: el.getBoundingClientRect(), inside: false, side: "right" };
@@ -209,11 +215,52 @@
     return match[1].split("/");
   }
 
+  // Floating info bar (bottom-right, inside the overlay) for chord/
+  // progressive-keybind guidance that can't live on an element badge. Fully
+  // page-owned: the bar renders only when the page set body[data-hint-bar]
+  // (plants.js declares its chord leaders there; pages without chords never
+  // do, so they get no bar). Armed-chord messages arrive the same way — the
+  // page rewrites data-hint-bar when a chord arms or disarms.
+  function buildBar() {
+    const text = document.body &&
+      document.body.dataset &&
+      document.body.dataset.hintBar;
+    if (!text) {
+      return;
+    }
+    const bar = document.createElement("span");
+    bar.className = "keybind-hint-bar";
+    bar.textContent = text;
+    overlayEl.appendChild(bar);
+  }
+
   function buildBadges() {
+    // Leader-chord awareness (plants.js sets body[data-chord] to p/s/c/t):
+    // taxa number hints are progressive — li titles only badge while an
+    // s/c/t chord is armed (p has no taxa targets) — and while any leader
+    // is armed the digits it captures go dark: wiki "(n)" badges always,
+    // photo "(Pn)" badges except when p itself is the leader.
+    const chord = document.body &&
+      document.body.dataset &&
+      document.body.dataset.chord;
+    const chordArmed = Boolean(chord);
+    const taxaReveal = chordArmed && chord !== "p";
     const hinted = document.querySelectorAll(
-      "a[title], button[title], input[title], .toggle[title], video[title], iframe[title]",
+      "a[title], button[title], input[title], .toggle[title], li[title], video[title], iframe[title]",
     );
     for (const el of Array.from(hinted)) {
+      if (el.tagName === "LI") {
+        if (!taxaReveal) {
+          continue;
+        }
+      } else if (chordArmed && el.tagName === "A") {
+        const tokens = hintKeys(el);
+        const digitHint = tokens.length === 1 && /^\d$/.test(tokens[0]);
+        const photoHint = tokens.some((t) => /^P\d+$/.test(t));
+        if (digitHint || (photoHint && taxaReveal)) {
+          continue;
+        }
+      }
       const keys = hintKeys(el);
       if (!keys.length || !isFullyInViewport(el)) {
         continue;
@@ -237,7 +284,7 @@
           badge.style.left = `${rect.left + 4}px`;
           badge.style.top = `${rect.top + 4 + i * 22}px`;
         } else if (side === "left") {
-          badge.style.left = `${rect.left - 2}px`;
+          badge.style.left = `${rect.left - 8}px`;
           badge.style.top = `${rect.top - 4 + i * 22}px`;
           badge.style.transform = "translateX(-100%)";
         } else {
@@ -272,6 +319,7 @@
         }
         overlayEl.innerHTML = "";
         buildBadges();
+        buildBar();
       });
     };
     overlayScrollHandler = scheduleRepaint;
@@ -283,6 +331,7 @@
     window.addEventListener("resize", overlayResizeHandler);
     document.addEventListener("keybind-hints:changed", overlayHintsHandler);
     buildBadges();
+    buildBar();
   }
 
   onKey("?", () => {

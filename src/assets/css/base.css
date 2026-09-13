@@ -24,3 +24,19 @@ a {
   color: azure;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
+/* Info bar for the ? overlay — chord/progressive-keybind guidance that
+   can't be inlined as element badges. Bottom-right of the fixed overlay,
+   same colors as the badges. */
+.keybind-hint-bar {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  max-width: 70vw;
+  padding: 6px 10px;
+  border-radius: 3px;
+  background-color: navy;
+  color: azure;
+  font-size: 11px;
+  line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
