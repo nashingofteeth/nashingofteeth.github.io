@@ -6,3 +6,21 @@ a {
   letter-spacing: 1px;
   text-decoration: none;
 }
+/* ? keybind hint overlay (keybinds.js). Fixed + pointer-events none so it
+   never intercepts input; badges are absolutely positioned over links. */
+.keybind-hint-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+.keybind-hint-badge {
+  position: absolute;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  background-color: navy;
+  color: azure;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
