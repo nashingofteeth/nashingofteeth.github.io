@@ -238,6 +238,31 @@ function flagEscReturn(gridPath) {
   sessSet(`esc-return:${gridPath}`, "1");
 }
 
+// Clicking the header up-link from a single item page should restore the
+// grid's scroll position exactly like Esc does — flag the return on click,
+// then let the browser navigate. Not a keybind, so it also runs on touch
+// devices (the saver side, trackGridScroll, is active there too). gridPath
+// is the grid's pathname ("/photos/" style); header hrefs are baked without
+// the trailing slash ("/photos"), so the selector prefix strips it while the
+// flag key keeps it (matching trackGridScroll's pathname keys). A stale flag
+// is possible only if navigation never follows the click, and it is consumed
+// harmlessly by the next grid load.
+function bindUpNavRestore(gridPath) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const key = gridPath.endsWith("/") ? gridPath : `${gridPath}/`;
+  const link = document.querySelector(
+    `header a[href^="${gridPath.replace(/\/$/, "")}"]`,
+  );
+  if (!link) {
+    return;
+  }
+  link.addEventListener("click", () => {
+    flagEscReturn(key);
+  });
+}
+
 // Track scroll for the current grid page: persist at departure, and consume
 // a pending Esc return (restore now via rAF, then re-apply on window load
 // only if the user hasn't scrolled meanwhile — late image layout shifts must
@@ -279,6 +304,7 @@ if (typeof module !== "undefined") {
     bindDigitNav,
     flagEscReturn,
     trackGridScroll,
+    bindUpNavRestore,
   };
 }
 
@@ -296,4 +322,5 @@ if (typeof globalThis !== "undefined") {
   globalThis.bindDigitNav = bindDigitNav;
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
+  globalThis.bindUpNavRestore = bindUpNavRestore;
 }

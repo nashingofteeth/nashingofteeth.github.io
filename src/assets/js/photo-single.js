@@ -51,6 +51,11 @@
   }
   scopeHeaderPhotosLink();
 
+  // Clicking the header PHOTOS up-link restores the grid's scroll position,
+  // same as Esc (flag-before-navigate; works with the scoped ?q href too,
+  // since flags are pathname-keyed).
+  bindUpNavRestore("/photos/");
+
   // Query-scoped prev/next slugs, computed from /photos/photo-data.json once a
   // query is present. J/K and the visible nav both use this so keyboard
   // navigation stays within the filtered set (not the chronological fallback).

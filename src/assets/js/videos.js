@@ -312,6 +312,11 @@ if (isVideosGrid()) {
 // Skipped on interactive targets so native keyboard activation (focused
 // play/download links) is never hijacked.
 if (isVideoSinglePage()) {
+  // Clicking the header VIDEOS up-link restores the grid's scroll position,
+  // same as Esc (flag-before-navigate). Click bookkeeping, not a keybind, so
+  // it also runs on touch devices.
+  bindUpNavRestore("/videos/");
+
   onKey("enter", (e) => {
     if (e.target && e.target.closest && e.target.closest("a, button")) {
       return;
