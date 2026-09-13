@@ -455,6 +455,7 @@ function expandAll() {
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
     updatePhotoHint();
     refreshDigitNav();
+    refreshToggleHints();
   }
 
   // Fetch JSON, build index, wire up the search input
@@ -472,11 +473,12 @@ function expandAll() {
 
       searchInput.removeAttribute("disabled");
       searchInput.setAttribute("placeholder", "🔍 Search\u2026");
-      // Keybind hints in the title only on keyboard devices.
+      // Keybind hints in the title only on keyboard devices. Trailing "(/)"
+      // group badges the focus key in the ? overlay (keybinds.js).
       searchInput.setAttribute(
         "title",
         KEYBINDS_ENABLED
-          ? "Search —\n/ focus · Esc clear · Enter open first"
+          ? "Search — clear (Esc) · apply + blur (Enter) · focus (/)"
           : "Search",
       );
     })
@@ -497,8 +499,8 @@ function expandAll() {
     Array.from(document.querySelectorAll("#plant-tree a.plant-wiki-link[href]")),
   );
 
-  // Enter → open first visible match (applies pending query first)
-  // p → open first visible match's photo link (same tab)
+  // p → open first visible match's photo link (same tab). Enter only
+  // applies the filter + blurs (digits pick the match); see below.
   function visibleMatchesInVisualOrder() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return [];
@@ -537,6 +539,142 @@ function expandAll() {
     });
   }
 
+  // -----------------------------------------------------------------------
+  // Toggle keybinds: +/= expand all, -/_ collapse all, Shift+1–9 toggles the
+  // nth top-visible subtree. Hints mirror the digit-nav "(n)" titles so the
+  // ? overlay badges them: control buttons get "(+)" / "(-)", toggles get
+  // the shifted US symbol ("(!)", "(@)", …) matching the physical key.
+  // -----------------------------------------------------------------------
+  // Shifted US symbols for digits 1–9. e.key already yields these on US
+  // layouts; other layouts yield "1"–"9" with shiftKey held — both map to
+  // the same toggle index in the handler below.
+  const SHIFT_DIGITS = ["!", "@", "#", "$", "%", "^", "&", "*", "("];
+
+  function currentToggles() {
+    // First 9 top-visible toggles, mirroring bindDigitNav's early-exit so a
+    // scroll frame rects ~9 handles instead of the whole tree. Toggles
+    // inside collapsed subtrees are display:none and self-exclude via
+    // isFullyInViewport.
+    const treeEl = document.getElementById("plant-tree");
+    if (!treeEl) {
+      return [];
+    }
+    const top = [];
+    for (const toggle of treeEl.querySelectorAll(".toggle")) {
+      if (top.length >= 9) {
+        break;
+      }
+      if (isFullyInViewport(toggle)) {
+        top.push(toggle);
+      }
+    }
+    return top;
+  }
+
+  const savedToggleTitles = new WeakMap();
+  let hintedToggles = [];
+
+  function refreshToggleHints() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
+    const next = currentToggles();
+    const same = next.length === hintedToggles.length &&
+      next.every((toggle, i) => toggle === hintedToggles[i]);
+    if (!same) {
+      for (const toggle of hintedToggles) {
+        if (savedToggleTitles.has(toggle)) {
+          const original = savedToggleTitles.get(toggle);
+          if (original) {
+            toggle.setAttribute("title", original);
+          } else {
+            toggle.removeAttribute("title");
+          }
+        }
+      }
+      hintedToggles = next;
+      hintedToggles.forEach((toggle, i) => {
+        if (!savedToggleTitles.has(toggle)) {
+          savedToggleTitles.set(toggle, toggle.getAttribute("title"));
+        }
+        toggle.setAttribute("title", `Toggle (${SHIFT_DIGITS[i]})`);
+      });
+    }
+    notifyHintsChanged();
+  }
+
+  // Control-button hints, applied once (the buttons are never re-rendered).
+  // Skipped on touch devices — never advertise dead keys.
+  function applyControlHints() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
+    const controls = document.querySelector(".plant-controls");
+    if (!controls) {
+      return;
+    }
+    for (const [fn, key] of [["collapseAll", "-"], ["expandAll", "+"]]) {
+      const btn = controls.querySelector(`button[onclick="${fn}()"]`);
+      if (btn && !btn.getAttribute("title")) {
+        btn.setAttribute("title", `${(btn.textContent || "").trim()} (${key})`);
+      }
+    }
+  }
+
+  // +/= expands every subtree, -/_ collapses. Bare =/- aliases included;
+  // the overlay badges only the + (single display label, less clutter).
+  onKey(["+", "="], (e) => {
+    e.preventDefault();
+    expandAll();
+    refreshToggleHints();
+  });
+
+  onKey(["-", "_"], (e) => {
+    e.preventDefault();
+    collapseAll();
+    refreshToggleHints();
+  });
+
+  // Shift+1–9 toggles the nth top-visible subtree. Plain digits stay with
+  // digit-nav (which skips shifted presses); both the US shifted symbol and
+  // other-layout digits-with-shift map to the same index.
+  onKey(
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", ...SHIFT_DIGITS],
+    (e, key) => {
+      if (!e.shiftKey) {
+        return;
+      }
+      const digit = SHIFT_DIGITS.includes(key)
+        ? String(SHIFT_DIGITS.indexOf(key) + 1)
+        : key;
+      const toggle = currentToggles()[Number(digit) - 1];
+      if (toggle) {
+        e.preventDefault();
+        toggleNode(toggle);
+        refreshToggleHints();
+      }
+    },
+  );
+
+  if (KEYBINDS_ENABLED) {
+    let toggleHintsRaf = false;
+    const scheduleToggleHints = () => {
+      if (toggleHintsRaf) {
+        return;
+      }
+      toggleHintsRaf = true;
+      const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+      raf(() => {
+        toggleHintsRaf = false;
+        refreshToggleHints();
+      });
+    };
+    document.addEventListener("scroll", scheduleToggleHints, { passive: true });
+    window.addEventListener("resize", scheduleToggleHints);
+  }
+  applyControlHints();
+  refreshToggleHints();
+
   // Keep the hints in sync when collapse/expand toggles change visibility
   // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
   // Filtered to class changes so title updates don't re-trigger. Skipped
@@ -547,14 +685,16 @@ function expandAll() {
       const observer = new MutationObserver(() => {
         updatePhotoHint();
         refreshDigitNav();
+        refreshToggleHints();
       });
       observer.observe(hintTreeEl, { attributes: true, subtree: true, attributeFilter: ["class"] });
     }
   }
 
-  // Enter → open first visible match (applies pending query first).
-  // allowInEditable because the handler explicitly manages the focused-input
-  // case below (other text-editing fields are still ignored).
+  // Enter → apply the filter, then drop focus so "1"–"9" opens the nth
+  // top-visible match (digits type into a focused input instead of
+  // navigating). allowInEditable because the handler explicitly manages the
+  // focused-input case below (other text-editing fields are still ignored).
   onKey(
     "enter",
     (e) => {
@@ -563,12 +703,8 @@ function expandAll() {
       if (!q) return;
       if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
       performSearch(searchInput.value);
-      const first = visibleMatchesInVisualOrder()[0];
-      const link = first && first.querySelector("a[href]");
-      if (link) {
-        e.preventDefault();
-        window.location.href = link.getAttribute("href");
-      }
+      e.preventDefault();
+      searchInput.blur();
     },
     { allowInEditable: true },
   );
