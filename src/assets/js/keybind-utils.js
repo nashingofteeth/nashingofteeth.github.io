@@ -352,6 +352,9 @@ if (typeof module !== "undefined") {
     trackGridScroll,
     bindUpNavRestore,
     notifyHintsChanged,
+    sessGet,
+    sessSet,
+    sessDel,
   };
 }
 
@@ -371,4 +374,7 @@ if (typeof globalThis !== "undefined") {
   globalThis.trackGridScroll = trackGridScroll;
   globalThis.bindUpNavRestore = bindUpNavRestore;
   globalThis.notifyHintsChanged = notifyHintsChanged;
+  globalThis.sessGet = sessGet;
+  globalThis.sessSet = sessSet;
+  globalThis.sessDel = sessDel;
 }

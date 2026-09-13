@@ -34,11 +34,25 @@ function buildNodeContent(node, formatText) {
   return content + photoLink;
 }
 
+// Stable per-node identity for toggle persistence: ancestral path with each
+// segment encodeURIComponent-encoded and joined on "/" (names may contain
+// "/" but never a literal "%2F" collision that matters for equality).
+function nodePath(parentPath, name) {
+  const seg = encodeURIComponent(String(name));
+  return parentPath ? `${parentPath}/${seg}` : seg;
+}
+
+function escAttr(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
 // ---------------------------------------------------------------------------
 // generatePlantList — shared renderer used at build time (Node.js) and at
 // runtime by the search feature. Pure function: data in, HTML string out.
+// parentPath/collapsedSet thread toggle identity + persisted state; both
+// default off so build-time output stays fully expanded.
 // ---------------------------------------------------------------------------
-function generatePlantList(taxonomy, level = 0) {
+function generatePlantList(taxonomy, level = 0, parentPath = "", collapsedSet = null) {
   let html = "";
   const indent = "  ".repeat(level);
 
@@ -51,7 +65,10 @@ function generatePlantList(taxonomy, level = 0) {
 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
-      html += `${indent}<li class="has-children">${toggleHandle(false)}${content}</li>\n`;
+      const path = nodePath(parentPath, node.name);
+      const collapsed = !!(collapsedSet && collapsedSet.has(path));
+      const cls = collapsed ? ` class="has-children collapsed"` : ` class="has-children"`;
+      html += `${indent}<li${cls} data-path="${escAttr(path)}">${toggleHandle(collapsed)}${content}</li>\n`;
     } else {
       html += `${indent}<li>${content}</li>\n`;
     }
@@ -59,7 +76,7 @@ function generatePlantList(taxonomy, level = 0) {
     // Recurse into children (leaf species + taxonomy sub-nodes in one UL)
     if (children.length > 0) {
       html += `${indent}<ul>\n`;
-      html += generatePlantList(children, level + 1);
+      html += generatePlantList(children, level + 1, nodePath(parentPath, node.name), collapsedSet);
       html += `${indent}</ul>\n`;
     }
   }
@@ -121,6 +138,7 @@ function toggleNode(toggle) {
     const collapsed = li.classList.contains("collapsed");
     setCollapsed(li, childUls, !collapsed);
     toggle.setAttribute("aria-expanded", String(collapsed));
+    persistToggle(li);
   }
 }
 
@@ -158,6 +176,10 @@ function collapseAll() {
   treeEl.querySelectorAll("li.has-children").forEach((li) => {
     setCollapsed(li, siblingUls(li), true);
   });
+  treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
+    savedCollapsed.add(li.getAttribute("data-path"));
+  });
+  saveCollapsedSet(savedCollapsed);
 }
 
 function expandAll() {
@@ -165,7 +187,106 @@ function expandAll() {
   if (!treeEl) return;
   treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.remove("collapsed"));
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
+  savedCollapsed.clear();
+  saveCollapsedSet(savedCollapsed);
 }
+
+// ---------------------------------------------------------------------------
+// Toggle persistence — collapsed subtrees survive reload / back-forward for
+// the tab session via sessionStorage, in the static view and inside search
+// views alike. The stored set belongs to the current query: whenever the
+// query is created, cleared, or changed, the set is wiped and collapsing
+// starts fresh. Paths with no matching node are silently dropped on apply.
+// All storage access is best-effort (private mode falls back to in-memory
+// only); sessGet/sessSet/sessDel come from keybind-utils.js (loaded first;
+// see templates/plants.js).
+// ---------------------------------------------------------------------------
+const PLANTS_COLLAPSED_KEY = "plants:collapsed:/plants/";
+
+let savedCollapsed = loadCollapsedSet();
+
+function loadCollapsedSet() {
+  try {
+    if (typeof sessGet !== "function") return new Set();
+    const raw = sessGet(PLANTS_COLLAPSED_KEY);
+    if (!raw) return new Set();
+    const arr = JSON.parse(raw);
+    return new Set(
+      Array.isArray(arr) ? arr.filter((s) => typeof s === "string") : [],
+    );
+  } catch (_err) {
+    return new Set();
+  }
+}
+
+function saveCollapsedSet(set) {
+  try {
+    if (typeof sessSet !== "function" || typeof sessDel !== "function") return;
+    if (!set || set.size === 0) {
+      sessDel(PLANTS_COLLAPSED_KEY);
+      return;
+    }
+    sessSet(PLANTS_COLLAPSED_KEY, JSON.stringify([...set]));
+  } catch (_err) {
+    // ignore — persistence is best-effort
+  }
+}
+
+function clearCollapsedStorage() {
+  savedCollapsed.clear();
+  try {
+    if (typeof sessDel === "function") sessDel(PLANTS_COLLAPSED_KEY);
+  } catch (_err) {
+    // ignore — persistence is best-effort
+  }
+}
+
+function persistToggle(li) {
+  if (typeof document === "undefined") return;
+  const path = li && li.getAttribute && li.getAttribute("data-path");
+  if (!path) return;
+  if (li.classList.contains("collapsed")) {
+    savedCollapsed.add(path);
+  } else {
+    savedCollapsed.delete(path);
+  }
+  saveCollapsedSet(savedCollapsed);
+}
+
+// Re-apply the stored set to the current tree. resetOthers selects the
+// default for unstored nodes: true in the static view (everything starts
+// expanded), false in search views (untouched nodes keep their baked
+// relevance collapse; only stored collapses are enforced). Prunes paths
+// with no matching node.
+function applyCollapsedFromStorage(resetOthers) {
+  if (typeof document === "undefined") return;
+  const treeEl = document.getElementById("plant-tree");
+  if (!treeEl) return;
+  const present = new Set();
+  treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
+    const path = li.getAttribute("data-path");
+    present.add(path);
+    if (savedCollapsed.has(path) || resetOthers) {
+      const collapsed = savedCollapsed.has(path);
+      setCollapsed(li, siblingUls(li), collapsed);
+      for (const child of li.children) {
+        if (child.classList && child.classList.contains("toggle")) {
+          child.setAttribute("aria-expanded", String(!collapsed));
+        }
+      }
+    }
+  });
+  let pruned = false;
+  for (const p of savedCollapsed) {
+    if (!present.has(p)) {
+      savedCollapsed.delete(p);
+      pruned = true;
+    }
+  }
+  if (pruned) saveCollapsedSet(savedCollapsed);
+}
+
+applyCollapsedFromStorage(true);
 
 // upgradeSearchLinks / updateUrl / bindSearchInput / bindSlashToFocus /
 // bindEscapeToClear come from search-utils.js (loaded first; see
@@ -188,6 +309,16 @@ function expandAll() {
   if (!searchInput) return;
 
   let plantData = null;
+  // Query the stored collapse set belongs to. A created, cleared, or changed
+  // query wipes it and collapsing starts fresh; re-performing the same query
+  // (Enter, popstate) keeps it. Initialized from the URL so a reload with
+  // ?q= preserves that query's collapses instead of wiping them on restore.
+  let lastQuery = "";
+  try {
+    lastQuery = queryFromUrl().toLowerCase().trim();
+  } catch (_err) {
+    lastQuery = "";
+  }
   // Flat index: every node paired with its ancestor chain
   const searchIndex = [];
 
@@ -252,18 +383,21 @@ function expandAll() {
     return matchSet.size ? { matchSet, ancestorSet } : null;
   }
 
-  // Render a single node's <li> with optional toggle + highlight
-  function nodeLabelHtml(node, extraClass, q, hasChildren, startCollapsed) {
+  // Render a single node's <li> with optional toggle + highlight. path is
+  // the node's ancestral identity (see nodePath); emitted as data-path on
+  // toggleable labels for collapse persistence.
+  function nodeLabelHtml(node, extraClass, q, hasChildren, startCollapsed, path = null) {
     const classes = [
       extraClass,
       hasChildren && "has-children",
       startCollapsed && "collapsed",
     ].filter(Boolean);
     const cls = classes.length ? ` class="${classes.join(" ")}"` : "";
+    const dataPath = hasChildren && path ? ` data-path="${escAttr(path)}"` : "";
     const toggle = hasChildren ? toggleHandle(startCollapsed) : "";
     const content = buildNodeContent(node, (s) => highlightMatch(s, q));
 
-    return `<li${cls}>${toggle}${content}</li>\n`;
+    return `<li${cls}${dataPath}>${toggle}${content}</li>\n`;
   }
 
   // Render the pruned search-result tree (merged ancestor chains).
@@ -347,7 +481,7 @@ function expandAll() {
     return keyOf(a).localeCompare(keyOf(b));
   }
 
-  function renderPrunedTree(nodes, matchSet, ancestorSet, q, memo, sortKeys) {
+  function renderPrunedTree(nodes, matchSet, ancestorSet, q, memo, sortKeys, parentPath = "") {
     let html = "";
     // Hoisted across recursion (previously reset per level, defeating the
     // memo): bestQuality results and sort keys computed once per node.
@@ -382,15 +516,16 @@ function expandAll() {
         );
         const hasSubContent = children.length > 0;
         const shouldCollapse = hasSubContent && !hasMatchingChildren;
+        const path = nodePath(parentPath, node.name);
 
-        const label = nodeLabelHtml(node, "search-match", q, hasSubContent, shouldCollapse);
+        const label = nodeLabelHtml(node, "search-match", q, hasSubContent, shouldCollapse, path);
 
         if (hasSubContent) {
           const inner = shouldCollapse
             // Collapsed: full subtree for exploration (sorted A-Z);
             // open: only matching content
-            ? renderFullSubtreeAsc(children, 0)
-            : renderPrunedTree(children, matchSet, ancestorSet, q, memo, sortKeys);
+            ? renderFullSubtreeAsc(children, 0, path)
+            : renderPrunedTree(children, matchSet, ancestorSet, q, memo, sortKeys, path);
           // Children before parent so deepest matches sit on top.
           html += `<ul${shouldCollapse ? ' class="collapsed"' : ""}>\n${inner}</ul>\n${label}`;
         } else {
@@ -402,11 +537,12 @@ function expandAll() {
           .filter((c) => matchSet.has(c) || ancestorSet.has(c))
           .sort((a, b) => compareNodes(a, b, qualityOf, keyOf));
         const hasChildren = relevantChildren.length > 0;
+        const path = nodePath(parentPath, node.name);
 
-        const label = nodeLabelHtml(node, "", "", hasChildren, false);
+        const label = nodeLabelHtml(node, "", "", hasChildren, false, path);
 
         if (hasChildren) {
-          const inner = renderPrunedTree(relevantChildren, matchSet, ancestorSet, q, memo, sortKeys);
+          const inner = renderPrunedTree(relevantChildren, matchSet, ancestorSet, q, memo, sortKeys, path);
           // Children before parent so deepest matches sit on top.
           html += `<ul>\n${inner}</ul>\n${label}`;
         } else {
@@ -421,7 +557,7 @@ function expandAll() {
   // Full-subtree renderer for the collapsed-for-exploration branch of search.
   // Same node markup as generatePlantList() but sorted A-Z by sortKey and
   // emitted children-before-parent so DOM order matches the rest of search.
-  function renderFullSubtreeAsc(taxonomy, level = 0) {
+  function renderFullSubtreeAsc(taxonomy, level = 0, parentPath = "") {
     let html = "";
     const indent = "  ".repeat(level);
     // Decorated sort: keys computed once, not per comparison.
@@ -434,13 +570,14 @@ function expandAll() {
       const children = node.children || [];
       const hasMultipleChildren = hasToggleableChildren(children);
       const content = buildNodeContent(node);
+      const path = nodePath(parentPath, node.name);
 
       const label = hasMultipleChildren
-        ? `${indent}<li class="has-children">${toggleHandle(false)}${content}</li>\n`
+        ? `${indent}<li class="has-children" data-path="${escAttr(path)}">${toggleHandle(false)}${content}</li>\n`
         : `${indent}<li>${content}</li>\n`;
 
       if (children.length > 0) {
-        const inner = renderFullSubtreeAsc(children, level + 1);
+        const inner = renderFullSubtreeAsc(children, level + 1, path);
         html += `${indent}<ul>\n${inner}${indent}</ul>\n${label}`;
       } else {
         html += label;
@@ -450,13 +587,16 @@ function expandAll() {
     return html;
   }
 
-  // Swap tree contents and toggle the search-active attribute
+  // Swap tree contents and toggle the search-active attribute. Search
+  // renders enforce stored collapses but keep their baked relevance
+  // collapse otherwise; the static view resets unstored nodes to expanded.
   function renderTree(html, isSearch) {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     treeEl.innerHTML = html;
     upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
+    applyCollapsedFromStorage(!isSearch);
     updatePhotoHint();
     refreshDigitNav();
     refreshToggleHints();
@@ -744,8 +884,13 @@ function expandAll() {
   // parent so lowest-level matches (e.g. Magnolia acuminata) appear at the
   // top and the shared matching chain appears once below.
   function performSearch(query) {
+    const norm = query.toLowerCase().trim();
+    if (norm !== lastQuery) {
+      lastQuery = norm;
+      clearCollapsedStorage();
+    }
     if (!query.trim()) {
-      renderTree(generatePlantList(plantData.taxonomy, 0), false);
+      renderTree(generatePlantList(plantData.taxonomy, 0, "", savedCollapsed), false);
     } else {
       const result = runSearch(query);
       if (!result) {
