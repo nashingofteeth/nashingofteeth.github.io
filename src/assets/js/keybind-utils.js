@@ -114,6 +114,22 @@ function isFullyInViewport(el) {
   );
 }
 
+// Tell the ? overlay (keybinds.js, loaded last) to repaint its badges
+// from the fresh titles. Event-based so script load order doesn't matter;
+// a closed overlay ignores it and builds fresh on open anyway. Shared by
+// bindDigitNav below and by page scripts that retitle hints outside it
+// (videos.js re-hints after the play link swaps into a player).
+function notifyHintsChanged() {
+  if (typeof document === "undefined" || typeof CustomEvent === "undefined") {
+    return;
+  }
+  try {
+    document.dispatchEvent(new CustomEvent("keybind-hints:changed"));
+  } catch (_err) {
+    // ignore — overlay repaint is best-effort
+  }
+}
+
 // Mouseless list nav: "1"–"9" opens the nth top-visible link from
 // getLinks(), a page-provided resolver returning candidate <a> elements in
 // priority (DOM) order. Links scrolled past the top never bind; running
@@ -144,30 +160,60 @@ function bindDigitNav(getLinks, opts = {}) {
   }
 
   function currentLinks() {
-    return getLinks().filter(isFullyInViewport).slice(0, 9);
+    // Collect only the first 9 top-visible links: getBoundingClientRect()
+    // forces layout, so filter()+slice() would rect every link on the page
+    // (300+ photos) per scroll frame only to discard all but 9.
+    const top = [];
+    for (const link of getLinks()) {
+      if (top.length >= 9) {
+        break;
+      }
+      if (isFullyInViewport(link)) {
+        top.push(link);
+      }
+    }
+    return top;
   }
 
   function refresh() {
-    for (const link of hinted) {
-      if (savedTitles.has(link)) {
-        const original = savedTitles.get(link);
-        if (original) {
-          link.setAttribute("title", original);
-        } else {
-          link.removeAttribute("title");
+    const next = currentLinks();
+    // Small scrolls leave the top-9 set unchanged — skip the title restore
+    // + rewrite (pointless DOM writes) in that case. The changed event still
+    // fires below: sibling hints outside this set (plants "(p)") may have
+    // moved, and the overlay coalesces repeat repaints into one per frame.
+    const same = hinted.length === next.length &&
+      hinted.every((link, i) => link === next[i]);
+    if (!same) {
+      for (const link of hinted) {
+        if (savedTitles.has(link)) {
+          const original = savedTitles.get(link);
+          if (original) {
+            link.setAttribute("title", original);
+          } else {
+            link.removeAttribute("title");
+          }
         }
       }
+      hinted = next;
+      hinted.forEach((link, i) => {
+        if (!savedTitles.has(link)) {
+          savedTitles.set(link, link.getAttribute("title"));
+        }
+        link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
+      });
     }
-    hinted = currentLinks();
-    hinted.forEach((link, i) => {
-      if (!savedTitles.has(link)) {
-        savedTitles.set(link, link.getAttribute("title"));
-      }
-      link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
-    });
+    // Search re-renders (photos performSearch, plants renderTree) land here
+    // via the returned refresh() — repaint an open ? overlay so its badges
+    // never show stale numbers or hidden items.
+    notifyHintsChanged();
   }
 
   onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], (e, key) => {
+    // Shift+digit belongs to page-specific binds (plants toggles shift the
+    // nth subtree); plain digits only here so the two never double-fire.
+    if (e.shiftKey) {
+      return;
+    }
     const links = currentLinks();
     const link = links[Number(key) - 1];
     if (link) {
@@ -305,6 +351,7 @@ if (typeof module !== "undefined") {
     flagEscReturn,
     trackGridScroll,
     bindUpNavRestore,
+    notifyHintsChanged,
   };
 }
 
@@ -323,4 +370,5 @@ if (typeof globalThis !== "undefined") {
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
   globalThis.bindUpNavRestore = bindUpNavRestore;
+  globalThis.notifyHintsChanged = notifyHintsChanged;
 }
