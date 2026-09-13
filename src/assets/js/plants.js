@@ -83,21 +83,25 @@ function toggleHandle(collapsed = false) {
   return `<span class="toggle" role="button" tabindex="0" aria-expanded="${!collapsed}" aria-label="Toggle subtree"></span>`;
 }
 
-// Sibling ULs may sit on either side of the LI: static tree and
-// generatePlantList() emit LI-then-UL, while search rendering emits
-// UL-then-LI so DOM order matches visual order (deepest matches on top).
+// A node's child UL sits on one side of its LI, depending on layout:
+// static tree and generatePlantList() emit LI-then-UL, while search
+// rendering emits UL-then-LI so DOM order matches visual order (deepest
+// matches on top). Only the owning side is collected — scanning both would
+// also grab the neighboring sibling's child UL, so collapsing one taxon
+// would hide the previous sibling's children without touching its toggle.
 function siblingUls(li) {
   const uls = [];
-  const scan = (start, next) => {
-    let el = start;
-    while (el) {
-      if (el.tagName === "LI") break;
-      if (el.tagName === "UL") uls.push(el);
-      el = next(el);
-    }
-  };
-  scan(li.nextElementSibling, (el) => el.nextElementSibling);
-  scan(li.previousElementSibling, (el) => el.previousElementSibling);
+  const searchActive = typeof document !== "undefined" &&
+    !!document.querySelector(".plant-list[data-search-active]");
+  let el = searchActive ? li.previousElementSibling : li.nextElementSibling;
+  const next = searchActive
+    ? (node) => node.previousElementSibling
+    : (node) => node.nextElementSibling;
+  while (el) {
+    if (el.tagName === "LI") break;
+    if (el.tagName === "UL") uls.push(el);
+    el = next(el);
+  }
   return uls;
 }
 
@@ -763,7 +767,8 @@ function expandAll() {
 
 // ---------------------------------------------------------------------------
 // UMD guard — allows templates/plants.js to require() this file at build time
+// (generatePlantList) and Node harnesses to exercise the toggle helpers.
 // ---------------------------------------------------------------------------
 if (typeof module !== "undefined") {
-  module.exports = { generatePlantList };
+  module.exports = { generatePlantList, siblingUls, setCollapsed, toggleNode };
 }
