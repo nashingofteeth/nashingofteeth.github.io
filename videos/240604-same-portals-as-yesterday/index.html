@@ -243,6 +243,17 @@ header a {
 // e.defaultPrevented. Works at build time (require) and in the browser
 // (globals + UMD guard, mirroring month-utils.js).
 
+// Keybinds are skipped on touch-first devices (phones/tablets): no physical
+// keyboard means every keybind + its scroll-driven hint bookkeeping is dead
+// weight. matchMedia pointer test (not ontouchstart) so touchscreen laptops
+// with a mouse primary keep binds. Evaluated once at load — docking a
+// keyboard mid-session needs a reload. Node/ancient browsers default to
+// enabled (safe, current behavior).
+const KEYBINDS_ENABLED =
+  typeof window === "undefined" ||
+  typeof window.matchMedia === "undefined" ||
+  !window.matchMedia("(pointer: coarse)").matches;
+
 function isEditableTarget(target) {
   return (
     target &&
@@ -279,7 +290,7 @@ function normalizeKey(e) {
 // No-ops without a document (build time). The handler owns
 // preventDefault + navigation.
 function onKey(keys, handler, opts = {}) {
-  if (typeof document === "undefined") {
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return;
   }
   const wanted = Array.isArray(keys) ? keys : [keys];
@@ -343,7 +354,9 @@ function isFullyInViewport(el) {
 // rAF-throttled) + resize + load; returns refresh() for manual calls after
 // page re-renders (search). No-ops without a document (build time).
 function bindDigitNav(getLinks, opts = {}) {
-  if (typeof document === "undefined") {
+  // Touch devices skip everything below: no binds, no scroll/resize
+  // listeners, no hint title writes.
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return () => {};
   }
   const label = opts.label || "Open link";
@@ -454,6 +467,31 @@ function flagEscReturn(gridPath) {
   sessSet(`esc-return:${gridPath}`, "1");
 }
 
+// Clicking the header up-link from a single item page should restore the
+// grid's scroll position exactly like Esc does — flag the return on click,
+// then let the browser navigate. Not a keybind, so it also runs on touch
+// devices (the saver side, trackGridScroll, is active there too). gridPath
+// is the grid's pathname ("/photos/" style); header hrefs are baked without
+// the trailing slash ("/photos"), so the selector prefix strips it while the
+// flag key keeps it (matching trackGridScroll's pathname keys). A stale flag
+// is possible only if navigation never follows the click, and it is consumed
+// harmlessly by the next grid load.
+function bindUpNavRestore(gridPath) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const key = gridPath.endsWith("/") ? gridPath : `${gridPath}/`;
+  const link = document.querySelector(
+    `header a[href^="${gridPath.replace(/\/$/, "")}"]`,
+  );
+  if (!link) {
+    return;
+  }
+  link.addEventListener("click", () => {
+    flagEscReturn(key);
+  });
+}
+
 // Track scroll for the current grid page: persist at departure, and consume
 // a pending Esc return (restore now via rAF, then re-apply on window load
 // only if the user hasn't scrolled meanwhile — late image layout shifts must
@@ -489,11 +527,13 @@ if (typeof module !== "undefined") {
     hasModifier,
     normalizeKey,
     onKey,
+    KEYBINDS_ENABLED,
     isInViewport,
     isFullyInViewport,
     bindDigitNav,
     flagEscReturn,
     trackGridScroll,
+    bindUpNavRestore,
   };
 }
 
@@ -505,11 +545,13 @@ if (typeof globalThis !== "undefined") {
   globalThis.hasModifier = hasModifier;
   globalThis.normalizeKey = normalizeKey;
   globalThis.onKey = onKey;
+  globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
   globalThis.isInViewport = isInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
   globalThis.bindDigitNav = bindDigitNav;
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
+  globalThis.bindUpNavRestore = bindUpNavRestore;
 }
 
 const MEDIA_BASE = "https://f004.backblazeb2.com/file/nash-potato/";
@@ -826,6 +868,11 @@ if (isVideosGrid()) {
 // Skipped on interactive targets so native keyboard activation (focused
 // play/download links) is never hijacked.
 if (isVideoSinglePage()) {
+  // Clicking the header VIDEOS up-link restores the grid's scroll position,
+  // same as Esc (flag-before-navigate). Click bookkeeping, not a keybind, so
+  // it also runs on touch devices.
+  bindUpNavRestore("/videos/");
+
   onKey("enter", (e) => {
     if (e.target && e.target.closest && e.target.closest("a, button")) {
       return;
@@ -994,8 +1041,12 @@ onKey("f", (e) => {
   }
 
   // Hint the header link that Escape actually targets, mirroring the
-  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js.
+  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js. Skipped on
+  // touch devices — never advertise dead keys.
   function applyEscHint() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const href = upHref();
     if (!href) {
       return;

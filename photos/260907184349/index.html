@@ -267,6 +267,17 @@ header a {
 // e.defaultPrevented. Works at build time (require) and in the browser
 // (globals + UMD guard, mirroring month-utils.js).
 
+// Keybinds are skipped on touch-first devices (phones/tablets): no physical
+// keyboard means every keybind + its scroll-driven hint bookkeeping is dead
+// weight. matchMedia pointer test (not ontouchstart) so touchscreen laptops
+// with a mouse primary keep binds. Evaluated once at load — docking a
+// keyboard mid-session needs a reload. Node/ancient browsers default to
+// enabled (safe, current behavior).
+const KEYBINDS_ENABLED =
+  typeof window === "undefined" ||
+  typeof window.matchMedia === "undefined" ||
+  !window.matchMedia("(pointer: coarse)").matches;
+
 function isEditableTarget(target) {
   return (
     target &&
@@ -303,7 +314,7 @@ function normalizeKey(e) {
 // No-ops without a document (build time). The handler owns
 // preventDefault + navigation.
 function onKey(keys, handler, opts = {}) {
-  if (typeof document === "undefined") {
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return;
   }
   const wanted = Array.isArray(keys) ? keys : [keys];
@@ -367,7 +378,9 @@ function isFullyInViewport(el) {
 // rAF-throttled) + resize + load; returns refresh() for manual calls after
 // page re-renders (search). No-ops without a document (build time).
 function bindDigitNav(getLinks, opts = {}) {
-  if (typeof document === "undefined") {
+  // Touch devices skip everything below: no binds, no scroll/resize
+  // listeners, no hint title writes.
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return () => {};
   }
   const label = opts.label || "Open link";
@@ -478,6 +491,31 @@ function flagEscReturn(gridPath) {
   sessSet(`esc-return:${gridPath}`, "1");
 }
 
+// Clicking the header up-link from a single item page should restore the
+// grid's scroll position exactly like Esc does — flag the return on click,
+// then let the browser navigate. Not a keybind, so it also runs on touch
+// devices (the saver side, trackGridScroll, is active there too). gridPath
+// is the grid's pathname ("/photos/" style); header hrefs are baked without
+// the trailing slash ("/photos"), so the selector prefix strips it while the
+// flag key keeps it (matching trackGridScroll's pathname keys). A stale flag
+// is possible only if navigation never follows the click, and it is consumed
+// harmlessly by the next grid load.
+function bindUpNavRestore(gridPath) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const key = gridPath.endsWith("/") ? gridPath : `${gridPath}/`;
+  const link = document.querySelector(
+    `header a[href^="${gridPath.replace(/\/$/, "")}"]`,
+  );
+  if (!link) {
+    return;
+  }
+  link.addEventListener("click", () => {
+    flagEscReturn(key);
+  });
+}
+
 // Track scroll for the current grid page: persist at departure, and consume
 // a pending Esc return (restore now via rAF, then re-apply on window load
 // only if the user hasn't scrolled meanwhile — late image layout shifts must
@@ -513,11 +551,13 @@ if (typeof module !== "undefined") {
     hasModifier,
     normalizeKey,
     onKey,
+    KEYBINDS_ENABLED,
     isInViewport,
     isFullyInViewport,
     bindDigitNav,
     flagEscReturn,
     trackGridScroll,
+    bindUpNavRestore,
   };
 }
 
@@ -529,11 +569,13 @@ if (typeof globalThis !== "undefined") {
   globalThis.hasModifier = hasModifier;
   globalThis.normalizeKey = normalizeKey;
   globalThis.onKey = onKey;
+  globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
   globalThis.isInViewport = isInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
   globalThis.bindDigitNav = bindDigitNav;
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
+  globalThis.bindUpNavRestore = bindUpNavRestore;
 }
 
 // Month names and abbreviations derived from the locale formatter rather
@@ -954,9 +996,12 @@ function filterByQuery(items, query) {
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
+  // Keybind hints in the title only on keyboard devices.
   searchInput.setAttribute(
     "title",
-    "Search —\n/ focus · Esc clear · Enter open first",
+    KEYBINDS_ENABLED
+      ? "Search —\n/ focus · Esc clear · Enter open first"
+      : "Search",
   );
 
   // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
@@ -995,24 +1040,27 @@ if (typeof module !== "undefined") {
   upgradeSearchLinks(document);
 
   // Keyboard hints — applied only here (never baked at build time) since the
-  // P/D/C/Esc shortcuts only work once JS runs.
-  const plantLink = document.querySelector(
-    '.specs a.search-link[href^="/plants/"]',
-  );
-  if (plantLink) plantLink.setAttribute("title", "View plant (P)");
-  const dateLink = document.querySelector(
-    '.specs a.search-link[href^="/photos/"] time',
-  );
-  if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
-  const cameraLink = Array.from(
-    document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
-  ).find((a) => !a.querySelector("time"));
-  if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
-  const photosLink = document.querySelector('header a[href^="/photos"]');
-  if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
-  const originalLink = document.querySelector(".download a");
-  if (originalLink)
-    originalLink.setAttribute("title", "Download original (O)");
+  // P/D/C/Esc shortcuts only work once JS runs. Skipped on touch devices —
+  // never advertise dead keys.
+  if (KEYBINDS_ENABLED) {
+    const plantLink = document.querySelector(
+      '.specs a.search-link[href^="/plants/"]',
+    );
+    if (plantLink) plantLink.setAttribute("title", "View plant (P)");
+    const dateLink = document.querySelector(
+      '.specs a.search-link[href^="/photos/"] time',
+    );
+    if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
+    const cameraLink = Array.from(
+      document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+    ).find((a) => !a.querySelector("time"));
+    if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
+    const photosLink = document.querySelector('header a[href^="/photos"]');
+    if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
+    const originalLink = document.querySelector(".download a");
+    if (originalLink)
+      originalLink.setAttribute("title", "Download original (O)");
+  }
 
   // Swipe state — horizontal swipe anywhere on the page navigates prev/next,
   // mirroring the J/K keybinds via the shared navHref resolver.
@@ -1036,6 +1084,11 @@ if (typeof module !== "undefined") {
     }
   }
   scopeHeaderPhotosLink();
+
+  // Clicking the header PHOTOS up-link restores the grid's scroll position,
+  // same as Esc (flag-before-navigate; works with the scoped ?q href too,
+  // since flags are pathname-keyed).
+  bindUpNavRestore("/photos/");
 
   // Query-scoped prev/next slugs, computed from /photos/photo-data.json once a
   // query is present. J/K and the visible nav both use this so keyboard
@@ -1106,8 +1159,12 @@ if (typeof module !== "undefined") {
   }
 
   // Prev/next titles are applied here (never baked at build time) since J/K
-  // only work once JS runs.
+  // only work once JS runs. Skipped on touch devices — never advertise dead
+  // keys.
   function applyNavTitles() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const prev = document.querySelector(".photo-nav-prev[href]");
     const next = document.querySelector(".photo-nav-next[href]");
     if (prev) prev.setAttribute("title", "Previous (K)");
@@ -1346,8 +1403,12 @@ if (typeof module !== "undefined") {
   }
 
   // Hint the header link that Escape actually targets, mirroring the
-  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js.
+  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js. Skipped on
+  // touch devices — never advertise dead keys.
   function applyEscHint() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
     const href = upHref();
     if (!href) {
       return;
