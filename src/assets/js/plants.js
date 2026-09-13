@@ -49,10 +49,11 @@ function escAttr(s) {
 // ---------------------------------------------------------------------------
 // generatePlantList — shared renderer used at build time (Node.js) and at
 // runtime by the search feature. Pure function: data in, HTML string out.
-// parentPath/collapsedSet thread toggle identity + persisted state; both
-// default off so build-time output stays fully expanded.
+// Always bakes the default (expanded); user overrides are applied afterward
+// by applyCollapsedFromStorage, the single place where stored state meets
+// baked DOM. parentPath threads toggle identity for data-path.
 // ---------------------------------------------------------------------------
-function generatePlantList(taxonomy, level = 0, parentPath = "", collapsedSet = null) {
+function generatePlantList(taxonomy, level = 0, parentPath = "") {
   let html = "";
   const indent = "  ".repeat(level);
 
@@ -66,9 +67,7 @@ function generatePlantList(taxonomy, level = 0, parentPath = "", collapsedSet = 
     // List item — toggle affordance only when subtree has meaningful depth
     if (hasMultipleChildren) {
       const path = nodePath(parentPath, node.name);
-      const collapsed = !!(collapsedSet && collapsedSet.has(path));
-      const cls = collapsed ? ` class="has-children collapsed"` : ` class="has-children"`;
-      html += `${indent}<li${cls} data-path="${escAttr(path)}">${toggleHandle(collapsed)}${content}</li>\n`;
+      html += `${indent}<li class="has-children" data-path="${escAttr(path)}" data-baked="false">${toggleHandle(false)}${content}</li>\n`;
     } else {
       html += `${indent}<li>${content}</li>\n`;
     }
@@ -76,7 +75,7 @@ function generatePlantList(taxonomy, level = 0, parentPath = "", collapsedSet = 
     // Recurse into children (leaf species + taxonomy sub-nodes in one UL)
     if (children.length > 0) {
       html += `${indent}<ul>\n`;
-      html += generatePlantList(children, level + 1, nodePath(parentPath, node.name), collapsedSet);
+      html += generatePlantList(children, level + 1, nodePath(parentPath, node.name));
       html += `${indent}</ul>\n`;
     }
   }
@@ -177,9 +176,9 @@ function collapseAll() {
     setCollapsed(li, siblingUls(li), true);
   });
   treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
-    savedCollapsed.add(li.getAttribute("data-path"));
+    savedOverrides.set(li.getAttribute("data-path"), true);
   });
-  saveCollapsedSet(savedCollapsed);
+  saveOverrides(savedOverrides);
 }
 
 function expandAll() {
@@ -187,53 +186,67 @@ function expandAll() {
   if (!treeEl) return;
   treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.remove("collapsed"));
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
-  savedCollapsed.clear();
-  saveCollapsedSet(savedCollapsed);
+  treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
+    savedOverrides.set(li.getAttribute("data-path"), false);
+  });
+  saveOverrides(savedOverrides);
 }
 
 // ---------------------------------------------------------------------------
-// Toggle persistence — collapsed subtrees survive reload / back-forward for
-// the tab session via sessionStorage, in the static view and inside search
-// views alike. The stored set belongs to the current query: whenever the
-// query is created, cleared, or changed, the set is wiped and collapsing
-// starts fresh. Paths with no matching node are silently dropped on apply.
-// All storage access is best-effort (private mode falls back to in-memory
-// only); sessGet/sessSet/sessDel come from keybind-utils.js (loaded first;
-// see templates/plants.js).
+// Toggle persistence — explicit user toggles survive reload / back-forward
+// for the tab session via sessionStorage, in the static view and inside
+// search views alike: each entry records collapsed (true) or expanded
+// (false) against whatever the renderer baked, so re-renders replay intent
+// instead of defaults. The stored map belongs to the current query:
+// whenever the query is created, cleared, or changed, it is wiped and
+// collapsing starts fresh. Paths with no matching node are silently dropped
+// on apply. All storage access is best-effort (private mode falls back to
+// in-memory only); sessGet/sessSet/sessDel come from keybind-utils.js
+// (loaded first; see templates/plants.js).
 // ---------------------------------------------------------------------------
 const PLANTS_COLLAPSED_KEY = "plants:collapsed:/plants/";
 
-let savedCollapsed = loadCollapsedSet();
+let savedOverrides = loadOverrides();
 
-function loadCollapsedSet() {
+function loadOverrides() {
   try {
-    if (typeof sessGet !== "function") return new Set();
+    if (typeof sessGet !== "function") return new Map();
     const raw = sessGet(PLANTS_COLLAPSED_KEY);
-    if (!raw) return new Set();
-    const arr = JSON.parse(raw);
-    return new Set(
-      Array.isArray(arr) ? arr.filter((s) => typeof s === "string") : [],
+    if (!raw) return new Map();
+    const data = JSON.parse(raw);
+    if (Array.isArray(data)) {
+      // Legacy collapsed-path array → explicit collapsed overrides.
+      return new Map(
+        data.filter((s) => typeof s === "string").map((p) => [p, true]),
+      );
+    }
+    const o = data && data.overrides;
+    if (!o || typeof o !== "object") return new Map();
+    return new Map(
+      Object.entries(o).filter(
+        ([p, v]) => typeof p === "string" && typeof v === "boolean",
+      ),
     );
   } catch (_err) {
-    return new Set();
+    return new Map();
   }
 }
 
-function saveCollapsedSet(set) {
+function saveOverrides(map) {
   try {
     if (typeof sessSet !== "function" || typeof sessDel !== "function") return;
-    if (!set || set.size === 0) {
+    if (!map || map.size === 0) {
       sessDel(PLANTS_COLLAPSED_KEY);
       return;
     }
-    sessSet(PLANTS_COLLAPSED_KEY, JSON.stringify([...set]));
+    sessSet(PLANTS_COLLAPSED_KEY, JSON.stringify({ overrides: Object.fromEntries(map) }));
   } catch (_err) {
     // ignore — persistence is best-effort
   }
 }
 
 function clearCollapsedStorage() {
-  savedCollapsed.clear();
+  savedOverrides.clear();
   try {
     if (typeof sessDel === "function") sessDel(PLANTS_COLLAPSED_KEY);
   } catch (_err) {
@@ -245,20 +258,23 @@ function persistToggle(li) {
   if (typeof document === "undefined") return;
   const path = li && li.getAttribute && li.getAttribute("data-path");
   if (!path) return;
-  if (li.classList.contains("collapsed")) {
-    savedCollapsed.add(path);
+  const collapsed = li.classList.contains("collapsed");
+  const baked = li.getAttribute("data-baked") === "true";
+  // Store only deviations from the baked default; toggling back to it
+  // removes the entry, so the map stays minimal.
+  if (collapsed === baked) {
+    savedOverrides.delete(path);
   } else {
-    savedCollapsed.delete(path);
+    savedOverrides.set(path, collapsed);
   }
-  saveCollapsedSet(savedCollapsed);
+  saveOverrides(savedOverrides);
 }
 
-// Re-apply the stored set to the current tree. resetOthers selects the
-// default for unstored nodes: true in the static view (everything starts
-// expanded), false in search views (untouched nodes keep their baked
-// relevance collapse; only stored collapses are enforced). Prunes paths
-// with no matching node.
-function applyCollapsedFromStorage(resetOthers) {
+// Enforce stored overrides on the current tree, in any view. Nodes without
+// an entry keep their baked state (static default expanded, search
+// relevance collapse), so this never flattens defaults — it only replays
+// explicit user toggles. Prunes entries with no matching node.
+function applyCollapsedFromStorage() {
   if (typeof document === "undefined") return;
   const treeEl = document.getElementById("plant-tree");
   if (!treeEl) return;
@@ -266,8 +282,8 @@ function applyCollapsedFromStorage(resetOthers) {
   treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
     const path = li.getAttribute("data-path");
     present.add(path);
-    if (savedCollapsed.has(path) || resetOthers) {
-      const collapsed = savedCollapsed.has(path);
+    if (savedOverrides.has(path)) {
+      const collapsed = savedOverrides.get(path);
       setCollapsed(li, siblingUls(li), collapsed);
       for (const child of li.children) {
         if (child.classList && child.classList.contains("toggle")) {
@@ -277,16 +293,16 @@ function applyCollapsedFromStorage(resetOthers) {
     }
   });
   let pruned = false;
-  for (const p of savedCollapsed) {
+  for (const p of savedOverrides.keys()) {
     if (!present.has(p)) {
-      savedCollapsed.delete(p);
+      savedOverrides.delete(p);
       pruned = true;
     }
   }
-  if (pruned) saveCollapsedSet(savedCollapsed);
+  if (pruned) saveOverrides(savedOverrides);
 }
 
-applyCollapsedFromStorage(true);
+applyCollapsedFromStorage();
 
 // upgradeSearchLinks / updateUrl / bindSearchInput / bindSlashToFocus /
 // bindEscapeToClear come from search-utils.js (loaded first; see
@@ -385,7 +401,8 @@ applyCollapsedFromStorage(true);
 
   // Render a single node's <li> with optional toggle + highlight. path is
   // the node's ancestral identity (see nodePath); emitted as data-path on
-  // toggleable labels for collapse persistence.
+  // toggleable labels for collapse persistence, alongside data-baked (the
+  // relevance default persistToggle compares against).
   function nodeLabelHtml(node, extraClass, q, hasChildren, startCollapsed, path = null) {
     const classes = [
       extraClass,
@@ -393,11 +410,13 @@ applyCollapsedFromStorage(true);
       startCollapsed && "collapsed",
     ].filter(Boolean);
     const cls = classes.length ? ` class="${classes.join(" ")}"` : "";
-    const dataPath = hasChildren && path ? ` data-path="${escAttr(path)}"` : "";
+    const dataAttrs = hasChildren && path
+      ? ` data-path="${escAttr(path)}" data-baked="${!!startCollapsed}"`
+      : "";
     const toggle = hasChildren ? toggleHandle(startCollapsed) : "";
     const content = buildNodeContent(node, (s) => highlightMatch(s, q));
 
-    return `<li${cls}${dataPath}>${toggle}${content}</li>\n`;
+    return `<li${cls}${dataAttrs}>${toggle}${content}</li>\n`;
   }
 
   // Render the pruned search-result tree (merged ancestor chains).
@@ -575,7 +594,7 @@ applyCollapsedFromStorage(true);
       const path = nodePath(parentPath, node.name);
 
       const label = hasMultipleChildren
-        ? `${indent}<li class="has-children collapsed" data-path="${escAttr(path)}">${toggleHandle(true)}${content}</li>\n`
+        ? `${indent}<li class="has-children collapsed" data-path="${escAttr(path)}" data-baked="true">${toggleHandle(true)}${content}</li>\n`
         : `${indent}<li>${content}</li>\n`;
 
       if (children.length > 0) {
@@ -589,16 +608,16 @@ applyCollapsedFromStorage(true);
     return html;
   }
 
-  // Swap tree contents and toggle the search-active attribute. Search
-  // renders enforce stored collapses but keep their baked relevance
-  // collapse otherwise; the static view resets unstored nodes to expanded.
+  // Swap tree contents and toggle the search-active attribute, then replay
+  // explicit user toggles over the baked defaults (static expanded, search
+  // relevance collapse).
   function renderTree(html, isSearch) {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) return;
     treeEl.innerHTML = html;
     upgradeSearchLinks(treeEl);
     treeEl.closest(".plant-list")?.toggleAttribute("data-search-active", isSearch);
-    applyCollapsedFromStorage(!isSearch);
+    applyCollapsedFromStorage();
     updatePhotoHint();
     refreshDigitNav();
     refreshToggleHints();
@@ -892,7 +911,7 @@ applyCollapsedFromStorage(true);
       clearCollapsedStorage();
     }
     if (!query.trim()) {
-      renderTree(generatePlantList(plantData.taxonomy, 0, "", savedCollapsed), false);
+      renderTree(generatePlantList(plantData.taxonomy), false);
     } else {
       const result = runSearch(query);
       if (!result) {
@@ -917,5 +936,12 @@ applyCollapsedFromStorage(true);
 // (generatePlantList) and Node harnesses to exercise the toggle helpers.
 // ---------------------------------------------------------------------------
 if (typeof module !== "undefined") {
-  module.exports = { generatePlantList, siblingUls, setCollapsed, toggleNode };
+  module.exports = {
+    generatePlantList,
+    siblingUls,
+    setCollapsed,
+    toggleNode,
+    persistToggle,
+    applyCollapsedFromStorage,
+  };
 }
