@@ -192,8 +192,7 @@ function filterByQuery(items, query) {
   // filtered) grid. Viewport refresh happens on scroll/resize plus
   // performSearch below. Declared before bindSearchInput so the initial
   // query restore can already refresh hints (function-scoped const would
-  // otherwise hit TDZ). Enter below keeps using numberedItem (first match
-  // overall, regardless of viewport).
+  // otherwise hit TDZ).
   const refreshDigitNav = bindDigitNav(
     () => {
       const links = [];
@@ -240,9 +239,11 @@ function filterByQuery(items, query) {
   // Restore query from URL, debounce input, handle popstate (search-utils.js).
   bindSearchInput(searchInput, performSearch);
 
-  // Enter on a populated search navigates to the first matching photo —
-  // allowInEditable because the handler explicitly manages the focused-input
-  // case below (other text-editing fields are still ignored).
+  // Enter on a populated search applies the filter, then drops focus so
+  // "1"–"9" opens the nth visible photo (digits type into a focused input
+  // instead of navigating). allowInEditable because the handler explicitly
+  // manages the focused-input case below (other text-editing fields are
+  // still ignored).
   onKey(
     "enter",
     (e) => {
@@ -257,40 +258,25 @@ function filterByQuery(items, query) {
       }
       // Apply the filter now so Enter works even before the 500ms debounce fires.
       performSearch(searchInput.value);
-      const first = numberedItem(1);
-      const link = first && first.querySelector("a[href]");
-      if (link) {
-        e.preventDefault();
-        window.location.href = link.getAttribute("href");
-      }
+      e.preventDefault();
+      searchInput.blur();
     },
     { allowInEditable: true },
   );
 
   searchInput.removeAttribute("disabled");
   searchInput.setAttribute("placeholder", "🔍 Search…");
-  // Keybind hints in the title only on keyboard devices.
+  // Keybind hints in the title only on keyboard devices. Trailing "( /)"
+  // group badges the focus key in the ? overlay (keybinds.js).
   searchInput.setAttribute(
     "title",
     KEYBINDS_ENABLED
-      ? "Search —\n/ focus · Esc clear · Enter open first"
+      ? "Search — clear (Esc) · apply + blur (Enter) · focus (/)"
       : "Search",
   );
 
   // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
-
-  // numberedItem resolves the nth visible photo for Enter above (first match
-  // overall); "1"–"9" is owned by refreshDigitNav (in-viewport grid links).
-  function numberedItem(n) {
-    const visible = [];
-    for (const el of grid.querySelectorAll(".photo-item")) {
-      if (!el.hidden) {
-        visible.push(el);
-      }
-    }
-    return visible[n - 1] || null;
-  }
 
   // Esc clears the search (and its URL) even when the input isn't focused.
   // Shared binder also preventDefaults so the global up-nav skips this press.
