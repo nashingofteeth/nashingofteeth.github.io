@@ -139,7 +139,9 @@ function notifyHintsChanged() {
 // restored when the link leaves the set. Base title is the link's own title,
 // else its text (40 chars), else opts.label. Refreshes on scroll (passive,
 // rAF-throttled) + resize + load; returns refresh() for manual calls after
-// page re-renders (search). No-ops without a document (build time).
+// page re-renders (search). opts.ignoreWhen() (optional) vetoes a digit
+// press before navigation — lets a page reserve plain digits while its own
+// chord (plants p+digit) owns them. No-ops without a document (build time).
 function bindDigitNav(getLinks, opts = {}) {
   // Touch devices skip everything below: no binds, no scroll/resize
   // listeners, no hint title writes.
@@ -212,6 +214,9 @@ function bindDigitNav(getLinks, opts = {}) {
     // Shift+digit belongs to page-specific binds (plants toggles shift the
     // nth subtree); plain digits only here so the two never double-fire.
     if (e.shiftKey) {
+      return;
+    }
+    if (typeof opts.ignoreWhen === "function" && opts.ignoreWhen()) {
       return;
     }
     const links = currentLinks();
