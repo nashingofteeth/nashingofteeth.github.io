@@ -24,7 +24,7 @@ function buildNodeContent(node, formatText) {
       ? ` <span class="aliases">(${aliases.map((a) => fmt(a)).join(", ")})</span>`
       : "";
     if (node.file.wikipedia) {
-      content = `<a class="plant-wiki-link" href="${node.file.wikipedia}" target="_blank">${fmt(node.name)}</a>${aliasText}`;
+      content = `<a class="plant-wiki-link" href="${node.file.wikipedia}">${fmt(node.name)}</a>${aliasText}`;
     } else {
       content = fmt(node.name) + aliasText;
     }
