@@ -137,7 +137,7 @@ function isEntirelyInViewport(el) {
 // a fresh candidate list. Short lists (<10) stay zero-latency: a lone digit
 // is unambiguous, so it flushes immediately. Any other keydown or window
 // blur cancels without acting, so a stray "1" never surprise-navigates.
-function digitSequence({ timeoutMs = 400, getCount, onDone }) {
+function digitSequence({ timeoutMs = 250, getCount, onDone }) {
   if (typeof document === "undefined") {
     return { feed: () => {}, cancel: () => {} };
   }
