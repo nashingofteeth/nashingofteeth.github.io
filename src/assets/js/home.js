@@ -10,25 +10,31 @@
     return;
   }
 
+  // Cached link index: the old per-keypress scan ran querySelectorAll over
+  // every <a> for each of 8 keys (plus 8 scans at hint-apply time). One pass
+  // at load instead; the homepage DOM is static.
+  const internalBySection = new Map();
+  const externalByFragment = new Map();
+  for (const a of document.querySelectorAll("a[href]")) {
+    const raw = (a.getAttribute("href") || "").trim();
+    const normalized = raw.replace(/^\/|\/$/g, "");
+    if (!internalBySection.has(normalized)) {
+      internalBySection.set(normalized, a);
+    }
+    const href = raw.toLowerCase();
+    for (const fragment of ["github.com", "letterboxd.com", "rateyourmusic.com", "instagram.com"]) {
+      if (href.includes(fragment) && !externalByFragment.has(fragment)) {
+        externalByFragment.set(fragment, a);
+      }
+    }
+  }
+
   function findInternalLink(section) {
-    const links = Array.from(document.querySelectorAll("a[href]"));
-    return (
-      links.find((a) => {
-        const raw = (a.getAttribute("href") || "").trim();
-        const normalized = raw.replace(/^\/|\/$/g, "");
-        return normalized === section;
-      }) || null
-    );
+    return internalBySection.get(section) || null;
   }
 
   function findExternalLink(fragment) {
-    const links = Array.from(document.querySelectorAll("a[href]"));
-    return (
-      links.find((a) => {
-        const href = (a.getAttribute("href") || "").toLowerCase();
-        return href.includes(fragment);
-      }) || null
-    );
+    return externalByFragment.get(fragment) || null;
   }
 
   function homepageLinkFor(key) {

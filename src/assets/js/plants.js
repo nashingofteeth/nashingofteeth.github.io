@@ -660,46 +660,36 @@ applyCollapsedFromStorage();
   // "/" focuses search + Esc clears it (shared search-utils.js binders).
   bindSlashToFocus(searchInput);
 
-  // p chord state for the nth-photo binds below (declared up here so the
-  // digit-nav reservation below can read it). Sticky like s/c/t: a tap arms
-  // until p is tapped again (or another leader switches it off); held tracks
-  // a physically-held p for the simultaneous encoding. timer carries the
-  // one-shot exact-match fallthrough scheduled on arm — cancelled by a digit
-  // press, disarm, or blur. Mutated by the raw trackers further below.
-  const pChord = { held: false, armed: false, timer: 0 };
-
-  function pChordActive() {
-    return pChord.held || pChord.armed;
-  }
-
-  // s/c chord state for the nth-taxa binds below. Sticky, not timed: a tap
-  // arms the chord until the same key is tapped again (pressing another
+  // Chord state for the nth-photo / nth-taxa / nth-toggle binds. Sticky, not
+  // timed: a tap arms the chord until the same key is tapped again (another
   // leader — p/s/c/t — switches), so the revealed number hints stay up and
-  // digits keep addressing the chord across uses. held still tracks a
-  // physically-held key for the simultaneous encoding. Shift never arms,
-  // keeping Shift+digit free.
-  const sChord = { held: false, armed: false };
-  const cChord = { held: false, armed: false };
-  const tChord = { held: false, armed: false };
+  // digits keep addressing the chord across uses. held tracks a physically-
+  // held key for the simultaneous encoding; Shift never arms, keeping
+  // Shift+digit free. p additionally carries timer, the one-shot exact-match
+  // fallthrough scheduled on arm — cancelled by a digit press, disarm, or
+  // blur. Declared up here so the digit-nav reservation below can read it.
+  // Mutated by the raw trackers further below.
+  const chords = {
+    p: { held: false, armed: false, timer: 0 },
+    s: { held: false, armed: false },
+    c: { held: false, armed: false },
+    t: { held: false, armed: false },
+  };
 
-  function chordActive(ch) {
-    return ch.held || ch.armed;
+  function chordActive(keyOrChord) {
+    const ch = typeof keyOrChord === "string"
+      ? chords[keyOrChord]
+      : keyOrChord;
+    return Boolean(ch && (ch.held || ch.armed));
   }
 
   function chordForKey(key) {
-    if (key === "p") {
-      return pChord;
-    }
-    if (key === "s") {
-      return sChord;
-    }
-    if (key === "c") {
-      return cChord;
-    }
-    if (key === "t") {
-      return tChord;
-    }
-    return null;
+    return chords[key] || null;
+  }
+
+  function anyChordActive() {
+    return chordActive("p") || chordActive("s") || chordActive("c") ||
+      chordActive("t");
   }
 
   // Hint-bar copy (rendered by the ? overlay's floating bar). The bar only
@@ -722,7 +712,8 @@ applyCollapsedFromStorage();
   }
 
   function armChord(key, chord) {
-    for (const other of [pChord, sChord, cChord, tChord]) {
+    for (const otherKey of Object.keys(chords)) {
+      const other = chords[otherKey];
       if (other !== chord && other.armed) {
         disarmChord(other);
       }
@@ -735,14 +726,13 @@ applyCollapsedFromStorage();
 
   function disarmChord(chord) {
     chord.armed = false;
-    if (chord === pChord && pChord.timer) {
-      clearTimeout(pChord.timer);
-      pChord.timer = 0;
+    if (chord === chords.p && chords.p.timer) {
+      clearTimeout(chords.p.timer);
+      chords.p.timer = 0;
     }
-    tSeq.cancel();
-    pSeq.cancel();
-    sSeq.cancel();
-    cSeq.cancel();
+    for (const seq of Object.values(chordSeqs)) {
+      seq.cancel();
+    }
     if (document.body.dataset && document.body.dataset.chord) {
       delete document.body.dataset.chord;
     }
@@ -753,49 +743,50 @@ applyCollapsedFromStorage();
   // One digit-sequence accumulator per nth consumer (see digitSequence):
   // short lists resolve single digits immediately, longer lists wait for a
   // possible second digit. Defined up here so arm/disarm can cancel them.
-  const tSeq = digitSequence({
-    getCount: () => currentToggles().length,
-    onDone: (buffer) => {
-      const li = currentToggles()[Number(buffer) - 1];
-      const toggle = li && li.querySelector(".toggle");
-      if (toggle) {
-        toggleNode(toggle);
-        refreshTaxaHints();
-      }
-    },
-  });
-
-  const pSeq = digitSequence({
-    getCount: () => currentPhotoLinks().length,
-    onDone: (buffer) => {
-      const link = currentPhotoLinks()[Number(buffer) - 1];
-      if (link) {
-        window.location.href = link.getAttribute("href");
-      }
-    },
-  });
-
-  const sSeq = digitSequence({
-    getCount: () => currentTaxa().length,
-    onDone: (buffer) => {
-      const li = currentTaxa()[Number(buffer) - 1];
-      const name = taxaNameFromLi(li);
-      if (li && name) {
-        searchForTaxa(name);
-      }
-    },
-  });
-
-  const cSeq = digitSequence({
-    getCount: () => currentTaxa().length,
-    onDone: (buffer) => {
-      const li = currentTaxa()[Number(buffer) - 1];
-      const name = taxaNameFromLi(li);
-      if (li && name) {
-        copyTaxaName(name);
-      }
-    },
-  });
+  // Declared as a table so arm/disarm, blur, and the digit factory below
+  // share one loop instead of four named copies.
+  const chordSeqs = {
+    t: digitSequence({
+      getCount: () => currentToggles().length,
+      onDone: (buffer) => {
+        const li = currentToggles()[Number(buffer) - 1];
+        const toggle = li && li.querySelector(".toggle");
+        if (toggle) {
+          toggleNode(toggle);
+          refreshTaxaHints();
+        }
+      },
+    }),
+    p: digitSequence({
+      getCount: () => currentPhotoLinks().length,
+      onDone: (buffer) => {
+        const link = currentPhotoLinks()[Number(buffer) - 1];
+        if (link) {
+          window.location.href = link.getAttribute("href");
+        }
+      },
+    }),
+    s: digitSequence({
+      getCount: () => currentTaxa().length,
+      onDone: (buffer) => {
+        const li = currentTaxa()[Number(buffer) - 1];
+        const name = taxaNameFromLi(li);
+        if (li && name) {
+          searchForTaxa(name);
+        }
+      },
+    }),
+    c: digitSequence({
+      getCount: () => currentTaxa().length,
+      onDone: (buffer) => {
+        const li = currentTaxa()[Number(buffer) - 1];
+        const name = taxaNameFromLi(li);
+        if (li && name) {
+          copyTaxaName(name);
+        }
+      },
+    }),
+  };
 
   // "1"–"9" opens the nth top-visible wikipedia link (taxa only — photo
   // links and toggles never bind). Suppressed while a p/s/c/t chord is
@@ -806,16 +797,16 @@ applyCollapsedFromStorage();
     () =>
       Array.from(document.querySelectorAll("#plant-tree a.plant-wiki-link[href]")),
     {
-      ignoreWhen: () =>
-        pChordActive() || chordActive(sChord) || chordActive(cChord) || chordActive(tChord),
+      ignoreWhen: () => anyChordActive(),
     },
   );
 
   // p chords open the nth visible photo link (same tab): hold p and tap
-  // 1–9, or tap p then 1–9 within the arm window. Enter only applies the
-  // filter + blurs (digits pick the photo); see below.
+  // 1–9, or tap p to arm then 1–9 (sticky until p is tapped again or another
+  // leader switches). Enter only applies the filter + blurs (digits pick the
+  // photo); see below.
 
-  // Photo hints — mark every entirely-visible photo link with " (Pn)"
+  // Photo hints — mark every fully-visible photo link with " (Pn)"
   // title suffixes, mirroring the digit-nav "(n)" and toggle hints: numbers
   // track the links the chords act on, so type multi-digit sequences for
   // double-digit candidates. Every photo link in the tree (matches and
@@ -832,15 +823,14 @@ applyCollapsedFromStorage();
       if (link.closest("ul.collapsed")) {
         continue;
       }
-      if (isEntirelyInViewport(link)) {
+      if (isFullyInViewport(link)) {
         top.push(link);
       }
     }
     return top;
   }
 
-  const savedPhotoTitles = new WeakMap();
-  let hintedPhoto = [];
+  const photoHintTracker = createHintTracker();
 
   function refreshPhotoHints() {
     if (!KEYBINDS_ENABLED) {
@@ -851,29 +841,11 @@ applyCollapsedFromStorage();
       return;
     }
     const next = currentPhotoLinks();
-    const same = next.length === hintedPhoto.length &&
-      next.every((link, i) => link === hintedPhoto[i]);
-    if (!same) {
-      for (const link of hintedPhoto) {
-        if (savedPhotoTitles.has(link)) {
-          const original = savedPhotoTitles.get(link);
-          if (original) {
-            link.setAttribute("title", original);
-          } else {
-            link.removeAttribute("title");
-          }
-        }
-      }
-      hintedPhoto = next;
-      hintedPhoto.forEach((link, i) => {
-        if (!savedPhotoTitles.has(link)) {
-          savedPhotoTitles.set(link, link.getAttribute("title"));
-        }
-        const current = link.getAttribute("title") || "";
-        const base = current.replace(/\s\(P\d+\)$/, "") || "Open photo";
-        link.setAttribute("title", `${base} (P${i + 1})`);
-      });
-    }
+    photoHintTracker.setHints(next, (link, i) => {
+      const current = link.getAttribute("title") || "";
+      const base = current.replace(/\s\(P\d+\)$/, "") || "Open photo";
+      return `${base} (P${i + 1})`;
+    });
     notifyHintsChanged();
   }
 
@@ -907,14 +879,14 @@ applyCollapsedFromStorage();
       if (li.closest("ul.collapsed")) {
         continue;
       }
-      if (isEntirelyInViewport(li)) {
+      if (isFullyInViewport(li)) {
         top.push(li);
       }
     }
     return top;
   }
 
-  // t-chord candidates: only toggleable taxa, entirely in viewport.
+  // t-chord candidates: only toggleable taxa, fully in viewport.
   // Numbering is independent of currentTaxa — a row can be t1 while being
   // s3/c3 — so the shared hint group carries per-chord indices.
   function currentToggles() {
@@ -930,7 +902,7 @@ applyCollapsedFromStorage();
       if (li.closest("ul.collapsed")) {
         continue;
       }
-      if (isEntirelyInViewport(li)) {
+      if (isFullyInViewport(li)) {
         top.push(li);
       }
     }
@@ -984,9 +956,7 @@ applyCollapsedFromStorage();
   // hides li badges); an armed chord (body[data-chord]) flips titles to just
   // "(N)" in that chord's numbering, revealed left of each candidate.
   // Skipped on touch devices.
-  const savedTaxaTitles = new WeakMap();
-  let hintedTaxa = [];
-  let hintedTaxaMode = "";
+  const taxaHintTracker = createHintTracker();
 
   function stripTaxaHintGroup(title) {
     return title
@@ -1021,47 +991,28 @@ applyCollapsedFromStorage();
     // top-9 still get their t hint).
     const seen = new Set(taxa);
     const next = taxa.concat(toggles.filter((li) => !seen.has(li)));
-    const same = mode === hintedTaxaMode &&
-      next.length === hintedTaxa.length &&
-      next.every((li, i) => li === hintedTaxa[i]);
-    if (!same) {
-      for (const li of hintedTaxa) {
-        if (savedTaxaTitles.has(li)) {
-          const original = savedTaxaTitles.get(li);
-          if (original) {
-            li.setAttribute("title", original);
-          } else {
-            li.removeAttribute("title");
-          }
+    taxaHintTracker.setHints(next, (li) => {
+      const current = li.getAttribute("title") || "";
+      const base = stripTaxaHintGroup(current) || taxaNameFromLi(li);
+      let group;
+      if (mode !== "group") {
+        const n = chord === "t" ? tIndexOf.get(li) : sIndexOf.get(li);
+        group = n ? `(${n})` : null;
+      } else {
+        const parts = [];
+        if (tIndexOf.has(li)) {
+          parts.push(`t${tIndexOf.get(li)}`);
         }
+        if (sIndexOf.has(li)) {
+          parts.push(`s${sIndexOf.get(li)}`, `c${sIndexOf.get(li)}`);
+        }
+        group = parts.length ? `(${parts.join("/")})` : null;
       }
-      hintedTaxaMode = mode;
-      hintedTaxa = next;
-      hintedTaxa.forEach((li) => {
-        if (!savedTaxaTitles.has(li)) {
-          savedTaxaTitles.set(li, li.getAttribute("title"));
-        }
-        const current = li.getAttribute("title") || "";
-        const base = stripTaxaHintGroup(current) || taxaNameFromLi(li);
-        let group;
-        if (mode !== "group") {
-          const n = chord === "t" ? tIndexOf.get(li) : sIndexOf.get(li);
-          group = n ? `(${n})` : null;
-        } else {
-          const parts = [];
-          if (tIndexOf.has(li)) {
-            parts.push(`t${tIndexOf.get(li)}`);
-          }
-          if (sIndexOf.has(li)) {
-            parts.push(`s${sIndexOf.get(li)}`, `c${sIndexOf.get(li)}`);
-          }
-          group = parts.length ? `(${parts.join("/")})` : null;
-        }
-        if (group) {
-          li.setAttribute("title", `${base} ${group}`);
-        }
-      });
-    }
+      if (group) {
+        return `${base} ${group}`;
+      }
+      return current || null;
+    }, mode);
     notifyHintsChanged();
   }
 
@@ -1102,28 +1053,44 @@ applyCollapsedFromStorage();
     refreshTaxaHints();
   });
 
-  // t + digits toggles the nth entirely-visible taxon's subtree — type a
-  // multi-digit sequence for double-digit candidates. Plain digits stay
-  // with digit-nav (which skips shifted presses); Shift+digit stays free.
-  onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-    (e, key) => {
-      if (e.shiftKey) {
-        return;
-      }
-      if (!chordActive(tChord)) {
-        return;
-      }
-      if (e.target && e.target.closest && e.target.closest(".toggle")) {
-        return;
-      }
-      if (document.activeElement === searchInput) {
-        return;
-      }
-      e.preventDefault();
-      tSeq.feed(key);
-    },
-  );
+  // Chord + digits acts on the nth fully-visible candidate — t toggles the
+  // nth taxon's subtree, p opens the nth photo, s searches the nth taxon, c
+  // copies the nth taxon name. Type multi-digit sequences for double-digit
+  // candidates. Plain digits stay with digit-nav; Shift+digit is ignored
+  // everywhere (no page binds it), so a shifted press never lands here. Only
+  // fires outside the search input / editable targets so typing never
+  // navigates away (central onKey guard + the explicit checks below).
+  function bindChordDigits(key) {
+    onKey(
+      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+      (e, digit) => {
+        if (e.shiftKey) {
+          return;
+        }
+        if (!chordActive(key)) {
+          return;
+        }
+        if (e.target && e.target.closest && e.target.closest(".toggle")) {
+          return;
+        }
+        if (document.activeElement === searchInput) {
+          return;
+        }
+        // A p-chord digit press cancels the pending exact-match fallthrough —
+        // the user addressed a number, not a bare p.
+        if (key === "p" && chords.p.timer) {
+          clearTimeout(chords.p.timer);
+          chords.p.timer = 0;
+        }
+        e.preventDefault();
+        chordSeqs[key].feed(digit);
+      },
+    );
+  }
+  bindChordDigits("t");
+  bindChordDigits("p");
+  bindChordDigits("s");
+  bindChordDigits("c");
 
   if (KEYBINDS_ENABLED) {
     let treeHintsRaf = false;
@@ -1137,7 +1104,6 @@ applyCollapsedFromStorage();
         treeHintsRaf = false;
         refreshTaxaHints();
         refreshPhotoHints();
-        refreshTaxaHints();
       });
     };
     document.addEventListener("scroll", scheduleTreeHints, { passive: true });
@@ -1149,7 +1115,6 @@ applyCollapsedFromStorage();
   applyControlHints();
   refreshTaxaHints();
   refreshPhotoHints();
-  refreshTaxaHints();
 
   // Keep the hints in sync when collapse/expand toggles change visibility
   // without a re-render (toggle clicks, keyboard, collapseAll/expandAll).
@@ -1162,36 +1127,14 @@ applyCollapsedFromStorage();
         refreshPhotoHints();
         refreshDigitNav();
         refreshTaxaHints();
-        refreshTaxaHints();
       });
       observer.observe(hintTreeEl, { attributes: true, subtree: true, attributeFilter: ["class"] });
     }
   }
 
-  // Enter → apply the filter, then drop focus so "1"–"9" opens the nth
-  // top-visible match (digits type into a focused input instead of
-  // navigating). Empty search has nothing to apply but still blurs.
-  // allowInEditable because the handler explicitly manages the focused-input
-  // case below (other text-editing fields are still ignored).
-  onKey(
-    "enter",
-    (e) => {
-      if (e.target && e.target.closest && e.target.closest(".toggle")) return;
-      const q = searchInput.value.trim();
-      if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
-      if (!q) {
-        if (e.target === searchInput) {
-          e.preventDefault();
-          searchInput.blur();
-        }
-        return;
-      }
-      performSearch(searchInput.value);
-      e.preventDefault();
-      searchInput.blur();
-    },
-    { allowInEditable: true },
-  );
+  // Enter applies the filter, then drops focus so digits navigate (shared
+  // binder — identical to the photos grid behavior).
+  bindEnterToApplyBlur(searchInput, performSearch);
 
   // Plain p (no digit within the arm window) opens the exact-match taxon's
   // photo: the visible search match whose name equals the query, falling
@@ -1238,47 +1181,14 @@ applyCollapsedFromStorage();
     }
   }
 
-  // p + digits opens the nth entirely-visible match's photo (same tab):
-  // either held (simultaneous) or tapped-then-digit inside the arm window
-  // (sequential); multi-digit sequences address double-digit candidates.
-  // Plain digits stay with digit-nav; Shift+digit stays with toggles, so a
-  // shifted press never lands here. Only fires outside the search input /
-  // editable targets so typing "p1" never navigates away (central onKey
-  // guard). Skips matches without a photo.
-  onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-    (e, key) => {
-      if (e.shiftKey) {
-        return;
-      }
-      if (!pChordActive()) {
-        return;
-      }
-      if (e.target && e.target.closest && e.target.closest(".toggle")) {
-        return;
-      }
-      if (document.activeElement === searchInput) {
-        return;
-      }
-      // Any chord-digit press cancels the pending exact-match fallthrough —
-      // the user addressed a number, not a bare p.
-      if (pChord.timer) {
-        clearTimeout(pChord.timer);
-        pChord.timer = 0;
-      }
-      e.preventDefault();
-      pSeq.feed(key);
-    },
-  );
-
   // p/s/c/t chord trackers for the nth-photo/nth-taxa/nth-toggle binds
-  // below. Raw listeners so all encodings are seen; the digit handlers
-  // still honor the central onKey guards. All four leaders are sticky: tap
-  // arms until the same key is tapped again, another leader switches, and
-  // arming p additionally schedules the exact-match fallthrough (cancelled
-  // by digit, disarm, switch, or blur). Shift never arms, keeping
-  // Shift+digit free. Arming sets body[data-chord] so the ? overlay reveals
-  // that chord's progressive hints.
+  // above (registered via bindChordDigits). Raw listeners so all encodings
+  // are seen; the digit handlers still honor the central onKey guards. All
+  // four leaders are sticky: tap arms until the same key is tapped again,
+  // another leader switches, and arming p additionally schedules the
+  // exact-match fallthrough (cancelled by digit, disarm, switch, or blur).
+  // Shift never arms, keeping Shift+digit free. Arming sets body[data-chord]
+  // so the ? overlay reveals that chord's progressive hints.
   if (KEYBINDS_ENABLED) {
     document.addEventListener("keydown", (e) => {
       if (e.repeat || e.shiftKey || hasModifier(e)) {
@@ -1310,9 +1220,9 @@ applyCollapsedFromStorage();
         }
       }
       armChord(key, chord);
-      if (chord === pChord) {
-        pChord.timer = setTimeout(() => {
-          pChord.timer = 0;
+      if (chord === chords.p) {
+        chords.p.timer = setTimeout(() => {
+          chords.p.timer = 0;
           exactPhotoNav();
         }, 800);
       }
@@ -1324,66 +1234,18 @@ applyCollapsedFromStorage();
       }
     });
     window.addEventListener("blur", () => {
-      for (const chord of [pChord, sChord, cChord, tChord]) {
+      for (const chord of Object.values(chords)) {
         chord.held = false;
       }
-      if (pChord.timer) {
-        clearTimeout(pChord.timer);
-        pChord.timer = 0;
+      if (chords.p.timer) {
+        clearTimeout(chords.p.timer);
+        chords.p.timer = 0;
       }
-      tSeq.cancel();
-      pSeq.cancel();
-      sSeq.cancel();
-      cSeq.cancel();
+      for (const seq of Object.values(chordSeqs)) {
+        seq.cancel();
+      }
     });
   }
-
-  // s + digits searches the nth entirely-visible taxon: fills the search
-  // input, updates ?q=, and applies the filter immediately (no debounce
-  // wait), then blurs so digits stay navigable. c + digits copies the nth
-  // taxon's bare name to the clipboard instead. Multi-digit sequences
-  // address double-digit candidates. Plain digits stay with digit-nav;
-  // Shift+digit stays with toggles. Only fire outside editable targets so
-  // typing "s1" never navigates away (central onKey guard).
-  onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-    (e, key) => {
-      if (e.shiftKey) {
-        return;
-      }
-      if (!chordActive(sChord)) {
-        return;
-      }
-      if (e.target && e.target.closest && e.target.closest(".toggle")) {
-        return;
-      }
-      if (document.activeElement === searchInput) {
-        return;
-      }
-      e.preventDefault();
-      sSeq.feed(key);
-    },
-  );
-
-  onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-    (e, key) => {
-      if (e.shiftKey) {
-        return;
-      }
-      if (!chordActive(cChord)) {
-        return;
-      }
-      if (e.target && e.target.closest && e.target.closest(".toggle")) {
-        return;
-      }
-      if (document.activeElement === searchInput) {
-        return;
-      }
-      e.preventDefault();
-      cSeq.feed(key);
-    },
-  );
 
   // Esc clears search — keep focus if it was on the input.
   // Shared binder also preventDefaults so the global up-nav skips this press.

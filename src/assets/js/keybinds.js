@@ -11,16 +11,14 @@
 //            owns j/k for prev/next video snap in videos.js)
 //   (Homepage shortcuts live in home.js, loaded only on /.)
 //
-// Coexists with page handlers:
-//   - photo-single.js owns Escape + j/k on /photos/<slug>/ (query-preserved
-//     grid return + scoped prev/next), so this file stays inert there.
-//   - videos.js owns j/k on /videos/ (prev/next video snap), so this file
-//     stays inert there (single-video pages keep the half-viewport scroll).
-//   - photos.js / plants.js own Escape when their search input has content
-//     (clear semantics: they clear + preventDefault, registered before this
-//     file so they run first on the same press). This file skips Escape when
-//     the press was already consumed (defaultPrevented) or the focused search
-//     still has content; an empty search (focused or not) navigates up.
+// Coexists with page handlers via two deliberate mechanisms:
+//   - defaultPrevented: photos.js / plants.js Esc clear-handlers register
+//     first (page assets come before this file in loadJs) and preventDefault
+//     the press, so the global Esc up-nav below skips it.
+//   - pathname carve-outs: photo-single.js owns Escape + j/k on
+//     /photos/<slug>/ and videos.js owns j/k on /videos/, so this file stays
+//     inert there by path check (those pages never preventDefault — they
+//     navigate — so defaultPrevented alone couldn't express it).
 // ---------------------------------------------------------------------------
 (function () {
   if (typeof document === "undefined") {
@@ -166,7 +164,7 @@
     overlayHintsHandler = null;
   }
 
-  function badgeAnchor(el) {
+  function badgeAnchor(el, elRect) {
     // Image links (photo grid) badge the visible thumbnail, not the full
     // link box: the <a> is a square flex cell while the picture inside is
     // narrower (portrait) or shorter (landscape), so a cell-anchored badge
@@ -175,7 +173,8 @@
     // LEFT of the marker: the handle is only 2ch wide at the line's left
     // edge, so a right-side badge would sit on top of the taxa name. Text
     // links, buttons, inputs, and plant taxa rows badge just outside
-    // top-right.
+    // top-right. elRect (already measured by the caller) is reused to avoid
+    // a second getBoundingClientRect per element per repaint.
     const img = el.querySelector ? el.querySelector("img") : null;
     if (img) {
       const imgRect = img.getBoundingClientRect();
@@ -184,17 +183,17 @@
       }
     }
     if (el.tagName === "VIDEO" || el.tagName === "IFRAME") {
-      return { rect: el.getBoundingClientRect(), inside: true };
+      return { rect: elRect, inside: true };
     }
     if (el.classList && el.classList.contains("toggle")) {
-      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+      return { rect: elRect, inside: false, side: "left" };
     }
     // Taxa rows (li) badge LEFT of the item — the old toggle-hint slot —
     // so right-side numbers never crowd the row's own links/badges.
     if (el.tagName === "LI") {
-      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+      return { rect: elRect, inside: false, side: "left" };
     }
-    return { rect: el.getBoundingClientRect(), inside: false, side: "right" };
+    return { rect: elRect, inside: false, side: "right" };
   }
 
   // Key tokens from a hint title. One element can advertise several keys in
@@ -248,6 +247,7 @@
     const hinted = document.querySelectorAll(
       "a[title], button[title], input[title], .toggle[title], li[title], video[title], iframe[title]",
     );
+    const vw = window.innerWidth;
     for (const el of Array.from(hinted)) {
       if (el.tagName === "LI") {
         if (!taxaReveal) {
@@ -262,10 +262,22 @@
         }
       }
       const keys = hintKeys(el);
-      if (!keys.length || !isFullyInViewport(el)) {
+      if (!keys.length) {
         continue;
       }
-      const { rect, inside, side } = badgeAnchor(el);
+      // Collapsed plants subtrees never badge: zero-rect links self-exclude
+      // below, but the closest() check skips them before measuring.
+      if (el.closest && el.closest("ul.collapsed")) {
+        continue;
+      }
+      const rect = el.getBoundingClientRect();
+      // Top-edge visibility (same eligibility as the numbered binds): never
+      // scrolled past, running below the fold is fine. Measured once here
+      // and reused by badgeAnchor — one rect per element per repaint.
+      if (!(rect.top >= 0 && rect.left >= 0 && rect.right <= vw && rect.bottom > 0)) {
+        continue;
+      }
+      const { rect: anchor, inside, side } = badgeAnchor(el, rect);
       keys.forEach((key, i) => {
         const badge = document.createElement("span");
         badge.className = "keybind-hint-badge";
@@ -281,15 +293,15 @@
         // (translateX(-100%) right-aligns without measuring the badge, so
         // the taxa name stays uncovered).
         if (inside) {
-          badge.style.left = `${rect.left + 4}px`;
-          badge.style.top = `${rect.top + 4 + i * 22}px`;
+          badge.style.left = `${anchor.left + 4}px`;
+          badge.style.top = `${anchor.top + 4 + i * 22}px`;
         } else if (side === "left") {
-          badge.style.left = `${rect.left - 8}px`;
-          badge.style.top = `${rect.top - 4 + i * 22}px`;
+          badge.style.left = `${anchor.left - 8}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
           badge.style.transform = "translateX(-100%)";
         } else {
-          badge.style.left = `${rect.right + 2}px`;
-          badge.style.top = `${rect.top - 4 + i * 22}px`;
+          badge.style.left = `${anchor.right + 2}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
         }
       });
     }

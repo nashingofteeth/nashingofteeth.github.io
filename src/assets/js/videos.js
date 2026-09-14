@@ -257,7 +257,7 @@ function isVideoSinglePage() {
 // both resolve through it so they always act on the same video.
 function firstTopVisibleArticle() {
   return Array.from(document.querySelectorAll("main article")).find((a) =>
-    isFullyInViewport(a),
+    isTopInViewport(a),
   );
 }
 
@@ -470,19 +470,7 @@ function activeVideoArticle() {
   return firstTopVisibleArticle() || null;
 }
 
-const savedVideoHintTitles = new WeakMap();
-let hintedVideoEls = [];
-
-function hintVideoEl(el, title) {
-  if (!el) {
-    return;
-  }
-  if (!savedVideoHintTitles.has(el)) {
-    savedVideoHintTitles.set(el, el.getAttribute("title"));
-  }
-  el.setAttribute("title", title);
-  hintedVideoEls.push(el);
-}
+const videoHintTracker = createHintTracker();
 
 function refreshVideoHints() {
   if (!KEYBINDS_ENABLED) {
@@ -516,25 +504,10 @@ function refreshVideoHints() {
     }
   }
   // Same active set (the common scroll frame) — skip the restore + rewrite.
-  const same = next.length === hintedVideoEls.length &&
-    next.every(([el], i) => el === hintedVideoEls[i]);
-  if (same) {
-    return;
-  }
-  for (const el of hintedVideoEls) {
-    if (savedVideoHintTitles.has(el)) {
-      const original = savedVideoHintTitles.get(el);
-      if (original) {
-        el.setAttribute("title", original);
-      } else {
-        el.removeAttribute("title");
-      }
-    }
-  }
-  hintedVideoEls = [];
-  for (const [el, title] of next) {
-    hintVideoEl(el, title);
-  }
+  videoHintTracker.setHints(
+    next.map(([el]) => el),
+    (el, i) => next[i][1],
+  );
 }
 
 // Re-hint (covers cover→player swaps, which fire no scroll event) and ask
