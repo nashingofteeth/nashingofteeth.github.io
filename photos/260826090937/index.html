@@ -1543,9 +1543,13 @@ if (typeof module !== "undefined") {
     }
   });
 
-  onKey("escape", () => {
+  onKey("escape", (e) => {
     // Esc returns to the grid, honoring an active filter when present. Flag
-    // first so the grid restores scroll position on arrival.
+    // first so the grid restores scroll position on arrival. preventDefault
+    // owns the press: without it Chrome's Esc default (stop loading) races
+    // the navigation while the full-res photo is still in flight, eating the
+    // first press — the global up-nav and bindEscapeToClear both do the same.
+    e.preventDefault();
     flagEscReturn("/photos/");
     window.location.href = query.trim()
       ? `/photos/?q=${encodeURIComponent(query.trim())}`
