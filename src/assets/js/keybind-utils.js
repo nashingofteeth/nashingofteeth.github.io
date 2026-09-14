@@ -134,9 +134,11 @@ function isEntirelyInViewport(el) {
 // (bindDigitNav below plus the plants t/p/s/c chord handlers) so numbered
 // navigation never diverges: type "1","2" for the 12th candidate. Digits
 // accumulate until timeoutMs of quiet, then onDone(buffer) resolves against
-// a fresh candidate list. Short lists (<10) stay zero-latency: a lone digit
-// is unambiguous, so it flushes immediately. Any other keydown or window
-// blur cancels without acting, so a stray "1" never surprise-navigates.
+// a fresh candidate list — unless the buffer is already prefix-complete
+// (no longer number in range starts with it), in which case it flushes
+// immediately: short lists stay zero-latency, and so does any digit that
+// only ever meant one candidate. Any other keydown or window blur cancels
+// without acting, so a stray "1" never surprise-navigates.
 function digitSequence({ timeoutMs = 250, getCount, onDone }) {
   if (typeof document === "undefined") {
     return { feed: () => {}, cancel: () => {} };
@@ -168,7 +170,12 @@ function digitSequence({ timeoutMs = 250, getCount, onDone }) {
       clearTimeout(timer);
       timer = 0;
     }
-    if (buffer.length === 1 && getCount() < 10) {
+    const count = getCount();
+    const n = Number(buffer);
+    // The smallest longer number sharing this prefix is n with "0"
+    // appended, so n * 10 <= count means a longer match may still come.
+    const extendable = Number.isInteger(n) && n >= 1 && n <= count && n * 10 <= count;
+    if (!extendable) {
       const done = buffer;
       cancel();
       onDone(done);
