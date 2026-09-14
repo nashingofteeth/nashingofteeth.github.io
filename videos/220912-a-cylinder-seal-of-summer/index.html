@@ -322,24 +322,43 @@ function normalizeKey(e) {
 // Enter-to-open-first that explicitly manage the focused-input case.
 // No-ops without a document (build time). The handler owns
 // preventDefault + navigation.
+//
+// Single-dispatcher design: every onKey() call pushes into one shared table
+// served by a single document keydown listener, so N binds cost one listener
+// and one normalizeKey() per press (not N). Registration order is preserved,
+// so the page-before-global contract (page assets come before keybinds.js in
+// loadJs; cooperating via e.defaultPrevented) keeps working.
+const __keyHandlers = [];
+let __keyDispatcherAttached = false;
+
+function __dispatchKey(e) {
+  if (hasModifier(e)) {
+    return;
+  }
+  const editable = isEditableTarget(e.target);
+  const key = normalizeKey(e);
+  for (const h of __keyHandlers) {
+    if (!h.allowInEditable && editable) {
+      continue;
+    }
+    if (!h.wanted.has(key)) {
+      continue;
+    }
+    h.handler(e, key);
+  }
+}
+
 function onKey(keys, handler, opts = {}) {
   if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
     return;
   }
-  const wanted = Array.isArray(keys) ? keys : [keys];
+  const wanted = new Set(Array.isArray(keys) ? keys : [keys]);
   const allowInEditable = Boolean(opts.allowInEditable);
-  document.addEventListener("keydown", (e) => {
-    if (hasModifier(e)) {
-      return;
-    }
-    if (!allowInEditable && isEditableTarget(e.target)) {
-      return;
-    }
-    if (!wanted.includes(normalizeKey(e))) {
-      return;
-    }
-    handler(e, normalizeKey(e));
-  });
+  __keyHandlers.push({ wanted, allowInEditable, handler });
+  if (!__keyDispatcherAttached) {
+    __keyDispatcherAttached = true;
+    document.addEventListener("keydown", __dispatchKey);
+  }
 }
 
 // Partial-visibility test: any part of the element inside the viewport.
@@ -363,7 +382,7 @@ function isInViewport(el) {
 // be on screen (never scrolled past), while running below the fold is fine.
 // Horizontal containment still required. Zero-rect elements (display:none,
 // e.g. collapsed plants subtrees) fail the bottom check and self-exclude.
-function isFullyInViewport(el) {
+function isTopInViewport(el) {
   if (typeof window === "undefined" || !el.getBoundingClientRect) {
     return false;
   }
@@ -378,8 +397,8 @@ function isFullyInViewport(el) {
 
 // Strict visibility test for numbered nth-keybind candidates: the whole
 // element must be on screen, top and bottom. Bounds the numbered set on
-// tall pages (isFullyInViewport would number dozens running below the fold).
-function isEntirelyInViewport(el) {
+// tall pages (isTopInViewport would number dozens running below the fold).
+function isFullyInViewport(el) {
   if (typeof window === "undefined" || !el.getBoundingClientRect) {
     return false;
   }
@@ -392,14 +411,23 @@ function isEntirelyInViewport(el) {
   );
 }
 
+// Deprecated aliases kept for concatenated-page safety: isFullyInViewport
+// used to mean top-edge-only (now isTopInViewport), and isEntirelyInViewport
+// was the strict test (now isFullyInViewport).
+function isEntirelyInViewport(el) {
+  return isFullyInViewport(el);
+}
+
 // Multi-digit sequence accumulator shared by every nth-keybind consumer
 // (bindDigitNav below plus the plants t/p/s/c chord handlers) so numbered
 // navigation never diverges: type "1","2" for the 12th candidate. Digits
 // accumulate until timeoutMs of quiet, then onDone(buffer) resolves against
-// a fresh candidate list. Short lists (<10) stay zero-latency: a lone digit
-// is unambiguous, so it flushes immediately. Any other keydown or window
-// blur cancels without acting, so a stray "1" never surprise-navigates.
-function digitSequence({ timeoutMs = 400, getCount, onDone }) {
+// a fresh candidate list — unless the buffer is already prefix-complete
+// (no longer number in range starts with it), in which case it flushes
+// immediately: short lists stay zero-latency, and so does any digit that
+// only ever meant one candidate. Any other keydown or window blur cancels
+// without acting, so a stray "1" never surprise-navigates.
+function digitSequence({ timeoutMs = 250, getCount, onDone }) {
   if (typeof document === "undefined") {
     return { feed: () => {}, cancel: () => {} };
   }
@@ -413,7 +441,24 @@ function digitSequence({ timeoutMs = 400, getCount, onDone }) {
     }
   };
   document.addEventListener("keydown", (e) => {
-    if (!/^[0-9]$/.test(normalizeKey(e))) {
+    // Modifier-held presses and bare modifier keys never cancel the buffer —
+    // Shift/Control/Alt/Meta alone (or Ctrl+C-style combos) shouldn't wipe a
+    // half-typed multi-digit sequence.
+    if (hasModifier(e)) {
+      return;
+    }
+    const k = normalizeKey(e);
+    if (
+      k === "shift" ||
+      k === "control" ||
+      k === "alt" ||
+      k === "meta" ||
+      k === "altgraph" ||
+      k === "capslock"
+    ) {
+      return;
+    }
+    if (!/^[0-9]$/.test(k)) {
       cancel();
     }
   });
@@ -430,7 +475,12 @@ function digitSequence({ timeoutMs = 400, getCount, onDone }) {
       clearTimeout(timer);
       timer = 0;
     }
-    if (buffer.length === 1 && getCount() < 10) {
+    const count = getCount();
+    const n = Number(buffer);
+    // The smallest longer number sharing this prefix is n with "0"
+    // appended, so n * 10 <= count means a longer match may still come.
+    const extendable = Number.isInteger(n) && n >= 1 && n <= count && n * 10 <= count;
+    if (!extendable) {
       const done = buffer;
       cancel();
       onDone(done);
@@ -461,6 +511,87 @@ function notifyHintsChanged() {
   }
 }
 
+// Generic hint-title tracker: saves each element's original title once,
+// applies numbered/hint titles, and restores originals when elements leave
+// the set. Replaces four hand-rolled copies (bindDigitNav, videos.js
+// refreshVideoHints, plants.js refreshPhotoHints/refreshTaxaHints).
+//   setHints(els, titleFor, key): els in priority order; titleFor(el, i)
+//     returns the full title string (or null to leave untitled); key is an
+//     extra identity input so callers with mode-dependent titles (plants taxa
+//     group vs num:s vs num:t) rewrite even when the element set is identical.
+// Returns true when titles changed, false on the same-set no-op.
+function createHintTracker() {
+  const savedTitles = new WeakMap();
+  let hinted = [];
+  let hintKey = "";
+  function setHints(els, titleFor, key = "") {
+    const same = key === hintKey &&
+      els.length === hinted.length &&
+      els.every((el, i) => el === hinted[i]);
+    if (same) {
+      return false;
+    }
+    for (const el of hinted) {
+      if (savedTitles.has(el)) {
+        const original = savedTitles.get(el);
+        if (original) {
+          el.setAttribute("title", original);
+        } else {
+          el.removeAttribute("title");
+        }
+      }
+    }
+    hintKey = key;
+    hinted = els.slice();
+    els.forEach((el, i) => {
+      if (!savedTitles.has(el)) {
+        savedTitles.set(el, el.getAttribute("title"));
+      }
+      const title = titleFor(el, i);
+      if (title !== null && title !== undefined) {
+        el.setAttribute("title", title);
+      }
+    });
+    return true;
+  }
+  function clear() {
+    setHints([], () => null, `clear:${hinted.length}`);
+  }
+  return { setHints, clear };
+}
+
+// Shared Enter-to-apply + blur for grid search inputs (photos.js, plants.js
+// were byte-identical apart from a toggle guard that is a no-op where no
+// .toggle exists). allowInEditable because the handler explicitly manages
+// the focused-input case; other text-editing fields are still ignored.
+// Enter applies the filter immediately (so it works before the 500ms
+// debounce fires), then blurs so digits navigate instead of typing.
+function bindEnterToApplyBlur(searchInput, performSearch) {
+  onKey(
+    "enter",
+    (e) => {
+      if (e.target && e.target.closest && e.target.closest(".toggle")) {
+        return;
+      }
+      const q = searchInput.value.trim();
+      if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
+        return;
+      }
+      if (!q) {
+        if (e.target === searchInput) {
+          e.preventDefault();
+          searchInput.blur();
+        }
+        return;
+      }
+      performSearch(searchInput.value);
+      e.preventDefault();
+      searchInput.blur();
+    },
+    { allowInEditable: true },
+  );
+}
+
 // Mouseless list nav: digits open the nth candidate from getLinks(), a
 // page-provided resolver returning candidate <a> elements in priority (DOM)
 // order. Every in-viewport candidate is numbered (1, 2, … 12, …) — type
@@ -481,8 +612,7 @@ function bindDigitNav(getLinks, opts = {}) {
     return () => {};
   }
   const label = opts.label || "Open link";
-  const savedTitles = new WeakMap();
-  let hinted = [];
+  const tracker = createHintTracker();
 
   function baseTitle(link) {
     const current = link.getAttribute("title") || "";
@@ -494,12 +624,12 @@ function bindDigitNav(getLinks, opts = {}) {
   }
 
   function currentLinks() {
-    // Collect every entirely-visible link: getBoundingClientRect() forces
+    // Collect every fully-visible link: getBoundingClientRect() forces
     // layout, but the strict in-viewport test bounds the set on tall pages
     // (scrolled-past and below-fold links self-exclude).
     const top = [];
     for (const link of getLinks()) {
-      if (isEntirelyInViewport(link)) {
+      if (isFullyInViewport(link)) {
         top.push(link);
       }
     }
@@ -512,27 +642,7 @@ function bindDigitNav(getLinks, opts = {}) {
     // + rewrite (pointless DOM writes) in that case. The changed event still
     // fires below: sibling hints outside this set (plants "(p)") may have
     // moved, and the overlay coalesces repeat repaints into one per frame.
-    const same = hinted.length === next.length &&
-      hinted.every((link, i) => link === next[i]);
-    if (!same) {
-      for (const link of hinted) {
-        if (savedTitles.has(link)) {
-          const original = savedTitles.get(link);
-          if (original) {
-            link.setAttribute("title", original);
-          } else {
-            link.removeAttribute("title");
-          }
-        }
-      }
-      hinted = next;
-      hinted.forEach((link, i) => {
-        if (!savedTitles.has(link)) {
-          savedTitles.set(link, link.getAttribute("title"));
-        }
-        link.setAttribute("title", `${baseTitle(link)} (${i + 1})`);
-      });
-    }
+    tracker.setHints(next, (link, i) => `${baseTitle(link)} (${i + 1})`);
     // Search re-renders (photos performSearch, plants renderTree) land here
     // via the returned refresh() — repaint an open ? overlay so its badges
     // never show stale numbers or hidden items.
@@ -540,8 +650,8 @@ function bindDigitNav(getLinks, opts = {}) {
   }
 
   onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], (e, key) => {
-    // Shift+digit belongs to page-specific binds (plants toggles shift the
-    // nth subtree); plain digits only here so the two never double-fire.
+    // Shift+digit is ignored here (no page binds Shift+digit); plain digits
+    // only so held-Shift typing never navigates.
     // "0" is included so multi-digit sequences like "40" resolve; a lone
     // leading zero is ignored by the accumulator (no zeroth candidate).
     if (e.shiftKey) {
@@ -688,10 +798,13 @@ if (typeof module !== "undefined") {
     onKey,
     KEYBINDS_ENABLED,
     isInViewport,
+    isTopInViewport,
     isFullyInViewport,
     isEntirelyInViewport,
     digitSequence,
     bindDigitNav,
+    createHintTracker,
+    bindEnterToApplyBlur,
     flagEscReturn,
     trackGridScroll,
     bindUpNavRestore,
@@ -712,10 +825,13 @@ if (typeof globalThis !== "undefined") {
   globalThis.onKey = onKey;
   globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
   globalThis.isInViewport = isInViewport;
+  globalThis.isTopInViewport = isTopInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
   globalThis.isEntirelyInViewport = isEntirelyInViewport;
   globalThis.digitSequence = digitSequence;
   globalThis.bindDigitNav = bindDigitNav;
+  globalThis.createHintTracker = createHintTracker;
+  globalThis.bindEnterToApplyBlur = bindEnterToApplyBlur;
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
   globalThis.bindUpNavRestore = bindUpNavRestore;
@@ -984,7 +1100,7 @@ function isVideoSinglePage() {
 // both resolve through it so they always act on the same video.
 function firstTopVisibleArticle() {
   return Array.from(document.querySelectorAll("main article")).find((a) =>
-    isFullyInViewport(a),
+    isTopInViewport(a),
   );
 }
 
@@ -1197,19 +1313,7 @@ function activeVideoArticle() {
   return firstTopVisibleArticle() || null;
 }
 
-const savedVideoHintTitles = new WeakMap();
-let hintedVideoEls = [];
-
-function hintVideoEl(el, title) {
-  if (!el) {
-    return;
-  }
-  if (!savedVideoHintTitles.has(el)) {
-    savedVideoHintTitles.set(el, el.getAttribute("title"));
-  }
-  el.setAttribute("title", title);
-  hintedVideoEls.push(el);
-}
+const videoHintTracker = createHintTracker();
 
 function refreshVideoHints() {
   if (!KEYBINDS_ENABLED) {
@@ -1243,25 +1347,10 @@ function refreshVideoHints() {
     }
   }
   // Same active set (the common scroll frame) — skip the restore + rewrite.
-  const same = next.length === hintedVideoEls.length &&
-    next.every(([el], i) => el === hintedVideoEls[i]);
-  if (same) {
-    return;
-  }
-  for (const el of hintedVideoEls) {
-    if (savedVideoHintTitles.has(el)) {
-      const original = savedVideoHintTitles.get(el);
-      if (original) {
-        el.setAttribute("title", original);
-      } else {
-        el.removeAttribute("title");
-      }
-    }
-  }
-  hintedVideoEls = [];
-  for (const [el, title] of next) {
-    hintVideoEl(el, title);
-  }
+  videoHintTracker.setHints(
+    next.map(([el]) => el),
+    (el, i) => next[i][1],
+  );
 }
 
 // Re-hint (covers cover→player swaps, which fire no scroll event) and ask
@@ -1307,16 +1396,14 @@ if (KEYBINDS_ENABLED) {
 //            owns j/k for prev/next video snap in videos.js)
 //   (Homepage shortcuts live in home.js, loaded only on /.)
 //
-// Coexists with page handlers:
-//   - photo-single.js owns Escape + j/k on /photos/<slug>/ (query-preserved
-//     grid return + scoped prev/next), so this file stays inert there.
-//   - videos.js owns j/k on /videos/ (prev/next video snap), so this file
-//     stays inert there (single-video pages keep the half-viewport scroll).
-//   - photos.js / plants.js own Escape when their search input has content
-//     (clear semantics: they clear + preventDefault, registered before this
-//     file so they run first on the same press). This file skips Escape when
-//     the press was already consumed (defaultPrevented) or the focused search
-//     still has content; an empty search (focused or not) navigates up.
+// Coexists with page handlers via two deliberate mechanisms:
+//   - defaultPrevented: photos.js / plants.js Esc clear-handlers register
+//     first (page assets come before this file in loadJs) and preventDefault
+//     the press, so the global Esc up-nav below skips it.
+//   - pathname carve-outs: photo-single.js owns Escape + j/k on
+//     /photos/<slug>/ and videos.js owns j/k on /videos/, so this file stays
+//     inert there by path check (those pages never preventDefault — they
+//     navigate — so defaultPrevented alone couldn't express it).
 // ---------------------------------------------------------------------------
 (function () {
   if (typeof document === "undefined") {
@@ -1462,7 +1549,7 @@ if (KEYBINDS_ENABLED) {
     overlayHintsHandler = null;
   }
 
-  function badgeAnchor(el) {
+  function badgeAnchor(el, elRect) {
     // Image links (photo grid) badge the visible thumbnail, not the full
     // link box: the <a> is a square flex cell while the picture inside is
     // narrower (portrait) or shorter (landscape), so a cell-anchored badge
@@ -1471,7 +1558,8 @@ if (KEYBINDS_ENABLED) {
     // LEFT of the marker: the handle is only 2ch wide at the line's left
     // edge, so a right-side badge would sit on top of the taxa name. Text
     // links, buttons, inputs, and plant taxa rows badge just outside
-    // top-right.
+    // top-right. elRect (already measured by the caller) is reused to avoid
+    // a second getBoundingClientRect per element per repaint.
     const img = el.querySelector ? el.querySelector("img") : null;
     if (img) {
       const imgRect = img.getBoundingClientRect();
@@ -1480,17 +1568,17 @@ if (KEYBINDS_ENABLED) {
       }
     }
     if (el.tagName === "VIDEO" || el.tagName === "IFRAME") {
-      return { rect: el.getBoundingClientRect(), inside: true };
+      return { rect: elRect, inside: true };
     }
     if (el.classList && el.classList.contains("toggle")) {
-      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+      return { rect: elRect, inside: false, side: "left" };
     }
     // Taxa rows (li) badge LEFT of the item — the old toggle-hint slot —
     // so right-side numbers never crowd the row's own links/badges.
     if (el.tagName === "LI") {
-      return { rect: el.getBoundingClientRect(), inside: false, side: "left" };
+      return { rect: elRect, inside: false, side: "left" };
     }
-    return { rect: el.getBoundingClientRect(), inside: false, side: "right" };
+    return { rect: elRect, inside: false, side: "right" };
   }
 
   // Key tokens from a hint title. One element can advertise several keys in
@@ -1544,6 +1632,7 @@ if (KEYBINDS_ENABLED) {
     const hinted = document.querySelectorAll(
       "a[title], button[title], input[title], .toggle[title], li[title], video[title], iframe[title]",
     );
+    const vw = window.innerWidth;
     for (const el of Array.from(hinted)) {
       if (el.tagName === "LI") {
         if (!taxaReveal) {
@@ -1558,10 +1647,22 @@ if (KEYBINDS_ENABLED) {
         }
       }
       const keys = hintKeys(el);
-      if (!keys.length || !isFullyInViewport(el)) {
+      if (!keys.length) {
         continue;
       }
-      const { rect, inside, side } = badgeAnchor(el);
+      // Collapsed plants subtrees never badge: zero-rect links self-exclude
+      // below, but the closest() check skips them before measuring.
+      if (el.closest && el.closest("ul.collapsed")) {
+        continue;
+      }
+      const rect = el.getBoundingClientRect();
+      // Top-edge visibility (same eligibility as the numbered binds): never
+      // scrolled past, running below the fold is fine. Measured once here
+      // and reused by badgeAnchor — one rect per element per repaint.
+      if (!(rect.top >= 0 && rect.left >= 0 && rect.right <= vw && rect.bottom > 0)) {
+        continue;
+      }
+      const { rect: anchor, inside, side } = badgeAnchor(el, rect);
       keys.forEach((key, i) => {
         const badge = document.createElement("span");
         badge.className = "keybind-hint-badge";
@@ -1577,15 +1678,15 @@ if (KEYBINDS_ENABLED) {
         // (translateX(-100%) right-aligns without measuring the badge, so
         // the taxa name stays uncovered).
         if (inside) {
-          badge.style.left = `${rect.left + 4}px`;
-          badge.style.top = `${rect.top + 4 + i * 22}px`;
+          badge.style.left = `${anchor.left + 4}px`;
+          badge.style.top = `${anchor.top + 4 + i * 22}px`;
         } else if (side === "left") {
-          badge.style.left = `${rect.left - 8}px`;
-          badge.style.top = `${rect.top - 4 + i * 22}px`;
+          badge.style.left = `${anchor.left - 8}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
           badge.style.transform = "translateX(-100%)";
         } else {
-          badge.style.left = `${rect.right + 2}px`;
-          badge.style.top = `${rect.top - 4 + i * 22}px`;
+          badge.style.left = `${anchor.right + 2}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
         }
       });
     }
