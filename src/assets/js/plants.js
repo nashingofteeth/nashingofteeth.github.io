@@ -137,6 +137,9 @@ function toggleNode(toggle) {
 
   if (childUls.length > 0) {
     const collapsed = li.classList.contains("collapsed");
+    pushToggleHistory([
+      { path: li.getAttribute && li.getAttribute("data-path"), was: collapsed },
+    ]);
     setCollapsed(li, childUls, !collapsed);
     toggle.setAttribute("aria-expanded", String(collapsed));
     persistToggle(li);
@@ -174,6 +177,12 @@ bindToggle();
 function collapseAll() {
   const treeEl = document.getElementById("plant-tree");
   if (!treeEl) return;
+  pushToggleHistory(
+    Array.from(treeEl.querySelectorAll("li.has-children[data-path]")).map((li) => ({
+      path: li.getAttribute("data-path"),
+      was: li.classList.contains("collapsed"),
+    })),
+  );
   treeEl.querySelectorAll("li.has-children").forEach((li) => {
     setCollapsed(li, siblingUls(li), true);
   });
@@ -186,6 +195,12 @@ function collapseAll() {
 function expandAll() {
   const treeEl = document.getElementById("plant-tree");
   if (!treeEl) return;
+  pushToggleHistory(
+    Array.from(treeEl.querySelectorAll("li.has-children[data-path]")).map((li) => ({
+      path: li.getAttribute("data-path"),
+      was: li.classList.contains("collapsed"),
+    })),
+  );
   treeEl.querySelectorAll("li.has-children").forEach((li) => li.classList.remove("collapsed"));
   treeEl.querySelectorAll("ul").forEach((ul) => ul.classList.remove("collapsed"));
   treeEl.querySelectorAll("li.has-children[data-path]").forEach((li) => {
@@ -249,6 +264,7 @@ function saveOverrides(map) {
 
 function clearCollapsedStorage() {
   savedOverrides.clear();
+  clearToggleHistory();
   try {
     if (typeof sessDel === "function") sessDel(PLANTS_COLLAPSED_KEY);
   } catch (_err) {
@@ -270,6 +286,90 @@ function persistToggle(li) {
     savedOverrides.set(path, collapsed);
   }
   saveOverrides(savedOverrides);
+}
+
+// ---------------------------------------------------------------------------
+// Toggle undo/redo — u undoes the last toggle action, Shift+U redoes it.
+// History entries are path-keyed ({ changes: [{ path, was }] }) so they
+// survive search re-renders: renderTree replays savedOverrides via
+// applyCollapsedFromStorage, and undo/redo only rewrite savedOverrides +
+// the live DOM. Single toggles push one change; collapseAll/expandAll push
+// one bulk entry. New user actions clear the redo stack. Capped at 50.
+// ---------------------------------------------------------------------------
+const TOGGLE_HISTORY_LIMIT = 50;
+
+const undoStack = [];
+const redoStack = [];
+
+function pushToggleHistory(changes) {
+  const valid = (changes || []).filter((c) => c && typeof c.path === "string" && c.path);
+  if (!valid.length) return;
+  undoStack.push({ changes: valid });
+  if (undoStack.length > TOGGLE_HISTORY_LIMIT) {
+    undoStack.shift();
+  }
+  redoStack.length = 0;
+}
+
+function clearToggleHistory() {
+  undoStack.length = 0;
+  redoStack.length = 0;
+}
+
+// Apply one collapsed state by path without recording history: updates the
+// live node when present (missing nodes are still covered — savedOverrides
+// replays on the next renderTree via applyCollapsedFromStorage).
+function applyTogglePath(path, collapsed) {
+  const treeEl = typeof document !== "undefined" && document.getElementById("plant-tree");
+  const esc = typeof CSS !== "undefined" && CSS.escape
+    ? CSS.escape(path)
+    : path.replace(/["\\]/g, "");
+  const live = treeEl && treeEl.querySelector(`li.has-children[data-path="${esc}"]`);
+  if (live) {
+    setCollapsed(live, siblingUls(live), collapsed);
+    for (const child of live.children) {
+      if (child.classList && child.classList.contains("toggle")) {
+        child.setAttribute("aria-expanded", String(!collapsed));
+      }
+    }
+    // Mirror persistToggle's minimal-map rule: back at the baked default
+    // removes the entry, otherwise store the deviation.
+    const baked = live.getAttribute("data-baked") === "true";
+    if (collapsed === baked) {
+      savedOverrides.delete(path);
+    } else {
+      savedOverrides.set(path, collapsed);
+    }
+  } else {
+    // Node not in the live tree (filtered out or pre-render): record the
+    // intent; applyCollapsedFromStorage replays or prunes it on next render,
+    // same as explicit toggles.
+    savedOverrides.set(path, collapsed);
+  }
+  saveOverrides(savedOverrides);
+}
+
+function undoToggleState() {
+  const entry = undoStack.pop();
+  if (!entry) return null;
+  for (const { path, was } of entry.changes) {
+    applyTogglePath(path, was);
+  }
+  redoStack.push(entry);
+  return entry;
+}
+
+function redoToggleState() {
+  const entry = redoStack.pop();
+  if (!entry) return null;
+  for (const { path, was } of entry.changes) {
+    applyTogglePath(path, !was);
+  }
+  undoStack.push(entry);
+  if (undoStack.length > TOGGLE_HISTORY_LIMIT) {
+    undoStack.shift();
+  }
+  return entry;
 }
 
 // Enforce stored overrides on the current tree, in any view. Nodes without
@@ -623,7 +723,6 @@ applyCollapsedFromStorage();
     refreshPhotoHints();
     refreshDigitNav();
     refreshTaxaHints();
-    refreshTaxaHints();
   }
 
   // Fetch JSON, build index, wire up the search input
@@ -696,7 +795,7 @@ applyCollapsedFromStorage();
   // appears on pages that declare chord leaders — plants.js sets
   // body[data-hint-bar] below; other pages never do, so they get no bar.
   const HINT_BAR_DEFAULT =
-    "chords — t toggle · s search · c copy · p photo: press letter + 1-9 · same letter disarms";
+    "chords — t toggle · s search · c copy · p photo: press letter + 1-9 · same letter disarms · u undo · U redo";
   const CHORD_INFO = {
     p: "p armed — photo nth · press p again to disarm",
     t: "t armed — toggle nth taxon · press t again to disarm",
@@ -1053,6 +1152,28 @@ applyCollapsedFromStorage();
     refreshTaxaHints();
   });
 
+  // u undo / Shift+U redo for toggle actions (single flips + expand-all /
+  // collapse-all bulk entries). onKey normalizes to lowercase, so the redo
+  // variant reads off the event — same pattern as videos.js d/D. Unlike the
+  // chord-digit handlers there is no .toggle-focus veto here: clicking a
+  // toggle leaves it focused, and the toggle's own key handler only owns
+  // Enter/Space — vetoeing would make undo dead right after a click toggle.
+  // The search-input guard stays so typing "u" never mutates the tree. Hint
+  // refresh rides the class MutationObserver below, plus an explicit pass
+  // here so badges update even if observation lags a frame.
+  onKey("u", (e) => {
+    if (document.activeElement === searchInput) {
+      return;
+    }
+    e.preventDefault();
+    const entry = e.shiftKey ? redoToggleState() : undoToggleState();
+    if (entry) {
+      refreshTaxaHints();
+      refreshPhotoHints();
+      refreshDigitNav();
+    }
+  });
+
   // Chord + digits acts on the nth fully-visible candidate — t toggles the
   // nth taxon's subtree, p opens the nth photo, s searches the nth taxon, c
   // copies the nth taxon name. Type multi-digit sequences for double-digit
@@ -1296,5 +1417,10 @@ if (typeof module !== "undefined") {
     toggleNode,
     persistToggle,
     applyCollapsedFromStorage,
+    pushToggleHistory,
+    clearToggleHistory,
+    undoToggleState,
+    redoToggleState,
+    applyTogglePath,
   };
 }
