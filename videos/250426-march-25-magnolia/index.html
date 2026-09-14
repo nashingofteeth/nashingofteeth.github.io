@@ -378,6 +378,75 @@ function isFullyInViewport(el) {
   );
 }
 
+// Strict visibility test for numbered nth-keybind candidates: the whole
+// element must be on screen, top and bottom. Bounds the numbered set on
+// tall pages (isFullyInViewport would number dozens running below the fold).
+function isEntirelyInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.right <= window.innerWidth &&
+    rect.bottom <= window.innerHeight
+  );
+}
+
+// Multi-digit sequence accumulator shared by every nth-keybind consumer
+// (bindDigitNav below plus the plants t/p/s/c chord handlers) so numbered
+// navigation never diverges: type "1","2" for the 12th candidate. Digits
+// accumulate until timeoutMs of quiet, then onDone(buffer) resolves against
+// a fresh candidate list. Short lists (<10) stay zero-latency: a lone digit
+// is unambiguous, so it flushes immediately. Any other keydown or window
+// blur cancels without acting, so a stray "1" never surprise-navigates.
+function digitSequence({ timeoutMs = 400, getCount, onDone }) {
+  if (typeof document === "undefined") {
+    return { feed: () => {}, cancel: () => {} };
+  }
+  let buffer = "";
+  let timer = 0;
+  const cancel = () => {
+    buffer = "";
+    if (timer) {
+      clearTimeout(timer);
+      timer = 0;
+    }
+  };
+  document.addEventListener("keydown", (e) => {
+    if (!/^[0-9]$/.test(normalizeKey(e))) {
+      cancel();
+    }
+  });
+  window.addEventListener("blur", cancel);
+  function feed(key) {
+    if (!/^[0-9]$/.test(key)) {
+      return;
+    }
+    if (buffer === "" && key === "0") {
+      return;
+    }
+    buffer += key;
+    if (timer) {
+      clearTimeout(timer);
+      timer = 0;
+    }
+    if (buffer.length === 1 && getCount() < 10) {
+      const done = buffer;
+      cancel();
+      onDone(done);
+      return;
+    }
+    timer = setTimeout(() => {
+      const done = buffer;
+      cancel();
+      onDone(done);
+    }, timeoutMs);
+  }
+  return { feed, cancel };
+}
+
 // Tell the ? overlay (keybinds.js, loaded last) to repaint its badges
 // from the fresh titles. Event-based so script load order doesn't matter;
 // a closed overlay ignores it and builds fresh on open anyway. Shared by
@@ -394,10 +463,11 @@ function notifyHintsChanged() {
   }
 }
 
-// Mouseless list nav: "1"–"9" opens the nth top-visible link from
-// getLinks(), a page-provided resolver returning candidate <a> elements in
-// priority (DOM) order. Links scrolled past the top never bind; running
-// below the fold is fine. Only ever targets the
+// Mouseless list nav: digits open the nth candidate from getLinks(), a
+// page-provided resolver returning candidate <a> elements in priority (DOM)
+// order. Every in-viewport candidate is numbered (1, 2, … 12, …) — type
+// multi-digit sequences for double-digit candidates; short lists act
+// immediately (see digitSequence). Only ever targets the
 // types (download buttons, toggles, photo links) are never hijacked.
 // Hint titles "(n)" are managed here: originals are saved per link and
 // restored when the link leaves the set. Base title is the link's own title,
@@ -418,7 +488,7 @@ function bindDigitNav(getLinks, opts = {}) {
 
   function baseTitle(link) {
     const current = link.getAttribute("title") || "";
-    if (current && !/\(\d\)$/.test(current)) {
+    if (current && !/\(\d+\)$/.test(current)) {
       return current;
     }
     const text = ((link.textContent || "").trim().slice(0, 40));
@@ -426,15 +496,12 @@ function bindDigitNav(getLinks, opts = {}) {
   }
 
   function currentLinks() {
-    // Collect only the first 9 top-visible links: getBoundingClientRect()
-    // forces layout, so filter()+slice() would rect every link on the page
-    // (300+ photos) per scroll frame only to discard all but 9.
+    // Collect every entirely-visible link: getBoundingClientRect() forces
+    // layout, but the strict in-viewport test bounds the set on tall pages
+    // (scrolled-past and below-fold links self-exclude).
     const top = [];
     for (const link of getLinks()) {
-      if (top.length >= 9) {
-        break;
-      }
-      if (isFullyInViewport(link)) {
+      if (isEntirelyInViewport(link)) {
         top.push(link);
       }
     }
@@ -443,7 +510,7 @@ function bindDigitNav(getLinks, opts = {}) {
 
   function refresh() {
     const next = currentLinks();
-    // Small scrolls leave the top-9 set unchanged — skip the title restore
+    // Small scrolls leave the numbered set unchanged — skip the title restore
     // + rewrite (pointless DOM writes) in that case. The changed event still
     // fires below: sibling hints outside this set (plants "(p)") may have
     // moved, and the overlay coalesces repeat repaints into one per frame.
@@ -474,21 +541,29 @@ function bindDigitNav(getLinks, opts = {}) {
     notifyHintsChanged();
   }
 
-  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9"], (e, key) => {
+  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], (e, key) => {
     // Shift+digit belongs to page-specific binds (plants toggles shift the
     // nth subtree); plain digits only here so the two never double-fire.
+    // "0" is included so multi-digit sequences like "40" resolve; a lone
+    // leading zero is ignored by the accumulator (no zeroth candidate).
     if (e.shiftKey) {
       return;
     }
     if (typeof opts.ignoreWhen === "function" && opts.ignoreWhen()) {
       return;
     }
-    const links = currentLinks();
-    const link = links[Number(key) - 1];
-    if (link) {
-      e.preventDefault();
-      window.location.href = link.href;
-    }
+    e.preventDefault();
+    seq.feed(key);
+  });
+
+  const seq = digitSequence({
+    getCount: () => currentLinks().length,
+    onDone: (buffer) => {
+      const link = currentLinks()[Number(buffer) - 1];
+      if (link) {
+        window.location.href = link.href;
+      }
+    },
   });
 
   let rafPending = false;
@@ -616,6 +691,8 @@ if (typeof module !== "undefined") {
     KEYBINDS_ENABLED,
     isInViewport,
     isFullyInViewport,
+    isEntirelyInViewport,
+    digitSequence,
     bindDigitNav,
     flagEscReturn,
     trackGridScroll,
@@ -638,6 +715,8 @@ if (typeof globalThis !== "undefined") {
   globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
   globalThis.isInViewport = isInViewport;
   globalThis.isFullyInViewport = isFullyInViewport;
+  globalThis.isEntirelyInViewport = isEntirelyInViewport;
+  globalThis.digitSequence = digitSequence;
   globalThis.bindDigitNav = bindDigitNav;
   globalThis.flagEscReturn = flagEscReturn;
   globalThis.trackGridScroll = trackGridScroll;
@@ -1474,7 +1553,7 @@ if (KEYBINDS_ENABLED) {
         }
       } else if (chordArmed && el.tagName === "A") {
         const tokens = hintKeys(el);
-        const digitHint = tokens.length === 1 && /^\d$/.test(tokens[0]);
+        const digitHint = tokens.length === 1 && /^\d+$/.test(tokens[0]);
         const photoHint = tokens.some((t) => /^P\d+$/.test(t));
         if (digitHint || (photoHint && taxaReveal)) {
           continue;
