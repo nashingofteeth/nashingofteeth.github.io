@@ -795,10 +795,10 @@ applyCollapsedFromStorage();
   // appears on pages that declare chord leaders — plants.js sets
   // body[data-hint-bar] below; other pages never do, so they get no bar.
   const HINT_BAR_DEFAULT =
-    "chords — t toggle · s search · c copy · p photo: press letter + 1-9 · same letter disarms · u undo · U redo";
+    "chords — t toggle · s search · c copy · p photo: press letter + 1-9 · same letter disarms";
   const CHORD_INFO = {
     p: "p armed — photo nth · press p again to disarm",
-    t: "t armed — toggle nth taxon · press t again to disarm",
+    t: "t armed — toggle nth taxon · u undo · U redo · press t again to disarm",
     s: "s armed — search nth taxon · press s again to disarm",
     c: "c armed — copy nth taxon · press c again to disarm",
   };
@@ -1180,7 +1180,10 @@ applyCollapsedFromStorage();
   // candidates. Plain digits stay with digit-nav; Shift+digit is ignored
   // everywhere (no page binds it), so a shifted press never lands here. Only
   // fires outside the search input / editable targets so typing never
-  // navigates away (central onKey guard + the explicit checks below).
+  // navigates away (central onKey guard + the search-input check below).
+  // No .toggle-focus veto: clicking a toggle leaves it focused, and vetoeing
+  // would deaden chord digits right after a click toggle — digits don't
+  // conflict with the toggle's own Enter/Space activation anyway.
   function bindChordDigits(key) {
     onKey(
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
@@ -1189,9 +1192,6 @@ applyCollapsedFromStorage();
           return;
         }
         if (!chordActive(key)) {
-          return;
-        }
-        if (e.target && e.target.closest && e.target.closest(".toggle")) {
           return;
         }
         if (document.activeElement === searchInput) {
