@@ -739,12 +739,63 @@ applyCollapsedFromStorage();
       clearTimeout(pChord.timer);
       pChord.timer = 0;
     }
+    tSeq.cancel();
+    pSeq.cancel();
+    sSeq.cancel();
+    cSeq.cancel();
     if (document.body.dataset && document.body.dataset.chord) {
       delete document.body.dataset.chord;
     }
     setHintBar(HINT_BAR_DEFAULT);
     refreshTaxaHints();
   }
+
+  // One digit-sequence accumulator per nth consumer (see digitSequence):
+  // short lists resolve single digits immediately, longer lists wait for a
+  // possible second digit. Defined up here so arm/disarm can cancel them.
+  const tSeq = digitSequence({
+    getCount: () => currentToggles().length,
+    onDone: (buffer) => {
+      const li = currentToggles()[Number(buffer) - 1];
+      const toggle = li && li.querySelector(".toggle");
+      if (toggle) {
+        toggleNode(toggle);
+        refreshTaxaHints();
+      }
+    },
+  });
+
+  const pSeq = digitSequence({
+    getCount: () => currentPhotoLinks().length,
+    onDone: (buffer) => {
+      const link = currentPhotoLinks()[Number(buffer) - 1];
+      if (link) {
+        window.location.href = link.getAttribute("href");
+      }
+    },
+  });
+
+  const sSeq = digitSequence({
+    getCount: () => currentTaxa().length,
+    onDone: (buffer) => {
+      const li = currentTaxa()[Number(buffer) - 1];
+      const name = taxaNameFromLi(li);
+      if (li && name) {
+        searchForTaxa(name);
+      }
+    },
+  });
+
+  const cSeq = digitSequence({
+    getCount: () => currentTaxa().length,
+    onDone: (buffer) => {
+      const li = currentTaxa()[Number(buffer) - 1];
+      const name = taxaNameFromLi(li);
+      if (li && name) {
+        copyTaxaName(name);
+      }
+    },
+  });
 
   // "1"–"9" opens the nth top-visible wikipedia link (taxa only — photo
   // links and toggles never bind). Suppressed while a p/s/c/t chord is
@@ -764,13 +815,13 @@ applyCollapsedFromStorage();
   // 1–9, or tap p then 1–9 within the arm window. Enter only applies the
   // filter + blurs (digits pick the photo); see below.
 
-  // Photo hints — mark the top-visible photo links with " (P1)"…" (P9)"
-  // title suffixes, mirroring the digit-nav "(n)" and toggle "(!)" hints:
-  // first-9 in-viewport only, so badges track the links the chords act on.
-  // Candidates are every photo link in the tree (matches and ancestors,
-  // query or no query) in DOM order, which equals visual order in both the
-  // static tree and search renders; links inside collapsed subtrees never
-  // contribute. Skipped on touch devices — never advertise dead keys.
+  // Photo hints — mark every entirely-visible photo link with " (Pn)"
+  // title suffixes, mirroring the digit-nav "(n)" and toggle hints: numbers
+  // track the links the chords act on, so type multi-digit sequences for
+  // double-digit candidates. Every photo link in the tree (matches and
+  // ancestors, query or no query) in DOM order, which equals visual order in
+  // both the static tree and search renders; links inside collapsed subtrees
+  // never contribute. Skipped on touch devices — never advertise dead keys.
   function currentPhotoLinks() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) {
@@ -778,13 +829,10 @@ applyCollapsedFromStorage();
     }
     const top = [];
     for (const link of treeEl.querySelectorAll("a.plant-photo-link[href]")) {
-      if (top.length >= 9) {
-        break;
-      }
       if (link.closest("ul.collapsed")) {
         continue;
       }
-      if (isFullyInViewport(link)) {
+      if (isEntirelyInViewport(link)) {
         top.push(link);
       }
     }
@@ -822,7 +870,7 @@ applyCollapsedFromStorage();
           savedPhotoTitles.set(link, link.getAttribute("title"));
         }
         const current = link.getAttribute("title") || "";
-        const base = current.replace(/\s\(P\d\)$/, "") || "Open photo";
+        const base = current.replace(/\s\(P\d+\)$/, "") || "Open photo";
         link.setAttribute("title", `${base} (P${i + 1})`);
       });
     }
@@ -856,22 +904,19 @@ applyCollapsedFromStorage();
     }
     const top = [];
     for (const li of treeEl.querySelectorAll("li")) {
-      if (top.length >= 9) {
-        break;
-      }
       if (li.closest("ul.collapsed")) {
         continue;
       }
-      if (isFullyInViewport(li)) {
+      if (isEntirelyInViewport(li)) {
         top.push(li);
       }
     }
     return top;
   }
 
-  // t-chord candidates: only toggleable taxa, viewport-capped. Numbering is
-  // independent of currentTaxa — a row can be t1 while being s3/c3 — so the
-  // shared hint group carries per-chord indices.
+  // t-chord candidates: only toggleable taxa, entirely in viewport.
+  // Numbering is independent of currentTaxa — a row can be t1 while being
+  // s3/c3 — so the shared hint group carries per-chord indices.
   function currentToggles() {
     const treeEl = document.getElementById("plant-tree");
     if (!treeEl) {
@@ -882,13 +927,10 @@ applyCollapsedFromStorage();
       if (!li.querySelector(".toggle")) {
         continue;
       }
-      if (top.length >= 9) {
-        break;
-      }
       if (li.closest("ul.collapsed")) {
         continue;
       }
-      if (isFullyInViewport(li)) {
+      if (isEntirelyInViewport(li)) {
         top.push(li);
       }
     }
@@ -948,11 +990,11 @@ applyCollapsedFromStorage();
 
   function stripTaxaHintGroup(title) {
     return title
-      .replace(/\s\(t\d\/s\d\/c\d\)$/, "")
-      .replace(/\s\(t\d\/s\d\)$/, "")
-      .replace(/\s\(s\d\/c\d\)$/, "")
-      .replace(/\s\(t\d\)$/, "")
-      .replace(/\s\(\d\)$/, "");
+      .replace(/\s\(t\d+\/s\d+\/c\d+\)$/, "")
+      .replace(/\s\(t\d+\/s\d+\)$/, "")
+      .replace(/\s\(s\d+\/c\d+\)$/, "")
+      .replace(/\s\(t\d+\)$/, "")
+      .replace(/\s\(\d+\)$/, "");
   }
 
   function refreshTaxaHints() {
@@ -1060,10 +1102,11 @@ applyCollapsedFromStorage();
     refreshTaxaHints();
   });
 
-  // t + 1–9 toggles the nth top-visible taxon's subtree. Plain digits stay
+  // t + digits toggles the nth entirely-visible taxon's subtree — type a
+  // multi-digit sequence for double-digit candidates. Plain digits stay
   // with digit-nav (which skips shifted presses); Shift+digit stays free.
   onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
     (e, key) => {
       if (e.shiftKey) {
         return;
@@ -1077,13 +1120,8 @@ applyCollapsedFromStorage();
       if (document.activeElement === searchInput) {
         return;
       }
-      const li = currentToggles()[Number(key) - 1];
-      const toggle = li && li.querySelector(".toggle");
-      if (toggle) {
-        e.preventDefault();
-        toggleNode(toggle);
-        refreshTaxaHints();
-      }
+      e.preventDefault();
+      tSeq.feed(key);
     },
   );
 
@@ -1200,14 +1238,15 @@ applyCollapsedFromStorage();
     }
   }
 
-  // p + 1–9 opens the nth top-visible match's photo (same tab): either held
-  // (simultaneous) or tapped-then-digit inside the arm window (sequential).
+  // p + digits opens the nth entirely-visible match's photo (same tab):
+  // either held (simultaneous) or tapped-then-digit inside the arm window
+  // (sequential); multi-digit sequences address double-digit candidates.
   // Plain digits stay with digit-nav; Shift+digit stays with toggles, so a
   // shifted press never lands here. Only fires outside the search input /
   // editable targets so typing "p1" never navigates away (central onKey
   // guard). Skips matches without a photo.
   onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
     (e, key) => {
       if (e.shiftKey) {
         return;
@@ -1227,11 +1266,8 @@ applyCollapsedFromStorage();
         clearTimeout(pChord.timer);
         pChord.timer = 0;
       }
-      const link = currentPhotoLinks()[Number(key) - 1];
-      if (link) {
-        e.preventDefault();
-        window.location.href = link.getAttribute("href");
-      }
+      e.preventDefault();
+      pSeq.feed(key);
     },
   );
 
@@ -1283,17 +1319,22 @@ applyCollapsedFromStorage();
         clearTimeout(pChord.timer);
         pChord.timer = 0;
       }
+      tSeq.cancel();
+      pSeq.cancel();
+      sSeq.cancel();
+      cSeq.cancel();
     });
   }
 
-  // s + 1–9 searches the nth top-visible taxon: fills the search input,
-  // updates ?q=, and applies the filter immediately (no debounce wait),
-  // then blurs so digits stay navigable. c + 1–9 copies the nth taxon's
-  // bare name to the clipboard instead. Plain digits stay with digit-nav;
+  // s + digits searches the nth entirely-visible taxon: fills the search
+  // input, updates ?q=, and applies the filter immediately (no debounce
+  // wait), then blurs so digits stay navigable. c + digits copies the nth
+  // taxon's bare name to the clipboard instead. Multi-digit sequences
+  // address double-digit candidates. Plain digits stay with digit-nav;
   // Shift+digit stays with toggles. Only fire outside editable targets so
   // typing "s1" never navigates away (central onKey guard).
   onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
     (e, key) => {
       if (e.shiftKey) {
         return;
@@ -1307,17 +1348,13 @@ applyCollapsedFromStorage();
       if (document.activeElement === searchInput) {
         return;
       }
-      const li = currentTaxa()[Number(key) - 1];
-      const name = taxaNameFromLi(li);
-      if (li && name) {
-        e.preventDefault();
-        searchForTaxa(name);
-      }
+      e.preventDefault();
+      sSeq.feed(key);
     },
   );
 
   onKey(
-    ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
     (e, key) => {
       if (e.shiftKey) {
         return;
@@ -1331,12 +1368,8 @@ applyCollapsedFromStorage();
       if (document.activeElement === searchInput) {
         return;
       }
-      const li = currentTaxa()[Number(key) - 1];
-      const name = taxaNameFromLi(li);
-      if (li && name) {
-        e.preventDefault();
-        copyTaxaName(name);
-      }
+      e.preventDefault();
+      cSeq.feed(key);
     },
   );
 

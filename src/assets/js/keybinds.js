@@ -255,7 +255,7 @@
         }
       } else if (chordArmed && el.tagName === "A") {
         const tokens = hintKeys(el);
-        const digitHint = tokens.length === 1 && /^\d$/.test(tokens[0]);
+        const digitHint = tokens.length === 1 && /^\d+$/.test(tokens[0]);
         const photoHint = tokens.some((t) => /^P\d+$/.test(t));
         if (digitHint || (photoHint && taxaReveal)) {
           continue;
