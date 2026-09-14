@@ -1295,14 +1295,26 @@ applyCollapsedFromStorage();
       chord.held = true;
       if (chord.armed) {
         disarmChord(chord);
-      } else {
-        armChord(key, chord);
-        if (chord === pChord) {
-          pChord.timer = setTimeout(() => {
-            pChord.timer = 0;
-            exactPhotoNav();
-          }, 800);
+        return;
+      }
+      // Single photo candidate: bare p opens it immediately instead of
+      // arming the chord (there is nothing a digit could disambiguate).
+      if (key === "p" && !(e.target && e.target.closest && e.target.closest(".toggle")) && document.activeElement !== searchInput) {
+        const photos = currentPhotoLinks();
+        if (photos.length === 1) {
+          const href = photos[0].getAttribute("href");
+          if (href) {
+            window.location.href = href;
+            return;
+          }
         }
+      }
+      armChord(key, chord);
+      if (chord === pChord) {
+        pChord.timer = setTimeout(() => {
+          pChord.timer = 0;
+          exactPhotoNav();
+        }, 800);
       }
     });
     document.addEventListener("keyup", (e) => {
