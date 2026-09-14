@@ -5934,15 +5934,22 @@ applyCollapsedFromStorage();
 
   // Enter → apply the filter, then drop focus so "1"–"9" opens the nth
   // top-visible match (digits type into a focused input instead of
-  // navigating). allowInEditable because the handler explicitly manages the
-  // focused-input case below (other text-editing fields are still ignored).
+  // navigating). Empty search has nothing to apply but still blurs.
+  // allowInEditable because the handler explicitly manages the focused-input
+  // case below (other text-editing fields are still ignored).
   onKey(
     "enter",
     (e) => {
       if (e.target && e.target.closest && e.target.closest(".toggle")) return;
       const q = searchInput.value.trim();
-      if (!q) return;
       if (e.target && e.target !== searchInput && isEditableTarget(e.target)) return;
+      if (!q) {
+        if (e.target === searchInput) {
+          e.preventDefault();
+          searchInput.blur();
+        }
+        return;
+      }
       performSearch(searchInput.value);
       e.preventDefault();
       searchInput.blur();

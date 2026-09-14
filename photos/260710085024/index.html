@@ -1059,21 +1059,25 @@ function filterByQuery(items, query) {
   // Restore query from URL, debounce input, handle popstate (search-utils.js).
   bindSearchInput(searchInput, performSearch);
 
-  // Enter on a populated search applies the filter, then drops focus so
-  // "1"–"9" opens the nth visible photo (digits type into a focused input
-  // instead of navigating). allowInEditable because the handler explicitly
-  // manages the focused-input case below (other text-editing fields are
-  // still ignored).
+  // Enter applies the filter, then drops focus so "1"–"9" opens the nth
+  // visible photo (digits type into a focused input instead of navigating).
+  // Empty search has nothing to apply but still blurs. allowInEditable
+  // because the handler explicitly manages the focused-input case below
+  // (other text-editing fields are still ignored).
   onKey(
     "enter",
     (e) => {
       const q = searchInput.value.trim();
-      if (!q) {
-        return;
-      }
       // Allow Enter when the search input itself is focused (it has no default
       // submit), but ignore other text-editing fields.
       if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
+        return;
+      }
+      if (!q) {
+        if (e.target === searchInput) {
+          e.preventDefault();
+          searchInput.blur();
+        }
         return;
       }
       // Apply the filter now so Enter works even before the 500ms debounce fires.

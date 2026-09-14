@@ -817,7 +817,7 @@ for (const link of links) {
       // Track as playing (autoplay=1); the load handshake subscribes to state
       // events from here on. A fresh autoplay embed takes over exclusivity now.
       ytPlayers.set(ytId, { iframe, playing: true });
-      iframe.setAttribute("title", mediaTitle());
+      iframe.setAttribute("title", mediaTitle(true));
       iframe.addEventListener("load", () => {
         iframe.contentWindow.postMessage(
           JSON.stringify({ event: "listening", id: ytId }),
@@ -857,7 +857,7 @@ for (const link of links) {
 
       video.appendChild(videoWebMSrc);
       video.appendChild(videoMp4Src);
-      video.setAttribute("title", mediaTitle());
+      video.setAttribute("title", mediaTitle(true));
 
       this.parentElement.replaceChild(video, this);
       repaintHints();
@@ -1104,8 +1104,13 @@ onKey("d", (e) => {
 // top-visible article on scroll/resize; the single page has one article, so
 // its hints apply once (plus re-hinting after play swaps cover for player).
 // ---------------------------------------------------------------------------
-function mediaTitle() {
-  return isVideoSinglePage() ? "Play (Enter/Space/F)" : "Play (Space/F)";
+function mediaTitle(initialized) {
+  // Single pages advertise Enter only on the uninitialized cover (it starts
+  // playback); once the player exists, Space/F cover it.
+  if (isVideoSinglePage()) {
+    return initialized ? "Play (Space/F)" : "Play (Enter/Space/F)";
+  }
+  return "Play (Space/F)";
 }
 
 function activeVideoArticle() {
@@ -1142,10 +1147,12 @@ function refreshVideoHints() {
         next.push([bookmark, "Go to video page (Enter)"]);
       }
     }
-    const media = article.querySelector(".container .media a[href]") ||
-      article.querySelector("video, iframe[data-yt-player]");
+    const playLink = article.querySelector(".container .media a[href]");
+    const player = article.querySelector("video, iframe[data-yt-player]");
+    const media = playLink || player;
     if (media) {
-      next.push([media, mediaTitle()]);
+      // A surviving play link means uninitialized; a player means initialized.
+      next.push([media, mediaTitle(!playLink)]);
     }
     const lossy = article.querySelector('.download-btn[data-download="lossy"]');
     if (lossy) {
