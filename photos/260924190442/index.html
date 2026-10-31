@@ -1,0 +1,1950 @@
+<!--
+This website is a potato (https://potato.cheap/).
+Built with custom Node.js static site generator.
+Read the code here: https://github.com/nashingofteeth/nashingofteeth.github.io
+-->
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Video artist and sound maker in Portland, Oregon">
+		<meta name="keywords" content="matthew nash, nash, mw nash, videos, videographer, portland, editor, video editor, video artist, filmmaker, algorist" >
+
+		<title>260924190442 - matthew nash</title>
+
+		<link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+
+		<style>body {
+  font-family: monospace;
+  font-size: 15px;
+}
+a {
+  letter-spacing: 1px;
+  text-decoration: none;
+}
+/* ? keybind hint overlay (keybinds.js). Fixed + pointer-events none so it
+   never intercepts input; badges are absolutely positioned over links. */
+.keybind-hint-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+.keybind-hint-badge {
+  position: absolute;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  background-color: navy;
+  color: azure;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+/* Info bar for the ? overlay — chord/progressive-keybind guidance that
+   can't be inlined as element badges. Bottom-right of the fixed overlay,
+   same colors as the badges. */
+.keybind-hint-bar {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  max-width: 70vw;
+  padding: 6px 10px;
+  border-radius: 3px;
+  background-color: navy;
+  color: azure;
+  font-size: 11px;
+  line-height: 1.4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
+  max-width: 1080px;
+}
+header {
+  margin-top: 20px;
+}
+main {
+  flex: 1;
+}
+:root {
+  --top-space: 100px;
+}
+.top-space {
+  margin-top: var(--top-space);
+}
+footer {
+  margin-bottom: 20px;
+  font-size: 0.8em;
+  line-height: 27px;
+}
+footer svg {
+  vertical-align: sub;
+}
+a #potato,
+a.bookmark {
+  text-shadow: none;
+}
+.up-arrow {
+  font-size: 1.4em;
+  margin-right: 3px;
+}
+
+body {
+  background-color: Cornsilk;
+  color: #4A5D23;
+}
+a {
+  color: #C1440E;
+  text-shadow: #C1440E 1px 0px;
+}
+a:active {
+  color: red;
+}
+.specs {
+  font-size: 0.9em;
+  border-left: 1px dashed #4A5D23;
+  padding-left: 10px;
+}
+.specs a {
+  text-shadow: none;
+}
+.download {
+  font-size: 0.9em;
+}
+
+header a {
+  margin-right: 20px;
+}
+.top-space.photo-single {
+  margin-top: 50px;
+}
+.photo-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  background-color: transparent;
+  overflow: hidden;
+}
+@supports not (aspect-ratio: 1 / 1) {
+  .photo-container {
+    aspect-ratio: auto;
+    height: 0;
+    padding-top: 75%;
+  }
+}
+.photo-frame {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+.photo-media {
+  position: absolute;
+  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+.photo-media picture,
+.photo-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.photo-media img {
+  object-fit: cover;
+  color: transparent;
+}
+.photo-nav {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+}
+.photo-nav > * {
+  margin-right: 38px;
+}
+.photo-nav .up-arrow--right {
+  margin-left: 3px;
+  margin-right: 0;
+}
+.photo-nav .disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  margin-right: 43px;
+}
+@media only screen and (max-width: 768px) {
+  .top-space.photo-single {
+    width: 70% !important;
+  }
+  .photo-container,
+  .photo-frame {
+    aspect-ratio: auto !important;
+    height: auto !important;
+    padding-top: 0 !important;
+  }
+  .photo-frame,
+  .photo-media {
+    position: static !important;
+  }
+  .photo-frame {
+    width: 100% !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+  .photo-single .content {
+    padding-left: 0 !important;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .top-space.photo-single {
+    width: 100% !important;
+  }
+}
+</style>
+	</head>
+	<body>
+		<div class="page-wrapper">
+<header>
+	<a href="/"><span class="up-arrow">&uarr;</span>HOME</a>
+	<a href="/photos"><span class="up-arrow">&uarr;</span>PHOTOS</a>
+</header>
+
+<main>
+<nav class="photo-nav" aria-label="Photo navigation">
+		<a href="/photos/260925180043/" class="photo-nav-prev" rel="prev"><span class="up-arrow">&larr;</span>PREV</a>
+		<a href="/photos/260923091322/" class="photo-nav-next" rel="next">NEXT<span class="up-arrow up-arrow--right">&rarr;</span></a>
+	</nav>
+<article class="top-space photo-single is-portrait">
+	<div class="photo-container">
+		<div class="photo-frame" style="width: 56.25%; padding-top: 75.00%; margin-left: 20.78%;">
+			<div class="photo-media" style="box-sizing: border-box; overflow: hidden; background-color: hsl(98, 30%, 53.3%); border: 1px solid #C1440E;">
+				<picture>
+        <source srcset="https://f004.backblazeb2.com/file/nash-potato/photos/260924190442.webp" type="image/webp" />
+        <img
+          src="https://f004.backblazeb2.com/file/nash-potato/photos/260924190442.jpg"
+          alt="Ageratum houstonianum"
+          fetchpriority="high"
+          loading="eager"
+          decoding="async"
+          width="2448" height="3264" />
+      </picture>
+			</div>
+		</div>
+	</div>
+
+	<div class="content" style="padding-left: 20.78%;">
+
+		
+
+		<p class="specs">
+			<strong>PLANT: </strong><span class="search-link" data-href="/plants/?q=Ageratum%20houstonianum">Ageratum houstonianum</span><br><strong>DATE: </strong><time datetime="2026-09-24">September 24, 2026</time>
+			<br><strong>CAMERA: </strong><span class="search-link" data-href="/photos/?q=Canon%20PowerShot%20SD1100%20IS">Canon PowerShot SD1100 IS</span>
+			<br><strong>RESOLUTION: </strong>2448&nbsp;x&nbsp;3264px
+		</p>
+
+		<p class="download">
+			<span aria-label="Download">&#128190;</span>
+			<a href="https://f004.backblazeb2.com/file/nash-potato/photos/originals/20260924_190442_EC8531C0.jpg">download original</a>
+		</p>
+	</div>
+
+</article>
+</main>
+
+<footer class="top-space">
+	<a href="https://potato.cheap/" target="_blank">
+    <span id="potato">&#129364;</span>
+    This website is a potato
+  </a>
+  <br/>
+  <a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="15px" height="15px" viewBox="-0.5 0.5 64 64" xml:space="preserve">
+      <path d="M31.5,14.08c-10.565,0-13.222,9.969-13.222,18.42c0,8.452,2.656,18.42,13.222,18.42   c10.564,0,13.221-9.968,13.221-18.42C44.721,24.049,42.064,14.08,31.5,14.08z M31.5,21.026c0.429,0,0.82,0.066,1.188,0.157   c0.761,0.656,1.133,1.561,0.403,2.823l-7.036,12.93c-0.216-1.636-0.247-3.24-0.247-4.437C25.808,28.777,26.066,21.026,31.5,21.026z    M36.766,26.987c0.373,1.984,0.426,4.056,0.426,5.513c0,3.723-0.258,11.475-5.69,11.475c-0.428,0-0.822-0.045-1.188-0.136   c-0.07-0.021-0.134-0.043-0.202-0.067c-0.112-0.032-0.23-0.068-0.336-0.11c-1.21-0.515-1.972-1.446-0.874-3.093L36.766,26.987z"/>
+      <path d="M31.433,0.5c-8.877,0-16.359,3.09-22.454,9.3c-3.087,3.087-5.443,6.607-7.082,10.532   C0.297,24.219-0.5,28.271-0.5,32.5c0,4.268,0.797,8.32,2.397,12.168c1.6,3.85,3.921,7.312,6.969,10.396   c3.085,3.049,6.549,5.399,10.398,7.037c3.886,1.602,7.939,2.398,12.169,2.398c4.229,0,8.34-0.826,12.303-2.465   c3.962-1.639,7.496-3.994,10.621-7.081c3.011-2.933,5.289-6.297,6.812-10.106C62.73,41,63.5,36.883,63.5,32.5   c0-4.343-0.77-8.454-2.33-12.303c-1.562-3.885-3.848-7.32-6.857-10.33C48.025,3.619,40.385,0.5,31.433,0.5z M31.567,6.259   c7.238,0,13.412,2.566,18.554,7.709c2.477,2.477,4.375,5.31,5.67,8.471c1.296,3.162,1.949,6.518,1.949,10.061   c0,7.354-2.516,13.454-7.506,18.33c-2.592,2.516-5.502,4.447-8.74,5.781c-3.2,1.334-6.498,1.994-9.927,1.994   c-3.468,0-6.788-0.653-9.949-1.948c-3.163-1.334-6.001-3.238-8.516-5.716c-2.515-2.514-4.455-5.353-5.826-8.516   c-1.333-3.199-2.017-6.498-2.017-9.927c0-3.467,0.684-6.787,2.017-9.949c1.371-3.2,3.312-6.074,5.826-8.628   C18.092,8.818,24.252,6.259,31.567,6.259z"/>
+    </svg>
+    Uncopyright
+  </a>
+  2026 Matthew Nash
+</footer>
+</div>
+
+		<script 
+      data-goatcounter="https://nashingofteeth.goatcounter.com/count" 
+      async src="//gc.zgo.at/count.js"
+    ></script>
+    <script>// Shared keybind helper — loaded first on every templated page (see
+// templates/*.js for the load order). Single place for the guards every
+// keydown handler needs: modifier keys, text-editing targets, and key
+// normalization. Page scripts (photos.js, photo-single.js, plants.js,
+// videos.js, home.js) and the global defaults (keybinds.js, loaded last)
+// register via onKey() instead of raw addEventListener("keydown").
+// Collection pages (photos, plants, tools) offer mouseless list nav via
+// bindDigitNav().
+//
+// Ordering contract: page-specific handlers are registered before the
+// global defaults (page assets come before keybinds.js in loadJs), so a
+// page handler that preventDefaults an Escape press (e.g. clearing a
+// non-empty search) runs first and the global up-nav skips via
+// e.defaultPrevented. Works at build time (require) and in the browser
+// (globals + UMD guard, mirroring month-utils.js).
+
+// Keybinds are skipped on touch-first devices (phones/tablets): no physical
+// keyboard means every keybind + its scroll-driven hint bookkeeping is dead
+// weight. matchMedia pointer test (not ontouchstart) so touchscreen laptops
+// with a mouse primary keep binds. Evaluated once at load — docking a
+// keyboard mid-session needs a reload. Node/ancient browsers default to
+// enabled (safe, current behavior).
+const KEYBINDS_ENABLED =
+  typeof window === "undefined" ||
+  typeof window.matchMedia === "undefined" ||
+  !window.matchMedia("(pointer: coarse)").matches;
+
+function isEditableTarget(target) {
+  return (
+    target &&
+    (target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT" ||
+      target.isContentEditable)
+  );
+}
+
+function hasModifier(e) {
+  return e.ctrlKey || e.metaKey || e.altKey;
+}
+
+// Normalize a key event to a lowercase match token: "Escape" → "escape",
+// " " / "Spacebar" → "space", "Esc" → "escape". Falls back to keyCode for
+// very old browsers (mirrors the photo-single.js fallback).
+function normalizeKey(e) {
+  const raw = (e.key || String.fromCharCode(e.keyCode || 0) || "").toLowerCase();
+  if (raw === " " || raw === "spacebar") {
+    return "space";
+  }
+  if (raw === "esc") {
+    return "escape";
+  }
+  return raw;
+}
+
+// Register a keydown handler with shared guards. keys is a single key or
+// an array of keys (post-normalization, e.g. "escape", "j", "/").
+// By default handlers are skipped inside text-editing targets and when a
+// modifier is held; pass { allowInEditable: true } for handlers like
+// Enter-to-open-first that explicitly manage the focused-input case.
+// No-ops without a document (build time). The handler owns
+// preventDefault + navigation.
+//
+// Single-dispatcher design: every onKey() call pushes into one shared table
+// served by a single document keydown listener, so N binds cost one listener
+// and one normalizeKey() per press (not N). Registration order is preserved,
+// so the page-before-global contract (page assets come before keybinds.js in
+// loadJs; cooperating via e.defaultPrevented) keeps working.
+const __keyHandlers = [];
+let __keyDispatcherAttached = false;
+
+function __dispatchKey(e) {
+  if (hasModifier(e)) {
+    return;
+  }
+  const editable = isEditableTarget(e.target);
+  const key = normalizeKey(e);
+  for (const h of __keyHandlers) {
+    if (!h.allowInEditable && editable) {
+      continue;
+    }
+    if (!h.wanted.has(key)) {
+      continue;
+    }
+    h.handler(e, key);
+  }
+}
+
+function onKey(keys, handler, opts = {}) {
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
+    return;
+  }
+  const wanted = new Set(Array.isArray(keys) ? keys : [keys]);
+  const allowInEditable = Boolean(opts.allowInEditable);
+  __keyHandlers.push({ wanted, allowInEditable, handler });
+  if (!__keyDispatcherAttached) {
+    __keyDispatcherAttached = true;
+    document.addEventListener("keydown", __dispatchKey);
+  }
+}
+
+// Partial-visibility test: any part of the element inside the viewport.
+// Zero-rect elements (display:none, e.g. collapsed plants subtrees) fail
+// the bottom check and self-exclude. Used for SPACE play/pause targeting,
+// where a mostly-visible player still counts.
+function isInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.bottom > 0 &&
+    rect.top < window.innerHeight &&
+    rect.right > 0 &&
+    rect.left < window.innerWidth
+  );
+}
+
+// Top-visibility test for nth-keybind candidates: the link's top edge must
+// be on screen (never scrolled past), while running below the fold is fine.
+// Horizontal containment still required. Zero-rect elements (display:none,
+// e.g. collapsed plants subtrees) fail the bottom check and self-exclude.
+function isTopInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.right <= window.innerWidth &&
+    rect.bottom > 0
+  );
+}
+
+// Strict visibility test for numbered nth-keybind candidates: the whole
+// element must be on screen, top and bottom. Bounds the numbered set on
+// tall pages (isTopInViewport would number dozens running below the fold).
+function isFullyInViewport(el) {
+  if (typeof window === "undefined" || !el.getBoundingClientRect) {
+    return false;
+  }
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.right <= window.innerWidth &&
+    rect.bottom > 0 &&
+    rect.bottom <= window.innerHeight
+  );
+}
+
+// Deprecated aliases kept for concatenated-page safety: isFullyInViewport
+// used to mean top-edge-only (now isTopInViewport), and isEntirelyInViewport
+// was the strict test (now isFullyInViewport).
+function isEntirelyInViewport(el) {
+  return isFullyInViewport(el);
+}
+
+// Multi-digit sequence accumulator shared by every nth-keybind consumer
+// (bindDigitNav below plus the plants t/p/s/c chord handlers) so numbered
+// navigation never diverges: type "1","2" for the 12th candidate. Digits
+// accumulate until timeoutMs of quiet, then onDone(buffer) resolves against
+// a fresh candidate list — unless the buffer is already prefix-complete
+// (no longer number in range starts with it), in which case it flushes
+// immediately: short lists stay zero-latency, and so does any digit that
+// only ever meant one candidate. Any other keydown or window blur cancels
+// without acting, so a stray "1" never surprise-navigates.
+function digitSequence({ timeoutMs = 250, getCount, onDone }) {
+  if (typeof document === "undefined") {
+    return { feed: () => {}, cancel: () => {} };
+  }
+  let buffer = "";
+  let timer = 0;
+  const cancel = () => {
+    buffer = "";
+    if (timer) {
+      clearTimeout(timer);
+      timer = 0;
+    }
+  };
+  document.addEventListener("keydown", (e) => {
+    // Modifier-held presses and bare modifier keys never cancel the buffer —
+    // Shift/Control/Alt/Meta alone (or Ctrl+C-style combos) shouldn't wipe a
+    // half-typed multi-digit sequence.
+    if (hasModifier(e)) {
+      return;
+    }
+    const k = normalizeKey(e);
+    if (
+      k === "shift" ||
+      k === "control" ||
+      k === "alt" ||
+      k === "meta" ||
+      k === "altgraph" ||
+      k === "capslock"
+    ) {
+      return;
+    }
+    if (!/^[0-9]$/.test(k)) {
+      cancel();
+    }
+  });
+  window.addEventListener("blur", cancel);
+  function feed(key) {
+    if (!/^[0-9]$/.test(key)) {
+      return;
+    }
+    if (buffer === "" && key === "0") {
+      return;
+    }
+    buffer += key;
+    if (timer) {
+      clearTimeout(timer);
+      timer = 0;
+    }
+    const count = getCount();
+    const n = Number(buffer);
+    // The smallest longer number sharing this prefix is n with "0"
+    // appended, so n * 10 <= count means a longer match may still come.
+    const extendable = Number.isInteger(n) && n >= 1 && n <= count && n * 10 <= count;
+    if (!extendable) {
+      const done = buffer;
+      cancel();
+      onDone(done);
+      return;
+    }
+    timer = setTimeout(() => {
+      const done = buffer;
+      cancel();
+      onDone(done);
+    }, timeoutMs);
+  }
+  return { feed, cancel };
+}
+
+// Tell the ? overlay (keybinds.js, loaded last) to repaint its badges
+// from the fresh titles. Event-based so script load order doesn't matter;
+// a closed overlay ignores it and builds fresh on open anyway. Shared by
+// bindDigitNav below and by page scripts that retitle hints outside it
+// (videos.js re-hints after the play link swaps into a player).
+function notifyHintsChanged() {
+  if (typeof document === "undefined" || typeof CustomEvent === "undefined") {
+    return;
+  }
+  try {
+    document.dispatchEvent(new CustomEvent("keybind-hints:changed"));
+  } catch (_err) {
+    // ignore — overlay repaint is best-effort
+  }
+}
+
+// Generic hint-title tracker: saves each element's original title once,
+// applies numbered/hint titles, and restores originals when elements leave
+// the set. Replaces four hand-rolled copies (bindDigitNav, videos.js
+// refreshVideoHints, plants.js refreshPhotoHints/refreshTaxaHints).
+//   setHints(els, titleFor, key): els in priority order; titleFor(el, i)
+//     returns the full title string (or null to leave untitled); key is an
+//     extra identity input so callers with mode-dependent titles (plants taxa
+//     group vs num:s vs num:t) rewrite even when the element set is identical.
+// Returns true when titles changed, false on the same-set no-op.
+function createHintTracker() {
+  const savedTitles = new WeakMap();
+  let hinted = [];
+  let hintKey = "";
+  function setHints(els, titleFor, key = "") {
+    const same = key === hintKey &&
+      els.length === hinted.length &&
+      els.every((el, i) => el === hinted[i]);
+    if (same) {
+      return false;
+    }
+    for (const el of hinted) {
+      if (savedTitles.has(el)) {
+        const original = savedTitles.get(el);
+        if (original) {
+          el.setAttribute("title", original);
+        } else {
+          el.removeAttribute("title");
+        }
+      }
+    }
+    hintKey = key;
+    hinted = els.slice();
+    els.forEach((el, i) => {
+      if (!savedTitles.has(el)) {
+        savedTitles.set(el, el.getAttribute("title"));
+      }
+      const title = titleFor(el, i);
+      if (title !== null && title !== undefined) {
+        el.setAttribute("title", title);
+      }
+    });
+    return true;
+  }
+  function clear() {
+    setHints([], () => null, `clear:${hinted.length}`);
+  }
+  return { setHints, clear };
+}
+
+// Shared Enter-to-apply + blur for grid search inputs (photos.js, plants.js
+// were byte-identical apart from a toggle guard that is a no-op where no
+// .toggle exists). allowInEditable because the handler explicitly manages
+// the focused-input case; other text-editing fields are still ignored.
+// Enter applies the filter immediately (so it works before the 500ms
+// debounce fires), then blurs so digits navigate instead of typing.
+function bindEnterToApplyBlur(searchInput, performSearch) {
+  onKey(
+    "enter",
+    (e) => {
+      if (e.target && e.target.closest && e.target.closest(".toggle")) {
+        return;
+      }
+      const q = searchInput.value.trim();
+      if (e.target && e.target !== searchInput && isEditableTarget(e.target)) {
+        return;
+      }
+      if (!q) {
+        if (e.target === searchInput) {
+          e.preventDefault();
+          searchInput.blur();
+        }
+        return;
+      }
+      performSearch(searchInput.value);
+      e.preventDefault();
+      searchInput.blur();
+    },
+    { allowInEditable: true },
+  );
+}
+
+// Mouseless list nav: digits open the nth candidate from getLinks(), a
+// page-provided resolver returning candidate <a> elements in priority (DOM)
+// order. Every in-viewport candidate is numbered (1, 2, … 12, …) — type
+// multi-digit sequences for double-digit candidates; short lists act
+// immediately (see digitSequence). Only ever targets the
+// types (download buttons, toggles, photo links) are never hijacked.
+// Hint titles "(n)" are managed here: originals are saved per link and
+// restored when the link leaves the set. Base title is the link's own title,
+// else its text (40 chars), else opts.label. Refreshes on scroll (passive,
+// rAF-throttled) + resize + load; returns refresh() for manual calls after
+// page re-renders (search). opts.ignoreWhen() (optional) vetoes a digit
+// press before navigation — lets a page reserve plain digits while its own
+// chord (plants p+digit) owns them. No-ops without a document (build time).
+function bindDigitNav(getLinks, opts = {}) {
+  // Touch devices skip everything below: no binds, no scroll/resize
+  // listeners, no hint title writes.
+  if (typeof document === "undefined" || !KEYBINDS_ENABLED) {
+    return () => {};
+  }
+  const label = opts.label || "Open link";
+  const tracker = createHintTracker();
+
+  function baseTitle(link) {
+    const current = link.getAttribute("title") || "";
+    if (current && !/\(\d+\)$/.test(current)) {
+      return current;
+    }
+    const text = ((link.textContent || "").trim().slice(0, 40));
+    return text || label;
+  }
+
+  function currentLinks() {
+    // Collect every fully-visible link: getBoundingClientRect() forces
+    // layout, but the strict in-viewport test bounds the set on tall pages
+    // (scrolled-past and below-fold links self-exclude).
+    const top = [];
+    for (const link of getLinks()) {
+      if (isFullyInViewport(link)) {
+        top.push(link);
+      }
+    }
+    return top;
+  }
+
+  function refresh() {
+    const next = currentLinks();
+    // Small scrolls leave the numbered set unchanged — skip the title restore
+    // + rewrite (pointless DOM writes) in that case. The changed event still
+    // fires below: sibling hints outside this set (plants "(p)") may have
+    // moved, and the overlay coalesces repeat repaints into one per frame.
+    tracker.setHints(next, (link, i) => `${baseTitle(link)} (${i + 1})`);
+    // Search re-renders (photos performSearch, plants renderTree) land here
+    // via the returned refresh() — repaint an open ? overlay so its badges
+    // never show stale numbers or hidden items.
+    notifyHintsChanged();
+  }
+
+  onKey(["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"], (e, key) => {
+    // Shift+digit is ignored here (no page binds Shift+digit); plain digits
+    // only so held-Shift typing never navigates.
+    // "0" is included so multi-digit sequences like "40" resolve; a lone
+    // leading zero is ignored by the accumulator (no zeroth candidate).
+    if (e.shiftKey) {
+      return;
+    }
+    if (typeof opts.ignoreWhen === "function" && opts.ignoreWhen()) {
+      return;
+    }
+    e.preventDefault();
+    seq.feed(key);
+  });
+
+  const seq = digitSequence({
+    getCount: () => currentLinks().length,
+    onDone: (buffer) => {
+      const link = currentLinks()[Number(buffer) - 1];
+      if (link) {
+        window.location.href = link.href;
+      }
+    },
+  });
+
+  let rafPending = false;
+  function scheduleRefresh() {
+    if (rafPending) {
+      return;
+    }
+    rafPending = true;
+    const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+    raf(() => {
+      rafPending = false;
+      refresh();
+    });
+  }
+  document.addEventListener("scroll", scheduleRefresh, { passive: true });
+  window.addEventListener("resize", scheduleRefresh);
+  refresh();
+  return refresh;
+}
+
+// ---------------------------------------------------------------------------
+// Grid scroll memory for Esc returns. Esc-driven grid arrivals (single photo
+// page → /photos/, single video page → /videos/) are full navigations that
+// always land at top, so the return leg is bridged with per-tab one-shot
+// state: grid pages persist scrollY at departure (pagehide), Esc handlers
+// flag the return, and the grid load below consumes the flag once.
+// Browser back/forward/reload are untouched (scrollRestoration stays auto) —
+// restoration only ever fires on the Esc flag. Storage may throw (private
+// mode), in which case everything degrades to current top-landing behavior.
+// ---------------------------------------------------------------------------
+function sessGet(key) {
+  try {
+    return window.sessionStorage.getItem(key);
+  } catch (_err) {
+    return null;
+  }
+}
+
+function sessSet(key, value) {
+  try {
+    window.sessionStorage.setItem(key, value);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function sessDel(key) {
+  try {
+    window.sessionStorage.removeItem(key);
+  } catch (_err) {
+    // ignore — scroll memory is best-effort
+  }
+}
+
+function gridPath() {
+  return window.location.pathname || "/";
+}
+
+// Mark the next load of gridPath as an Esc return. Call immediately before
+// navigating there so the flag can't go stale.
+function flagEscReturn(gridPath) {
+  sessSet(`esc-return:${gridPath}`, "1");
+}
+
+// Clicking the header up-link from a single item page should restore the
+// grid's scroll position exactly like Esc does — flag the return on click,
+// then let the browser navigate. Not a keybind, so it also runs on touch
+// devices (the saver side, trackGridScroll, is active there too). gridPath
+// is the grid's pathname ("/photos/" style); header hrefs are baked without
+// the trailing slash ("/photos"), so the selector prefix strips it while the
+// flag key keeps it (matching trackGridScroll's pathname keys). A stale flag
+// is possible only if navigation never follows the click, and it is consumed
+// harmlessly by the next grid load.
+function bindUpNavRestore(gridPath) {
+  if (typeof document === "undefined") {
+    return;
+  }
+  const key = gridPath.endsWith("/") ? gridPath : `${gridPath}/`;
+  const link = document.querySelector(
+    `header a[href^="${gridPath.replace(/\/$/, "")}"]`,
+  );
+  if (!link) {
+    return;
+  }
+  link.addEventListener("click", () => {
+    flagEscReturn(key);
+  });
+}
+
+// Track scroll for the current grid page: persist at departure, and consume
+// a pending Esc return (restore now via rAF, then re-apply on window load
+// only if the user hasn't scrolled meanwhile — late image layout shifts must
+// not yank a user who already moved). Call once per grid load; grids only.
+function trackGridScroll() {
+  if (typeof document === "undefined" || typeof window === "undefined") {
+    return;
+  }
+  const path = gridPath();
+  window.addEventListener("pagehide", () => {
+    sessSet(`grid-scroll:${path}`, String(window.scrollY || 0));
+  });
+  if (!sessGet(`esc-return:${path}`)) {
+    return;
+  }
+  sessDel(`esc-return:${path}`);
+  const y = Number(sessGet(`grid-scroll:${path}`)) || 0;
+  const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+  raf(() => {
+    window.scrollTo(0, y);
+    const settled = window.scrollY;
+    window.addEventListener("load", () => {
+      if (window.scrollY === settled) {
+        window.scrollTo(0, y);
+      }
+    });
+  });
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    isEditableTarget,
+    hasModifier,
+    normalizeKey,
+    onKey,
+    KEYBINDS_ENABLED,
+    isInViewport,
+    isTopInViewport,
+    isFullyInViewport,
+    isEntirelyInViewport,
+    digitSequence,
+    bindDigitNav,
+    createHintTracker,
+    bindEnterToApplyBlur,
+    flagEscReturn,
+    trackGridScroll,
+    bindUpNavRestore,
+    notifyHintsChanged,
+    sessGet,
+    sessSet,
+    sessDel,
+  };
+}
+
+// Expose as globals for concatenated browser scripts (loadJs joins files
+// into one classic script, so top-level declarations are already shared;
+// globalThis assignment mirrors month-utils.js for explicitness).
+if (typeof globalThis !== "undefined") {
+  globalThis.isEditableTarget = isEditableTarget;
+  globalThis.hasModifier = hasModifier;
+  globalThis.normalizeKey = normalizeKey;
+  globalThis.onKey = onKey;
+  globalThis.KEYBINDS_ENABLED = KEYBINDS_ENABLED;
+  globalThis.isInViewport = isInViewport;
+  globalThis.isTopInViewport = isTopInViewport;
+  globalThis.isFullyInViewport = isFullyInViewport;
+  globalThis.isEntirelyInViewport = isEntirelyInViewport;
+  globalThis.digitSequence = digitSequence;
+  globalThis.bindDigitNav = bindDigitNav;
+  globalThis.createHintTracker = createHintTracker;
+  globalThis.bindEnterToApplyBlur = bindEnterToApplyBlur;
+  globalThis.flagEscReturn = flagEscReturn;
+  globalThis.trackGridScroll = trackGridScroll;
+  globalThis.bindUpNavRestore = bindUpNavRestore;
+  globalThis.notifyHintsChanged = notifyHintsChanged;
+  globalThis.sessGet = sessGet;
+  globalThis.sessSet = sessSet;
+  globalThis.sessDel = sessDel;
+}
+
+// Month names and abbreviations derived from the locale formatter rather
+// than hardcoded, so the long/short forms can't drift. Forcing "en-US"
+// makes the output locale-independent. Works at build time (require) and
+// in the browser (exposed as globals).
+
+function monthName(index, format) {
+  return new Date(Date.UTC(2000, index, 1))
+    .toLocaleString("en-US", { month: format, timeZone: "UTC" });
+}
+
+const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => monthName(i, "long"));
+const MONTH_SHORT = Array.from({ length: 12 }, (_, i) => monthName(i, "short").toLowerCase());
+const MONTH_NAMES_LOWER = MONTH_NAMES.map((m) => m.toLowerCase());
+const MONTH_ALT = MONTH_SHORT.join("|");
+
+if (typeof module !== "undefined") {
+  module.exports = { monthName, MONTH_NAMES, MONTH_NAMES_LOWER, MONTH_SHORT, MONTH_ALT };
+}
+
+// Also expose as globals for browser scripts and Node modules that depend on
+// them being in the global namespace.
+if (typeof globalThis !== "undefined") {
+  globalThis.MONTH_NAMES = MONTH_NAMES;
+  globalThis.MONTH_NAMES_LOWER = MONTH_NAMES_LOWER;
+  globalThis.MONTH_SHORT = MONTH_SHORT;
+  globalThis.MONTH_ALT = MONTH_ALT;
+}
+
+// Shared client-side helpers for the site's search features (photos, plants,
+// photo single page). All functions are runtime-safe: they only touch the DOM
+// when a document is present. The UMD guard at the bottom lets tests or other
+// build-time code require() this file without a browser.
+
+// Promote search-placeholder <span data-href> to real links. Search links are
+// baked as spans so they don't appear (or navigate) when JS is disabled; this
+// runs once JS is available.
+function upgradeSearchLinks(container) {
+  const root = container || document;
+  root.querySelectorAll("span[data-href]").forEach((el) => {
+    const a = document.createElement("a");
+    a.href = el.getAttribute("data-href");
+    if (el.hasAttribute("title")) {
+      a.setAttribute("title", el.getAttribute("title"));
+    }
+    a.className = el.className;
+    a.innerHTML = el.innerHTML;
+    el.replaceWith(a);
+  });
+}
+
+// Push a ?q= query (or strip it) onto the URL without reloading, so the filter
+// is shareable and survives back/forward navigation.
+function updateUrl(query) {
+  const url = new URL(window.location);
+  if (query.trim()) {
+    url.search = "q=" + encodeURIComponent(query.trim());
+  } else {
+    url.search = "";
+  }
+  history.pushState({}, "", url);
+}
+
+// Read the current ?q= query from the URL, or "" when absent.
+function queryFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("q") || "";
+}
+
+// Wire up the standard search scaffolding shared by every search page:
+// restoring an initial query, a debounced input handler, and popstate. Returns
+// a perform(query) caller that applies the URL/restore semantics.
+function bindSearchInput(input, perform) {
+  const initialQuery = queryFromUrl();
+  if (initialQuery) {
+    input.value = initialQuery;
+    perform(initialQuery);
+  }
+
+  let debounceTimer = null;
+  input.addEventListener("input", () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = input.value;
+      updateUrl(query);
+      perform(query);
+    }, 500);
+  });
+
+  window.addEventListener("popstate", () => {
+    const query = queryFromUrl();
+    input.value = query;
+    perform(query);
+  });
+}
+
+// "/" focuses the given search input (matching common gallery/reader
+// conventions). No-op when already focused. Shared by photos.js + plants.js
+// (onKey comes from keybind-utils.js, loaded first; see templates/*.js).
+function bindSlashToFocus(searchInput) {
+  onKey("/", (e) => {
+    if (document.activeElement === searchInput) {
+      return;
+    }
+    e.preventDefault();
+    searchInput.focus();
+    searchInput.select();
+  });
+}
+
+// Escape clears the given search: input value, ?q= URL, and rendered results,
+// preserving focus state. Shared by photos.js + plants.js.
+// LOAD-BEARING: this preventDefaults the press so the global up-nav in
+// keybinds.js (registered later, skips on defaultPrevented) does not fire on
+// the same press — Esc-with-query clears instead of navigating away.
+function bindEscapeToClear(searchInput, performSearch) {
+  onKey(
+    "escape",
+    (e) => {
+      if (!searchInput.value.trim()) {
+        return;
+      }
+      e.preventDefault();
+      const keepFocus = document.activeElement === searchInput;
+      searchInput.value = "";
+      updateUrl("");
+      performSearch("");
+      if (keepFocus) {
+        searchInput.focus();
+      } else {
+        searchInput.blur();
+      }
+    },
+    { allowInEditable: true },
+  );
+}
+
+if (typeof module !== "undefined") {
+  module.exports = {
+    upgradeSearchLinks,
+    updateUrl,
+    queryFromUrl,
+    bindSearchInput,
+    bindSlashToFocus,
+    bindEscapeToClear,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Depends on keybind-utils.js (loaded first): onKey + guards, bindDigitNav.
+// Depends on search-utils.js (loaded first): updateUrl, bindSearchInput,
+// bindSlashToFocus, bindEscapeToClear. See templates/photos.js for the load order.
+// Also depends on month-utils.js for MONTH_NAMES_LOWER, MONTH_SHORT, MONTH_ALT.
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// tryParseDateQuery — interprets a user-typed date query into year/month/day
+// components (with hasYear/hasMonth/hasDay flags) so it can be matched against
+// build-time photo date ints. This is the one part of search that must run in
+// the browser, since it reads live input. All date parsing/formatting of the
+// photos themselves happens at build time (see templates/utils.js).
+// ---------------------------------------------------------------------------
+
+function tryParseDateQuery(query) {
+  const q = query.trim();
+  if (!q) return null;
+
+  const hasYear = /\b\d{4}\b/.test(q);
+  const hasMonthName = new RegExp(MONTH_ALT, "i").test(q);
+  const hasSlash = /[\/\-\.]/.test(q);
+
+  if (/^\d{4}$/.test(q)) {
+    return { year: Number(q), hasYear: true, hasMonth: false, hasDay: false, raw: q };
+  }
+
+  const lower = q.toLowerCase().trim();
+  for (let i = 0; i < 12; i++) {
+    if (lower === MONTH_NAMES_LOWER[i] || lower === MONTH_SHORT[i]) {
+      return { month: i + 1, hasYear: false, hasMonth: true, hasDay: false, raw: q };
+    }
+  }
+
+  // Month name + year (e.g. "August 2026", "Aug 2026")
+  const monthYear = q.match(new RegExp(`^(${MONTH_ALT})[a-z]*\\s+(\\d{4})$`, "i"));
+  if (monthYear) {
+    const name = monthYear[1].toLowerCase();
+    const idx = MONTH_SHORT.findIndex((m) => name.startsWith(m));
+    if (idx !== -1) {
+      return { year: Number(monthYear[2]), month: idx + 1, hasYear: true, hasMonth: true, hasDay: false, raw: q };
+    }
+  }
+
+  // Month name + day + year (e.g. "August 21, 2026", "21 August 2026")
+  const builtIn = new Date(q);
+  if (!isNaN(builtIn) && (/\d/.test(q) || hasMonthName)) {
+    const y = builtIn.getUTCFullYear();
+    const m = builtIn.getUTCMonth() + 1;
+    const d = builtIn.getUTCDate();
+    if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+      let hasDay = false;
+      if (hasMonthName) {
+        const dayCandidates = (q.match(/\b\d{1,2}\b/g) || []).filter((n) => n.length <= 2 && Number(n) >= 1 && Number(n) <= 31);
+        hasDay = dayCandidates.length > 0;
+        if (q.match(new RegExp(`^(${MONTH_ALT})[a-z]*\\s+\\d{4}$`, "i"))) hasDay = false;
+      } else if (hasSlash) {
+        hasDay = (q.match(/\d+/g) || []).length >= 3;
+      }
+      return { year: y, month: m, day: d, hasYear: hasYear, hasMonth: hasMonthName || hasSlash, hasDay: hasDay, raw: q };
+    }
+  }
+
+  // EU fallback: dd/mm/yyyy
+  const eu = q.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if (eu) {
+    const a = Number(eu[1]);
+    const b = Number(eu[2]);
+    const y = Number(eu[3]);
+    if (a >= 1 && a <= 31 && b >= 1 && b <= 12) {
+      const dt = new Date(Date.UTC(y, b - 1, a));
+      if (dt.getUTCDate() === a && dt.getUTCMonth() === b - 1 && dt.getUTCFullYear() === y) {
+        return { year: y, month: b, day: a, hasYear: true, hasMonth: true, hasDay: true, raw: q };
+      }
+    }
+  }
+
+  // ISO with slashes: yyyy/mm/dd
+  const iso = q.match(/^(\d{4})[\/\-\.](\d{1,2})[\/\-\.](\d{1,2})$/);
+  if (iso) {
+    const y = Number(iso[1]);
+    const m = Number(iso[2]);
+    const d = Number(iso[3]);
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    if (dt.getUTCDate() === d && dt.getUTCMonth() === m - 1) {
+      return { year: y, month: m, day: d, hasYear: true, hasMonth: true, hasDay: true, raw: q };
+    }
+  }
+
+  // Numeric month/year: mm/yyyy or yyyy/mm
+  const my = q.match(/^(\d{1,2})[\/\-\.](\d{4})$/);
+  if (my) {
+    const m = Number(my[1]);
+    const y = Number(my[2]);
+    if (m >= 1 && m <= 12) {
+      return { year: y, month: m, hasYear: true, hasMonth: true, hasDay: false, raw: q };
+    }
+  }
+  const ym = q.match(/^(\d{4})[\/\-\.](\d{1,2})$/);
+  if (ym) {
+    const y = Number(ym[1]);
+    const m = Number(ym[2]);
+    if (m >= 1 && m <= 12) {
+      return { year: y, month: m, hasYear: true, hasMonth: true, hasDay: false, raw: q };
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// filterByQuery — returns the photos (in input order) matching a search query.
+// Operates on build-time items: { slug, search, y, m, d } where `search` is a
+// precomputed lowercase haystack and y/m/d are UTC date ints. Shared by the
+// grid page (DOM data-attributes) and the single-photo page (photo-data.json).
+// ---------------------------------------------------------------------------
+function filterByQuery(items, query) {
+  const q = query.toLowerCase().trim();
+  if (!q) return null;
+  const dateQuery = tryParseDateQuery(query);
+  const matches = [];
+  for (const item of items) {
+    if (item.search && item.search.includes(q)) {
+      matches.push(item);
+      continue;
+    }
+    if (dateQuery) {
+      if (dateQuery.hasYear && dateQuery.year !== item.y) continue;
+      if (dateQuery.hasMonth && dateQuery.month !== item.m) continue;
+      if (dateQuery.hasDay && dateQuery.day !== item.d) continue;
+      if (dateQuery.hasYear || dateQuery.hasMonth || dateQuery.hasDay) {
+        matches.push(item);
+      }
+    }
+  }
+  return matches.length ? matches : null;
+}
+
+// ---------------------------------------------------------------------------
+// Search — progressive enhancement. Activates only when:
+//   1. Running in a browser (document exists)
+//   2. #photo-search input is in the DOM
+// Search data is baked into the grid's data-* attributes at build time, so no
+// fetch is needed. Without the input present, the static grid is untouched.
+// ---------------------------------------------------------------------------
+(function () {
+  if (typeof document === "undefined") return;
+  const searchInput = document.getElementById("photo-search");
+  if (!searchInput) return;
+
+  const grid = document.getElementById("photo-grid");
+  const noResults = document.getElementById("photo-no-results");
+  if (!grid) return;
+
+  // Persist scroll at departure + restore on Esc returns from single pages.
+  trackGridScroll();
+
+  // Build a flat index from the precomputed data-* attributes.
+  const searchIndex = [];
+  for (const el of grid.querySelectorAll(".photo-item")) {
+    searchIndex.push({
+      slug: el.getAttribute("data-slug"),
+      search: el.getAttribute("data-search") || "",
+      y: Number(el.getAttribute("data-y")) || 0,
+      m: Number(el.getAttribute("data-m")) || 0,
+      d: Number(el.getAttribute("data-d")) || 0,
+    });
+  }
+
+  function runSearch(query) {
+    const matches = filterByQuery(searchIndex, query);
+    if (!matches) return null;
+    const matchSet = new Set(matches.map((m) => m.slug));
+    return matchSet.size ? matchSet : null;
+  }
+
+  // Update each photo item's link so a filtered grid click carries the query
+  // to the single page, enabling query-scoped prev/next there.
+  function setPhotoLinks(query) {
+    for (const el of grid.querySelectorAll(".photo-item")) {
+      const slug = el.getAttribute("data-slug");
+      const link = el.querySelector("a");
+      if (!link) continue;
+      if (query) {
+        link.setAttribute("href", `/photos/${slug}/?q=${encodeURIComponent(query)}`);
+      } else {
+        link.setAttribute("href", `/photos/${slug}/`);
+      }
+    }
+  }
+
+  // "1"–"9" opens the nth top-visible photo of the current (possibly
+  // filtered) grid. Viewport refresh happens on scroll/resize plus
+  // performSearch below. Declared before bindSearchInput so the initial
+  // query restore can already refresh hints (function-scoped const would
+  // otherwise hit TDZ).
+  const refreshDigitNav = bindDigitNav(
+    () => {
+      const links = [];
+      for (const el of grid.querySelectorAll(".photo-item")) {
+        if (el.hidden) continue;
+        const link = el.querySelector("a[href]");
+        if (link) links.push(link);
+      }
+      return links;
+    },
+    { label: "Open photo" },
+  );
+
+  function performSearch(query) {
+    const q = query.trim();
+    if (!q) {
+      for (const el of grid.querySelectorAll(".photo-item")) {
+        el.hidden = false;
+      }
+      if (noResults) noResults.hidden = true;
+      grid.removeAttribute("data-search-active");
+      setPhotoLinks("");
+    } else {
+      const result = runSearch(q);
+      if (!result) {
+        for (const el of grid.querySelectorAll(".photo-item")) {
+          el.hidden = true;
+        }
+        if (noResults) noResults.hidden = false;
+        grid.setAttribute("data-search-active", "");
+      } else {
+        for (const el of grid.querySelectorAll(".photo-item")) {
+          const slug = el.getAttribute("data-slug");
+          el.hidden = !result.has(slug);
+        }
+        if (noResults) noResults.hidden = true;
+        grid.setAttribute("data-search-active", "");
+      }
+      setPhotoLinks(q);
+    }
+    refreshDigitNav();
+  }
+
+  // Restore query from URL, debounce input, handle popstate (search-utils.js).
+  bindSearchInput(searchInput, performSearch);
+
+  // Enter applies the filter, then drops focus so "1"–"9" opens the nth
+  // visible photo (digits type into a focused input instead of navigating).
+  // Shared binder — identical to the plants grid behavior.
+  bindEnterToApplyBlur(searchInput, performSearch);
+
+  searchInput.removeAttribute("disabled");
+  searchInput.setAttribute("placeholder", "🔍 Search…");
+  // Keybind hints in the title only on keyboard devices. Trailing "( /)"
+  // group badges the focus key in the ? overlay (keybinds.js).
+  searchInput.setAttribute(
+    "title",
+    KEYBINDS_ENABLED
+      ? "Search — clear (Esc) · apply + blur (Enter) · focus (/)"
+      : "Search",
+  );
+
+  // "/" focuses the search bar + Esc clears it (shared search-utils.js binders).
+  bindSlashToFocus(searchInput);
+
+  // Esc clears the search (and its URL) even when the input isn't focused.
+  // Shared binder also preventDefaults so the global up-nav skips this press.
+  bindEscapeToClear(searchInput, performSearch);
+}());
+
+// ---------------------------------------------------------------------------
+// UMD guard — allows the single-photo page (photo-single.js, loaded after this
+// file) to call filterByQuery / tryParseDateQuery. Not required at build time.
+// ---------------------------------------------------------------------------
+if (typeof module !== "undefined") {
+  module.exports = { filterByQuery, tryParseDateQuery };
+}
+
+(function () {
+  // Guards + onKey() come from keybind-utils.js (loaded first).
+  // upgradeSearchLinks / queryFromUrl come from search-utils.js (loaded
+  // first; see templates/photo-single.js for the load order).
+
+  upgradeSearchLinks(document);
+
+  // Keyboard hints — applied only here (never baked at build time) since the
+  // P/D/C/Esc shortcuts only work once JS runs. Skipped on touch devices —
+  // never advertise dead keys.
+  if (KEYBINDS_ENABLED) {
+    const plantLink = document.querySelector(
+      '.specs a.search-link[href^="/plants/"]',
+    );
+    if (plantLink) plantLink.setAttribute("title", "View plant (P)");
+    const dateLink = document.querySelector(
+      '.specs a.search-link[href^="/photos/"] time',
+    );
+    if (dateLink) dateLink.closest("a").setAttribute("title", "View date (D)");
+    const cameraLink = Array.from(
+      document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+    ).find((a) => !a.querySelector("time"));
+    if (cameraLink) cameraLink.setAttribute("title", "View camera (C)");
+    const photosLink = document.querySelector('header a[href^="/photos"]');
+    if (photosLink) photosLink.setAttribute("title", "View photos (Esc)");
+    const originalLink = document.querySelector(".download a");
+    if (originalLink)
+      originalLink.setAttribute("title", "Download original (O)");
+  }
+
+  // Swipe state — horizontal swipe anywhere on the page navigates prev/next,
+  // mirroring the J/K keybinds via the shared navHref resolver.
+  let touchStartX = null;
+  let touchStartY = null;
+  let touchCount = 0;
+
+  const query = queryFromUrl();
+  const currentSlug = window.location.pathname
+    .split("/")
+    .filter(Boolean)
+    .pop() || "";
+
+  // Honor an active query in the header "PHOTOS" link so returning to the grid
+  // keeps the same filtered set the user came from.
+  function scopeHeaderPhotosLink() {
+    if (!query.trim()) return;
+    const link = document.querySelector('header a[href="/photos"]');
+    if (link) {
+      link.href = `/photos/?q=${encodeURIComponent(query.trim())}`;
+    }
+  }
+  scopeHeaderPhotosLink();
+
+  // Clicking the header PHOTOS up-link restores the grid's scroll position,
+  // same as Esc (flag-before-navigate; works with the scoped ?q href too,
+  // since flags are pathname-keyed).
+  bindUpNavRestore("/photos/");
+
+  // Query-scoped prev/next slugs, computed from /photos/photo-data.json once a
+  // query is present. J/K and the visible nav both use this so keyboard
+  // navigation stays within the filtered set (not the chronological fallback).
+  let scopedNav = null; // { prev: slug|null, next: slug|null }
+  // True once a query-scoped set has been applied (even a single match, where
+  // scopedNav is null). When true, J/K never falls back to chronological nav.
+  let scopedActive = false;
+  // False while a query's filtered set is still being resolved, so the static
+  // chronological nav is neither shown nor used by J/K during that window.
+  let navReady = !query.trim();
+
+  function scopedHref(type) {
+    if (!scopedNav) return null;
+    const slug = type === "prev" ? scopedNav.prev : scopedNav.next;
+    return slug
+      ? `/photos/${slug}/?q=${encodeURIComponent(query.trim())}`
+      : null;
+  }
+
+  // Resolve a nav href for J/K: query-scoped links when a filter is active,
+  // otherwise the static chronological anchors once ready (no query, current
+  // photo not in the set, or the fetch failed). During a query's pending
+  // resolution the nav is hidden and J/K no-ops.
+  function navHref(type) {
+    if (scopedActive) {
+      return scopedHref(type);
+    }
+    if (!navReady) return null;
+    const sel = type === "prev" ? ".photo-nav-prev[href]" : ".photo-nav-next[href]";
+    const el = document.querySelector(sel);
+    return el ? el.getAttribute("href") : null;
+  }
+
+  // When the page is reached via a grid/photos search query (?q=...), scope the
+  // prev/next nav to the matching photo set instead of the full chronological
+  // order. Without a query, or without JS/data, the static chronological nav
+  // stays untouched.
+  function scopedNavFromQuery(queryStr, current, photos) {
+    if (!queryStr.trim()) return null;
+    const matches = window.filterByQuery
+      ? window.filterByQuery(photos, queryStr)
+      : null;
+    if (!matches || !matches.length) return null;
+
+    const idx = matches.findIndex((m) => m.slug === current);
+    if (idx === -1) return null; // current photo not in set — leave chrono nav
+
+    return {
+      prev: idx > 0 ? matches[idx - 1] : null,
+      next: idx < matches.length - 1 ? matches[idx + 1] : null,
+      count: matches.length,
+    };
+  }
+
+  function renderNavLink(type, slug, queryStr) {
+    const isPrev = type === "prev";
+    const label = isPrev
+      ? `<span class="up-arrow">&larr;</span>PREV`
+      : `NEXT<span class="up-arrow up-arrow--right">&rarr;</span>`;
+    const cls = isPrev ? "photo-nav-prev" : "photo-nav-next";
+    if (slug) {
+      const href = `/photos/${slug}/?q=${encodeURIComponent(queryStr.trim())}`;
+      const rel = isPrev ? "prev" : "next";
+      return `<a href="${href}" class="${cls}" rel="${rel}">${label}</a>`;
+    }
+    return `<span class="${cls} disabled" aria-hidden="true">${label}</span>`;
+  }
+
+  // Prev/next titles are applied here (never baked at build time) since J/K
+  // only work once JS runs. Skipped on touch devices — never advertise dead
+  // keys.
+  function applyNavTitles() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
+    const prev = document.querySelector(".photo-nav-prev[href]");
+    const next = document.querySelector(".photo-nav-next[href]");
+    if (prev) prev.setAttribute("title", "Previous (K)");
+    if (next) next.setAttribute("title", "Next (J)");
+  }
+  applyNavTitles();
+
+  function applyScopedNav(scoped, queryStr) {
+    const nav = document.querySelector(".photo-nav");
+    if (!nav) return;
+
+    scopedActive = true;
+
+    if (scoped.count <= 1) {
+      // Only one photo matches — hide the whole nav.
+      nav.style.display = "none";
+      scopedNav = null;
+      return;
+    }
+
+    scopedNav = {
+      prev: scoped.prev ? scoped.prev.slug : null,
+      next: scoped.next ? scoped.next.slug : null,
+    };
+
+    const prevEl = nav.querySelector(".photo-nav-prev");
+    const nextEl = nav.querySelector(".photo-nav-next");
+
+    const nextPrevHtml = renderNavLink("prev", scopedNav.prev, queryStr);
+    const nextNextHtml = renderNavLink("next", scopedNav.next, queryStr);
+
+    if (prevEl) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = nextPrevHtml;
+      prevEl.replaceWith(tmp.firstElementChild);
+    }
+    if (nextEl) {
+      const tmp = document.createElement("div");
+      tmp.innerHTML = nextNextHtml;
+      nextEl.replaceWith(tmp.firstElementChild);
+    }
+    applyNavTitles();
+  }
+
+  function navigateBySwipe(deltaX, deltaY) {
+    if (isEditableTarget(document.activeElement)) return;
+    if (Math.abs(deltaY) >= Math.abs(deltaX)) return; // vertical — page scroll
+    if (Math.abs(deltaX) < 40) return; // accidental tap/drag
+    const href = deltaX < 0 ? navHref("next") : navHref("prev");
+    if (href) {
+      window.location.href = href;
+    }
+  }
+
+  document.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    if (!t) return;
+    touchStartX = t.clientX;
+    touchStartY = t.clientY;
+    touchCount = e.touches.length;
+  });
+
+  document.addEventListener("touchend", (e) => {
+    const t = e.changedTouches[0];
+    if (!t) return;
+    if (touchCount === 1 && touchStartX !== null && touchStartY !== null) {
+      navigateBySwipe(t.clientX - touchStartX, t.clientY - touchStartY);
+    }
+    touchStartX = null;
+    touchStartY = null;
+    touchCount = 0;
+  });
+
+  // Page-specific binds via onKey() (keybind-utils.js). Central guard skips
+  // modifiers + text-editing targets, matching the previous early returns.
+  onKey("j", (e) => {
+    const href = navHref("next");
+    if (href) {
+      window.location.href = href;
+    }
+  });
+
+  onKey("k", (e) => {
+    const href = navHref("prev");
+    if (href) {
+      window.location.href = href;
+    }
+  });
+
+  onKey("p", () => {
+    const plantLink = document.querySelector(
+      '.specs a.search-link[href^="/plants/"]',
+    );
+    if (plantLink) {
+      window.location.href = plantLink.href;
+    }
+  });
+
+  onKey("d", () => {
+    const dateLink = document.querySelector(
+      '.specs a.search-link[href^="/photos/"] time',
+    )?.closest("a");
+    if (dateLink) {
+      window.location.href = dateLink.href;
+    }
+  });
+
+  onKey("c", () => {
+    const cameraLink = Array.from(
+      document.querySelectorAll('.specs a.search-link[href^="/photos/"]'),
+    ).find((a) => !a.querySelector("time"));
+    if (cameraLink) {
+      window.location.href = cameraLink.href;
+    }
+  });
+
+  onKey("o", () => {
+    const originalLink = document.querySelector(".download a");
+    if (originalLink) {
+      window.location.href = originalLink.href;
+    }
+  });
+
+  onKey("escape", (e) => {
+    // Esc returns to the grid, honoring an active filter when present. Flag
+    // first so the grid restores scroll position on arrival. preventDefault
+    // owns the press: without it Chrome's Esc default (stop loading) races
+    // the navigation while the full-res photo is still in flight, eating the
+    // first press — the global up-nav and bindEscapeToClear both do the same.
+    e.preventDefault();
+    flagEscReturn("/photos/");
+    window.location.href = query.trim()
+      ? `/photos/?q=${encodeURIComponent(query.trim())}`
+      : "/photos/";
+  });
+
+  if (!query.trim()) return;
+
+  // Hide the static chronological nav while the filtered set is computed so it
+  // doesn't flash before being replaced by the query-scoped nav.
+  const nav = document.querySelector(".photo-nav");
+  if (nav) nav.style.visibility = "hidden";
+
+  const finish = () => {
+    navReady = true;
+    if (nav) nav.style.visibility = "";
+  };
+
+  fetch("/photos/photo-data.json")
+    .then((res) => {
+      if (!res.ok) throw new Error("fetch failed");
+      return res.json();
+    })
+    .then((data) => {
+      const photos = Array.isArray(data.photos) ? data.photos : data;
+      const scoped = scopedNavFromQuery(query, currentSlug, photos);
+      finish();
+      if (scoped) {
+        applyScopedNav(scoped, query);
+      }
+      // else: reveal the chronological nav; scopedNav stays null so J/K uses it.
+    })
+    .catch(() => {
+      // Data unavailable — reveal the static chronological nav.
+      finish();
+    });
+}());
+
+// ---------------------------------------------------------------------------
+// keybinds.js — global (page-agnostic) keyboard shortcuts. Loaded last on
+// every templated page (see templates/*.js for the load order) so
+// page-specific handlers registered via onKey() run first. Guards
+// (modifiers, editable targets, key normalization) come from
+// keybind-utils.js (loaded first); this file owns only global behavior:
+//
+//   Escape → up (section parent, else home)
+//   j / k  → half-viewport scroll (except photo-single pages, which own j/k
+//            for prev/next nav in photo-single.js, and the videos grid, which
+//            owns j/k for prev/next video snap in videos.js)
+//   (Homepage shortcuts live in home.js, loaded only on /.)
+//
+// Coexists with page handlers via two deliberate mechanisms:
+//   - defaultPrevented: photos.js / plants.js Esc clear-handlers register
+//     first (page assets come before this file in loadJs) and preventDefault
+//     the press, so the global Esc up-nav below skips it.
+//   - pathname carve-outs: photo-single.js owns Escape + j/k on
+//     /photos/<slug>/ and videos.js owns j/k on /videos/, so this file stays
+//     inert there by path check (those pages never preventDefault — they
+//     navigate — so defaultPrevented alone couldn't express it).
+// ---------------------------------------------------------------------------
+(function () {
+  if (typeof document === "undefined") {
+    return;
+  }
+
+  function pathName() {
+    return window.location.pathname || "/";
+  }
+
+  function isPhotoSinglePage() {
+    return /^\/photos\/[^/]+\/?$/.test(pathName());
+  }
+
+  function isVideosGrid() {
+    const p = pathName();
+    return p === "/videos/" || p === "/videos/index.html";
+  }
+
+  // The grid search input the user is currently typing in, if any.
+  function activeSearchInput() {
+    const active = document.activeElement;
+    if (
+      active &&
+      (active.id === "photo-search" || active.id === "plant-search")
+    ) {
+      return active;
+    }
+    return null;
+  }
+
+  // Resolve the Escape "up" target. Null means no-op (home, or a page whose
+  // own script owns Escape).
+  function upHref() {
+    const p = pathName();
+    if (p === "/" || p === "/index.html") {
+      return null;
+    }
+    if (isPhotoSinglePage()) {
+      return null;
+    }
+    if (/^\/videos\/[^/]+\/?$/.test(p)) {
+      return "/videos/";
+    }
+    if (/^\/(videos|photos|plants|tools)\/?$/.test(p)) {
+      return "/";
+    }
+    return "/";
+  }
+
+  // Hint the header link that Escape actually targets, mirroring the
+  // runtime-applied "(K)"/"(Esc)" titles in photo-single.js. Skipped on
+  // touch devices — never advertise dead keys.
+  function applyEscHint() {
+    if (!KEYBINDS_ENABLED) {
+      return;
+    }
+    const href = upHref();
+    if (!href) {
+      return;
+    }
+    const link = document.querySelector(`header a[href="${href}"]`);
+    if (link && !/\(Esc\)/.test(link.getAttribute("title") || "")) {
+      const base = (link.getAttribute("title") || "").trim();
+      link.setAttribute("title", base ? `${base} (Esc)` : "Up (Esc)");
+    }
+  }
+  applyEscHint();
+
+  // Escape → up. allowInEditable because an empty focused search still
+  // navigates up; a focused search with content belongs to the page
+  // clear-handler (registered first), which preventDefaults the press.
+  onKey(
+    "escape",
+    (e) => {
+      // A grid clear-handler (photos.js / plants.js, registered first) clears
+      // a non-empty search and preventDefaults the same press — never navigate
+      // after that, or Esc-with-query would both clear and leave the page.
+      if (e.defaultPrevented) {
+        return;
+      }
+      const activeSearch = activeSearchInput();
+      // Fallback when this file ever runs before the clear-handler: a focused
+      // search that still has content belongs to the clearer, not to up-nav.
+      if (activeSearch && activeSearch.value.trim()) {
+        return;
+      }
+      if (!activeSearch && isEditableTarget(e.target)) {
+        return;
+      }
+      const href = upHref();
+      if (href) {
+        e.preventDefault();
+        // Flag grid returns so the grid restores scroll position on arrival.
+        // Only /videos/ is a grid target here (photo singles own their Esc).
+        if (href === "/videos/") {
+          flagEscReturn(href);
+        }
+        window.location.href = href;
+      }
+    },
+    { allowInEditable: true },
+  );
+
+  // Half-viewport scroll. Photo-single pages own j/k for prev/next, and the
+  // videos grid owns j/k for prev/next video snap (videos.js) — both stay
+  // inert here. Single-video pages keep the half-viewport scroll.
+  onKey(["j", "k"], (e, key) => {
+    if (isPhotoSinglePage() || isVideosGrid()) {
+      return;
+    }
+    const delta = Math.round(window.innerHeight / 2);
+    e.preventDefault();
+    window.scrollBy(0, key === "j" ? delta : -delta);
+  });
+
+  // ? — toggle a minimal hint overlay. Badges are derived from the hint
+  // titles this site already maintains (a trailing "(x)" group, or several
+  // slash-separated keys like "(Space/F)"), so the overlay can never drift
+  // from the live bindings. Covers links, buttons, search inputs, plant
+  // toggles, plant taxa rows, and in-page players. ? again closes; Esc keeps its existing meaning (grid return /
+  // up-nav) and header links keep their "(Esc)" hint titles. Scroll, resize,
+  // and search re-renders share one rAF-throttled repaint while open
+  // (listeners attached only while open); search arrives via the
+  // keybind-hints:changed event dispatched by bindDigitNav's refresh().
+  // Mobile: onKey is inert there, and no "(x)" titles exist anyway.
+  let overlayEl = null;
+  let overlayScrollHandler = null;
+  let overlayResizeHandler = null;
+  let overlayHintsHandler = null;
+
+  function closeOverlay() {
+    if (!overlayEl) {
+      return;
+    }
+    overlayEl.remove();
+    overlayEl = null;
+    document.removeEventListener("scroll", overlayScrollHandler);
+    window.removeEventListener("resize", overlayResizeHandler);
+    document.removeEventListener("keybind-hints:changed", overlayHintsHandler);
+    overlayScrollHandler = null;
+    overlayResizeHandler = null;
+    overlayHintsHandler = null;
+  }
+
+  function badgeAnchor(el, elRect) {
+    // Image links (photo grid) badge the visible thumbnail, not the full
+    // link box: the <a> is a square flex cell while the picture inside is
+    // narrower (portrait) or shorter (landscape), so a cell-anchored badge
+    // lands detached in the grid gutter. In-page players (video grid/single
+    // after play starts) badge the player itself. Plant toggles badge to the
+    // LEFT of the marker: the handle is only 2ch wide at the line's left
+    // edge, so a right-side badge would sit on top of the taxa name. Text
+    // links, buttons, inputs, and plant taxa rows badge just outside
+    // top-right. elRect (already measured by the caller) is reused to avoid
+    // a second getBoundingClientRect per element per repaint.
+    const img = el.querySelector ? el.querySelector("img") : null;
+    if (img) {
+      const imgRect = img.getBoundingClientRect();
+      if (imgRect.width > 0 && imgRect.height > 0) {
+        return { rect: imgRect, inside: true };
+      }
+    }
+    if (el.tagName === "VIDEO" || el.tagName === "IFRAME") {
+      return { rect: elRect, inside: true };
+    }
+    if (el.classList && el.classList.contains("toggle")) {
+      return { rect: elRect, inside: false, side: "left" };
+    }
+    // Taxa rows (li) badge LEFT of the item — the old toggle-hint slot —
+    // so right-side numbers never crowd the row's own links/badges.
+    if (el.tagName === "LI") {
+      return { rect: elRect, inside: false, side: "left" };
+    }
+    return { rect: elRect, inside: false, side: "right" };
+  }
+
+  // Key tokens from a hint title. One element can advertise several keys in
+  // a single trailing group — "Play (Space/F)" badges SPACE + F, a search
+  // box ending "focus (/)" badges /, plant toggles ending "(!)" badge ! —
+  // so the tooltip stays compact while each key stays discoverable. Only
+  // the trailing group parses, so incidental parens elsewhere never badge.
+  function hintKeys(el) {
+    const match = (el.getAttribute("title") || "").match(/\(([-+!@#$%^&*()a-z0-9/]+(?:\/[-+!@#$%^&*()a-z0-9/]+)*)\)\s*$/i);
+    if (!match) {
+      return [];
+    }
+    // "/" is both a key and the multi-key separator — a group that is only
+    // "/" means the slash key itself, not an empty key list.
+    if (match[1] === "/") {
+      return ["/"];
+    }
+    return match[1].split("/");
+  }
+
+  // Floating info bar (bottom-right, inside the overlay) for chord/
+  // progressive-keybind guidance that can't live on an element badge. Fully
+  // page-owned: the bar renders only when the page set body[data-hint-bar]
+  // (plants.js declares its chord leaders there; pages without chords never
+  // do, so they get no bar). Armed-chord messages arrive the same way — the
+  // page rewrites data-hint-bar when a chord arms or disarms.
+  function buildBar() {
+    const text = document.body &&
+      document.body.dataset &&
+      document.body.dataset.hintBar;
+    if (!text) {
+      return;
+    }
+    const bar = document.createElement("span");
+    bar.className = "keybind-hint-bar";
+    bar.textContent = text;
+    overlayEl.appendChild(bar);
+  }
+
+  function buildBadges() {
+    // Leader-chord awareness (plants.js sets body[data-chord] to p/s/c/t):
+    // taxa number hints are progressive — li titles only badge while an
+    // s/c/t chord is armed (p has no taxa targets) — and while any leader
+    // is armed the digits it captures go dark: wiki "(n)" badges always,
+    // photo "(Pn)" badges except when p itself is the leader.
+    const chord = document.body &&
+      document.body.dataset &&
+      document.body.dataset.chord;
+    const chordArmed = Boolean(chord);
+    const taxaReveal = chordArmed && chord !== "p";
+    const hinted = document.querySelectorAll(
+      "a[title], button[title], input[title], .toggle[title], li[title], video[title], iframe[title]",
+    );
+    const vw = window.innerWidth;
+    for (const el of Array.from(hinted)) {
+      if (el.tagName === "LI") {
+        if (!taxaReveal) {
+          continue;
+        }
+      } else if (chordArmed && el.tagName === "A") {
+        const tokens = hintKeys(el);
+        const digitHint = tokens.length === 1 && /^\d+$/.test(tokens[0]);
+        const photoHint = tokens.some((t) => /^P\d+$/.test(t));
+        if (digitHint || (photoHint && taxaReveal)) {
+          continue;
+        }
+      }
+      const keys = hintKeys(el);
+      if (!keys.length) {
+        continue;
+      }
+      // Collapsed plants subtrees never badge: zero-rect links self-exclude
+      // below, but the closest() check skips them before measuring.
+      if (el.closest && el.closest("ul.collapsed")) {
+        continue;
+      }
+      const rect = el.getBoundingClientRect();
+      // Top-edge visibility (same eligibility as the numbered binds): never
+      // scrolled past, running below the fold is fine. Measured once here
+      // and reused by badgeAnchor — one rect per element per repaint.
+      if (!(rect.top >= 0 && rect.left >= 0 && rect.right <= vw && rect.bottom > 0)) {
+        continue;
+      }
+      const { rect: anchor, inside, side } = badgeAnchor(el, rect);
+      keys.forEach((key, i) => {
+        const badge = document.createElement("span");
+        badge.className = "keybind-hint-badge";
+        // Single letters keep their case so (d) lossy and (D) lossless stay
+        // distinct; longer names uppercase (Esc → ESC) as before.
+        badge.textContent = key.length > 1 ? key.toUpperCase() : key;
+        overlayEl.appendChild(badge);
+        // Position after append so the badge's own box doesn't affect it.
+        // The overlay is position:fixed, so viewport-relative rect coords are
+        // used directly (no scroll offsets). Image/player badges sit inside
+        // the thumbnail's top-left corner (extras stack below); text badges
+        // sit just outside top-right; toggle badges hang left of the marker
+        // (translateX(-100%) right-aligns without measuring the badge, so
+        // the taxa name stays uncovered).
+        if (inside) {
+          badge.style.left = `${anchor.left + 4}px`;
+          badge.style.top = `${anchor.top + 4 + i * 22}px`;
+        } else if (side === "left") {
+          badge.style.left = `${anchor.left - 8}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
+          badge.style.transform = "translateX(-100%)";
+        } else {
+          badge.style.left = `${anchor.right + 2}px`;
+          badge.style.top = `${anchor.top - 4 + i * 22}px`;
+        }
+      });
+    }
+  }
+
+  function openOverlay() {
+    overlayEl = document.createElement("div");
+    overlayEl.className = "keybind-hint-overlay";
+    overlayEl.setAttribute("aria-hidden", "true");
+    document.body.appendChild(overlayEl);
+    let rafPending = false;
+    const scheduleRepaint = () => {
+      // One shared throttle for scroll, resize, and search-driven hint
+      // changes: a single scroll frame otherwise repaints twice (the scroll
+      // listener here plus bindDigitNav's refresh → keybind-hints:changed).
+      // The guard also covers ? closing between scheduling and the frame so
+      // a late event can't resurrect badges onto a closed overlay.
+      if (rafPending) {
+        return;
+      }
+      rafPending = true;
+      const raf = window.requestAnimationFrame || ((fn) => setTimeout(fn, 0));
+      raf(() => {
+        rafPending = false;
+        if (!overlayEl) {
+          return;
+        }
+        overlayEl.innerHTML = "";
+        buildBadges();
+        buildBar();
+      });
+    };
+    overlayScrollHandler = scheduleRepaint;
+    overlayResizeHandler = scheduleRepaint;
+    // Search re-renders update digit-nav titles via bindDigitNav's refresh()
+    // (keybind-utils.js), which dispatches this event.
+    overlayHintsHandler = scheduleRepaint;
+    document.addEventListener("scroll", overlayScrollHandler, { passive: true });
+    window.addEventListener("resize", overlayResizeHandler);
+    document.addEventListener("keybind-hints:changed", overlayHintsHandler);
+    buildBadges();
+    buildBar();
+  }
+
+  onKey("?", () => {
+    if (overlayEl) {
+      closeOverlay();
+    } else {
+      openOverlay();
+    }
+  });
+}());
+</script>
+	
+  </body>
+</html>
