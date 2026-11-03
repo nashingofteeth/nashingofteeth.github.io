@@ -24,7 +24,7 @@ function home() {
       </p>
   </nav>
   <p>
-    🏗️ <em>Working on</em>: <a href="https://github.com/nashingofteeth/nile">nile</a>
+    🏗️ <em>working on</em>: <a href="https://github.com/nashingofteeth/nile" title="a video editor">nile</a>
   </p>
   <p>
       &#128279;
