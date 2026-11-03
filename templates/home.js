@@ -12,25 +12,28 @@ function home() {
     <img fetchpriority="high" loading="eager" decoding="async" src="/img/me.jpg" alt="me" width="480" height="640" />
 </picture>
 <main>
-<h1>matthew nash</h1>
-<p>&#127758; <strong>portland, oregon</strong></p>
-<nav>
-    <p>
-        <a href="videos">&#128249;&nbsp;videos</a>
-        <a href="photos">&#128247;&nbsp;photos</a>
-        <br/>
-        <a href="plants">&#127793;&nbsp;plants</a>
-        <a href="tools">&#128295;&nbsp;tools</a>
-    </p>
-</nav>
-    <p>
-        &#128279;
-        <a href="${SOCIAL_LINKS.github}" title="github">gh</a>
-        <a href="${SOCIAL_LINKS.letterboxd}" title="letterboxd">lb</a>
-        <a href="${SOCIAL_LINKS.ryms}" title="rate your music">rym</a>
-        <a href="${SOCIAL_LINKS.instagram}" title="instagram 🤢">ig</a>
-    </p>
-<p>&#128233; <strong>matthew at nash dot video</strong></p>
+  <h1>matthew nash</h1>
+  <p>&#127758; <strong>portland, oregon</strong></p>
+  <nav>
+      <p>
+          <a href="videos">&#128249;&nbsp;videos</a>
+          <a href="photos">&#128247;&nbsp;photos</a>
+          <br/>
+          <a href="plants">&#127793;&nbsp;plants</a>
+          <a href="tools">&#128295;&nbsp;tools</a>
+      </p>
+  </nav>
+  <p>
+    🏗️ <em>Working on</em>: <a href="https://github.com/nashingofteeth/nile">nile</a>
+  </p>
+  <p>
+      &#128279;
+      <a href="${SOCIAL_LINKS.github}" title="github">gh</a>
+      <a href="${SOCIAL_LINKS.letterboxd}" title="letterboxd">lb</a>
+      <a href="${SOCIAL_LINKS.ryms}" title="rate your music">rym</a>
+      <a href="${SOCIAL_LINKS.instagram}" title="instagram 🤢">ig</a>
+  </p>
+  <p>&#128233; <strong>matthew at nash dot video</strong></p>
 </main>`;
 
   return base(content, null, null, combinedCss, combinedJs);
